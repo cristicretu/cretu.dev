@@ -8,16 +8,22 @@ function Footer() {
                 {/* first section */}
                 <div className="flex flex-col space-y-4 text-gray-500 ">
                     <Link href="/">
-                        <a className="hover:text-gray-600 transition">Home</a>
+                        <a className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition">
+                            Home
+                        </a>
                     </Link>
                     <Link href="/about">
-                        <a className="hover:text-gray-600 transition">About</a>
+                        <a className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition">
+                            About
+                        </a>
                     </Link>
                     <Link href="/blog">
-                        <a className="hover:text-gray-600 transition">Blog</a>
+                        <a className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition">
+                            Blog
+                        </a>
                     </Link>
                     <Link href="/dashboard">
-                        <a className="hover:text-gray-600 transition">
+                        <a className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition">
                             Dashboard
                         </a>
                     </Link>
@@ -25,7 +31,7 @@ function Footer() {
                 {/* middle section */}
                 <div className="flex flex-col space-y-4">
                     <a
-                        className="text-gray-500 hover:text-gray-600 transition"
+                        className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition"
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://github.com/cristicretu"
@@ -33,7 +39,7 @@ function Footer() {
                         Github
                     </a>
                     <a
-                        className="text-gray-500 hover:text-gray-600 transition"
+                        className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition"
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://twitter.com/cristicrtu"
@@ -41,7 +47,7 @@ function Footer() {
                         Twitter
                     </a>
                     <a
-                        className="text-gray-500 hover:text-gray-600 transition"
+                        className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition"
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://www.linkedin.com/in/crisemcr/"
@@ -49,7 +55,7 @@ function Footer() {
                         Linkedin
                     </a>
                     <a
-                        className="text-gray-500 hover:text-gray-600 transition"
+                        className="text-gray-700 dark:text-gray-300 dark:hover:text-gray-100 hover:text-gray-900 transition"
                         target="_blank"
                         rel="noopener noreferrer"
                         href="https://www.behance.net/cristicretu1"
@@ -60,17 +66,17 @@ function Footer() {
                 {/* third section */}
                 <div className="flex flex-col space-y-2"></div>
             </div>
-            <h3 className="text-gray-500 text-opacity-70 mt-8 text-xs px-8 text-center">
+            <h3 className="text-gray-700 dark:text-gray-300 text-opacity-90 mt-8 text-xs px-8 text-center">
                 Created with &hearts; by{" "}
                 <a
-                    className="underline text-blue-500 hover:text-blue-700 transition text-opacity-70 font-semibold"
+                    className="underline text-blue-500 dark:text-blue-400 dark:hover:text-blue-500 hover:text-blue-700 transition text-opacity-70 font-semibold"
                     href="https://github.com/cristicretu/cretu.dev"
                 >
                     Cristian Crețu
                 </a>
                 . Deployed with{" "}
                 <a
-                    className="underline text-blue-500 hover:text-blue-700 transition text-opacity-70 font-semibold"
+                    className="underline text-blue-500 dark:text-blue-400 dark:hover:text-blue-500 hover:text-blue-700 transition text-opacity-70 font-semibold"
                     href="https://vercel.com"
                 >
                     ▲ Vercel

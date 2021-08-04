@@ -14,11 +14,13 @@ function Achievements() {
                 Achievements
             </h2>
             <div className="flex flex-col space-y-4">
-                <h3 className="font-bold text-xl">2021</h3>
+                <h3 className="font-bold text-black dark:text-white text-xl">
+                    2021
+                </h3>
                 {achievements.y2021.map((data) => (
                     <div
                         key={data.title}
-                        className="flex flex-col space-y-2 mx-4"
+                        className="flex text-black dark:text-white flex-col space-y-2 mx-4"
                     >
                         {" "}
                         <div className="flex flex-row space-x-2 font-semibold text-md items-center">
@@ -55,14 +57,20 @@ function Achievements() {
                             : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
                     }
                 />
-                <h3 className={ShortResults ? "hidden" : "font-bold text-xl"}>
+                <h3
+                    className={
+                        ShortResults
+                            ? "hidden"
+                            : "font-bold text-black dark:text-white text-xl"
+                    }
+                >
                     2020
                 </h3>
                 {!ShortResults &&
                     achievements.y2020.map((data) => (
                         <div
                             key={data.title}
-                            className="flex flex-col space-y-2 mx-4"
+                            className="flex text-black dark:text-white flex-col space-y-2 mx-4"
                         >
                             {" "}
                             <div className="flex flex-row space-x-2 font-semibold text-md items-center">
@@ -99,14 +107,20 @@ function Achievements() {
                             : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
                     }
                 />
-                <h3 className={ShortResults ? "hidden" : "font-bold text-xl"}>
+                <h3
+                    className={
+                        ShortResults
+                            ? "hidden"
+                            : "font-bold text-black dark:text-white text-xl"
+                    }
+                >
                     2019
                 </h3>
                 {!ShortResults &&
                     achievements.y2019.map((data) => (
                         <div
                             key={data.title}
-                            className="flex flex-col space-y-2 mx-4"
+                            className="flex text-black dark:text-white flex-col space-y-2 mx-4"
                         >
                             {" "}
                             <div className="flex flex-row space-x-2 font-semibold text-md items-center">
@@ -143,14 +157,20 @@ function Achievements() {
                             : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
                     }
                 />
-                <h3 className={ShortResults ? "hidden" : "font-bold text-xl"}>
+                <h3
+                    className={
+                        ShortResults
+                            ? "hidden"
+                            : "font-bold dark:text-white text-black text-xl"
+                    }
+                >
                     2016
                 </h3>
                 {!ShortResults &&
                     achievements.y2016.map((data) => (
                         <div
                             key={data.title}
-                            className="flex flex-col space-y-2 mx-4"
+                            className="flex text-black dark:text-white flex-col space-y-2 mx-4"
                         >
                             {" "}
                             <div className="flex flex-row space-x-2 font-semibold text-md items-center">
@@ -187,14 +207,20 @@ function Achievements() {
                             : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
                     }
                 />
-                <h3 className={ShortResults ? "hidden" : "font-bold text-xl"}>
+                <h3
+                    className={
+                        ShortResults
+                            ? "hidden"
+                            : "font-bold text-black dark:text-white text-xl"
+                    }
+                >
                     2015
                 </h3>
                 {!ShortResults &&
                     achievements.y2015.map((data) => (
                         <div
                             key={data.title}
-                            className="flex flex-col space-y-2 mx-4"
+                            className="flex flex-col text-black dark:text-white space-y-2 mx-4"
                         >
                             {" "}
                             <div className="flex flex-row space-x-2 font-semibold text-md items-center">
@@ -231,14 +257,20 @@ function Achievements() {
                             : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
                     }
                 />
-                <h3 className={ShortResults ? "hidden" : "font-bold text-xl"}>
+                <h3
+                    className={
+                        ShortResults
+                            ? "hidden"
+                            : "font-bold text-black dark:text-white text-xl"
+                    }
+                >
                     2009
                 </h3>
                 {!ShortResults &&
                     achievements.y2009.map((data) => (
                         <div
                             key={data.title}
-                            className="flex flex-col space-y-2 mx-4"
+                            className="flex text-black dark:text-white flex-col space-y-2 mx-4"
                         >
                             {" "}
                             <div className="flex flex-row space-x-2 font-semibold text-md items-center">

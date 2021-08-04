@@ -7,7 +7,7 @@ function classNames(...classes) {
 }
 
 function Projects() {
-    const [ShortResults, setShortResults] = useState(true);
+    const [ShortResults, setShortResults] = useState(false);
 
     const filtered = projects.filter((val, i) => i < 5);
     return (

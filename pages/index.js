@@ -29,6 +29,7 @@ function Introduction() {
                     <a
                         href="https://www.fiverr.com/cristicretu/make-a-beautiful-landing-page-using-react-html-tailwindcss"
                         target="_blank"
+                        rel="noreferrer"
                         className="underline text-blue-500"
                     >
                         I'm available for hire
