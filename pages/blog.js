@@ -58,7 +58,11 @@ function blog({ posts }) {
                     </div>
                 </div>
                 <div className="flex flex-col space-y-4">
-                    {!SearchResults.length && <p>No results found.</p>}
+                    {!SearchResults.length && (
+                        <p className="text-gray-700 dark:text-gray-300">
+                            No results found.
+                        </p>
+                    )}
                     {SearchResults.map((data) => (
                         <BlogPost key={data.title} {...data} />
                     ))}
