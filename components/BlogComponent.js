@@ -8,7 +8,6 @@ export default function BlogComponent({ children, frontMatter }) {
             title={`${frontMatter.title} – Cristian Crețu`}
             description={frontMatter.summary}
             image={`https://cretu.dev${frontMatter.image}`}
-            image="/static/images/how-to-learn-web-dev/banner.jpg"
             date={new Date(frontMatter.publishedAt).toISOString()}
             type="article"
         >
