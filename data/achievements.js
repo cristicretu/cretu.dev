@@ -11,7 +11,7 @@ export const achievements = {
         {
             title: "Started Freelancing",
             description:
-                "I made landing pages using my tech stack (React + Tailwind) and graphic design.",
+                "I made landing pages using my tech stack (React + Tailwind) and UI/UX design.",
         },
         {
             title: "First Tech Challenge Romania Dean's List Winner",
@@ -19,7 +19,7 @@ export const achievements = {
                 "Selected as one of 330 students nationwide to represent Romania at the First Tech Challenge Dean's List Finalists event in Detroit in recognition of leadership and dedication for leading the team to increase  awareness for First and for achieving personal technical expertise and accomplishment. ",
         },
         {
-            title: "Qualified at the National Stage of the Olyimpiad of Mathematics",
+            title: "Qualified at the National Stage of the Olympiad of Mathematics",
             description: "Organised by Gazeta Matematica - online",
         },
     ],

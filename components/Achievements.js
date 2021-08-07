@@ -1,10 +1,6 @@
 import { achievements } from "../data/achievements";
 import { useState } from "react";
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
-
 function Achievements() {
     const [ShortResults, setShortResults] = useState(true);
 

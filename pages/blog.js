@@ -14,9 +14,7 @@ function blog({ posts }) {
         .filter((date) =>
             date.title.toLowerCase().includes(Results.toLowerCase())
         );
-    // useEffect(() => {
-    //     console.log(Results);
-    // }, [Results]);
+
     return (
         <Container
             title="Cristian Crețu - Blog"

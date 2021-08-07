@@ -24,8 +24,8 @@ function Introduction() {
             </h1>
             <div className="flex flex-col space-y-4">
                 <p className=" text-gray-600 dark:text-gray-400">
-                    I'm a developer, designer and an aspiring software engineer.
-                    I work as a freelancer –&nbsp;{" "}
+                    I'm a developer, designer and an aspiring software engineer
+                    –&nbsp;{" "}
                     <a
                         href="https://www.fiverr.com/cristicretu/make-a-beautiful-landing-page-using-react-html-tailwindcss"
                         target="_blank"

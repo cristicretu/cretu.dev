@@ -7,7 +7,7 @@ export default function BlogComponent({ children, frontMatter }) {
         <Container
             title={`${frontMatter.title} – Cristian Crețu`}
             description={frontMatter.summary}
-            // image={`https://cretu.dev${frontMatter.image}`}
+            image={`https://cretu.dev${frontMatter.image}`}
             image="/static/images/how-to-learn-web-dev/banner.jpg"
             date={new Date(frontMatter.publishedAt).toISOString()}
             type="article"
@@ -17,13 +17,18 @@ export default function BlogComponent({ children, frontMatter }) {
                     <h1 className="font-bold text-3xl md:text-5xl tracking-tight text-black dark:text-white">
                         {frontMatter.title}
                     </h1>{" "}
-                    <h3 className=" text-black dark:text-white">
-                        Cristian Crețu -{" "}
-                        {format(
-                            parseISO(frontMatter.publishedAt),
-                            "MMMM dd, yyyy"
-                        )}
-                    </h3>
+                    <div className="flex justify-between">
+                        <p className=" text-black dark:text-white">
+                            Cristian Crețu -{" "}
+                            {format(
+                                parseISO(frontMatter.publishedAt),
+                                "MMMM dd, yyyy"
+                            )}
+                        </p>
+                        <p className="text-black dark:text-white">
+                            {frontMatter.readingTime.text}
+                        </p>
+                    </div>
                     <Image
                         alt="blog-image/"
                         layout="responsive"
