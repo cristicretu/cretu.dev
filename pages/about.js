@@ -1,10 +1,12 @@
+import { useRouter } from "next/dist/client/router";
 import Achievements from "../components/Achievements";
 import Container from "../components/Container";
 
 function about() {
+  const router = useRouter();
   return (
     <Container>
-      <div className="my-2 sm:my-4 md:my-8 flex space-y-12 px-2 sm:px-2 md:px-0 flex-col justify-center items-start max-w-2xl mx-auto ">
+      <div className="my-2 sm:my-4 md:my-8 flex space-y-12 px-2 sm:px-2 md:px-0 flex-col justify-center text-black dark:text-white items-start max-w-2xl mx-auto ">
         <div className="flex flex-col space-y-4">
           <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4 text-black dark:text-white">
             About me
