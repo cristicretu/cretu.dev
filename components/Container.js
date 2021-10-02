@@ -4,6 +4,7 @@ import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import Footer from "./Footer";
+import useKeypress from "react-use-keypress";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -26,6 +27,8 @@ export default function Container(props) {
     type: "website",
     ...customMeta,
   };
+  // react-use-keypress
+  useKeypress("t", () => setTheme(theme === "dark" ? "light" : "dark"));
 
   return (
     <div className="bg-white dark:bg-gray-900">
