@@ -28,7 +28,7 @@ function blog({ posts }) {
               search box bellow to filter blog posts 👇
             </p>
           </div>
-          <div className=" relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-900">
+          <div className=" relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"

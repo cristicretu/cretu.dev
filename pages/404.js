@@ -16,7 +16,7 @@ export default function NotFound() {
             👇
           </p>
           <Link href="/">
-            <a className="mx-auto px-12 py-4 font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-900">
+            <a className="mx-auto px-12 py-4 font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800">
               Return home
             </a>
           </Link>
