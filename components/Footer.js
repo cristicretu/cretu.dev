@@ -38,7 +38,7 @@ function Footer() {
           Behance
         </a>
       </div>
-      <h3 className="text-gray-700 dark:text-gray-300 text-opacity-90 mt-8 text-xs px-8 text-center">
+      <p className="text-gray-700 dark:text-gray-300 text-opacity-90 mt-8 text-xs px-8 text-center">
         Created with &hearts; by{" "}
         <a
           className="underline text-black dark:text-white  font-semibold"
@@ -53,7 +53,7 @@ function Footer() {
         >
           ▲ Vercel
         </a>
-      </h3>
+      </p>
     </footer>
   );
 }
