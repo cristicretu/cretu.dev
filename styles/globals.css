@@ -13,6 +13,26 @@
   font-style: normal;
 }
 
+.pattern-white {
+  background-color: rgba(252, 252, 252, 1);
+  opacity: 0.8;
+  background-image: radial-gradient(
+    rgba(239, 239, 239, 1) 0.8px,
+    rgba(252, 252, 252, 1) 0.8px
+  );
+  background-size: 16px 16px;
+}
+
+.pattern-dark {
+  background-color: rgba(22, 22, 22, 1);
+  opacity: 0.8;
+  background-image: radial-gradient(
+    rgba(34, 34, 34, 1) 0.8px,
+    rgba(22, 22, 22, 1) 0.8px
+  );
+  background-size: 16px 16px;
+}
+
 ::-moz-selection {
   /* Code for Firefox */
   color: #fefefe;
