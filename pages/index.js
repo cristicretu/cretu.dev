@@ -29,9 +29,9 @@ function Introduction() {
           <h1 className="font-bold text-3xl tracking-tight  text-black dark:text-white">
             Cristian Crețu
           </h1>
-          <h3 className="text-md tracking-tight text-black dark:text-white">
+          <p className="text-md tracking-tight text-black dark:text-white">
             Developer and designer
-          </h3>
+          </p>
         </div>
       </div>
       <div className="flex flex-col space-y-4">

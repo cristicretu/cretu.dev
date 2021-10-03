@@ -8,7 +8,7 @@ function ProjectCard({ data }) {
       <div className="flex space-x-2 items-center">
         <h1 className="font-bold text-black dark:text-white">{data.name}</h1>
 
-        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 whitespace-nowrap overflow-auto">
+        {/* <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 whitespace-nowrap overflow-auto">
           {data.tags.map((tags) => (
             <p
               key={tags}
@@ -72,7 +72,7 @@ function ProjectCard({ data }) {
               {tags}
             </p>
           ))}
-        </div>
+        </div> */}
       </div>
       <div className="text-gray-600 dark:text-gray-400">{data.description}</div>
     </div>
