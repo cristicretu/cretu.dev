@@ -2,10 +2,6 @@ import { projects } from "../data/projects";
 import ProjectCard from "./ProjectCard";
 import { useState } from "react";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 function Projects() {
   const [ShortResults, setShortResults] = useState(true);
 
