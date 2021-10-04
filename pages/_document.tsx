@@ -34,11 +34,11 @@ class MyDocument extends Document {
           />
           <meta
             name="theme-color"
-            content="#000000"
+            content="#171717"
             media="(prefers-color-scheme: dark)"
           />
         </Head>
-        <body className="bg-white dark:bg-black text-white dark:text-black">
+        <body className="bg-white dark:bg-gray-900">
           <Main />
           <NextScript />
         </body>
