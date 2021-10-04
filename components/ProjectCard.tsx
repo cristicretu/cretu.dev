@@ -39,7 +39,7 @@ function ProjectCard({ data }) {
           </div>
         </div>
       ) : (
-        ""
+        <div className="animate-pulse h-4 bg-gray-700 rounded w-5/6"></div>
       )}
     </div>
   );
