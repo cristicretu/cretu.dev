@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import Footer from "./Footer";
 import useKeypress from "react-use-keypress";
+import tinykeys from "../lib/tinykeys.ts";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -28,9 +29,14 @@ export default function Container(props) {
     ...customMeta,
   };
 
-  useKeypress("t", () => {
-    if (Mounted === true) setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  tinykeys(window, {
+    t: () => {
+      if (Mounted === true)
+        setTheme(resolvedTheme === "dark" ? "light" : "dark");
+    },
   });
+
+  // useKeypress("t", () => {});
 
   return (
     <div className="bg-white dark:bg-gray-900">
