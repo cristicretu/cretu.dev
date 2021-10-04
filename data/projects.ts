@@ -3,7 +3,7 @@ export const projects = [
     name: "RoCovidTracker",
     description:
       "Covid-19 Tracker built using NextJs & TailwindCSS - data provided from geospatial.",
-    github: "https://github.com/cristicretu/covid-romania",
+    github: "https://github.com/cristicretu/rocovidtracker",
     website: "https://covid.cretu.dev",
   },
   {
