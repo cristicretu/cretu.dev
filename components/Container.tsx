@@ -28,15 +28,11 @@ export default function Container(props) {
     ...customMeta,
   };
 
-  // tinykeys(window, {
-  //   t: () => {
-  //     if (Mounted === true)
-  //       setTheme(resolvedTheme === "dark" ? "light" : "dark");
-  //   },
-  // });
-
   useKeypress("t", () => {
     if (Mounted === true) setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  });
+  useKeypress("h", () => {
+    router.back();
   });
 
   return (
