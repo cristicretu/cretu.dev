@@ -4,11 +4,7 @@ import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider
-      attribute="class"
-      disableTransitionOnChange
-      // defaultTheme="dark"
-    >
+    <ThemeProvider attribute="class" disableTransitionOnChange>
       <Component {...pageProps} />
     </ThemeProvider>
   );
