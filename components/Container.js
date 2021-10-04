@@ -12,7 +12,7 @@ function classNames(...classes) {
 
 export default function Container(props) {
   const [Mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -27,8 +27,10 @@ export default function Container(props) {
     type: "website",
     ...customMeta,
   };
-  // react-use-keypress
-  useKeypress("t", () => setTheme(theme === "dark" ? "light" : "dark"));
+
+  useKeypress("t", () => {
+    if (Mounted === true) setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  });
 
   return (
     <div className="bg-white dark:bg-gray-900">

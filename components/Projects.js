@@ -21,10 +21,7 @@ function Projects() {
         projects.map((data) => <ProjectCard key={data.name} data={data} />)}
       <button
         onClick={() => setShortResults(!ShortResults)}
-        className={classNames(
-          "mx-auto px-4 py-2 rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 transition-all",
-          ""
-        )}
+        className="mx-auto px-4 py-2 rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 transition-all"
       >
         {ShortResults ? "Show More" : "Show less"}
       </button>
