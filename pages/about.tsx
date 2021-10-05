@@ -2,7 +2,7 @@ import { useRouter } from "next/dist/client/router";
 import Achievements from "../components/Achievements";
 import Container from "../components/Container";
 
-function about() {
+function About() {
   const router = useRouter();
   return (
     <Container>
@@ -12,9 +12,9 @@ function about() {
             About me
           </h1>
           <p className=" text-gray-600 dark:text-gray-400">
-            Hey! I'm Cristi, a young developer eager to learn more about tech
-            and programming. I'm currently a student working on many side
-            projects and freelancing.
+            Hey! I&lsquo;m Cristi, a young developer eager to learn more about
+            tech and programming. I&lsquo;m currently a student working on many
+            side projects and freelancing.
           </p>
           <p className=" text-gray-600 dark:text-gray-400">
             Recently I started writing about front-end, development, competitive
@@ -22,6 +22,7 @@ function about() {
             <a
               className="custom-underline text-black dark:text-white"
               href="https://twitter.com/cristicrtu"
+              rel="noreferrer"
               target="_blank"
             >
               Twitter
@@ -40,4 +41,4 @@ function about() {
   );
 }
 
-export default about;
+export default About;

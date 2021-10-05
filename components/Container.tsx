@@ -115,7 +115,7 @@ export default function Container(props) {
           <a
             href="https://twitter.com/cristicrtu"
             target="_blank"
-            rel="noopener"
+            rel="noreferrer"
             aria-label="Twitter"
           >
             <svg
@@ -131,7 +131,7 @@ export default function Container(props) {
           <a
             href="https://github.com/cristicretu/"
             target="_blank"
-            rel="noopener"
+            rel="noreferrer"
             aria-label="Github"
           >
             <svg

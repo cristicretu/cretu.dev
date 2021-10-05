@@ -10,7 +10,7 @@ export default function NotFound() {
         </h1>
         <div className="flex flex-col space-y-12">
           <p className=" text-gray-600 dark:text-gray-400">
-            Oops! Seems that you've entered
+            Oops! Seems that you&lsquo;ve entered
             <a className="italic"> the dark side</a>. You found something that
             used to exist, or you typed something wrong. Try that URL again, or
             👇
