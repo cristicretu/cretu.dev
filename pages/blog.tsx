@@ -3,7 +3,7 @@ import BlogPost from "../components/BlogPost";
 import Container from "../components/Container";
 import { getAllFilesFrontMatter } from "../lib/mdx";
 
-function blog({ posts }) {
+const Blog = ({ posts }) => {
   const [Results, setResults] = useState("");
   const SearchResults = posts
     .sort(
@@ -64,9 +64,9 @@ function blog({ posts }) {
       </div>
     </Container>
   );
-}
+};
 
-export default blog;
+export default Blog;
 
 export async function getStaticProps() {
   const posts = await getAllFilesFrontMatter("blog");

@@ -38,7 +38,7 @@ function ProjectCard({ data }) {
                 <a
                   href={data.website}
                   target="_blank"
-                  rel="noopener"
+                  rel="noreferrer"
                   aria-label={data.name}
                 >
                   <svg
@@ -59,7 +59,7 @@ function ProjectCard({ data }) {
                 <a
                   href={data.github}
                   target="_blank"
-                  rel="noopener"
+                  rel="noreferrer"
                   aria-label="Github"
                 >
                   <svg

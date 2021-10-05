@@ -36,26 +36,27 @@ function Introduction() {
       </div>
       <div className="flex flex-col space-y-4">
         <p className=" text-gray-600 dark:text-gray-400">
-          I'm a developer, designer and an aspiring software engineer –&nbsp;{" "}
+          I&apos;m a developer, designer and an aspiring software engineer
+          –&nbsp;{" "}
           <a
             href="https://www.fiverr.com/cristicretu/make-a-beautiful-landing-page-using-react-html-tailwindcss"
             target="_blank"
             rel="noreferrer"
             className="custom-underline text-black dark:text-white"
           >
-            I'm available for hire
+            I&apos;m available for hire
           </a>
           .
         </p>
         <p className=" text-gray-600 dark:text-gray-400">
-          I also enjoy digital art and graphic-design. I'm making and constantly
-          learning UI/UX design using Figma. For more complex designs, I use
-          Photoshop, Affinity Photo and Affinity Designer.
+          I also enjoy digital art and graphic-design. I&apos;m making and
+          constantly learning UI/UX design using Figma. For more complex
+          designs, I use Photoshop, Affinity Photo and Affinity Designer.
         </p>
 
         <p className=" text-gray-600 dark:text-gray-400">
           This is my digital garden of the internet, where I write about tech,
-          programming and other stuff that I'm working on.
+          programming and other stuff that I&apos;m working on.
         </p>
         <p className=" text-gray-600 dark:text-gray-400">
           For more details, check out the{" "}
