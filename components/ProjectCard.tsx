@@ -19,14 +19,14 @@ function ProjectCard({ data }) {
       {Mounted === true ? (
         <div
           className={classNames(
-            "flex flex-col  space-y-4 p-4  rounded-md motion-reduce:transition-none motion-reduce:transform-none  border dark:border-gray-600 border-gray-200",
-            resolvedTheme === undefined
-              ? systemTheme === "dark"
-                ? "pattern-dark"
-                : "pattern-white"
-              : resolvedTheme === "dark"
-              ? "pattern-dark"
-              : "pattern-white"
+            "flex flex-col  space-y-4 p-4  rounded-md motion-reduce:transition-none motion-reduce:transform-none  border dark:border-gray-600 border-gray-200"
+            // resolvedTheme === undefined
+            //   ? systemTheme === "dark"
+            //     ? "pattern-dark"
+            //     : "pattern-white"
+            //   : resolvedTheme === "dark"
+            //   ? "pattern-dark"
+            //   : "pattern-white"
           )}
         >
           <div className="flex items-center justify-between">
