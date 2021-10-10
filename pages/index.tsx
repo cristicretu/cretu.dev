@@ -26,7 +26,6 @@ function Introduction() {
           blurDataURL="/static/images/avatar.png"
           width={64}
           layout="fixed"
-          quality={100}
           alt="avatar"
         />
         <div className="flex flex-col">
