@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
+
+import { RoughNotation } from "react-rough-notation";
 import { achievements } from "../data/achievements";
-import { useState } from "react";
 
 function Achievements() {
   const [ShortResults, setShortResults] = useState(true);
@@ -308,7 +310,7 @@ function Achievements() {
           {ShortResults ? "Show More" : "Show less"}
         </button>
       </div>
-    </div>
+    </div >
   );
 }
 
