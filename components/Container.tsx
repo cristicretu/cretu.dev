@@ -1,10 +1,11 @@
+import { useEffect, useState } from "react";
+
+import Footer from "./Footer";
 import Head from "next/head";
 import Link from "next/link";
-import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/dist/client/router";
-import Footer from "./Footer";
 import useKeypress from "react-use-keypress";
+import { useRouter } from "next/dist/client/router";
+import { useTheme } from "next-themes";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -64,8 +65,8 @@ export default function Container(props) {
               className={classNames(
                 "p-1  transition-all  sm:p-4",
                 router.pathname === "/"
-                  ? "text-blue-300 hover:text-blue-500"
-                  : "text-gray-600 hover:text-gray-900 dark:hover:text-gray-100 dark:text-gray-300"
+                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
               )}
             >
               Home
@@ -76,8 +77,8 @@ export default function Container(props) {
               className={classNames(
                 "p-1  transition-all  sm:p-4",
                 router.pathname === "/about"
-                  ? "text-blue-300 hover:text-blue-500"
-                  : "text-gray-600 hover:text-gray-900 dark:hover:text-gray-100 dark:text-gray-300"
+                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
               )}
             >
               {" "}
@@ -89,8 +90,8 @@ export default function Container(props) {
               className={classNames(
                 "p-1  transition-all  sm:p-4",
                 router.pathname === "/blog"
-                  ? "text-blue-300 hover:text-blue-500"
-                  : "text-gray-600 hover:text-gray-900 dark:hover:text-gray-100 dark:text-gray-300"
+                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
               )}
             >
               {" "}
@@ -101,9 +102,9 @@ export default function Container(props) {
             <a
               className={classNames(
                 "p-1  transition-all  sm:p-4",
-                router.pathname === "/dashboard"
-                  ? "text-blue-300 hover:text-blue-500"
-                  : "text-gray-600 hover:text-gray-900 dark:hover:text-gray-100 dark:text-gray-300"
+                router.pathname === "/projects"
+                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
+                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
               )}
             >
               {" "}

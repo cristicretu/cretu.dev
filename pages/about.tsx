@@ -1,9 +1,15 @@
-import { useRouter } from "next/dist/client/router";
+import { useEffect, useState } from "react";
+
 import Achievements from "../components/Achievements";
 import Container from "../components/Container";
+import { RoughNotation } from "react-rough-notation";
 
 function About() {
-  const router = useRouter();
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    setShow(true)
+  }, [])
   return (
     <Container>
       <div className="my-2 sm:my-4 md:my-8 flex space-y-12 px-2 sm:px-2 md:px-0 flex-col justify-center text-black dark:text-white items-start max-w-2xl mx-auto ">
@@ -12,12 +18,12 @@ function About() {
             About me
           </h1>
           <p className=" text-gray-600 dark:text-gray-400">
-            Hey! I&lsquo;m Cristi, a young developer eager to learn more about
+            Hello, I&lsquo;m <RoughNotation type="circle" show={show}>Cristian</RoughNotation>, a young developer eager to learn more about
             tech and programming. I&lsquo;m currently a student working on many
             side projects and freelancing.
           </p>
           <p className=" text-gray-600 dark:text-gray-400">
-            Recently I started writing about front-end, development, competitive
+            Recently I started writing about full-stack development, competitive
             programming, and productivity here and on{" "}
             <a
               className="custom-underline text-black dark:text-white"
@@ -30,8 +36,7 @@ function About() {
             .
           </p>
           <p className="text-gray-600 dark:text-gray-400">
-            I grew up in a small town in Romania 🇷🇴 and I currently am in
-            High-School. In my free time, I like to create graphic design,
+            In my free time, I like to create digital art,
             listen to music, cycle, and play football.
           </p>
         </div>
