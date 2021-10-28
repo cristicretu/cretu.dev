@@ -72,16 +72,17 @@ function Introduction() {
           writes about tech, programming, and other stuff that he&apos;s working
           on.
         </p>
-        <p className=" text-gray-600 dark:text-gray-400">
-          For more details, please check out the{" "}
-          <RoughNotation type="box" show={show}>
+        <RoughNotation type="highlight" show={show}>
+          <p className=" dark:text-gray-600 text-gray-400">
+            For more details, please check out the{" "}
             <Link href="/about">
-              <a className="custom-underline text-black dark:text-white">
+              <a className="custom-underline dark:text-black text-white">
                 about me
               </a>
-            </Link>{" "}</RoughNotation>
-          page.
-        </p>
+            </Link>{" "}
+            page.
+          </p>
+        </RoughNotation>
       </div>
     </div>
   );
