@@ -49,16 +49,7 @@ function Introduction() {
       <div className="flex flex-col space-y-4">
         <p className=" text-gray-600 dark:text-gray-400">
           Cristian is a developer, designer, and aspiring software engineer
-          –&nbsp;{" "}
-          <a
-            href="https://www.fiverr.com/cristicretu/make-a-beautiful-landing-page-using-react-html-tailwindcss"
-            target="_blank"
-            rel="noreferrer"
-            className="custom-underline text-black dark:text-white"
-          >
-            he is available for hire
-          </a>
-          .
+          –&nbsp;he is available for hire.
         </p>
         <p className=" text-gray-600 dark:text-gray-400">
           He enjoys digital art and graphic design. Cristian uses tools like
