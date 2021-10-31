@@ -1,6 +1,8 @@
-import Container from "./Container";
-import Image from "next/image";
-import { parseISO, format } from "date-fns";
+import { format, parseISO } from 'date-fns';
+
+import Container from './Container';
+import Image from 'next/image';
+import React from 'react';
 
 export default function BlogComponent({ children, frontMatter }) {
   return (
@@ -15,11 +17,11 @@ export default function BlogComponent({ children, frontMatter }) {
         <div className="flex flex-col space-y-4 ">
           <h1 className="font-bold text-3xl md:text-5xl tracking-tight text-black dark:text-white">
             {frontMatter.title}
-          </h1>{" "}
+          </h1>{' '}
           <div className="flex justify-between">
             <p className=" text-black dark:text-white">
-              Cristian Crețu -{" "}
-              {format(parseISO(frontMatter.publishedAt), "MMMM dd, yyyy")}
+              Cristian Crețu -{' '}
+              {format(parseISO(frontMatter.publishedAt), 'MMMM dd, yyyy')}
             </p>
             <p className="text-black dark:text-white">
               {frontMatter.readingTime.text}

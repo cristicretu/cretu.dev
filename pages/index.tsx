@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Container from "../components/Container";
-import Image from "next/image";
-import Link from "next/link";
-import { RoughNotation } from "react-rough-notation";
+import Container from '../components/Container';
+import Image from 'next/image';
+import Link from 'next/link';
+import { RoughNotation } from 'react-rough-notation';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <Container>
       <div className="my-2 sm:my-4 md:my-8 flex px-2 sm:px-2 md:px-0 flex-col justify-center space-y-4 md:space-y-10 items-start max-w-2xl mx-auto mb-16">
@@ -13,14 +13,16 @@ export default function Home() {
       </div>
     </Container>
   );
-}
+};
 
-function Introduction() {
-  const [show, setShow] = useState(false)
+export default Home;
+
+const Introduction: React.FC = () => {
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    setShow(true)
-  }, [])
+    setShow(true);
+  }, []);
 
   return (
     <div className="flex flex-col space-y-4">
@@ -57,7 +59,6 @@ function Introduction() {
           digital art.
         </p>
 
-
         <p className=" text-gray-600 dark:text-gray-400">
           This is Cristian&apos;s digital garden of the internet, where he
           writes about tech, programming, and other stuff that he&apos;s working
@@ -65,16 +66,16 @@ function Introduction() {
         </p>
         <RoughNotation type="highlight" show={show}>
           <p className=" dark:text-gray-600 text-gray-400">
-            For more details, please check out the{" "}
+            For more details, please check out the{' '}
             <Link href="/about">
               <a className="custom-underline dark:text-black text-white">
                 about me
               </a>
-            </Link>{" "}
+            </Link>{' '}
             page.
           </p>
         </RoughNotation>
       </div>
     </div>
   );
-}
+};
