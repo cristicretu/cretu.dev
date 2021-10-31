@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import Footer from "./Footer";
-import Head from "next/head";
-import Link from "next/link";
-import useKeypress from "react-use-keypress";
-import { useRouter } from "next/dist/client/router";
-import { useTheme } from "next-themes";
+import Footer from './Footer';
+import Head from 'next/head';
+import Link from 'next/link';
+import useKeypress from 'react-use-keypress';
+import { useRouter } from 'next/dist/client/router';
+import { useTheme } from 'next-themes';
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
 }
 
-export default function Container(props) {
+export default function Container(props: any) {
   const [Mounted, setMounted] = useState(false);
   const { theme, resolvedTheme, setTheme } = useTheme();
 
@@ -22,17 +22,17 @@ export default function Container(props) {
   const { children, ...customMeta } = props;
   const router = useRouter();
   const meta = {
-    title: "Cristian Cretu – Developer, designer",
+    title: 'Cristian Cretu – Developer, designer',
     description: `Front-end developer, graphic-design and programming enthusiast`,
-    image: "https://cretu.dev/static/images/banner.png",
-    type: "website",
-    ...customMeta,
+    image: 'https://cretu.dev/static/images/banner.png',
+    type: 'website',
+    ...customMeta
   };
 
-  useKeypress("t", () => {
-    if (Mounted === true) setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  useKeypress('t', () => {
+    if (Mounted === true) setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   });
-  useKeypress("h", () => {
+  useKeypress('h', () => {
     router.back();
   });
 
@@ -63,10 +63,10 @@ export default function Container(props) {
           <Link href="/">
             <a
               className={classNames(
-                "p-1  transition-all  sm:p-4",
-                router.pathname === "/"
-                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                'p-1  transition-all  sm:p-4',
+                router.pathname === '/'
+                  ? 'text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
               )}
             >
               Home
@@ -75,39 +75,39 @@ export default function Container(props) {
           <Link href="/about">
             <a
               className={classNames(
-                "p-1  transition-all  sm:p-4",
-                router.pathname === "/about"
-                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                'p-1  transition-all  sm:p-4',
+                router.pathname === '/about'
+                  ? 'text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
               )}
             >
-              {" "}
+              {' '}
               About
             </a>
           </Link>
           <Link href="/blog">
             <a
               className={classNames(
-                "p-1  transition-all  sm:p-4",
-                router.pathname === "/blog"
-                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                'p-1  transition-all  sm:p-4',
+                router.pathname === '/blog'
+                  ? 'text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
               )}
             >
-              {" "}
+              {' '}
               Blog
             </a>
           </Link>
           <Link href="/projects">
             <a
               className={classNames(
-                "p-1  transition-all  sm:p-4",
-                router.pathname === "/projects"
-                  ? "text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100"
-                  : "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                'p-1  transition-all  sm:p-4',
+                router.pathname === '/projects'
+                  ? 'text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100'
+                  : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100'
               )}
             >
-              {" "}
+              {' '}
               Projects
             </a>
           </Link>

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import React from 'react';
+import { achievements } from '../data/achievements';
+import { useState } from 'react';
 
-import { RoughNotation } from "react-rough-notation";
-import { achievements } from "../data/achievements";
-
-function Achievements() {
+const Achievements: React.FC = () => {
   const [ShortResults, setShortResults] = useState(true);
 
   return (
@@ -18,10 +17,10 @@ function Achievements() {
             key={data.title}
             className="flex text-black dark:text-white flex-col space-y-2 mx-4"
           >
-            {" "}
+            {' '}
             <div className="flex flex-row space-x-2 font-semibold text-md items-center">
               <div>
-                {" "}
+                {' '}
                 <span className="sr-only">Check</span>
                 <svg
                   className="h-4 w-4 mr-2 text-green-500"
@@ -43,21 +42,21 @@ function Achievements() {
             </div>
             <p className="text-gray-600 dark:text-gray-400">
               {data.description}
-            </p>{" "}
+            </p>{' '}
           </div>
         ))}
         <hr
           className={
             ShortResults
-              ? "hidden"
-              : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
+              ? 'hidden'
+              : 'w-full  border-1 border-gray-200 dark:border-gray-800 mb-8'
           }
         />
         <h3
           className={
             ShortResults
-              ? "hidden"
-              : "font-bold text-black dark:text-white text-xl"
+              ? 'hidden'
+              : 'font-bold text-black dark:text-white text-xl'
           }
         >
           2020
@@ -68,10 +67,10 @@ function Achievements() {
               key={data.title}
               className="flex text-black dark:text-white flex-col space-y-2 mx-4"
             >
-              {" "}
+              {' '}
               <div className="flex flex-row space-x-2 font-semibold text-md items-center">
                 <div>
-                  {" "}
+                  {' '}
                   <span className="sr-only">Check</span>
                   <svg
                     className="h-4 w-4 mr-2 text-green-500"
@@ -93,21 +92,21 @@ function Achievements() {
               </div>
               <p className="text-gray-600 dark:text-gray-400">
                 {data.description}
-              </p>{" "}
+              </p>{' '}
             </div>
           ))}
         <hr
           className={
             ShortResults
-              ? "hidden"
-              : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
+              ? 'hidden'
+              : 'w-full  border-1 border-gray-200 dark:border-gray-800 mb-8'
           }
         />
         <h3
           className={
             ShortResults
-              ? "hidden"
-              : "font-bold text-black dark:text-white text-xl"
+              ? 'hidden'
+              : 'font-bold text-black dark:text-white text-xl'
           }
         >
           2019
@@ -118,10 +117,10 @@ function Achievements() {
               key={data.title}
               className="flex text-black dark:text-white flex-col space-y-2 mx-4"
             >
-              {" "}
+              {' '}
               <div className="flex flex-row space-x-2 font-semibold text-md items-center">
                 <div>
-                  {" "}
+                  {' '}
                   <span className="sr-only">Check</span>
                   <svg
                     className="h-4 w-4 mr-2 text-green-500"
@@ -143,21 +142,21 @@ function Achievements() {
               </div>
               <p className="text-gray-600 dark:text-gray-400">
                 {data.description}
-              </p>{" "}
+              </p>{' '}
             </div>
           ))}
         <hr
           className={
             ShortResults
-              ? "hidden"
-              : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
+              ? 'hidden'
+              : 'w-full  border-1 border-gray-200 dark:border-gray-800 mb-8'
           }
         />
         <h3
           className={
             ShortResults
-              ? "hidden"
-              : "font-bold dark:text-white text-black text-xl"
+              ? 'hidden'
+              : 'font-bold dark:text-white text-black text-xl'
           }
         >
           2016
@@ -168,10 +167,10 @@ function Achievements() {
               key={data.title}
               className="flex text-black dark:text-white flex-col space-y-2 mx-4"
             >
-              {" "}
+              {' '}
               <div className="flex flex-row space-x-2 font-semibold text-md items-center">
                 <div>
-                  {" "}
+                  {' '}
                   <span className="sr-only">Check</span>
                   <svg
                     className="h-4 w-4 mr-2 text-green-500"
@@ -193,21 +192,21 @@ function Achievements() {
               </div>
               <p className="text-gray-600 dark:text-gray-400">
                 {data.description}
-              </p>{" "}
+              </p>{' '}
             </div>
           ))}
         <hr
           className={
             ShortResults
-              ? "hidden"
-              : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
+              ? 'hidden'
+              : 'w-full  border-1 border-gray-200 dark:border-gray-800 mb-8'
           }
         />
         <h3
           className={
             ShortResults
-              ? "hidden"
-              : "font-bold text-black dark:text-white text-xl"
+              ? 'hidden'
+              : 'font-bold text-black dark:text-white text-xl'
           }
         >
           2015
@@ -218,10 +217,10 @@ function Achievements() {
               key={data.title}
               className="flex flex-col text-black dark:text-white space-y-2 mx-4"
             >
-              {" "}
+              {' '}
               <div className="flex flex-row space-x-2 font-semibold text-md items-center">
                 <div>
-                  {" "}
+                  {' '}
                   <span className="sr-only">Check</span>
                   <svg
                     className="h-4 w-4 mr-2 text-green-500"
@@ -243,21 +242,21 @@ function Achievements() {
               </div>
               <p className="text-gray-600 dark:text-gray-400">
                 {data.description}
-              </p>{" "}
+              </p>{' '}
             </div>
           ))}
         <hr
           className={
             ShortResults
-              ? "hidden"
-              : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
+              ? 'hidden'
+              : 'w-full  border-1 border-gray-200 dark:border-gray-800 mb-8'
           }
         />
         <h3
           className={
             ShortResults
-              ? "hidden"
-              : "font-bold text-black dark:text-white text-xl"
+              ? 'hidden'
+              : 'font-bold text-black dark:text-white text-xl'
           }
         >
           2009
@@ -268,10 +267,10 @@ function Achievements() {
               key={data.title}
               className="flex text-black dark:text-white flex-col space-y-2 mx-4"
             >
-              {" "}
+              {' '}
               <div className="flex flex-row space-x-2 font-semibold text-md items-center">
                 <div>
-                  {" "}
+                  {' '}
                   <span className="sr-only">Check</span>
                   <svg
                     className="h-4 w-4 mr-2 text-green-500"
@@ -293,26 +292,26 @@ function Achievements() {
               </div>
               <p className="text-gray-600 dark:text-gray-400">
                 {data.description}
-              </p>{" "}
+              </p>{' '}
             </div>
           ))}
         <hr
           className={
             ShortResults
-              ? "hidden"
-              : "w-full  border-1 border-gray-200 dark:border-gray-800 mb-8"
+              ? 'hidden'
+              : 'w-full  border-1 border-gray-200 dark:border-gray-800 mb-8'
           }
         />
         <button
           onClick={() => setShortResults(!ShortResults)}
           className="mx-auto px-4 py-2 rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 transition-all"
         >
-          {ShortResults ? "Show More" : "Show less"}
+          {ShortResults ? 'Show More' : 'Show less'}
         </button>
       </div>
-    </div >
+    </div>
   );
-}
+};
 
 export default Achievements;
 
