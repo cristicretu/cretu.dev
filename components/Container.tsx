@@ -21,7 +21,7 @@ const NavItem = ({ myHref, text }) => {
     <Link href={myHref}>
       <a
         className={classNames(
-          ' hidden md:inline-block p-1 sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all',
+          ' hidden md:inline-block sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all',
           isActive
             ? 'text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100 font-semibold'
             : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 font-normal'
@@ -80,9 +80,9 @@ export default function Container(props: any) {
           <meta property="article:published_time" content={meta.date} />
         )}
       </Head>
-      <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pt-6 text-gray-900 bg-gray-50 px-4 sm:px-2 md:px-0 dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
+      <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto  pt-6 px-2 md:px-0 text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
 
-        <div className="flex space-x-2 text-base items-center">
+        <div className="flex space-x-2 text-base items-center ml-[-0.81rem]">
           <MobileMenu />
           <NavItem myHref={"/"} text={"Home"} />
           <NavItem myHref={"/about"} text={"About"} />
@@ -144,7 +144,8 @@ export default function Container(props: any) {
           </button>
         </div>
       </nav>
-      <main className="flex flex-col px-4">
+      <main className="flex flex-col justify-centert px-2 bg-gray-50 dark:bg-gray-900"
+      >
         <div className="my-14 sm:my-16 md:my-20 lg:my-24">{children}</div>
         <Footer />
       </main>
