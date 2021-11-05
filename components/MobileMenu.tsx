@@ -1,27 +1,92 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-// import styles from 'styles/mobile-menu.module.css';
+import Link from 'next/link';
+import styles from '../styles/burger-menu.module.css';
+import useDelayedRender from 'use-delayed-render';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-interface MobileMenuProps { }
+export default function MobileMenu() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { mounted: isMenuMounted, rendered: isMenuRendered } = useDelayedRender(
+    isMenuOpen,
+    {
+      enterDelay: 20,
+      exitDelay: 300
+    }
+  );
 
-export const MobileMenu: React.FC<MobileMenuProps> = ({ }) => {
-  const [open, setOpen] = useState(false);
+  function toggleMenu() {
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+      document.body.style.overflow = '';
+    } else {
+      setIsMenuOpen(true);
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  useEffect(() => {
+    return function cleanup() {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
     <>
       <button
-        className={classNames('md:hidden visible', "")}
-        aria-label="Toggle Menu"
+        className={classNames(styles.burger, 'visible md:hidden')}
+        aria-label="Toggle menu"
         type="button"
-        onClick={() => setOpen(open === true ? false : true)}
+        onClick={toggleMenu}
       >
-        <MenuIcon visibility={open === true ? "hidden" : "visible"} />
-        <CrossIcon visibility={open === true ? "visible" : "collapse"} />
-
+        <MenuIcon data-hide={isMenuOpen} />
+        <CrossIcon data-hide={!isMenuOpen} />
       </button>
+      {isMenuMounted && (
+        <ul
+          className={classNames(
+            styles.menu,
+            'flex flex-col absolute bg-gray-100 dark:bg-gray-900',
+            isMenuRendered && styles.menuRendered
+          )}
+        >
+          <li
+            className="border-b border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: '150ms' }}
+          >
+            <Link href="/">
+              <a className="flex w-auto pb-4">Home</a>
+            </Link>
+          </li>
+          <li
+            className="border-b border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: '175ms' }}
+          >
+            <Link href="/about">
+              <a className="flex w-auto pb-4">About</a>
+            </Link>
+          </li>
+          <li
+            className="border-b border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: '200ms' }}
+          >
+            <Link href="/blog">
+              <a className="flex w-auto pb-4">Blog</a>
+            </Link>
+          </li>
+          <li
+            className="border-b border-gray-300 dark:border-gray-700 text-gray-900 dark:text-gray-100 text-sm font-semibold"
+            style={{ transitionDelay: '250ms' }}
+          >
+            <Link href="/projects">
+              <a className="flex w-auto pb-4">Projects</a>
+            </Link>
+          </li>
+        </ul>
+      )}
     </>
   );
 }
@@ -29,7 +94,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ }) => {
 function MenuIcon(props: JSX.IntrinsicElements['svg']) {
   return (
     <svg
-      className="h-5 w-5 -mt-4 absolute text-gray-900 dark:text-gray-100"
+      className="h-5 w-5 absolute text-gray-900 dark:text-gray-100"
       width="20"
       height="20"
       viewBox="0 0 20 20"
@@ -57,7 +122,7 @@ function MenuIcon(props: JSX.IntrinsicElements['svg']) {
 function CrossIcon(props: JSX.IntrinsicElements['svg']) {
   return (
     <svg
-      className="h-5 w-5 -mt-4 absolute text-gray-900 dark:text-gray-100"
+      className="h-5 w-5 absolute text-gray-900 dark:text-gray-100"
       viewBox="0 0 24 24"
       width="24"
       height="24"
