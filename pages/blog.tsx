@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import BlogPost from '../components/BlogPost';
 import Container from '../components/Container';
 import { getAllFilesFrontMatter } from '../lib/mdx';
+import { useState } from 'react';
 
 const Blog = ({ posts }) => {
   const [Results, setResults] = useState('');
@@ -24,8 +24,9 @@ const Blog = ({ posts }) => {
               Blog
             </h1>
             <p className=" text-gray-600 dark:text-gray-400">
-              This is the start to my blog! A lot more posts are coming. Use the
-              search box bellow to filter blog posts 👇
+              This is Cristian&apos;s digital garden of the internet, where he
+              writes about tech, programming, and other stuff that he&apos;s working
+              on. Use the ssearch box bellow to filter blog posts 👇
             </p>
           </div>
           <div className=" relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800">
