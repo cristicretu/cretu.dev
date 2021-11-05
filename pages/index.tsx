@@ -64,7 +64,7 @@ const Introduction: React.FC = () => {
           writes about tech, programming, and other stuff that he&apos;s working
           on.
         </p>
-        <p className=" text-gray-600 arrow dark:text-gray-400">
+        <p className=" text-gray-600 dark:text-gray-400">
           For more details, please check out the{' '}
           <Link href="/about">
             <a className="custom-underline text-black dark:text-white">

@@ -4,7 +4,7 @@ import { JSXElementConstructor, useEffect, useState } from 'react';
 import Footer from './Footer';
 import Head from 'next/head';
 import Link from 'next/link';
-import { MobileMenu } from './MobileMenu';
+import MobileMenu from './MobileMenu';
 import useKeypress from 'react-use-keypress';
 import { useRouter } from 'next/dist/client/router';
 import { useTheme } from 'next-themes';
@@ -80,7 +80,8 @@ export default function Container(props: any) {
           <meta property="article:published_time" content={meta.date} />
         )}
       </Head>
-      <nav className="flex items-center justify-between w-full relative max-w-2xl py-6 mx-auto px-4 md:px-0 bg-white dark:bg-gray-900  text-gray-900 dark:text-gray-100">
+      <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pt-6 text-gray-900 bg-gray-50 px-4 sm:px-2 md:px-0 dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
+
         <div className="flex space-x-2 text-base items-center">
           <MobileMenu />
           <NavItem myHref={"/"} text={"Home"} />
@@ -109,10 +110,10 @@ export default function Container(props: any) {
           </a>
         </div>
       </nav>
-      <main id="skip" className="flex flex-col justify-center px-4">
+      <main className="flex flex-col justify-center px-4">
         <div className="my-24">{children}</div>
         <Footer />
       </main>
-    </div>
+    </div >
   );
 }
