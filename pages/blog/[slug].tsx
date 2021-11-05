@@ -1,7 +1,7 @@
-import { MDXRemote } from "next-mdx-remote";
-import BlogComponent from "../../components/BlogComponent";
-import MDXComponents from "../../components/MDXComponents";
-import { getFileBySlug, getFiles } from "../../lib/mdx";
+import { MDXRemote } from 'next-mdx-remote';
+import BlogComponent from '../../components/BlogComponent';
+import MDXComponents from '../../components/MDXComponents';
+import { getFileBySlug, getFiles } from '../../lib/mdx';
 
 export default function Blog({ mdxSource, frontMatter }) {
   return (
@@ -9,7 +9,7 @@ export default function Blog({ mdxSource, frontMatter }) {
       <MDXRemote
         {...mdxSource}
         components={{
-          ...MDXComponents,
+          ...MDXComponents
         }}
       />
     </BlogComponent>
@@ -17,19 +17,19 @@ export default function Blog({ mdxSource, frontMatter }) {
 }
 
 export async function getStaticPaths() {
-  const posts = await getFiles("blog");
+  const posts = await getFiles('blog');
 
   return {
     paths: posts.map((p) => ({
       params: {
-        slug: p.replace(/\.mdx/, ""),
-      },
+        slug: p.replace(/\.mdx/, '')
+      }
     })),
-    fallback: false,
+    fallback: false
   };
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getFileBySlug("blog", params.slug);
+  const post = await getFileBySlug('blog', params.slug);
   return { props: { ...post } };
 }

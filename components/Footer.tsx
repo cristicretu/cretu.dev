@@ -41,14 +41,18 @@ const Footer: React.FC = () => {
       <p className="text-gray-700 dark:text-gray-300 text-opacity-90 mt-8 text-xs px-8 text-center">
         Created with &hearts; by{' '}
         <a
-          className="underline text-black dark:text-white  font-semibold"
+          className="custom-underline arrow text-black dark:text-white  font-semibold"
           href="https://github.com/cristicretu/cretu.dev"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Cristian Crețu
         </a>
         . Deployed with{' '}
         <a
-          className="underline text-black dark:text-white  font-semibold"
+          className="custom-underline arrow text-black dark:text-white  font-semibold"
+          target="_blank"
+          rel="noopener noreferrer"
           href="https://vercel.com"
         >
           ▲ Vercel
