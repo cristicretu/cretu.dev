@@ -4,14 +4,14 @@ export const projects = [
     description:
       'Reusable Template for Front-End, using NextJs, TailwindCSS, Typescript, Dark Mode, and more.',
     github: 'https://github.com/cristicretu/ultimateTemplate',
-    website: 'https://template.cretu.dev'
+    website: 'https://template.cretu.dev',
   },
   {
     name: 'RoCovidTracker',
     description:
       'Covid-19 Tracker built using NextJs & TailwindCSS - data provided from geospatial.',
     github: 'https://github.com/cristicretu/rocovidtracker',
-    website: 'https://covid.cretu.dev'
+    website: 'https://covid.cretu.dev',
   },
   {
     name: 'Learn React',
