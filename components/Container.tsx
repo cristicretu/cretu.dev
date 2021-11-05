@@ -80,7 +80,7 @@ export default function Container(props: any) {
           <meta property="article:published_time" content={meta.date} />
         )}
       </Head>
-      <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto  pt-6 px-2 md:px-0 text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
+      <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto  pt-6 px-5 sm:px-4 md:px-0 text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
 
         <div className="flex space-x-2 text-base items-center ml-[-0.81rem]">
           <MobileMenu />

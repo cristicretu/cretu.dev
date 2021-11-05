@@ -13,6 +13,29 @@
   font-style: normal;
 }
 
+.myborder {
+  background-color: black;
+  max-width: 100%;
+  padding: 1rem;
+  position: relative;
+  color: white;
+  border-radius: 8px;
+}
+
+.myborder::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  width: calc(100% + 10px);
+  height: calc(100% + 10px);
+  z-index: -1;
+  border-radius: 12px;
+  background: linear-gradient(130deg, #ff7a18, #af002d 41.07%, #319197 76.05%);
+}
+
 .arrow {
   cursor: ne-resize;
 }
