@@ -42,7 +42,7 @@ const Introduction: React.FC = () => {
             Cristian Crețu
           </h1>
           <RoughNotation type="underline" show={show}>
-            <p className="text-md tracking-tight  text-gray-500 dark:text-gray-500">
+            <p className="text-md tracking-tight  text-gray-600 dark:text-gray-400">
               Developer and designer
             </p>
           </RoughNotation>
@@ -50,20 +50,12 @@ const Introduction: React.FC = () => {
       </div>
       <div className="flex flex-col space-y-4">
         <p className=" text-gray-600 dark:text-gray-400">
-          Cristian is a developer, designer, and aspiring software engineer
-          –&nbsp;he is available for hire.
-        </p>
-        <p className=" text-gray-600 dark:text-gray-400">
-          He enjoys digital art and graphic design. Cristian uses tools like
-          Figma, Photoshop, Affinity Photo, and Affinity Designer for creating
-          digital art.
+          Cristian is a developer, designer, and aspiring software engineer.
         </p>
 
         <p className=" text-gray-600 dark:text-gray-400">
-          This is Cristian&apos;s digital garden of the internet, where he
-          writes about tech, programming, and other stuff that he&apos;s working
-          on.
-        </p>
+          He enjoys coding and creating digital art. He&apos;s focusing on making the web &apos;feel right&apos; and faster.</p>
+
         <p className=" text-gray-600 dark:text-gray-400">
           For more details, please check out the{' '}
           <Link href="/about">
