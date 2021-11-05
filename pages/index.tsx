@@ -29,10 +29,10 @@ const Introduction: React.FC = () => {
       <div className="flex space-x-4 items-center  mb-2">
         <Image
           className="rounded-full "
-          src="/static/images/avatar.png"
+          src="/static/images/favicon.png"
           height={64}
           placeholder="blur"
-          blurDataURL="/static/images/avatar.png"
+          blurDataURL="/static/images/favicon.png"
           width={64}
           layout="fixed"
           alt="avatar"
@@ -42,7 +42,7 @@ const Introduction: React.FC = () => {
             Cristian Crețu
           </h1>
           <RoughNotation type="underline" show={show}>
-            <p className="text-md tracking-tight text-black dark:text-white">
+            <p className="text-md tracking-tight  text-gray-500 dark:text-gray-500">
               Developer and designer
             </p>
           </RoughNotation>
