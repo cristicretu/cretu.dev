@@ -23,8 +23,8 @@
 .menu {
   padding: 0 24px 0 4px;
   margin: 0;
-  margin-top: 110vh;
-  width: 100%;
+  margin-top:110vh;
+  width: 97%;
   height: 100vh;
   z-index: 1000;
   opacity: 0;
@@ -32,6 +32,13 @@
   transition: opacity 300ms ease, transform 300ms ease;
 }
 
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+       .menu {
+         margin-top: 55vh;
+       }
+  }
+}
 .menu li {
   transform: translateX(-16px);
   opacity: 0;
