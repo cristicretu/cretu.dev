@@ -1,11 +1,12 @@
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Footer from './Footer';
 import Head from 'next/head';
 import Link from 'next/link';
 import MobileMenu from './MobileMenu';
 import { createToast } from 'vercel-toast'
+import tinykeys from '../lib/tinykeys'
 import useKeypress from 'react-use-keypress';
 import { useRouter } from 'next/dist/client/router';
 import { useTheme } from 'next-themes';
@@ -38,16 +39,6 @@ export default function Container(props: any) {
   const [Mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
 
-
-
-  useEffect(() => {
-    setMounted(true);
-    // createToast("Check out the keybinds! Press ⌘+B.", {
-    //   timeout: 3000,
-    //   action: { text: "Dismiss" }
-    // })
-  }, []);
-
   const { children, ...customMeta } = props;
   const router = useRouter();
   const meta = {
@@ -58,12 +49,102 @@ export default function Container(props: any) {
     ...customMeta
   };
 
-  useKeypress('t', () => {
-    if (Mounted === true) setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-  });
-  useKeypress('h', () => {
+  // useKeypress('t', () => {
+  //   if (Mounted === true) 
+  // });
+  useKeypress('Shift+H', () => {
     router.back();
   });
+
+  // tinykeys(window, {
+  //   "$mod+KeyG": event => {
+  //     event.preventDefault()
+  //     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  //   }
+  // })
+
+  const keymap = useMemo(() => {
+    return {
+      // t: () => {
+      //   setPages([ThemeItems])
+      //   setOpen(true)
+      // },
+      // Blog
+      'g b': () => router.push('/blog'),
+      // Navigation
+      'g h': () => router.push('/'),
+      'g a': () => router.push('/about'),
+      'g k': () => router.push('/keybindings'),
+      // Collections
+      'g p': () => router.push('/projects'),
+    }
+  }, [router])
+
+  // Register the keybinds globally
+  useEffect(() => {
+    const unsubs = [
+      tinykeys(window, keymap, { ignoreFocus: true }),
+      // tinykeys(window, { '$mod+k': () => setOpen(o => !o) })
+    ]
+    return () => {
+      unsubs.forEach(unsub => unsub())
+    }
+  }, [keymap])
+
+  // useEffect(() => {
+  //   // When items change, bounce the UI
+  //   if (commandRef.current) {
+  //     // Bounce the UI slightly
+  //     commandRef.current.style.transform = 'scale(0.99)'
+  //     commandRef.current.style.transition = 'transform 0.1s ease'
+  //     // Not exactly safe, but should be OK
+  //     setTimeout(() => {
+  //       commandRef.current.style.transform = ''
+  //     }, 100)
+  //   }
+  // }, [pages])
+
+  useEffect(() => {
+    setMounted(true);
+
+    // calculate when to show the toast
+    const isToast = localStorage.getItem("toast")
+
+    let stringDate: string
+    let goodToast: string
+
+    if (isToast) {
+      const now = new Date()
+
+      stringDate = now.toISOString()
+      goodToast = isToast.substring(1, isToast.length - 1);
+
+    }
+
+    function compareDates(d1: string, d2: string) {
+      var parts = d1.split('T')[0].split('-');
+      var Newd1 = Number(parts[2] + parts[1] + parts[0]);
+      parts = d2.split('T')[0].split('-');
+      var Newd2 = Number(parts[2] + parts[1] + parts[0]);
+      return Newd1 <= Newd2;
+    }
+
+    if (isToast === null || compareDates(goodToast, stringDate)) {
+      createToast("Check out the keybindings! Press g+k.", {
+        timeout: 3000,
+        action: { text: "Dismiss" }
+      })
+
+      const today = new Date()
+      const tomorrow = new Date(today)
+      tomorrow.setDate(tomorrow.getDate() + 1)
+
+      localStorage.setItem("toast", JSON.stringify(tomorrow))
+    }
+
+  }, []);
+
+
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
