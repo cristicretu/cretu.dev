@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Footer: React.FC = () => {
@@ -44,6 +45,17 @@ const Footer: React.FC = () => {
         >
           cristicretu{" "}↗
         </a>
+
+        <p className='mr-10 mb-2 text-gray-600 dark:text-gray-400'>Keybinds</p>
+        <Link href={'/keybindings'}>
+          <a
+            className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
+            rel="noopener noreferrer"
+          >
+
+            ↗
+          </a>
+        </Link>
       </div>
       <p className="text-gray-700 dark:text-gray-300 text-opacity-90 mt-8 mb-8 text-xs px-8 text-center">
         Created with &hearts; by{' '}
@@ -65,7 +77,7 @@ const Footer: React.FC = () => {
           ▲ Vercel
         </a>
       </p>
-    </footer>
+    </footer >
   );
 };
 

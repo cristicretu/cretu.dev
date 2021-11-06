@@ -13,6 +13,10 @@
   font-style: normal;
 }
 
+.mykbd {
+  @apply dark:bg-gray-800 bg-gray-200 border-gray-500 px-2 py-1 rounded-md border dark:border-gray-500
+}
+
 .myborder {
   background-color: black;
   max-width: 100%;
