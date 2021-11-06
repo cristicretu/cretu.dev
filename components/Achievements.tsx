@@ -6,9 +6,9 @@ const Achievements: React.FC = () => {
   const [ShortResults, setShortResults] = useState(true);
 
   return (
-    <div className="flex flex-col space-y-6 max-w-2xl">
+    <div className="flex flex-col space-y-2 max-w-2xl">
       <h2 className="font-bold text-2xl md:text-4xl tracking-tight text-gray-800 dark:text-gray-100">
-        Achievements
+        Timeline
       </h2>
       <div className="flex flex-col space-y-4">
         <h3 className="font-bold text-black dark:text-white text-xl">2021</h3>

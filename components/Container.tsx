@@ -1,10 +1,11 @@
-import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
-import { JSXElementConstructor, useEffect, useState } from 'react';
+import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
+import { useEffect, useState } from 'react';
 
 import Footer from './Footer';
 import Head from 'next/head';
 import Link from 'next/link';
 import MobileMenu from './MobileMenu';
+import { createToast } from 'vercel-toast'
 import useKeypress from 'react-use-keypress';
 import { useRouter } from 'next/dist/client/router';
 import { useTheme } from 'next-themes';
@@ -37,8 +38,14 @@ export default function Container(props: any) {
   const [Mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
 
+
+
   useEffect(() => {
     setMounted(true);
+    // createToast("Check out the keybinds! Press ⌘+B.", {
+    //   timeout: 3000,
+    //   action: { text: "Dismiss" }
+    // })
   }, []);
 
   const { children, ...customMeta } = props;

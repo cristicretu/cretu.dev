@@ -9,7 +9,7 @@ const Projects: React.FC = () => {
   const filtered = projects.filter((val, i) => i < 6);
   return (
     <>
-      <h2 className="font-bold text-2xl md:text-4xl tracking-tight text-gray-800 dark:text-gray-100">
+      <h2 className="font-bold text-3xl md:text-5xl tracking-tight text-gray-800 dark:text-gray-100">
         Projects
       </h2>
       <div className="grid auto-rows-fr grid-cols-1 
