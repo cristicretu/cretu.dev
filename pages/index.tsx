@@ -29,10 +29,10 @@ const Introduction: React.FC = () => {
       <div className="flex space-x-4 items-center  mb-2">
         <Image
           className="rounded-full "
-          src="/static/images/favicon.png"
+          src="/static/images/favicon.webp"
           height={64}
           placeholder="blur"
-          blurDataURL="/static/images/favicon.png"
+          blurDataURL="/static/images/favicon.webp"
           width={64}
           layout="fixed"
           alt="avatar"
@@ -54,7 +54,9 @@ const Introduction: React.FC = () => {
         </p>
 
         <p className=" text-gray-600 dark:text-gray-400">
-          He enjoys coding and creating digital art. He&apos;s focusing on making the web &apos;feel right&apos; and faster.</p>
+          He enjoys coding and creating digital art. He&apos;s focusing on
+          making the web &apos;feel right&apos; and faster.
+        </p>
 
         <p className=" text-gray-600 dark:text-gray-400">
           For more details, please check out the{' '}

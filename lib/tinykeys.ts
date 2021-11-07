@@ -27,17 +27,17 @@ SOFTWARE.
 
 */
 
-type KeyBindingPress = [string[], string]
+type KeyBindingPress = [string[], string];
 
 /**
  * A map of keybinding strings to event handlers.
  */
 export interface KeyBindingMap {
-  [keybinding: string]: (event: KeyboardEvent) => void
+  [keybinding: string]: (event: KeyboardEvent) => void;
 }
 
 export interface Options {
-  ignoreFocus?: boolean
+  ignoreFocus?: boolean;
 }
 
 /**
@@ -45,18 +45,18 @@ export interface Options {
  *
  * Note: Ignoring "AltGraph" because it is covered by the others.
  */
-let KEYBINDING_MODIFIER_KEYS = ['Shift', 'Meta', 'Alt', 'Control']
+let KEYBINDING_MODIFIER_KEYS = ['Shift', 'Meta', 'Alt', 'Control'];
 
 /**
  * Keybinding sequences should timeout if individual key presses are more than
  * 1s apart.
  */
-let TIMEOUT = 1000
+let TIMEOUT = 1000;
 
 /**
  * When focus is on these elements, ignore the keydown event.
  */
-let inputs = ['select', 'textarea', 'input']
+let inputs = ['select', 'textarea', 'input'];
 
 /**
  * Parses a "Key Binding String" into its parts
@@ -67,17 +67,19 @@ let inputs = ['select', 'textarea', 'input']
  * <mods>     = `<mod>+<mod>+...`
  */
 function parse(str: string): KeyBindingPress[] {
-  let MOD = /Mac|iPod|iPhone|iPad/.test(navigator.platform) ? 'Meta' : 'Control'
+  let MOD = /Mac|iPod|iPhone|iPad/.test(navigator.platform)
+    ? 'Meta'
+    : 'Control';
 
   return str
     .trim()
     .split(' ')
-    .map(press => {
-      let mods = press.split('+')
-      let key = mods.pop() as string
-      mods = mods.map(mod => (mod === '$mod' ? MOD : mod))
-      return [mods, key]
-    })
+    .map((press) => {
+      let mods = press.split('+');
+      let key = mods.pop() as string;
+      mods = mods.map((mod) => (mod === '$mod' ? MOD : mod));
+      return [mods, key];
+    });
 }
 
 /**
@@ -136,12 +138,12 @@ export default function keybindings(
   keyBindingMap: KeyBindingMap,
   options: Options = {}
 ) {
-  let keyBindings = Object.keys(keyBindingMap).map(key => {
-    return [parse(key), keyBindingMap[key]] as const
-  })
+  let keyBindings = Object.keys(keyBindingMap).map((key) => {
+    return [parse(key), keyBindingMap[key]] as const;
+  });
 
-  let possibleMatches = new Map<KeyBindingPress[], KeyBindingPress[]>()
-  let timer: any = null
+  let possibleMatches = new Map<KeyBindingPress[], KeyBindingPress[]>();
+  let timer: any = null;
 
   let onKeyDown = (event: KeyboardEvent) => {
     // Ignore modifier keydown events
@@ -150,7 +152,7 @@ export default function keybindings(
     // - if the current keypress is a modifier then it will return true when we check its state
     // MDN: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
     if (event.getModifierState(event.key)) {
-      return
+      return;
     }
 
     // Ignore event when a focusable item is focused
@@ -160,38 +162,37 @@ export default function keybindings(
           inputs.indexOf(document.activeElement.tagName.toLowerCase()) !== -1 ||
           (document.activeElement as HTMLElement).contentEditable === 'true'
         ) {
-          return
+          return;
         }
       }
     }
 
+    keyBindings.forEach((keyBinding) => {
+      let sequence = keyBinding[0];
+      let callback = keyBinding[1];
 
-    keyBindings.forEach(keyBinding => {
-      let sequence = keyBinding[0]
-      let callback = keyBinding[1]
+      let prev = possibleMatches.get(sequence);
+      let remainingExpectedPresses = prev ? prev : sequence;
+      let currentExpectedPress = remainingExpectedPresses[0];
 
-      let prev = possibleMatches.get(sequence)
-      let remainingExpectedPresses = prev ? prev : sequence
-      let currentExpectedPress = remainingExpectedPresses[0]
-
-      let matches = match(event, currentExpectedPress)
+      let matches = match(event, currentExpectedPress);
 
       if (!matches) {
-        possibleMatches.delete(sequence)
+        possibleMatches.delete(sequence);
       } else if (remainingExpectedPresses.length > 1) {
-        possibleMatches.set(sequence, remainingExpectedPresses.slice(1))
+        possibleMatches.set(sequence, remainingExpectedPresses.slice(1));
       } else {
-        possibleMatches.delete(sequence)
-        callback(event)
+        possibleMatches.delete(sequence);
+        callback(event);
       }
-    })
+    });
 
-    clearTimeout(timer)
-    timer = setTimeout(possibleMatches.clear.bind(possibleMatches), TIMEOUT)
-  }
+    clearTimeout(timer);
+    timer = setTimeout(possibleMatches.clear.bind(possibleMatches), TIMEOUT);
+  };
 
-  target.addEventListener('keydown', onKeyDown as any)
+  target.addEventListener('keydown', onKeyDown as any);
   return () => {
-    target.removeEventListener('keydown', onKeyDown as any)
-  }
+    target.removeEventListener('keydown', onKeyDown as any);
+  };
 }

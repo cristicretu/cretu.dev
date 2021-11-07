@@ -14,7 +14,7 @@
 }
 
 .mykbd {
-  @apply dark:bg-gray-800 bg-gray-200 border-gray-500 px-2 py-1 rounded-md border dark:border-gray-500
+  @apply dark:bg-gray-800 bg-gray-200 border-gray-500 px-2 py-1 rounded-md border dark:border-gray-500;
 }
 
 .myborder {
@@ -27,7 +27,7 @@
 }
 
 .myborder::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -5px;
   left: -5px;

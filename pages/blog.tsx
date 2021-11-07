@@ -26,12 +26,12 @@ const Blog = ({ posts }) => {
             </h1>
             <p className=" text-gray-600 dark:text-gray-400">
               This is Cristian&apos;s digital garden of the internet, where he
-              writes about tech, programming, and other stuff that he&apos;s working
-              on. Use the ssearch box bellow to filter blog posts 👇
+              writes about tech, programming, and other stuff that he&apos;s
+              working on. Use the ssearch box bellow to filter blog posts 👇
             </p>
           </div>
           <div className=" relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800">
-            <MagnifyingGlassIcon className='h-5 w-5 fill-current' />
+            <MagnifyingGlassIcon className="h-5 w-5 fill-current" />
             <input
               value={Results}
               className="flex-grow rounded-xs block w-full bg-transparent outline-none"
