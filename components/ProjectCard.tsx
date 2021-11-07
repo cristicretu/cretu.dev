@@ -13,11 +13,14 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-
 const ProjectCard: React.FC<Props> = ({ data }) => {
   return (
-
-    <div className={classNames("p-1 bg-gradient-to-r from-orange-400 via-pink-500 to-red-900 rounded-xl", data.gradient)}>
+    <div
+      className={classNames(
+        'p-1 bg-gradient-to-r from-orange-400 via-pink-500 to-red-900 rounded-xl',
+        data.gradient
+      )}
+    >
       <div className="flex flex-col  space-y-4 p-4 bg-gray-100 rounded-lg  h-full dark:bg-gray-900">
         <div className="flex items-center justify-between">
           <h1 className="font-bold text-black dark:text-white">{data.name}</h1>

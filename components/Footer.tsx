@@ -5,54 +5,53 @@ const Footer: React.FC = () => {
   return (
     <footer className="flex flex-col bottom-0 justify-center items-center max-w-2xl mx-auto w-full  px-2 sm:px-2 md:px-0">
       <hr className="w-full border-1 border-gray-200 dark:border-gray-800 mb-8" />
-      <div className='max-w-2xl mx-auto grid grid-cols-2 grid-rows-4'>
-        <p className='mr-10 mb-2 text-gray-600 dark:text-gray-400'>Twitter</p>
+      <div className="max-w-2xl mx-auto grid grid-cols-2 grid-rows-4">
+        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">Twitter</p>
         <a
           className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
           target="_blank"
           rel="noopener noreferrer"
           href="https://twitter.com/cristicrtu"
         >
-          cristicrtu{" "}↗
+          cristicrtu ↗
         </a>
 
-        <p className='mr-10 mb-2  text-gray-600 dark:text-gray-400'>Linkedin</p>
+        <p className="mr-10 mb-2  text-gray-600 dark:text-gray-400">Linkedin</p>
         <a
           className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.linkedin.com/in/crisemcr/"
         >
-          crisemcr{" "}↗
+          crisemcr ↗
         </a>
 
-        <p className='mr-10 mb-2 text-gray-600 dark:text-gray-400'>Behance</p>
+        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">Behance</p>
         <a
           className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
           target="_blank"
           rel="noopener noreferrer"
           href="https://www.behance.net/cristicretu1"
         >
-          cristicretu1{" "}↗
+          cristicretu1 ↗
         </a>
 
-        <p className='mr-10 mb-2 text-gray-600 dark:text-gray-400'>GitHub</p>
+        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">GitHub</p>
         <a
           className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
           target="_blank"
           rel="noopener noreferrer"
           href="https://github.com/cristicretu"
         >
-          cristicretu{" "}↗
+          cristicretu ↗
         </a>
 
-        <p className='mr-10 mb-2 text-gray-600 dark:text-gray-400'>Keybinds</p>
+        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">Keybinds</p>
         <Link href={'/keybindings'}>
           <a
             className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
             rel="noopener noreferrer"
           >
-
             ↗
           </a>
         </Link>
@@ -77,7 +76,7 @@ const Footer: React.FC = () => {
           ▲ Vercel
         </a>
       </p>
-    </footer >
+    </footer>
   );
 };
 

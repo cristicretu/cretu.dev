@@ -1,10 +1,59 @@
 {
-  "private": true,
+  "name": "cretu.dev",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:cristicretu/cretu.dev.git",
+  "author": "Cristian Crețu <crisemcr@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --config .prettierrc 'pages/*.tsx' 'components/*.tsx' --write"
+    "lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "find:unused": "next-unused",
+    "type-check": "tsc --pretty --noEmit"
+  },
+  "next-unused": {
+    "alias": {
+        "@/components/*": [
+            "components/*"
+        ],
+        "@/config/*": [
+            "config/*"
+        ],
+        "@/graphql/*": [
+            "graphql/*"
+        ],
+        "@/lib/*": [
+            "lib/*"
+        ],
+        "@/pages/*": [
+            "pages/*"
+        ],
+        "@/scripts/*": [
+            "scripts/*"
+        ],
+        "@/styles/*": [
+            "styles/*"
+        ],
+        "@/test/*": [
+            "test/*"
+        ],
+        "@/types/*": [
+            "types/*"
+        ]
+    },
+    "debug": true,
+    "include": [
+        "components",
+        "lib",
+        "pages"
+    ],
+    "exclude": [],
+    "entrypoints": [
+        "pages"
+    ]
   },
   "dependencies": {
     "@heroicons/react": "^1.0.3",
@@ -43,6 +92,7 @@
     "autoprefixer": "^10.2.6",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
+    "next-unused": "^0.0.6",
     "postcss": "^8.3.5",
     "tailwindcss": "^2.2.4",
     "typescript": "^4.4.3"

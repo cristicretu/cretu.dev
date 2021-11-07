@@ -3,7 +3,17 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
   mode: 'jit',
-  purge: ['./pages/**/*.tsx', './components/**/*.tsx', './layouts/**/*.tsx'],
+  purge: {
+    content: [
+      './components/**/*.{js,ts,jsx,tsx}',
+      './pages/**/*.{js,ts,jsx,tsx}'
+    ],
+    options: {
+      safelist: {
+        standard: ['outline-none']
+      }
+    }
+  },
   darkMode: 'class',
   theme: {
     backgroundSize: {

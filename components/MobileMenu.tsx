@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import styles from '../styles/burger-menu.module.css';

@@ -5,8 +5,8 @@ import Footer from './Footer';
 import Head from 'next/head';
 import Link from 'next/link';
 import MobileMenu from './MobileMenu';
-import { createToast } from 'vercel-toast'
-import tinykeys from '../lib/tinykeys'
+import { createToast } from 'vercel-toast';
+import tinykeys from '../lib/tinykeys';
 import useKeypress from 'react-use-keypress';
 import { useRouter } from 'next/dist/client/router';
 import { useTheme } from 'next-themes';
@@ -31,9 +31,9 @@ const NavItem = ({ myHref, text }) => {
       >
         {text}
       </a>
-    </Link >
-  )
-}
+    </Link>
+  );
+};
 
 export default function Container(props: any) {
   const [Mounted, setMounted] = useState(false);
@@ -50,7 +50,7 @@ export default function Container(props: any) {
   };
 
   // useKeypress('t', () => {
-  //   if (Mounted === true) 
+  //   if (Mounted === true)
   // });
   useKeypress('Shift+H', () => {
     router.back();
@@ -76,20 +76,20 @@ export default function Container(props: any) {
       'g a': () => router.push('/about'),
       'g k': () => router.push('/keybindings'),
       // Collections
-      'g p': () => router.push('/projects'),
-    }
-  }, [router])
+      'g p': () => router.push('/projects')
+    };
+  }, [router]);
 
   // Register the keybinds globally
   useEffect(() => {
     const unsubs = [
-      tinykeys(window, keymap, { ignoreFocus: true }),
+      tinykeys(window, keymap, { ignoreFocus: true })
       // tinykeys(window, { '$mod+k': () => setOpen(o => !o) })
-    ]
+    ];
     return () => {
-      unsubs.forEach(unsub => unsub())
-    }
-  }, [keymap])
+      unsubs.forEach((unsub) => unsub());
+    };
+  }, [keymap]);
 
   // useEffect(() => {
   //   // When items change, bounce the UI
@@ -108,17 +108,16 @@ export default function Container(props: any) {
     setMounted(true);
 
     // calculate when to show the toast
-    const isToast = localStorage.getItem("toast")
+    const isToast = localStorage.getItem('toast');
 
-    let stringDate: string
-    let goodToast: string
+    let stringDate: string;
+    let goodToast: string;
 
     if (isToast) {
-      const now = new Date()
+      const now = new Date();
 
-      stringDate = now.toISOString()
+      stringDate = now.toISOString();
       goodToast = isToast.substring(1, isToast.length - 1);
-
     }
 
     function compareDates(d1: string, d2: string) {
@@ -130,21 +129,18 @@ export default function Container(props: any) {
     }
 
     if (isToast === null || compareDates(goodToast, stringDate)) {
-      createToast("Check out the keybindings! Press g+k.", {
+      createToast('Check out the keybindings! Press g+k.', {
         timeout: 3000,
-        action: { text: "Dismiss" }
-      })
+        action: { text: 'Dismiss' }
+      });
 
-      const today = new Date()
-      const tomorrow = new Date(today)
-      tomorrow.setDate(tomorrow.getDate() + 1)
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
 
-      localStorage.setItem("toast", JSON.stringify(tomorrow))
+      localStorage.setItem('toast', JSON.stringify(tomorrow));
     }
-
   }, []);
-
-
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -169,15 +165,12 @@ export default function Container(props: any) {
         )}
       </Head>
       <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto  pt-6 px-5 sm:px-4 md:px-0 text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
-
         <div className="flex space-x-2 text-base items-center ml-[-0.81rem]">
           <MobileMenu />
-          <NavItem myHref={"/"} text={"Home"} />
-          <NavItem myHref={"/about"} text={"About"} />
-          <NavItem myHref={"/blog"} text={"Blog"} />
-          <NavItem myHref={"/projects"} text={"Projects"} />
-
-
+          <NavItem myHref={'/'} text={'Home'} />
+          <NavItem myHref={'/about'} text={'About'} />
+          <NavItem myHref={'/blog'} text={'Blog'} />
+          <NavItem myHref={'/projects'} text={'Projects'} />
         </div>
         <div className="flex flex-row space-x-4 items-center">
           <a
@@ -232,11 +225,10 @@ export default function Container(props: any) {
           </button>
         </div>
       </nav>
-      <main className="flex flex-col justify-centert px-2 bg-gray-50 dark:bg-gray-900"
-      >
+      <main className="flex flex-col justify-centert px-2 bg-gray-50 dark:bg-gray-900">
         <div className="my-14 sm:my-16 md:my-20 lg:my-24">{children}</div>
         <Footer />
       </main>
-    </div >
+    </div>
   );
 }

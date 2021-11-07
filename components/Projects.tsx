@@ -12,14 +12,14 @@ const Projects: React.FC = () => {
       <h2 className="font-bold text-3xl md:text-5xl tracking-tight text-gray-800 dark:text-gray-100">
         Projects
       </h2>
-      <div className="grid auto-rows-fr grid-cols-1 
-      md:space-x-2 space-y-6 max-w-2xl">
-
+      <div
+        className="grid auto-rows-fr grid-cols-1 
+      md:space-x-2 space-y-6 max-w-2xl"
+      >
         {ShortResults &&
           filtered.map((data) => <ProjectCard key={data.name} data={data} />)}
         {!ShortResults &&
           projects.map((data) => <ProjectCard key={data.name} data={data} />)}
-
       </div>
       <button
         onClick={() => setShortResults(!ShortResults)}
