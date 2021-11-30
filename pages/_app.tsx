@@ -1,6 +1,5 @@
 import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
-import 'vercel-toast/dist/vercel-toast.css';
 
 import { ThemeProvider } from 'next-themes';
 
