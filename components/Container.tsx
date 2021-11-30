@@ -5,7 +5,6 @@ import Footer from './Footer';
 import Head from 'next/head';
 import Link from 'next/link';
 import MobileMenu from './MobileMenu';
-import { createToast } from 'vercel-toast';
 import tinykeys from '../lib/tinykeys';
 import useKeypress from 'react-use-keypress';
 import { useRouter } from 'next/dist/client/router';
@@ -106,40 +105,6 @@ export default function Container(props: any) {
 
   useEffect(() => {
     setMounted(true);
-
-    // calculate when to show the toast
-    const isToast = localStorage.getItem('toast');
-
-    let stringDate: string;
-    let goodToast: string;
-
-    if (isToast) {
-      const now = new Date();
-
-      stringDate = now.toISOString();
-      goodToast = isToast.substring(1, isToast.length - 1);
-    }
-
-    function compareDates(d1: string, d2: string) {
-      var parts = d1.split('T')[0].split('-');
-      var Newd1 = Number(parts[2] + parts[1] + parts[0]);
-      parts = d2.split('T')[0].split('-');
-      var Newd2 = Number(parts[2] + parts[1] + parts[0]);
-      return Newd1 <= Newd2;
-    }
-
-    if (isToast === null || compareDates(goodToast, stringDate)) {
-      createToast('Check out the keybindings! Press g+k.', {
-        timeout: 3000,
-        action: { text: 'Dismiss' }
-      });
-
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
-      localStorage.setItem('toast', JSON.stringify(tomorrow));
-    }
   }, []);
 
   return (
