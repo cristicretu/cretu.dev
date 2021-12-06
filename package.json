@@ -1,99 +1,45 @@
 {
-    "name": "cretu.dev",
-    "version": "1.0.0",
-    "main": "index.js",
-    "repository": "git@github.com:cristicretu/cretu.dev.git",
-    "author": "Cristian Crețu <crisemcr@gmail.com>",
-    "license": "MIT",
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "eslint . --ext ts --ext tsx --ext js",
-        "format": "prettier --write .",
-        "find:unused": "next-unused",
-        "type-check": "tsc --pretty --noEmit"
-    },
-    "next-unused": {
-        "alias": {
-            "@/components/*": [
-                "components/*"
-            ],
-            "@/config/*": [
-                "config/*"
-            ],
-            "@/graphql/*": [
-                "graphql/*"
-            ],
-            "@/lib/*": [
-                "lib/*"
-            ],
-            "@/pages/*": [
-                "pages/*"
-            ],
-            "@/scripts/*": [
-                "scripts/*"
-            ],
-            "@/styles/*": [
-                "styles/*"
-            ],
-            "@/test/*": [
-                "test/*"
-            ],
-            "@/types/*": [
-                "types/*"
-            ]
-        },
-        "debug": true,
-        "include": [
-            "components",
-            "lib",
-            "pages"
-        ],
-        "exclude": [],
-        "entrypoints": [
-            "pages"
-        ]
-    },
-    "dependencies": {
-        "@heroicons/react": "^1.0.3",
-        "@mdx-js/loader": "^1.6.22",
-        "@next/mdx": "^11.0.1",
-        "@radix-ui/react-icons": "^1.0.3",
-        "@tailwindcss/typography": "^0.4.1",
-        "date-fns": "^2.23.0",
-        "gray-matter": "^4.0.3",
-        "mdx-prism": "^0.3.4",
-        "next": "latest",
-        "next-mdx-remote": "^3.0.4",
-        "next-theme": "^0.1.5",
-        "next-themes": "^0.0.15",
-        "prettier": "^2.4.1",
-        "prismjs": "^1.25.0",
-        "react": "^17.0.2",
-        "react-dom": "^17.0.2",
-        "react-rough-notation": "^1.0.1",
-        "react-use-keypress": "^1.3.0",
-        "reading-time": "^1.3.0",
-        "remark-autolink-headings": "^7.0.0",
-        "remark-code-titles": "^0.1.2",
-        "remark-footnotes": "^4.0.0",
-        "remark-frontmatter": "^4.0.0",
-        "remark-mdx": "^1.6.22",
-        "remark-parse": "^10.0.0",
-        "remark-slug": "^6.1.0",
-        "swr": "^0.5.6",
-        "trim": "^0.0.3",
-        "use-delayed-render": "^0.0.7"
-    },
-    "devDependencies": {
-        "@types/react": "^17.0.27",
-        "autoprefixer": "^10.2.6",
-        "eslint": "7.32.0",
-        "eslint-config-next": "11.1.2",
-        "next-unused": "^0.0.6",
-        "postcss": "^8.3.5",
-        "tailwindcss": "^2.2.4",
-        "typescript": "^4.4.3"
-    }
+  "name": "cretu.dev",
+  "version": "2.0.0",
+  "type": "commonjs",
+  "author": "Cristian Crețu <crisemcr@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@radix-ui/react-icons": "^1.0.3",
+    "@tailwindcss/typography": "^0.4.1",
+    "date-fns": "^2.0.0-beta.5",
+    "gray-matter": "^4.0.3",
+    "mdx-bundler": "^8.0.0",
+    "mdx-prism": "^0.3.4",
+    "next": "latest",
+    "next-mdx-remote": "^3.0.8",
+    "next-themes": "^0.0.15",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "reading-time": "^1.5.0",
+    "rehype-autolink-headings": "^6.1.0",
+    "rehype-code-titles": "^1.0.3",
+    "rehype-prism-plus": "^1.1.3",
+    "rehype-slug": "^5.0.0",
+    "remark-gfm": "^3.0.1",
+    "remark-slug": "^7.0.1",
+    "sharp": "^0.29.3",
+    "use-delayed-render": "^0.0.7"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.35",
+    "autoprefixer": "^10.2.6",
+    "eslint": "<8.0.0",
+    "eslint-config-next": "12.0.4",
+    "postcss": "^8.3.5",
+    "prettier": "^2.4.1",
+    "tailwindcss": "^2.2.4",
+    "typescript": "^4.4.4"
+  }
 }
