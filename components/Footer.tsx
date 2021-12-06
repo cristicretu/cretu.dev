@@ -1,83 +1,30 @@
-import Link from 'next/link';
-import React from 'react';
+import React from 'react'
+import useDelayedRender from 'use-delayed-render'
 
-const Footer: React.FC = () => {
+interface FooterProps { }
+
+function cx(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
+const Footer: React.FC<FooterProps> = ({ }) => {
+  const { mounted, rendered } = useDelayedRender(true, {
+    exitDelay: 2000,
+  })
+
   return (
-    <footer className="flex flex-col bottom-0 justify-center items-center max-w-2xl mx-auto w-full  px-2 sm:px-2 md:px-0">
-      <hr className="w-full border-1 border-gray-200 dark:border-gray-800 mb-8" />
-      <div className="max-w-2xl mx-auto grid grid-cols-2 grid-rows-4">
-        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">Twitter</p>
-        <a
-          className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
+    <div className='mt-4 flex flex-col space-y-3 justify-center text-gray-800 dark:text-gray-300 delayed'>
+      <hr className={cx('w-full border-1 border-gray-200 dark:border-gray-800 mb-4 before', rendered ? 'after' : '')} style={{ transitionDelay: '450ms' }} />
+      <p className={cx('mx-auto text-sm text-gray-700 dark:text-gray-300 before', rendered ? 'after' : '')} style={{ transitionDelay: '500ms' }}>Created with &hearts; by <a className='custom-underline group'
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://twitter.com/cristicrtu">Cristian Crețu</a><span className='cursor-arrow transition translate group-hover:translate-y-1'>&#8599;</span>.{"  "}
+        Deployed with <a className='custom-underline group'
           target="_blank"
           rel="noopener noreferrer"
-          href="https://twitter.com/cristicrtu"
-        >
-          cristicrtu ↗
-        </a>
+          href="https://vercel.com">Vercel</a><span className='cursor-arrow transition translate group-hover:translate-y-1'>&#8599;</span>.</p>
+    </div >
+  )
+}
 
-        <p className="mr-10 mb-2  text-gray-600 dark:text-gray-400">Linkedin</p>
-        <a
-          className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.linkedin.com/in/crisemcr/"
-        >
-          crisemcr ↗
-        </a>
-
-        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">Behance</p>
-        <a
-          className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.behance.net/cristicretu1"
-        >
-          cristicretu1 ↗
-        </a>
-
-        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">GitHub</p>
-        <a
-          className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/cristicretu"
-        >
-          cristicretu ↗
-        </a>
-
-        <p className="mr-10 mb-2 text-gray-600 dark:text-gray-400">Keybinds</p>
-        <Link href={'/keybindings'}>
-          <a
-            className="text-gray-800 arrow font-semibold dark:text-gray-200 dark:hover:text-gray-100 hover:text-gray-900 transition"
-            rel="noopener noreferrer"
-          >
-            ↗
-          </a>
-        </Link>
-      </div>
-      <p className="text-gray-700 dark:text-gray-300 text-opacity-90 mt-8 mb-8 text-xs px-8 text-center">
-        Created with &hearts; by{' '}
-        <a
-          className="custom-underline arrow text-black dark:text-white  font-semibold"
-          href="https://github.com/cristicretu/cretu.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Cristian Crețu
-        </a>
-        . Deployed with{' '}
-        <a
-          className="custom-underline arrow text-black dark:text-white  font-semibold"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://vercel.com"
-        >
-          ▲ Vercel
-        </a>
-      </p>
-    </footer>
-  );
-};
-
-export default Footer;
+export default Footer

@@ -1,20 +1,32 @@
-import Link from 'next/dist/client/link';
+import Link from 'next/link';
+import React from 'react'
 
-function BlogPost({ title, summary, slug }) {
-  return (
-    <Link href={`blog/${slug}`}>
+interface BlogPostProps {
+  title: string,
+  summary: string,
+  slug: string,
+  type?: string,
+}
+
+function cx(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
+const BlogPost: React.FC<BlogPostProps> = ({ title, summary, slug, type }) => {
+  return <>
+    <Link href={`/writing/${slug}`}>
       <a className="w-full space-x-2 flex items-center rounded-md ">
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-1">
           <div className="flex justify-between">
-            <h1 className="font-bold text-black dark:text-white text-2xl">
+            <p className={cx(" font-bold text-black dark:text-white", type === "small" ? "text-md" : "text-lg")}>
               {title}
-            </h1>
+            </p>
           </div>
-          <p className="text-gray-500 max-w-2xl">{summary}</p>
+          <p className="max-w-2xl">{summary}</p>
         </div>
       </a>
     </Link>
-  );
+  </>
 }
 
-export default BlogPost;
+export default BlogPost
