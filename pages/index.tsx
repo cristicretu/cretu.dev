@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import BlogPost from 'components/BlogPost';
 import Container from 'components/Container';
 import { ProjectCard } from 'components/ProjectCard';
+import { RoughNotation } from 'react-rough-notation';
 import useDelayedRender from 'use-delayed-render';
 
 interface homeProps { }
@@ -14,6 +15,12 @@ function cx(...classes: string[]) {
 const Home: React.FC<homeProps> = ({ }) => {
   const { rendered } = useDelayedRender(true, {
     exitDelay: 2000,
+  })
+
+  const [show, setShow] = React.useState(false);
+
+  useEffect(() => {
+    setShow(true);
   })
 
   // useEffect(() => {
