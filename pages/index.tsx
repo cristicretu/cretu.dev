@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import BlogPost from 'components/BlogPost';
 import Container from 'components/Container';
 import { ProjectCard } from 'components/ProjectCard';
-import { RoughNotation } from 'react-rough-notation';
 import useDelayedRender from 'use-delayed-render';
 
 interface homeProps { }
