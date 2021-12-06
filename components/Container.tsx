@@ -1,14 +1,20 @@
-import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
-import { useEffect, useMemo, useState } from 'react';
+import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
+import React, { useEffect, useState } from 'react'
 
-import Footer from './Footer';
-import Head from 'next/head';
-import Link from 'next/link';
-import MobileMenu from './MobileMenu';
-import tinykeys from '../lib/tinykeys';
-import useKeypress from 'react-use-keypress';
-import { useRouter } from 'next/dist/client/router';
-import { useTheme } from 'next-themes';
+import Footer from 'components/Footer'
+import Head from 'next/head'
+import Link from 'next/link'
+import MobileMenu from './MobileMenu'
+import { useRouter } from 'next/dist/client/router'
+import { useTheme } from 'next-themes'
+
+interface ContainerProps {
+  title?: String,
+  description?: String,
+  image?: String,
+  date?: String,
+  type?: String,
+}
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -22,7 +28,7 @@ const NavItem = ({ myHref, text }) => {
     <Link href={myHref}>
       <a
         className={classNames(
-          ' hidden md:inline-block sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all',
+          '  md:inline-block sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all',
           isActive
             ? 'text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100 font-semibold'
             : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 font-normal'
@@ -34,81 +40,46 @@ const NavItem = ({ myHref, text }) => {
   );
 };
 
-export default function Container(props: any) {
-  const [Mounted, setMounted] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
+const Container: React.FC<ContainerProps> = (props: any) => {
+  const [mounted, setMounted] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
+  const [showBackButton, setShowBackButton] = useState(false)
 
-  const { children, ...customMeta } = props;
-  const router = useRouter();
+  const router = useRouter()
+  const { children, ...customMeta } = props
   const meta = {
-    title: 'Cristian Cretu – Developer, designer',
-    description: `Front-end developer, graphic-design and programming enthusiast`,
+    title: 'Cristian Crețu - Developer, designer.',
+    description: 'Full-stack developer and digital art creator.',
     image: 'https://cretu.dev/static/images/banner.png',
     type: 'website',
     ...customMeta
-  };
+  }
 
-  // useKeypress('t', () => {
-  //   if (Mounted === true)
-  // });
-  useKeypress('Shift+H', () => {
-    router.back();
-  });
+  function storePathValues() {
+    const storage = globalThis?.sessionStorage
 
-  // tinykeys(window, {
-  //   "$mod+KeyG": event => {
-  //     event.preventDefault()
-  //     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
-  //   }
-  // })
+    if (!storage) return
 
-  const keymap = useMemo(() => {
-    return {
-      // t: () => {
-      //   setPages([ThemeItems])
-      //   setOpen(true)
-      // },
-      // Blog
-      'g b': () => router.push('/blog'),
-      // Navigation
-      'g h': () => router.push('/'),
-      'g a': () => router.push('/about'),
-      'g k': () => router.push('/keybindings'),
-      // Collections
-      'g p': () => router.push('/projects')
-    };
-  }, [router]);
+    const prevPath = storage.getItem("currentPath")
 
-  // Register the keybinds globally
-  useEffect(() => {
-    const unsubs = [
-      tinykeys(window, keymap, { ignoreFocus: true })
-      // tinykeys(window, { '$mod+k': () => setOpen(o => !o) })
-    ];
-    return () => {
-      unsubs.forEach((unsub) => unsub());
-    };
-  }, [keymap]);
+    if (!prevPath) {
+      setShowBackButton(false)
+      return
+    }
 
-  // useEffect(() => {
-  //   // When items change, bounce the UI
-  //   if (commandRef.current) {
-  //     // Bounce the UI slightly
-  //     commandRef.current.style.transform = 'scale(0.99)'
-  //     commandRef.current.style.transition = 'transform 0.1s ease'
-  //     // Not exactly safe, but should be OK
-  //     setTimeout(() => {
-  //       commandRef.current.style.transform = ''
-  //     }, 100)
-  //   }
-  // }, [pages])
+    if (prevPath.length) {
+      setShowBackButton(true)
+    }
+    storage.setItem("prevPath", prevPath)
+    storage.setItem("currentPath", globalThis.location.pathname)
+  }
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), [])
+
+  useEffect(() => storePathValues, [router.asPath])
 
   return (
-    <div className="bg-gray-50 dark:bg-gray-900">
+    <div className='bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen font-sans capsize'>
       <Head>
         <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
@@ -130,12 +101,11 @@ export default function Container(props: any) {
         )}
       </Head>
       <nav className="flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto  pt-6 px-5 sm:px-4 md:px-0 text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100">
-        <div className="flex space-x-2 text-base items-center ml-[-0.81rem]">
-          <MobileMenu />
+        <div className="flex space-x-2 text-base items-center ml-[-0.64rem]">
+          {/* <MobileMenu /> */}
           <NavItem myHref={'/'} text={'Home'} />
-          <NavItem myHref={'/about'} text={'About'} />
-          <NavItem myHref={'/blog'} text={'Blog'} />
-          <NavItem myHref={'/projects'} text={'Projects'} />
+          <NavItem myHref={'/writing'} text={'Writing'} />
+          {/* <NavItem myHref={'/projects'} text={'Projects'} /> */}
         </div>
         <div className="flex flex-row space-x-4 items-center">
           <a
@@ -162,7 +132,7 @@ export default function Container(props: any) {
               setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
             }
           >
-            {Mounted && (
+            {mounted && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -190,10 +160,16 @@ export default function Container(props: any) {
           </button>
         </div>
       </nav>
-      <main className="flex flex-col justify-centert px-2 bg-gray-50 dark:bg-gray-900">
-        <div className="my-14 sm:my-16 md:my-20 lg:my-24">{children}</div>
-        <Footer />
-      </main>
-    </div>
-  );
+      <div className='flex flex-col justify-center px-4 py-2 motion-reduce:transition-none motion-reduce:transform-none'>
+
+        <main className='bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 mx-auto flex flex-col justify-center mt-14 sm:mt-16 md:mt-20 lg:mt-24 mb-4 max-w-2xl'>
+          {/* <span><button onClick={() => router.back()}><span>←</span>{" "}Back</button></span> */}
+          {children}
+          <Footer />
+        </main>
+      </div>
+    </div >
+  )
 }
+
+export default Container;

@@ -1,48 +1,59 @@
 import { format, parseISO } from 'date-fns';
+import Link from 'next/link'
 
 import Container from './Container';
-import Image from 'next/image';
-import React from 'react';
+import React from 'react'
 
-export default function BlogComponent({ children, frontMatter }) {
+interface BlogComponentProps {
+  children?: any,
+  frontMatter?: any,
+}
+
+
+const editUrl = (slug) =>
+  `https://github.com/cristicretu/cretu/edit/main/data/blog/${slug}.mdx`;
+
+const BlogComponent: React.FC<BlogComponentProps> = ({ children, frontMatter }) => {
   return (
     <Container
-      title={`${frontMatter.title} – Cristian Crețu`}
+      title={`Cristian Crețu - ${frontMatter.title}`}
       description={frontMatter.summary}
-      image={`https://cretu.dev${frontMatter.image}`}
-      date={new Date(frontMatter.publishedAt).toISOString()}
+      image={frontMatter.image}
+      date={new Date(frontMatter.publishedAt).toString()}
       type="article"
     >
-      <article className="my-2 sm:my-4 md:my-8 flex px-2 sm:px-2 md:px-0 flex-col justify-center space-y-4 md:space-y-10 items-start max-w-2xl mx-auto mb-16">
-        <div className="flex flex-col space-y-4 ">
-          <h1 className="font-bold text-3xl md:text-5xl tracking-tight text-black dark:text-white">
-            {frontMatter.title}
-          </h1>{' '}
-          <div className="flex justify-between">
-            <p className=" text-black dark:text-white">
-              Cristian Crețu -{' '}
+      <Link href="/writing"><a className='text-gray-700 hover:text-gray-900 transition transition-duration-200 dark:text-gray-300 dark:hover:text-gray-100'><span>←</span>{" "}Back</a></Link> 
+      <article className="flex flex-col justify-center items-start max-w-2xl mx-auto mb w-full">
+        <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4 text-black dark:text-white">
+          {frontMatter.title}
+        </h1>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-2">
+          <div className="flex items-center">
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+              Cristian Crețu
+              {` • `}
               {format(parseISO(frontMatter.publishedAt), 'MMMM dd, yyyy')}
-            </p>
-            <p className="text-black dark:text-white">
+              {` • `}
               {frontMatter.readingTime.text}
             </p>
           </div>
-          <Image
-            alt="blog-image/"
-            layout="responsive"
-            src={frontMatter.image}
-            width={508}
-            height={346}
-            className="rounded-md"
-          />
-          <p className=" text-gray-600 dark:text-gray-400">
-            {frontMatter.summary}
-          </p>
         </div>
-        <div className="prose dark:prose-dark max-w-none w-full">
+        <div className="prose dark:prose-dark max-w-none w-full mt-4">
           {children}
         </div>
+        <div className="mx-auto mt-2 text-gray-700 dark:text-gray-300">
+          <a
+            href={editUrl(frontMatter.slug)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className='custom-underline'>Edit source on Github </span>{" "}<span className="arrow">&#8599;</span>
+          </a>
+        </div>
       </article>
+
     </Container>
   );
 }
+
+export default BlogComponent
