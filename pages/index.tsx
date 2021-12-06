@@ -1,73 +1,91 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import Container from '../components/Container';
-import Image from 'next/image';
-import Link from 'next/link';
-import { RoughNotation } from 'react-rough-notation';
+import BlogPost from 'components/BlogPost';
+import Container from 'components/Container';
+import { ProjectCard } from 'components/ProjectCard';
+import useDelayedRender from 'use-delayed-render';
 
-const Home: React.FC = () => {
+interface homeProps { }
+
+function cx(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
+
+const Home: React.FC<homeProps> = ({ }) => {
+  const { rendered } = useDelayedRender(true, {
+    exitDelay: 2000,
+  })
+
+  // useEffect(() => {
+  //   const clickedCmdk = (e) => {
+  //     let charCode = String.fromCharCode(e.which).toLowerCase()
+  //     if (e.metaKey && charCode === 'k') {
+  //       e.preventDefault()
+  //       console.log("cmd+k works")
+  //     }
+  //   }
+  //   window.addEventListener("keydown", clickedCmdk)
+  //   return () => {
+  //     window.removeEventListener("keydown", clickedCmdk)
+  //   }
+  // })
+
   return (
     <Container>
-      <div className="my-2 sm:my-4 md:my-8 flex flex-col justify-center space-y-4 md:space-y-10 items-start max-w-2xl mx-auto mb-16">
-        <Introduction />
+      <div className='w-full'>
+        <div className="flex flex-col space-y-4 text-gray-600 dark:text-gray-400">
+          <div className="flex space-x-4 items-center mb-2 delayed">
+
+            <div className={cx("flex flex-col before", rendered ? 'after' : '')} style={{ transitionDelay: '250ms' }}>
+              <h1 className="font-bold text-2xl tracking-tight dark:text-white text-black">
+                Cristian Crețu
+              </h1>
+              <p className="text-md">
+                Developer and designer
+              </p>
+            </div>
+          </div>
+
+          <div className={cx("flex flex-col space-y-2 before", rendered ? 'after' : '')} style={{ transitionDelay: '325ms' }}>
+            <p>
+              <span className='font-serif italic text-lg'>Making the web feel &apos;right&apos; and faster.</span>{" "}
+              Creating full-stack applications - focusing on performance and usability. Thinkering with digital art
+              and creating visual interfaces. Full-time student and side-project hustler.
+            </p>
+          </div>
+
+          <div className={cx("flex flex-col space-y-2 before", rendered ? 'after' : '')} style={{ transitionDelay: '375ms' }}>
+            <p>
+              Learning about performant, accessible, and beautiful web components and apps. <br />
+              Interested in C, TypeScript, and Python. Curious about Rust and Swift. Building web applications using ReactJs, NextJs for interfaces, and Node.js with GraphQL for the back-end.
+            </p>
+          </div>
+
+          <div className={cx("flex flex-col space-y-2 before", rendered ? 'after' : '')} style={{ transitionDelay: '400ms' }}>
+            <p>
+              Enjoying sports, design, and music. I listen to a lot of lo-fi and electronic songs.
+            </p>
+          </div>
+
+          <div className={cx("grid grid-cols-1 md:grid-cols-2 before", rendered ? 'after' : '')} style={{ transitionDelay: '435ms' }}>
+            <div className='flex flex-col space-y-4 mt-4 md:mt-8'>
+              <p>Projects</p>
+              <ProjectCard title="Covid Tracker" description="Realtime Covid-19 Tracker for Romania." type="small" github='https://github.com/cristicretu/rocovidtracker' url='https://covid.cretu.dev' />
+              <ProjectCard title="CP-Scraper" description="Competitive Programming problem input parser and file manager." type="small" github='https://github.com/cristicretu/CP-Scraper' url='https://github.com/cristicretu/CP-Scraper' />
+              {/* <ProjectCard title="Ultimate Front-End Template" description="Reusable front-end template, using my prefereed stack: NextJs, TailwindCSS, Typescript, Dark Mode, Custom Font, Components and more." type="small" github='https://github.com/cristicretu/ts-next-tailwind-template' url='https://template.cretu.dev' /> */}
+            </div>
+
+            <div className='flex flex-col space-y-4 mt-4 md:mt-8'>
+              <p>Writing</p>
+              <BlogPost summary="A roadmap for everyone to learn more about the web." title="Learning Web Development" slug="learning-web-dev" type="small" />
+              <BlogPost summary="Short tutorial explaining how to create good-looking gradients." title="Making Gradients" slug="gradient-wallpapers" type="small" />
+            </div>
+          </div>
+
+        </div>
       </div>
     </Container>
   );
 };
 
 export default Home;
-
-const Introduction: React.FC = () => {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    setShow(true);
-  }, []);
-
-  return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex space-x-4 items-center  mb-2">
-        <Image
-          className="rounded-full "
-          src="/static/images/favicon.webp"
-          height={64}
-          placeholder="blur"
-          blurDataURL="/static/images/favicon.webp"
-          width={64}
-          layout="fixed"
-          alt="avatar"
-        />
-        <div className="flex flex-col">
-          <h1 className="font-semibold text-2xl tracking-tight dark:text-white">
-            Cristian Crețu
-          </h1>
-          <RoughNotation type="underline" show={show}>
-            <p className="text-md tracking-tight  text-gray-600 dark:text-gray-400">
-              Developer and designer
-            </p>
-          </RoughNotation>
-        </div>
-      </div>
-      <div className="flex flex-col space-y-4">
-        <p className=" text-gray-600 dark:text-gray-400">
-          Cristian is a developer, designer, and aspiring software engineer.
-        </p>
-
-        <p className=" text-gray-600 dark:text-gray-400">
-          He enjoys coding and creating digital art. He&apos;s focusing on
-          making the web &apos;feel right&apos; and faster.
-        </p>
-
-        <p className=" text-gray-600 dark:text-gray-400">
-          For more details, please check out the{' '}
-          <Link href="/about">
-            <a className="custom-underline text-black dark:text-white">
-              about me
-            </a>
-          </Link>{' '}
-          page.
-        </p>
-      </div>
-    </div>
-  );
-};

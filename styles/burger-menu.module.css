@@ -32,6 +32,7 @@
   transition: opacity 300ms ease, transform 300ms ease;
 }
 
+/* safari */
 @media not all and (min-resolution: 0.001dpcm) {
   @supports (-webkit-appearance: none) {
     .menu {
