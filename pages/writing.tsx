@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 import BlogPost from 'components/BlogPost';
 import Container from 'components/Container';
@@ -7,7 +7,7 @@ import { getAllFilesFrontMatter } from 'lib/mdx';
 import useDelayedRender from 'use-delayed-render';
 
 interface writingProps {
-  posts
+  posts;
 }
 
 function cx(...classes: string[]) {
@@ -16,10 +16,10 @@ function cx(...classes: string[]) {
 
 const Writing: React.FC<writingProps> = ({ posts }) => {
   const { rendered } = useDelayedRender(true, {
-    exitDelay: 2000,
-  })
+    exitDelay: 2000
+  });
 
-  const [Results, setResults] = useState('')
+  const [Results, setResults] = useState('');
   const SearchResults = posts
     .sort(
       (a, b) =>
@@ -27,18 +27,35 @@ const Writing: React.FC<writingProps> = ({ posts }) => {
     )
     .filter((date) => date.title.toLowerCase().includes(Results.toLowerCase()));
 
-
   return (
     <Container
       title="Cristian Crețu - Writing"
       description="My ideas about programming, tech, and personal life."
     >
       <div className="flex flex-col delayed space-y-4 text-gray-600 dark:text-gray-400">
-        <div className={cx("before flex flex-col space-y-4", rendered ? "after" : "")} style={{ transitionDelay: '250ms' }}>
-          <h1 className='text-4xl font-serif font-bold text-gray-900 dark:text-gray-100'>Writing</h1>
-          <p>This is the place where I share my ideas about programming, tech, and other things from my life. Use the search box bellow to filter posts.</p>
+        <div
+          className={cx(
+            'before flex flex-col space-y-4',
+            rendered ? 'after' : ''
+          )}
+          style={{ transitionDelay: '250ms' }}
+        >
+          <h1 className="text-4xl font-serif font-bold text-gray-900 dark:text-gray-100">
+            Writing
+          </h1>
+          <p>
+            This is the place where I share my ideas about programming, tech,
+            and other things from my life. Use the search box bellow to filter
+            posts.
+          </p>
         </div>
-        <div className={cx("relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 before", rendered ? 'after' : "")} style={{ transitionDelay: '350ms' }}>
+        <div
+          className={cx(
+            'relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 before',
+            rendered ? 'after' : ''
+          )}
+          style={{ transitionDelay: '350ms' }}
+        >
           <MagnifyingGlassIcon className="h-5 w-5 fill-current" />
           <input
             value={Results}
@@ -49,25 +66,35 @@ const Writing: React.FC<writingProps> = ({ posts }) => {
             placeholder="Search Articles"
           />
         </div>
-        {!SearchResults.length && (
-          <p>No results found.</p>
-        )}
-        <div className={cx('flex flex-col space-y-4 before', rendered ? 'after' : '')} style={{ transitionDelay: '435ms' }}>
+
+        {!SearchResults.length && <p>No results found.</p>}
+        <div
+          className={cx(
+            'flex flex-col space-y-4 before',
+            rendered ? 'after' : ''
+          )}
+          style={{ transitionDelay: '435ms' }}
+        >
           {SearchResults.map((data) => (
-            <BlogPost key={data.title} title={data.title} summary={data.summary} slug={data.slug} />
+            <BlogPost
+              key={data.title}
+              title={data.title}
+              summary={data.summary}
+              slug={data.slug}
+            />
           ))}
         </div>
       </div>
     </Container>
   );
-}
+};
 
 export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog')
+  const posts = await getAllFilesFrontMatter('blog');
 
   return {
-    props: { posts },
-  }
+    props: { posts }
+  };
 }
 
 export default Writing;

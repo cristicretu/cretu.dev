@@ -20,6 +20,19 @@
   src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
 }
 
+.dotted {
+  border-top-width: 2px;
+  border-top-style: dashed;
+}
+
+.light .dotted {
+  border-top-color: #121212;
+}
+
+.dark .dotted {
+  border-top-color: #f5f5f5;
+}
+
 .delayed {
   transition: opacity 300ms ease, transform 300ms ease;
 }
@@ -50,7 +63,7 @@
 
 .dark ::selection {
   color: white;
-  background:#ffc800;
+  background: #ffc800;
 }
 
 html {
@@ -87,7 +100,7 @@ html {
   background-position: left bottom;
   background-repeat: no-repeat;
   cursor: ne-resize;
-  @apply transition-all duration-300
+  @apply transition-all duration-300;
 }
 
 .custom-underline-twitter {
@@ -96,16 +109,16 @@ html {
   background-position: left bottom;
   background-repeat: no-repeat;
   cursor: ne-resize;
-  @apply transition-all duration-300
+  @apply transition-all duration-300;
 }
 
 .custom-underline-twitter:hover {
   color: #47a3f3;
-  background-size: 100% 2px; 
+  background-size: 100% 2px;
 }
 
 .custom-underline:hover {
-  background-size: 100% 2px; 
+  background-size: 100% 2px;
 }
 
 pre::-webkit-scrollbar {
