@@ -21,7 +21,7 @@ const BlogComponent: React.FC<BlogComponentProps> = ({
     <Container
       title={`Cristian Crețu - ${frontMatter.title}`}
       description={frontMatter.summary}
-      image={frontMatter.image}
+      image={`https://cretu.dev${frontMatter.image}`}
       date={new Date(frontMatter.publishedAt).toString()}
       type="article"
     >
