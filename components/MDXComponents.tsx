@@ -1,3 +1,4 @@
+import { DownloadImage } from './DownloadImage';
 import Image from 'next/image';
 import Link from 'next/link';
 import TwitterAt from './TwitterAt';
@@ -20,7 +21,8 @@ const CustomLink = (props: any) => {
 const MDXComponents = {
   Image,
   a: CustomLink,
-  TwitterAt
+  TwitterAt,
+  DownloadImage
 };
 
 export default MDXComponents;
