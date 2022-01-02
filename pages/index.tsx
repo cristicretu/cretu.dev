@@ -109,6 +109,13 @@ const Home: React.FC<homeProps> = ({}) => {
             <div className="flex flex-col space-y-4 mt-4 md:mt-8">
               <p>Projects</p>
               <ProjectCard
+                title="Inspo."
+                description="Get inspiration for your React Components."
+                type="small"
+                github="https://github.com/cristicretu/inspo"
+                url="https://inspo.cretu.dev"
+              />
+              <ProjectCard
                 title="Covid Tracker"
                 description="Realtime Covid-19 Tracker for Romania."
                 type="small"
@@ -116,13 +123,12 @@ const Home: React.FC<homeProps> = ({}) => {
                 url="https://covid.cretu.dev"
               />
               <ProjectCard
-                title="CP-Scraper"
-                description="Competitive Programming problem input parser and file manager."
+                title="Ultimate Front-End Template"
+                description="Reusable front-end template, using my prefereed stack: NextJs, TailwindCSS, Typescript, Dark Mode, Custom Font, Components and more."
                 type="small"
-                github="https://github.com/cristicretu/CP-Scraper"
-                url="https://github.com/cristicretu/CP-Scraper"
+                github="https://github.com/cristicretu/ts-next-tailwind-template"
+                url="https://template.cretu.dev"
               />
-              {/* <ProjectCard title="Ultimate Front-End Template" description="Reusable front-end template, using my prefereed stack: NextJs, TailwindCSS, Typescript, Dark Mode, Custom Font, Components and more." type="small" github='https://github.com/cristicretu/ts-next-tailwind-template' url='https://template.cretu.dev' /> */}
             </div>
 
             <div className="flex flex-col space-y-4 mt-4 md:mt-8">
