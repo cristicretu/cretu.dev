@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import BlogPost from 'components/BlogPost';
-import Container from 'components/Container';
+import BlogPost from '@components/BlogPost';
+import Container from '@components/Container';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { getAllFilesFrontMatter } from 'lib/mdx';
 import useDelayedRender from 'use-delayed-render';
@@ -14,7 +14,7 @@ function cx(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const Writing: React.FC<writingProps> = ({ posts }) => {
+export default function Writing({ posts }: writingProps): JSX.Element {
   const { rendered } = useDelayedRender(true, {
     exitDelay: 2000
   });
@@ -32,7 +32,7 @@ const Writing: React.FC<writingProps> = ({ posts }) => {
       title="Cristian Crețu - Writing"
       description="My ideas about programming, tech, and personal life."
     >
-      <div className="flex flex-col delayed space-y-4 text-gray-600 dark:text-gray-400">
+      <div className="flex flex-col space-y-4 text-gray-600 delayed dark:text-gray-400">
         <div
           className={cx(
             'before flex flex-col space-y-4',
@@ -40,7 +40,7 @@ const Writing: React.FC<writingProps> = ({ posts }) => {
           )}
           style={{ transitionDelay: '250ms' }}
         >
-          <h1 className="text-4xl font-serif font-bold text-gray-900 dark:text-gray-100">
+          <h1 className="font-serif text-4xl font-bold text-gray-900 dark:text-gray-100">
             Writing
           </h1>
           <p>
@@ -56,10 +56,10 @@ const Writing: React.FC<writingProps> = ({ posts }) => {
           )}
           style={{ transitionDelay: '350ms' }}
         >
-          <MagnifyingGlassIcon className="h-5 w-5 fill-current" />
+          <MagnifyingGlassIcon className="w-5 h-5 fill-current" />
           <input
             value={Results}
-            className="flex-grow rounded-xs block w-full bg-transparent outline-none"
+            className="flex-grow block w-full bg-transparent outline-none rounded-xs"
             aria-label="Search articles"
             type="text"
             onChange={(e) => setResults(e.target.value)}
@@ -87,7 +87,7 @@ const Writing: React.FC<writingProps> = ({ posts }) => {
       </div>
     </Container>
   );
-};
+}
 
 export async function getStaticProps() {
   const posts = await getAllFilesFrontMatter('blog');
@@ -96,5 +96,3 @@ export async function getStaticProps() {
     props: { posts }
   };
 }
-
-export default Writing;

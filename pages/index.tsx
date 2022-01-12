@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
 
-import BlogPost from 'components/BlogPost';
-import Container from 'components/Container';
-import { ProjectCard } from 'components/ProjectCard';
-import TwitterAt from 'components/TwitterAt';
+import BlogPost from '@components/BlogPost';
+import Container from '@components/Container';
+import ProjectCard from '@components/ProjectCard';
 import useDelayedRender from 'use-delayed-render';
-
-interface homeProps {}
 
 function cx(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const Home: React.FC<homeProps> = ({}) => {
+export default function Home() {
   const { rendered } = useDelayedRender(true, {
     exitDelay: 2000
   });
@@ -41,12 +38,12 @@ const Home: React.FC<homeProps> = ({}) => {
     <Container>
       <div className="w-full">
         <div className="flex flex-col space-y-4 text-gray-600 dark:text-gray-400">
-          <div className="flex space-x-4 items-center mb-2 delayed">
+          <div className="flex items-center mb-2 space-x-4 delayed">
             <div
               className={cx('flex flex-col before', rendered ? 'after' : '')}
               style={{ transitionDelay: '250ms' }}
             >
-              <h1 className="font-bold text-2xl tracking-tight dark:text-white text-black">
+              <h1 className="text-2xl font-bold tracking-tight text-black dark:text-white">
                 Cristian Crețu
               </h1>
               <p className="text-md">Developer and designer</p>
@@ -61,7 +58,7 @@ const Home: React.FC<homeProps> = ({}) => {
             style={{ transitionDelay: '325ms' }}
           >
             <p>
-              <span className="font-serif italic text-lg">
+              <span className="font-serif text-lg italic">
                 Making the web feel &apos;right&apos; and faster.
               </span>{' '}
               Creating full-stack applications - focusing on performance and
@@ -106,7 +103,7 @@ const Home: React.FC<homeProps> = ({}) => {
             )}
             style={{ transitionDelay: '435ms' }}
           >
-            <div className="flex flex-col space-y-4 mt-4 md:mt-8">
+            <div className="flex flex-col mt-4 space-y-4 md:mt-8">
               <p>Projects</p>
               <ProjectCard
                 title="Inspo."
@@ -131,7 +128,7 @@ const Home: React.FC<homeProps> = ({}) => {
               />
             </div>
 
-            <div className="flex flex-col space-y-4 mt-4 md:mt-8">
+            <div className="flex flex-col mt-4 space-y-4 md:mt-8">
               <p>Writing</p>
               <BlogPost
                 summary="My thoughts on 2021"
@@ -157,6 +154,4 @@ const Home: React.FC<homeProps> = ({}) => {
       </div>
     </Container>
   );
-};
-
-export default Home;
+}
