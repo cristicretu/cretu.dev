@@ -18,6 +18,14 @@
   src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
 }
 
+.sticky-nav {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  backdrop-filter: saturate(180%) blur(25px);
+  -webkit-backdrop-filter: saturate(180%) blur(25px);
+  transition: background-color 0.1 ease-in-out;
+}
 .dotted {
   border-top-width: 2px;
   border-top-style: dashed;
