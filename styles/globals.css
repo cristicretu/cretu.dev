@@ -18,6 +18,30 @@
   src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
 }
 
+.sticky-nav {
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  backdrop-filter: saturate(180%) blur(25px);
+  -webkit-backdrop-filter: saturate(180%) blur(25px);
+  transition: background-color 0.1 ease-in-out;
+}
+
+.light .sticky-nav {
+  @apply bg-opacity-50 bg-gray-50;
+}
+
+.dark .sticky-nav {
+  @apply bg-gray-900 bg-opacity-50;
+}
+
+/* .blacknav {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.lightnav {
+  background-color: rgba(255, 255, 255, 0.5);
+} */
 .dotted {
   border-top-width: 2px;
   border-top-style: dashed;
