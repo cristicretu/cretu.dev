@@ -11,6 +11,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^0.1.4",
     "@radix-ui/react-icons": "^1.0.3",
     "@radix-ui/react-toggle-group": "^0.1.4",
     "@tailwindcss/typography": "^0.4.1",
