@@ -11,48 +11,23 @@ export default function Footer(): JSX.Element {
   });
 
   return (
-    <div className="flex flex-col justify-center mt-4 space-y-3 text-gray-800 dark:text-gray-300 delayed">
+    <footer className="mx-auto mt-4 space-y-3 text-center text-gray-800 myfooter dark:text-gray-300 delayed">
       <hr
         className={cx(
-          'w-full border-1 border-gray-200 dark:border-gray-800 mb-4 before',
+          'w-full border-1 border-gray-200 dark:border-gray-800  max-w-lg mx-auto before',
           rendered ? 'after' : ''
         )}
         style={{ transitionDelay: '450ms' }}
       />
       <p
         className={cx(
-          'mx-auto text-sm text-gray-700 dark:text-gray-300 before',
+          'mx-auto font-serif text-gray-700 dark:text-gray-300 before',
           rendered ? 'after' : ''
         )}
         style={{ transitionDelay: '500ms' }}
       >
-        Created with &hearts; by{' '}
-        <a
-          className="custom-underline group"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://twitter.com/cristicrtu"
-        >
-          Cristian Crețu
-        </a>
-        <span className="transition cursor-arrow translate group-hover:translate-y-1">
-          &#8599;
-        </span>
-        .{'  '}
-        Deployed with{' '}
-        <a
-          className="custom-underline group"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://vercel.com"
-        >
-          Vercel
-        </a>
-        <span className="transition cursor-arrow translate group-hover:translate-y-1">
-          &#8599;
-        </span>
-        .
+        Prioritize yourself.
       </p>
-    </div>
+    </footer>
   );
 }
