@@ -11,10 +11,10 @@ export default function Footer(): JSX.Element {
   });
 
   return (
-    <footer className="mx-auto mt-4 space-y-3 text-center text-gray-800 myfooter dark:text-gray-300 delayed">
+    <div className="flex flex-col justify-center mt-4 space-y-3 text-gray-800 dark:text-gray-300 delayed">
       <hr
         className={cx(
-          'w-full border-1 border-gray-200 dark:border-gray-800  max-w-lg mx-auto before',
+          'w-full border-1 border-gray-200 dark:border-gray-800 mb-4 before',
           rendered ? 'after' : ''
         )}
         style={{ transitionDelay: '450ms' }}
@@ -28,6 +28,6 @@ export default function Footer(): JSX.Element {
       >
         Prioritize yourself.
       </p>
-    </footer>
+    </div>
   );
 }
