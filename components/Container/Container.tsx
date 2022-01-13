@@ -9,9 +9,9 @@ import { ToggleGroup, ToggleGroupItem } from '@radix-ui/react-toggle-group';
 import Footer from 'components/Footer/Footer';
 import Head from 'next/head';
 import Link from 'next/link';
+import ThemeSwitcher from '@components/ThemeSwitcher';
 import { useRouter } from 'next/dist/client/router';
 import { useTheme } from 'next-themes';
-import ThemeSwitcher from '@components/ThemeSwitcher';
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -85,9 +85,9 @@ export default function Container(props) {
           <meta property="article:published_time" content={meta.date} />
         )}
       </Head>
-      <nav className="w-full px-4 py-3 mx-auto border-b border-black dark:border-gray-100 dark:border-opacity-10 border-opacity-10 sticky-nav sm:px-8 md:px-16 lg:px-40 ">
+      <nav className="w-full px-4 py-3 mx-auto border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 sticky-nav sm:px-8 md:px-16 lg:px-40 ">
         <div className="flex items-center justify-between max-w-2xl mx-auto">
-          <div className="flex space-x-2 text-base items-center md:ml-[-0.64rem]">
+          <div className="flex space-x-2 text-base items-center ml-[-0.64rem]">
             <NavItem myHref={'/'} text={'Home'} />
             <NavItem myHref={'/writing'} text={'Writing'} />
           </div>
@@ -113,7 +113,7 @@ export default function Container(props) {
         </div>
       </nav>
       <div className="flex flex-col justify-center px-4 py-2 motion-reduce:transition-none motion-reduce:transform-none">
-        <main className="relative flex flex-col justify-center max-w-2xl min-h-[88vh] mx-auto mb-4 text-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-gray-200 ">
+        <main className="flex flex-col justify-center max-w-2xl mx-auto mb-4 text-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-gray-200 mt-14 sm:mt-16 md:mt-20 lg:mt-24">
           {children}
           <Footer />
         </main>
