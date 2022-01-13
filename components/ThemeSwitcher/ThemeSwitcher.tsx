@@ -65,7 +65,7 @@ export default function ThemeSwitcher(props) {
           className={cx(
             ' radix-side-bottom:animate-slide-down radix-side-top:animate-slide-up',
             'w-48 md:w-56 px-1.5 py-1 rounded-lg shadow-md',
-            'bg-gray-50 dark:bg-gray-700'
+            'bg-gray-100 dark:bg-gray-800'
           )}
         >
           {themes.map(({ key, label, icon }, i) => {
