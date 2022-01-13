@@ -65,7 +65,7 @@ export default function ThemeSwitcher(props) {
           className={cx(
             ' radix-side-bottom:animate-slide-down radix-side-top:animate-slide-up',
             'w-48 md:w-56 px-1.5 py-1 rounded-lg shadow-md',
-            'bg-gray-100 dark:bg-gray-800'
+            'myblur'
           )}
         >
           {themes.map(({ key, label, icon }, i) => {
@@ -74,7 +74,7 @@ export default function ThemeSwitcher(props) {
                 key={`theme-${i}`}
                 className={cx(
                   'flex items-center w-full px-2 py-2 text-xs rounded-md outline-none cursor-default select-none',
-                  'text-gray-500 focus:bg-gray-200 dark:text-gray-400 dark:focus:bg-gray-800'
+                  'text-gray-500 focus:bg-gray-200 dark:text-gray-400 dark:focus:bg-gray-800 dark:focus:bg-opacity-30 focus:bg-opacity-20'
                 )}
                 onClick={() => {
                   setTheme(key);

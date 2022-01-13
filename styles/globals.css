@@ -35,6 +35,27 @@
   @apply bg-gray-900 bg-opacity-50;
 }
 
+.myblur {
+  backdrop-filter: saturate(180%) blur(25px);
+  -webkit-backdrop-filter: saturate(180%) blur(25px);
+  transition: background-color 0.1 ease-in-out;
+}
+
+.light .myblur {
+  @apply bg-opacity-50 bg-gray-50;
+}
+
+.dark .myblur {
+  @apply bg-gray-900 bg-opacity-50;
+}
+
+.myfooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;
+}
+
 /* .blacknav {
   background-color: rgba(0, 0, 0, 0.5);
 }
