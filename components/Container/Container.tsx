@@ -11,6 +11,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 import { useTheme } from 'next-themes';
+import ThemeSwitcher from '@components/ThemeSwitcher';
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -39,7 +40,7 @@ const NavItem = ({ myHref, text }) => {
 export default function Container(props) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme, theme } = useTheme();
-  const [offset, setOffset] = useState(0);
+  // const [offset, setOffset] = useState(0);
 
   const router = useRouter();
   const { children, ...customMeta } = props;
@@ -53,13 +54,13 @@ export default function Container(props) {
 
   useEffect(() => setMounted(true), []);
 
-  useEffect(() => {
-    const onScroll = () => setOffset(window.pageYOffset);
+  // useEffect(() => {
+  //   const onScroll = () => setOffset(window.pageYOffset);
 
-    window.removeEventListener('scroll', onScroll);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  //   window.removeEventListener('scroll', onScroll);
+  //   window.addEventListener('scroll', onScroll, { passive: true });
+  //   return () => window.removeEventListener('scroll', onScroll);
+  // }, []);
 
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-gray-200 capsize">
@@ -107,78 +108,7 @@ export default function Container(props) {
             >
               <GitHubLogoIcon className="w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100" />
             </a>
-            <ToggleGroup
-              type="single"
-              defaultValue="center"
-              aria-label="Text alignment"
-              className="flex items-center"
-            >
-              <ToggleGroupItem value="left" aria-label="Left aligned">
-                <button
-                  className={cn(
-                    'w-9 h-9 flex items-center justify-center transition-all mr-0 rounded-l-lg border-r-[1px] border-gray-400 border-opacity-30 hover:bg-gray-300 dark:hover:bg-gray-700',
-                    theme === 'light'
-                      ? 'bg-gray-300 dark:bg-gray-700'
-                      : 'bg-gray-200 dark:bg-gray-600'
-                  )}
-                  onClick={() => setTheme('light')}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="w-5 h-5 text-gray-800 dark:text-gray-200"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
-                </button>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="center" aria-label="Center aligned">
-                <button
-                  className={cn(
-                    'w-9 h-9 flex items-center justify-center transition-all  border-gray-400 border-opacity-30 hover:bg-gray-300 dark:hover:bg-gray-700',
-                    theme === 'dark'
-                      ? 'bg-gray-300 dark:bg-gray-700'
-                      : 'bg-gray-200 dark:bg-gray-600'
-                  )}
-                  onClick={() => setTheme('dark')}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    className="w-5 h-5 text-gray-800 dark:text-gray-200"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                    />
-                  </svg>
-                </button>
-              </ToggleGroupItem>
-              <ToggleGroupItem value="right" aria-label="Right aligned">
-                <button
-                  className={cn(
-                    'w-9 h-9 flex items-center justify-center transition-all rounded-r-lg hover:bg-gray-300 dark:hover:bg-gray-700',
-                    theme === 'system'
-                      ? 'bg-gray-300 dark:bg-gray-700'
-                      : 'bg-gray-200 dark:bg-gray-600'
-                  )}
-                  onClick={() => setTheme('system')}
-                >
-                  <Half2Icon />
-                </button>
-              </ToggleGroupItem>
-            </ToggleGroup>
+            <ThemeSwitcher />
           </div>
         </div>
       </nav>
