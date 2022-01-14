@@ -31,8 +31,16 @@ class MyDocument extends Document {
             content="fK4YqLAHjoaynXLF1e5gaPzDNOircgiYSgAwSXqr61o"
             name="google-site-verification"
           />
-          <meta name="theme-color" content="#2C64D1" />
-          <meta name="msapplication-TileColor" content="#2C64D1" />
+          <meta
+            name="theme-color"
+            content="#fbfbfb"
+            media="(prefers-color-scheme: light)"
+          />
+          <meta
+            name="theme-color"
+            content="#171717"
+            media="(prefers-color-scheme: dark)"
+          />
         </Head>
         <body className="bg-gray-50 dark:bg-gray-900">
           <Main />
