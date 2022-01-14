@@ -1,3 +1,5 @@
-# My personal site
+<img src="https://cretu.dev/static/images/github.png" style="border-radius:50%"></img>
 
-Minimal - built with NextJs, TailwindCSS
+<hr>
+
+<p align="center">Personal Minimal Portfolio built with NextJs, TailwindCSS, and MDX.</p>
