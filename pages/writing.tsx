@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { format, parseISO } from 'date-fns';
 
 import BlogPost from '@components/BlogPost';
 import Container from '@components/Container';
@@ -70,18 +71,24 @@ export default function Writing({ posts }: writingProps): JSX.Element {
         {!SearchResults.length && <p>No results found.</p>}
         <div
           className={cx(
-            'flex flex-col space-y-4 before',
+            'flex flex-col space-y-2 before',
             rendered ? 'after' : ''
           )}
           style={{ transitionDelay: '435ms' }}
         >
           {SearchResults.map((data) => (
-            <BlogPost
-              key={data.title}
-              title={data.title}
-              summary={data.summary}
-              slug={data.slug}
-            />
+            <div className="flex items-center py-6 space-x-2 transition-colors duration-200 rounded-md cursor-pointer group hover:bg-gray-200 dark:hover:bg-gray-800">
+              <em className="text-sm rotate-90">
+                <hr className="h-full mb-2 dotted"></hr>
+                {format(parseISO(data.publishedAt), 'MMMM dd')}
+              </em>
+              <BlogPost
+                key={data.title}
+                title={data.title}
+                summary={data.summary}
+                slug={data.slug}
+              />
+            </div>
           ))}
         </div>
       </div>

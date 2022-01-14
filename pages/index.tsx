@@ -122,7 +122,7 @@ export default function Home() {
               />
               <ProjectCard
                 title="Ultimate Front-End Template"
-                description="Reusable front-end template, using my prefereed stack: NextJs, TailwindCSS, Typescript, Dark Mode, Custom Font, Components and more."
+                description="Reusable front-end template, using my prefereed stack: NextJs, TailwindCSS, Typescript with Dark Mode, Custom Font, and more."
                 type="small"
                 github="https://github.com/cristicretu/ts-next-tailwind-template"
                 url="https://template.cretu.dev"
