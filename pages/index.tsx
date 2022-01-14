@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import BlogPost from '@components/BlogPost';
 import Container from '@components/Container';
+import Link from 'next/link';
 import ProjectCard from '@components/ProjectCard';
 import useDelayedRender from 'use-delayed-render';
 
@@ -129,7 +130,17 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col mt-4 space-y-4 md:mt-8">
-              <p>Writing</p>
+              <Link href="/writing">
+                <a className="text-gray-500 transition duration-200 ease-in-out cursor-pointer hover:text-gray-700 group dark:text-gray-400 dark:hover:text-gray-200">
+                  Writing{' '}
+                  <span
+                    aria-hidden="true"
+                    className="inline-block transition-transform duration-200 ease-in-out translate-x-0 group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </a>
+              </Link>
               <BlogPost
                 summary="My thoughts on 2021"
                 title="2021 in Review"
