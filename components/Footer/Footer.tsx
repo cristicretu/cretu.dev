@@ -1,3 +1,4 @@
+import ExternalLink from '@components/ExternalLink';
 import React from 'react';
 import useDelayedRender from 'use-delayed-render';
 
@@ -11,23 +12,29 @@ export default function Footer(): JSX.Element {
   });
 
   return (
-    <div className="flex flex-col justify-center mt-4 space-y-3 text-gray-800 dark:text-gray-300 delayed">
+    <div className="flex flex-col justify-center mt-8 mb-2 text-gray-800 dark:text-gray-300 delayed">
       <hr
         className={cx(
-          'w-full border-1 border-gray-200 dark:border-gray-800 mb-4 before',
+          'w-full border-1 border-gray-200 dark:border-gray-800 before',
           rendered ? 'after' : ''
         )}
         style={{ transitionDelay: '450ms' }}
       />
-      <p
+      <div
         className={cx(
-          'mx-auto font-serif text-gray-700 dark:text-gray-300 before',
+          'font-serif flex flex-row justify-between text-opacity-70 mt-2 dark:text-opacity-70 text-lg text-gray-700 dark:text-gray-300 before',
           rendered ? 'after' : ''
         )}
         style={{ transitionDelay: '500ms' }}
       >
-        Prioritize yourself.
-      </p>
+        <p>{new Date().getFullYear()} - Prioritize yourself.</p>
+        <p>
+          Made with delight by{' '}
+          <ExternalLink href="https://twitter.com/cristicrtu">
+            Cristian Crețu.
+          </ExternalLink>
+        </p>
+      </div>
     </div>
   );
 }
