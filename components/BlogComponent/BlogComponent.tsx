@@ -1,6 +1,7 @@
 import { format, parseISO } from 'date-fns';
 
 import Container from '../Container/Container';
+import ExternalLink from '@components/ExternalLink';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -26,8 +27,14 @@ export default function BlogComponent({
       type="article"
     >
       <Link href="/writing">
-        <a className="text-gray-700 transition hover:text-gray-900 transition-duration-200 dark:text-gray-300 dark:hover:text-gray-100">
-          <span>←</span> Back
+        <a className="text-gray-500 transition duration-200 ease-in-out cursor-pointer hover:text-gray-700 group dark:text-gray-400 dark:hover:text-gray-200">
+          <span
+            aria-hidden="true"
+            className="inline-block transition-transform duration-200 ease-in-out translate-x-0 group-hover:-translate-x-1"
+          >
+            ←
+          </span>{' '}
+          Back
         </a>
       </Link>
       <article className="flex flex-col items-start justify-center w-full max-w-2xl mx-auto mb">
@@ -47,28 +54,24 @@ export default function BlogComponent({
         </div>
         <br></br>
         {frontMatter.image && (
-          <Image
-            src={frontMatter.image}
-            width={1440}
-            height={1024}
-            layout="intrinsic"
-            alt="blog-image"
-            className="rounded-lg"
-          ></Image>
+          <div className="relative w-full h-96">
+            <Image
+              src={frontMatter.image}
+              layout="fill"
+              objectFit="cover"
+              alt="blog-image"
+              className="rounded-lg"
+            ></Image>
+          </div>
         )}
 
         <div className="w-full mt-4 prose dark:prose-dark max-w-none">
           {children}
         </div>
-        <div className="mx-auto mt-2 text-gray-700 dark:text-gray-300">
-          <a
-            href={editUrl(frontMatter.slug)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="custom-underline">Edit source on Github </span>{' '}
-            <span className="arrow">&#8599;</span>
-          </a>
+        <div className="mt-2 text-gray-700 dark:text-gray-300">
+          <ExternalLink href={editUrl(frontMatter.slug)}>
+            Edit source on GitHub
+          </ExternalLink>
         </div>
       </article>
     </Container>
