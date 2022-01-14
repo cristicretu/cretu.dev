@@ -40,7 +40,7 @@ const NavItem = ({ myHref, text }) => {
 export default function Container(props) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme, theme } = useTheme();
-  // const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(0);
 
   const router = useRouter();
   const { children, ...customMeta } = props;
@@ -54,13 +54,13 @@ export default function Container(props) {
 
   useEffect(() => setMounted(true), []);
 
-  // useEffect(() => {
-  //   const onScroll = () => setOffset(window.pageYOffset);
+  useEffect(() => {
+    const onScroll = () => setOffset(window.pageYOffset);
 
-  //   window.removeEventListener('scroll', onScroll);
-  //   window.addEventListener('scroll', onScroll, { passive: true });
-  //   return () => window.removeEventListener('scroll', onScroll);
-  // }, []);
+    window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <div className="min-h-screen font-sans text-gray-800 polka dark:text-gray-200 capsize">
@@ -85,9 +85,13 @@ export default function Container(props) {
           <meta property="article:published_time" content={meta.date} />
         )}
       </Head>
-      <nav className="w-full px-4 py-3 mx-auto border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 sticky-nav sm:px-8 md:px-16 lg:px-40 ">
+      <nav
+        className={cn(
+          'w-full px-4 py-3 mx-auto border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 sticky-nav'
+        )}
+      >
         <div className="flex items-center justify-between max-w-2xl mx-auto">
-          <div className="flex space-x-2 text-base items-center ml-[-0.64rem]">
+          <div className="flex space-x-2 text-base items-center md:ml-[-0.64rem]">
             <NavItem myHref={'/'} text={'Home'} />
             <NavItem myHref={'/writing'} text={'Writing'} />
           </div>
@@ -113,7 +117,7 @@ export default function Container(props) {
         </div>
       </nav>
       <div className="flex flex-col justify-center px-4 py-2 motion-reduce:transition-none motion-reduce:transform-none">
-        <main className="flex flex-col justify-center max-w-2xl mx-auto mb-4 text-gray-800 polka dark:text-gray-200 mt-14 sm:mt-16 md:mt-20 lg:mt-24">
+        <main className="flex flex-col justify-center max-w-2xl mx-auto text-gray-800 dark:text-gray-200 mt-14 sm:mt-16 md:mt-20 lg:mt-24">
           {children}
           <Footer />
         </main>

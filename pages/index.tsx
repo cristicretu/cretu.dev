@@ -63,7 +63,7 @@ export default function Home() {
               </span>{' '}
               Creating full-stack applications - focusing on performance and
               usability. Thinkering with digital art and creating visual
-              interfaces. Full-time student and side-project hustler.
+              interfaces. Student and side-project hustler.
             </p>
           </div>
 
