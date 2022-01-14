@@ -146,18 +146,21 @@ export default function Home() {
                 title="2021 in Review"
                 slug="2021"
                 type="small"
+                variant="index"
               />
               <BlogPost
                 summary="A roadmap for everyone to learn more about the web."
                 title="Learning Web Development"
                 slug="learning-web-dev"
                 type="small"
+                variant="index"
               />
               <BlogPost
                 summary="Short tutorial explaining how to create good-looking gradients."
                 title="Making Gradients"
                 slug="gradient-wallpapers"
                 type="small"
+                variant="index"
               />
             </div>
           </div>
