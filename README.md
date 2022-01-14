@@ -1,4 +1,4 @@
-<img src="https://cretu.dev/static/images/github.png" style="border-radius:10px"></img>
+![image](/public/static/images/github.png)
 
 <hr>
 
