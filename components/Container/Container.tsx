@@ -63,7 +63,7 @@ export default function Container(props) {
   // }, []);
 
   return (
-    <div className="min-h-screen font-sans text-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-gray-200 capsize">
+    <div className="min-h-screen font-sans text-gray-800 polka dark:text-gray-200 capsize">
       <Head>
         <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
@@ -113,7 +113,7 @@ export default function Container(props) {
         </div>
       </nav>
       <div className="flex flex-col justify-center px-4 py-2 motion-reduce:transition-none motion-reduce:transform-none">
-        <main className="flex flex-col justify-center max-w-2xl mx-auto mb-4 text-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-gray-200 mt-14 sm:mt-16 md:mt-20 lg:mt-24">
+        <main className="flex flex-col justify-center max-w-2xl mx-auto mb-4 text-gray-800 polka dark:text-gray-200 mt-14 sm:mt-16 md:mt-20 lg:mt-24">
           {children}
           <Footer />
         </main>

@@ -18,6 +18,20 @@
   src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
 }
 
+.dark .polka {
+  background-color: #1f1f22;
+  opacity: 1;
+  background-image: radial-gradient(#272828 1.1px, #171717 1.1px);
+  background-size: 36px 36px;
+}
+
+.light .polka {
+  background-color: #fafafa;
+  opacity: 1;
+  background-image: radial-gradient(#ecedec 1.1px, #fafafa 1.1px);
+  background-size: 36px 36px;
+}
+
 .sticky-nav {
   position: sticky;
   z-index: 10;
