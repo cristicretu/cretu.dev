@@ -1,10 +1,12 @@
 // credits:
 // https://github.com/ecklf/tailwindcss-radix/blob/main/demo/components/shared/ThemeSwitcher.tsx
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+
 import { Half2Icon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
+
+import React from 'react';
 import cx from 'classnames';
 import { useTheme } from 'next-themes';
-import React from 'react';
 
 interface Props {}
 
@@ -73,7 +75,7 @@ export default function ThemeSwitcher(props) {
               <DropdownMenuPrimitive.Item
                 key={`theme-${i}`}
                 className={cx(
-                  'flex items-center w-full px-2 py-2 text-xs rounded-md outline-none cursor-default select-none',
+                  'flex items-center w-full  cursor-pointer px-2 py-2 text-xs rounded-md outline-none  select-none',
                   'text-gray-500 focus:bg-gray-200 dark:text-gray-400 dark:focus:bg-gray-800 dark:focus:bg-opacity-30 focus:bg-opacity-20'
                 )}
                 onClick={() => {

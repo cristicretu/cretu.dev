@@ -1,14 +1,9 @@
-import {
-  GitHubLogoIcon,
-  Half2Icon,
-  TwitterLogoIcon
-} from '@radix-ui/react-icons';
+import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import React, { useEffect, useState } from 'react';
-import { ToggleGroup, ToggleGroupItem } from '@radix-ui/react-toggle-group';
 
 import Footer from 'components/Footer/Footer';
 import Head from 'next/head';
-import Link from 'next/link';
+import NavItem from '@components/Navitem';
 import ThemeSwitcher from '@components/ThemeSwitcher';
 import { useRouter } from 'next/dist/client/router';
 import { useTheme } from 'next-themes';
@@ -17,30 +12,10 @@ function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const NavItem = ({ myHref, text }) => {
-  const router = useRouter();
-  const isActive = router.asPath === myHref;
-
-  return (
-    <Link href={myHref}>
-      <a
-        className={cn(
-          '  md:inline-block sm:px-3 sm:py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition-all',
-          isActive
-            ? 'text-gray-800 hover:text-gray-900 dark:text-gray-200 dark:hover:text-gray-100 font-semibold'
-            : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 font-normal'
-        )}
-      >
-        {text}
-      </a>
-    </Link>
-  );
-};
-
 export default function Container(props) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme, theme } = useTheme();
-  const [offset, setOffset] = useState(0);
+  // const [offset, setOffset] = useState(0);
 
   const router = useRouter();
   const { children, ...customMeta } = props;
@@ -54,13 +29,13 @@ export default function Container(props) {
 
   useEffect(() => setMounted(true), []);
 
-  useEffect(() => {
-    const onScroll = () => setOffset(window.pageYOffset);
+  // useEffect(() => {
+  //   const onScroll = () => setOffset(window.pageYOffset);
 
-    window.removeEventListener('scroll', onScroll);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  //   window.removeEventListener('scroll', onScroll);
+  //   window.addEventListener('scroll', onScroll, { passive: true });
+  //   return () => window.removeEventListener('scroll', onScroll);
+  // }, []);
 
   return (
     <div className="min-h-screen font-sans text-gray-800 polka dark:text-gray-200 capsize">
