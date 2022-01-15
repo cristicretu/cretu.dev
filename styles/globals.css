@@ -60,11 +60,11 @@
 }
 
 .light .myblur {
-  @apply bg-opacity-50 bg-gray-50;
+  @apply bg-opacity-100 bg-gray-50;
 }
 
 .dark .myblur {
-  @apply bg-gray-900 bg-opacity-50;
+  @apply bg-gray-900 bg-opacity-80;
 }
 
 .myfooter {

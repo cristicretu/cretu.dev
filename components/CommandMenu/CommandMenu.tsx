@@ -68,22 +68,28 @@ export default function CommandMenu() {
             forceMount
             className={cn(
               'fixed z-50',
-              'w-[95vw] md:w-full max-w-2xl md:-ml-2 rounded-lg p-4',
+              'w-[95vw] md:w-full max-w-2xl md:-ml-2 rounded-lg',
               'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2',
               'myblur border border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ',
               'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
             )}
           >
-            <DialogPrimitive.Title className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              Edit profile
+            <DialogPrimitive.Title className="w-full p-4 border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ">
+              <input
+                // value={Results}
+                className="block w-full text-gray-900 placeholder-gray-500 bg-transparent outline-none dark:placeholder-gray-600 dark:text-gray-100"
+                aria-label="Enter a command or search"
+                type="text"
+                // onChange={(e) => setResults(e.target.value)}
+                placeholder="Enter a command or search..."
+              />
             </DialogPrimitive.Title>
-            <DialogPrimitive.Description className="mt-2 text-sm font-normal text-gray-700 dark:text-gray-400">
+            {/* <DialogPrimitive.Description className="mt-2 text-sm font-normal text-gray-500 dark:text-gray-400">
               Make changes to your profile here. Click save when you&apos;re
               done.
             </DialogPrimitive.Description>
             <form className="mt-2 space-y-2">
               <fieldset>
-                {/* <legend>Choose your favorite monster</legend> */}
                 <label
                   htmlFor="firstName"
                   className="text-xs font-medium text-gray-700 dark:text-gray-400"
@@ -144,8 +150,7 @@ export default function CommandMenu() {
                 'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
               )}
             >
-              {/* <Cross1Icon className="w-4 h-4 text-gray-500 hover:text-gray-700 dark:text-gray-500 dark:hover:text-gray-400" /> */}
-            </DialogPrimitive.Close>
+            </DialogPrimitive.Close> */}
           </DialogPrimitive.Content>
         </Transition.Child>
       </Transition.Root>
