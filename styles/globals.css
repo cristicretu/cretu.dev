@@ -5,8 +5,8 @@
 @font-face {
   font-family: 'IBM Plex Sans';
   font-style: normal;
-  font-weight: 100 500 600 700 800 900;
-  font-display: optional;
+  font-weight: 500 600 700 800 900;
+  font-display: swap;
   src: url(/fonts/IBMPlexSans-Regular.woff2) format('woff2');
 }
 
@@ -14,7 +14,7 @@
   font-family: 'Playfair Display';
   font-style: normal;
   font-weight: normal;
-  font-display: normal;
+  font-display: swap;
   src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
 }
 
@@ -168,10 +168,6 @@ html {
 
 .custom-underline-twitter:hover {
   color: #47a3f3;
-  background-size: 100% 2px;
-}
-
-.custom-underline:hover {
   background-size: 100% 2px;
 }
 

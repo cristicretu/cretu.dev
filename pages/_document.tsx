@@ -16,7 +16,7 @@ class MyDocument extends Document {
           />
           <link
             rel="preload"
-            href="/fonts/PlayFairDisplay-Regular.woff2"
+            href="/fonts/PlayfairDisplay-Regular.woff2"
             as="font"
             type="font/woff2"
             crossOrigin="anonymous"
