@@ -52,7 +52,7 @@ export default function CommandMenu() {
         >
           <DialogPrimitive.Overlay
             forceMount
-            className="fixed inset-0 z-20 bg-black/50"
+            className="fixed inset-0 z-20 bg-black/70"
           />
         </Transition.Child>
         <Transition.Child
@@ -68,9 +68,9 @@ export default function CommandMenu() {
             forceMount
             className={cn(
               'fixed z-50',
-              'w-[95vw] md:w-full max-w-md rounded-lg p-4',
-              'top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]',
-              'bg-white dark:bg-gray-800',
+              'w-[95vw] md:w-full max-w-2xl md:-ml-2 rounded-lg p-4',
+              'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2',
+              'myblur border border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ',
               'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
             )}
           >
