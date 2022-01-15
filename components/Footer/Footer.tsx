@@ -18,14 +18,14 @@ export default function Footer(): JSX.Element {
           'w-full border-1 border-gray-200 dark:border-gray-800 before',
           rendered ? 'after' : ''
         )}
-        style={{ transitionDelay: '450ms' }}
+        style={{ transitionDelay: '260ms' }}
       />
       <div
         className={cx(
           'font-serif flex flex-row justify-between text-opacity-70 mt-2 dark:text-opacity-70 text-lg text-gray-700 dark:text-gray-300 before',
           rendered ? 'after' : ''
         )}
-        style={{ transitionDelay: '500ms' }}
+        style={{ transitionDelay: '280ms' }}
       >
         <p>{new Date().getFullYear()} - Prioritize yourself.</p>
         <p>

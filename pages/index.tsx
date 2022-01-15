@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Image from 'next/image';
 
 import BlogPost from '@components/BlogPost';
 import Container from '@components/Container';
@@ -19,7 +20,7 @@ export default function Home() {
 
   useEffect(() => {
     setShow(true);
-  });
+  }, [setShow]);
 
   // useEffect(() => {
   //   const clickedCmdk = (e) => {
@@ -41,13 +42,29 @@ export default function Home() {
         <div className="flex flex-col space-y-4 text-gray-600 dark:text-gray-400">
           <div className="flex items-center mb-2 space-x-4 delayed">
             <div
-              className={cx('flex flex-col before', rendered ? 'after' : '')}
-              style={{ transitionDelay: '250ms' }}
+              className={cx(
+                'flex before items-center space-x-4',
+                rendered ? 'after' : ''
+              )}
+              style={{ transitionDelay: '80ms' }}
             >
-              <h1 className="text-2xl font-bold tracking-tight text-black dark:text-white">
-                Cristian Crețu
-              </h1>
-              <p className="text-md">Developer and designer</p>
+              <div className="relative w-16 h-16">
+                <Image
+                  src="/static/images/favicon.webp"
+                  layout="fill"
+                  objectFit="cover"
+                  alt="Profile Picture"
+                  className="rounded-full"
+                />
+              </div>
+
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight text-black dark:text-white">
+                  Cristian Crețu
+                </h1>
+
+                <p className="text-md">Developer and designer</p>
+              </div>
             </div>
           </div>
 
@@ -56,7 +73,7 @@ export default function Home() {
               'flex flex-col space-y-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '325ms' }}
+            style={{ transitionDelay: '120ms' }}
           >
             <p>
               <span className="font-serif text-lg italic">
@@ -73,11 +90,13 @@ export default function Home() {
               'flex flex-col space-y-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '375ms' }}
+            style={{ transitionDelay: '160ms' }}
           >
             <p>
               Learning about performant, accessible, and beautiful web
-              components and apps. <br />
+              components and apps.
+            </p>
+            <p>
               Interested in C, TypeScript, and Python. Curious about Rust and
               Swift. Building web applications using ReactJs, NextJs for
               interfaces, and Node.js with GraphQL for the back-end.
@@ -89,7 +108,7 @@ export default function Home() {
               'flex flex-col space-y-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '400ms' }}
+            style={{ transitionDelay: '200ms' }}
           >
             <p>
               Enjoying sports, design, and music. I listen to a lot of lo-fi and
@@ -102,7 +121,7 @@ export default function Home() {
               'grid grid-cols-1 md:grid-cols-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '435ms' }}
+            style={{ transitionDelay: '240ms' }}
           >
             <div className="flex flex-col mt-4 space-y-4 md:mt-8">
               <p>Projects</p>

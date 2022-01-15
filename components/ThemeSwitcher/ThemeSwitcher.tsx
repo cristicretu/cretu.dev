@@ -42,6 +42,7 @@ export default function ThemeSwitcher(props) {
             'border border-gray-300 dark:border-gray-600',
             'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
           )}
+          aria-label="Change theme"
         >
           {(function () {
             switch (resolvedTheme) {
