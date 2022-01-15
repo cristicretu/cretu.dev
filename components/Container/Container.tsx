@@ -1,6 +1,7 @@
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
 import React, { useEffect, useState } from 'react';
 
+import CommandMenu from '@components/CommandMenu';
 import Footer from 'components/Footer/Footer';
 import Head from 'next/head';
 import NavItem from '@components/Navitem';
@@ -15,7 +16,6 @@ function cn(...classes: string[]) {
 export default function Container(props) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme, theme } = useTheme();
-  // const [offset, setOffset] = useState(0);
 
   const router = useRouter();
   const { children, ...customMeta } = props;
@@ -28,14 +28,6 @@ export default function Container(props) {
   };
 
   useEffect(() => setMounted(true), []);
-
-  // useEffect(() => {
-  //   const onScroll = () => setOffset(window.pageYOffset);
-
-  //   window.removeEventListener('scroll', onScroll);
-  //   window.addEventListener('scroll', onScroll, { passive: true });
-  //   return () => window.removeEventListener('scroll', onScroll);
-  // }, []);
 
   return (
     <div className="min-h-screen font-sans text-gray-800 polka dark:text-gray-200 capsize">
@@ -60,6 +52,7 @@ export default function Container(props) {
           <meta property="article:published_time" content={meta.date} />
         )}
       </Head>
+
       <nav
         className={cn(
           'w-full px-4 py-3 mx-auto border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 sticky-nav'
@@ -67,8 +60,9 @@ export default function Container(props) {
       >
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           <div className="flex space-x-2 text-base items-center md:ml-[-0.64rem]">
-            <NavItem myHref={'/'} text={'Home'} />
-            <NavItem myHref={'/writing'} text={'Writing'} />
+            {/* <NavItem myHref={'/'} text={'Home'} />
+            <NavItem myHref={'/writing'} text={'Writing'} /> */}
+            <CommandMenu />
           </div>
           <div className="flex flex-row items-center space-x-4">
             <a
