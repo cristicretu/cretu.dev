@@ -1,15 +1,58 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 
-import React, { Fragment, useEffect, useState } from 'react';
+import {
+  ArrowRightIcon,
+  GitHubLogoIcon,
+  TwitterLogoIcon
+} from '@radix-ui/react-icons';
+import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 
+import Link from 'next/link';
 import { Transition } from '@headlessui/react';
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
+interface CommandMenuProps {
+  label: string;
+  href: string;
+  icon: ReactNode;
+}
+
+const Navigation: CommandMenuProps[] = [
+  {
+    label: 'Home',
+    href: '/',
+    icon: <ArrowRightIcon width={24} height={24} />
+  },
+  {
+    label: 'Writing',
+    href: '/writing',
+    icon: <ArrowRightIcon width={24} height={24} />
+  }
+];
+
+const Socials: CommandMenuProps[] = [
+  {
+    label: 'Github',
+    href: 'https://github.com/cristicretu',
+    icon: <GitHubLogoIcon width={24} height={24} />
+  },
+  {
+    label: 'Twitter',
+    href: 'https://twitter.com/cristicrtu',
+    icon: <TwitterLogoIcon width={24} height={24} />
+  }
+];
+
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [Results, setResults] = useState('');
+  // const SearchResults = posts
+  //   .sort()
+  //   .filter((date) => date.title.toLowerCase().includes(Results.toLowerCase()));
 
   useEffect(() => {
     const clickedCmdk = (e) => {
@@ -26,7 +69,7 @@ export default function CommandMenu() {
   }, [isOpen]);
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
-      <DialogPrimitive.Trigger asChild>
+      <DialogPrimitive.Trigger asChild className="visible md:hidden">
         <button
           aria-label="Command Menu"
           type="button"
@@ -52,7 +95,7 @@ export default function CommandMenu() {
         >
           <DialogPrimitive.Overlay
             forceMount
-            className="fixed inset-0 z-20 bg-black/70"
+            className="fixed inset-0 z-20 bg-white/80 dark:bg-black/80"
           />
         </Transition.Child>
         <Transition.Child
@@ -68,8 +111,8 @@ export default function CommandMenu() {
             forceMount
             className={cn(
               'fixed z-50',
-              'w-[95vw] md:w-full max-w-2xl md:-ml-2 rounded-lg',
-              'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2',
+              'w-[95vw] md:w-full max-w-2xl md:-ml-2 rounded-md shadow-lg',
+              'mycenter',
               'myblur border border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ',
               'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
             )}
@@ -77,13 +120,47 @@ export default function CommandMenu() {
             <DialogPrimitive.Title className="w-full p-4 border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ">
               <input
                 // value={Results}
-                className="block w-full text-gray-900 placeholder-gray-500 bg-transparent outline-none dark:placeholder-gray-600 dark:text-gray-100"
+                className="w-full text-gray-900 placeholder-gray-500 bg-transparent outline-none dark:placeholder-gray-600 dark:text-gray-100"
                 aria-label="Enter a command or search"
                 type="text"
                 // onChange={(e) => setResults(e.target.value)}
                 placeholder="Enter a command or search..."
               />
             </DialogPrimitive.Title>
+            <DialogPrimitive.Description className="px-4 py-2 text-gray-600 dark:text-gray-400">
+              <ul>
+                <span aria-hidden="true" className="text-sm">
+                  Navigation
+                </span>
+                <ul className="flex flex-col space-y-1">
+                  {Navigation.map((item) => (
+                    <li key={item.label}>
+                      <Link href={item.href}>
+                        <a className="flex items-center p-3 space-x-2 rounded-md ">
+                          <div>{item.icon}</div>
+                          <div>{item.label}</div>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <span aria-hidden="true" className="text-sm">
+                  Socials
+                </span>
+                <ul className="flex flex-col space-y-1">
+                  {Socials.map((item) => (
+                    <li key={item.label}>
+                      <Link href={item.href}>
+                        <a className="flex items-center p-3 space-x-2 rounded-md ">
+                          <div>{item.icon}</div>
+                          <div>{item.label}</div>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </ul>
+            </DialogPrimitive.Description>
             {/* <DialogPrimitive.Description className="mt-2 text-sm font-normal text-gray-500 dark:text-gray-400">
               Make changes to your profile here. Click save when you&apos;re
               done.
@@ -149,8 +226,7 @@ export default function CommandMenu() {
                 'absolute inline-flex items-center justify-center top-3.5 right-3.5 p-1 rounded-full',
                 'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
               )}
-            >
-            </DialogPrimitive.Close> */}
+            ></DialogPrimitive.Close> */}
           </DialogPrimitive.Content>
         </Transition.Child>
       </Transition.Root>

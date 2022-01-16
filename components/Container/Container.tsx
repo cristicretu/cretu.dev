@@ -53,6 +53,8 @@ export default function Container(props) {
         )}
       </Head>
 
+      <CommandMenu />
+
       <nav
         className={cn(
           'w-full px-4 py-3 mx-auto border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 sticky-nav'
@@ -60,9 +62,8 @@ export default function Container(props) {
       >
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           <div className="flex space-x-2 text-base items-center md:ml-[-0.64rem]">
-            {/* <NavItem myHref={'/'} text={'Home'} />
-            <NavItem myHref={'/writing'} text={'Writing'} /> */}
-            <CommandMenu />
+            {/* <NavItem myHref={'/'} text={'Home'} /> */}
+            {/* <NavItem myHref={'/writing'} text={'Writing'} /> */}
           </div>
           <div className="flex flex-row items-center space-x-4">
             <a
