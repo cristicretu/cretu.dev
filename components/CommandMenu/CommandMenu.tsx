@@ -130,7 +130,8 @@ export default function CommandMenu() {
     const clickedEnter = (e) => {
       if (e.keyCode === 13 && isOpen) {
         if (all[cursor].type === 'Theme') {
-          setTheme(all[cursor].label);
+          setTheme(all[cursor].theme);
+          setIsOpen(false);
         } else if (all[cursor].type === 'Navigation') {
           window.location.href = all[cursor].href;
         } else if (all[cursor].type === 'Socials') {
@@ -143,7 +144,7 @@ export default function CommandMenu() {
     return () => {
       window.removeEventListener('keydown', clickedEnter);
     };
-  }, [cursor, isOpen]);
+  }, [all, cursor, isOpen, setTheme]);
 
   useEffect(() => {
     setCursor(0);
@@ -265,7 +266,6 @@ export default function CommandMenu() {
                 </span>
                 <ul className="flex flex-col space-y-1">
                   {(function () {
-                    console.log(resolvedTheme);
                     switch (resolvedTheme) {
                       case 'light':
                         return (
