@@ -82,15 +82,10 @@ export default function CommandMenu() {
 
   const [cursor, setCursor] = useState(0);
 
-  // const all = [...Navigation, ...Socials, ...Theme];
-
   const [Results, setResults] = useState('');
   const SearchResults = all
     .sort()
     .filter((item) => item.label.toLowerCase().includes(Results.toLowerCase()));
-  // const SearchResults = posts
-  //   .sort()
-  //   .filter((date) => date.title.toLowerCase().includes(Results.toLowerCase()));
 
   useEffect(() => {
     const navigated = (e) => {
@@ -134,29 +129,26 @@ export default function CommandMenu() {
     return element.type === 'Navigation';
   }
 
-  // useEffect(() => {
-  //   const clickedEnter = (e) => {
-  //     if (e.keyCode === 13 && isOpen) {
-  //       if (all[cursor].type === 'Theme') {
-  //         console.log(cursor);
-  //         setTheme(all[cursor].theme);
-  //         console.log(theme);
-  //         console.log(all[cursor].theme);
-  //         setIsOpen(false);
-  //       } else if (all[cursor].type === 'Navigation') {
-  //         router.push(all[cursor].href);
-  //       } else if (all[cursor].type === 'Socials') {
-  //         window.open(all[cursor].href);
-  //         setIsOpen(false);
-  //       }
-  //     }
-  //   };
+  useEffect(() => {
+    const clickedEnter = (e) => {
+      if (e.keyCode === 13 && isOpen) {
+        if (all[cursor].type === 'Theme') {
+          setTheme(all[cursor].theme);
+          setIsOpen(false);
+        } else if (all[cursor].type === 'Navigation') {
+          router.push(all[cursor].href);
+        } else if (all[cursor].type === 'Socials') {
+          window.open(all[cursor].href);
+          setIsOpen(false);
+        }
+      }
+    };
 
-  //   window.addEventListener('keydown', clickedEnter);
-  //   return () => {
-  //     window.removeEventListener('keydown', clickedEnter);
-  //   };
-  // }, [all, cursor, isOpen, setTheme]);
+    window.addEventListener('keydown', clickedEnter);
+    return () => {
+      window.removeEventListener('keydown', clickedEnter);
+    };
+  }, [all, cursor, isOpen, router, setTheme, theme]);
 
   const handleChange = (e) => {
     setResults(e.target.value);
@@ -314,56 +306,6 @@ export default function CommandMenu() {
                     );
                   }
                 })}
-
-                {/* {SearchResults.map((item, index) => (
-                  <li key={index}>
-                    {item.type === 'Navigation' ? (
-                      <Link href={item.href}>
-                        <a
-                          className={cn(
-                            'flex items-center p-3 space-x-2 transition-all rounded-md',
-                            cursor === index
-                              ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
-                              : ''
-                          )}
-                          onMouseOver={() => setCursor(index)}
-                        >
-                          <div>{item.icon}</div>
-                          <div>{item.label}</div>
-                        </a>
-                      </Link>
-                    ) : item.type === 'Socials' ? (
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cn(
-                          'flex items-center p-3 space-x-2 transition-all rounded-md',
-                          cursor === index
-                            ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
-                            : ''
-                        )}
-                        onMouseOver={() => setCursor(index)}
-                      >
-                        <div>{item.icon}</div>
-                        <div>{item.label}</div>
-                      </a>
-                    ) : item.type === 'Theme' ? (
-                      <div
-                        className={cn(
-                          'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
-                          cursor === index
-                            ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
-                            : ''
-                        )}
-                        onMouseOver={() => setCursor(index)}
-                      >
-                        <div>{item.icon}</div>
-                        <div>{item.label}</div>
-                      </div>
-                    ) : null}
-                  </li>
-                ))} */}
               </ul>
             </div>
           </DialogPrimitive.Content>
