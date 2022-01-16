@@ -8,7 +8,13 @@ import {
   SunIcon,
   TwitterLogoIcon
 } from '@radix-ui/react-icons';
-import React, { Fragment, ReactNode, useEffect, useState } from 'react';
+import React, {
+  Fragment,
+  ReactNode,
+  useEffect,
+  useMemo,
+  useState
+} from 'react';
 
 import Link from 'next/link';
 import { Transition } from '@headlessui/react';
@@ -152,7 +158,7 @@ export default function CommandMenu() {
 
   const handleChange = (e) => {
     setResults(e.target.value);
-    setCursor(Results[0] === ' ' ? 0 : 0);
+    setCursor(all.indexOf(SearchResults[0]));
   };
 
   useEffect(() => {
