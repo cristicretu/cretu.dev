@@ -1,5 +1,5 @@
 const { spacing, fontFamily } = require('tailwindcss/defaultTheme');
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   mode: 'jit',
@@ -18,11 +18,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gray: colors.trueGray,
+        gray: colors.trueGray
       },
       fontFamily: {
         sans: ['IBM Plex Sans', ...fontFamily.sans],
-        serif: ['Playfair Display', ...fontFamily.serif],
+        serif: ['Playfair Display', ...fontFamily.serif]
       },
       typography: (theme) => ({
         DEFAULT: {
@@ -86,11 +86,10 @@ module.exports = {
           }
         }
       })
-      
     }
   },
   variants: {
     typography: ['dark']
   },
-  plugins: [require('@tailwindcss/typography')]
+  plugins: [require('@tailwindcss/typography'), require('tailwindcss-radix')]
 };
