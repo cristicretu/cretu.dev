@@ -3,12 +3,16 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import {
   ArrowRightIcon,
   GitHubLogoIcon,
+  Half2Icon,
+  MoonIcon,
+  SunIcon,
   TwitterLogoIcon
 } from '@radix-ui/react-icons';
 import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { Transition } from '@headlessui/react';
+import { useTheme } from 'next-themes';
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -24,12 +28,12 @@ const Navigation: CommandMenuProps[] = [
   {
     label: 'Home',
     href: '/',
-    icon: <ArrowRightIcon width={24} height={24} />
+    icon: <ArrowRightIcon width={20} height={20} />
   },
   {
     label: 'Writing',
     href: '/writing',
-    icon: <ArrowRightIcon width={24} height={24} />
+    icon: <ArrowRightIcon width={20} height={20} />
   }
 ];
 
@@ -37,17 +41,18 @@ const Socials: CommandMenuProps[] = [
   {
     label: 'Github',
     href: 'https://github.com/cristicretu',
-    icon: <GitHubLogoIcon width={24} height={24} />
+    icon: <GitHubLogoIcon width={20} height={20} />
   },
   {
     label: 'Twitter',
     href: 'https://twitter.com/cristicrtu',
-    icon: <TwitterLogoIcon width={24} height={24} />
+    icon: <TwitterLogoIcon width={20} height={20} />
   }
 ];
 
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const { resolvedTheme, setTheme, theme } = useTheme();
 
   const [Results, setResults] = useState('');
   // const SearchResults = posts
@@ -127,7 +132,7 @@ export default function CommandMenu() {
                 placeholder="Enter a command or search..."
               />
             </DialogPrimitive.Title>
-            <DialogPrimitive.Description className="px-4 py-2 text-gray-600 dark:text-gray-400">
+            <DialogPrimitive.Description className="px-3 py-2 text-gray-600 dark:text-gray-400">
               <ul>
                 <span aria-hidden="true" className="text-sm">
                   Navigation
@@ -150,14 +155,66 @@ export default function CommandMenu() {
                 <ul className="flex flex-col space-y-1">
                   {Socials.map((item) => (
                     <li key={item.label}>
-                      <Link href={item.href}>
-                        <a className="flex items-center p-3 space-x-2 rounded-md ">
-                          <div>{item.icon}</div>
-                          <div>{item.label}</div>
-                        </a>
-                      </Link>
+                      <a
+                        href={item.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Open ${item.href} in a new tab`}
+                        className="flex items-center p-3 space-x-2 rounded-md "
+                      >
+                        <div>{item.icon}</div>
+                        <div>{item.label}</div>
+                      </a>
                     </li>
                   ))}
+                </ul>
+                <span aria-hidden="true" className="text-sm">
+                  Theme
+                </span>
+                <ul className="flex flex-col space-y-1">
+                  {(function () {
+                    switch (resolvedTheme) {
+                      case 'light':
+                        return (
+                          <li
+                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer"
+                            onClick={() => setTheme('dark')}
+                          >
+                            <MoonIcon
+                              className="w-5 h-5 text-gray-700 dark:text-gray-300"
+                              width={20}
+                              height={20}
+                            />
+                            <div>Change theme to dark</div>
+                          </li>
+                        );
+                      case 'dark':
+                        return (
+                          <li
+                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer"
+                            onClick={() => setTheme('light')}
+                          >
+                            <SunIcon
+                              className="w-5 h-5 text-gray-700 dark:text-gray-300"
+                              width={20}
+                              height={20}
+                            />
+                            <div>Change theme to light</div>
+                          </li>
+                        );
+                    }
+                  })()}
+                  <li
+                    className="flex items-center p-3 space-x-2 rounded-md cursor-pointer"
+                    onClick={() => setTheme('system')}
+                  >
+                    <Half2Icon
+                      className="w-5 h-5 text-gray-700 dark:text-gray-300"
+                      width={20}
+                      height={20}
+                    />
+                    <div>Change theme to system</div>
+                  </li>
                 </ul>
               </ul>
             </DialogPrimitive.Description>
