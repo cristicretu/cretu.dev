@@ -20,7 +20,7 @@ function cn(...classes: string[]) {
 
 interface CommandMenuProps {
   label: string;
-  href: string;
+  href?: string;
   icon: ReactNode;
 }
 
@@ -50,14 +50,42 @@ const Socials: CommandMenuProps[] = [
   }
 ];
 
+const Theme: CommandMenuProps[] = [
+  {
+    label: 'Change theme to light',
+    icon: <SunIcon width={20} height={20} />
+  },
+  {
+    label: 'Change theme to dark',
+    icon: <MoonIcon width={20} height={20} />
+  },
+  {
+    label: 'Change theme to system',
+    icon: <Half2Icon width={20} height={20} />
+  }
+];
+
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { resolvedTheme, setTheme, theme } = useTheme();
 
-  const [Results, setResults] = useState('');
+  const [cursor, setCursor] = useState(0);
+
+  const all = [...Navigation, ...Socials, ...Theme];
+
+  const [Results, setResults] = useState(all);
   // const SearchResults = posts
   //   .sort()
   //   .filter((date) => date.title.toLowerCase().includes(Results.toLowerCase()));
+  console.log(Results);
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 38) {
+      setCursor((cursor) => Math.max(0, cursor - 1));
+    } else if (e.keyCode === 40) {
+      setCursor((cursor) => Math.min(6, cursor + 1));
+    }
+  };
 
   useEffect(() => {
     const clickedCmdk = (e) => {
@@ -67,11 +95,17 @@ export default function CommandMenu() {
         setIsOpen(!isOpen);
       }
     };
+
     window.addEventListener('keydown', clickedCmdk);
     return () => {
       window.removeEventListener('keydown', clickedCmdk);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    setCursor(0);
+  }, [isOpen]);
+
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
       <DialogPrimitive.Trigger asChild className="visible md:hidden">
@@ -129,6 +163,7 @@ export default function CommandMenu() {
                 aria-label="Search for links or commands"
                 type="text"
                 // onChange={(e) => setResults(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Search for links or commands..."
               />
             </DialogPrimitive.Title>
@@ -138,10 +173,16 @@ export default function CommandMenu() {
                   Navigation
                 </span>
                 <ul className="flex flex-col space-y-1">
-                  {Navigation.map((item) => (
-                    <li key={item.label}>
+                  {Navigation.map((item, index) => (
+                    <li key={index}>
                       <Link href={item.href}>
-                        <a className="flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200">
+                        <a
+                          className={cn(
+                            'flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200',
+                            cursor === index ? 'bg-red-500' : ''
+                          )}
+                          onMouseOver={() => setCursor(index)}
+                        >
                           <div>{item.icon}</div>
                           <div>{item.label}</div>
                         </a>
@@ -153,14 +194,20 @@ export default function CommandMenu() {
                   Socials
                 </span>
                 <ul className="flex flex-col space-y-1">
-                  {Socials.map((item) => (
-                    <li key={item.label}>
+                  {Socials.map((item, index) => (
+                    <li key={index}>
                       <a
                         href={item.href}
                         target="_blank"
                         rel="noreferrer"
                         aria-label={`Open ${item.href} in a new tab`}
-                        className="flex items-center p-3 space-x-2 rounded-md dark:hover:bg-gray-800 hover:bg-gray-200"
+                        className={cn(
+                          'flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200',
+                          cursor === index + Navigation.length
+                            ? 'bg-red-500'
+                            : ''
+                        )}
+                        onMouseOver={() => setCursor(index + Navigation.length)}
                       >
                         <div>{item.icon}</div>
                         <div>{item.label}</div>
@@ -205,7 +252,11 @@ export default function CommandMenu() {
                     }
                   })()}
                   <li
-                    className="flex items-center p-3 space-x-2 rounded-md cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-200"
+                    className={cn(
+                      'flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200',
+                      cursor === all.length - 2 ? 'bg-red-500' : ''
+                    )}
+                    onMouseOver={() => setCursor(all.length - 2)}
                     onClick={() => setTheme('system')}
                   >
                     <Half2Icon
