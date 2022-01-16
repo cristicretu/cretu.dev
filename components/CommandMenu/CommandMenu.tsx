@@ -116,7 +116,7 @@ export default function CommandMenu() {
             forceMount
             className={cn(
               'fixed z-50',
-              'w-[95vw] md:w-full max-w-2xl md:-ml-2 rounded-md shadow-lg',
+              'w-[95vw] overflow-auto md:w-full max-w-2xl md:-ml-2 rounded-md shadow-lg',
               'mycenter',
               'myblur border border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ',
               'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
@@ -126,13 +126,13 @@ export default function CommandMenu() {
               <input
                 // value={Results}
                 className="w-full text-gray-900 placeholder-gray-500 bg-transparent outline-none dark:placeholder-gray-600 dark:text-gray-100"
-                aria-label="Enter a command or search"
+                aria-label="Search for links or commands"
                 type="text"
                 // onChange={(e) => setResults(e.target.value)}
-                placeholder="Enter a command or search..."
+                placeholder="Search for links or commands..."
               />
             </DialogPrimitive.Title>
-            <DialogPrimitive.Description className="px-3 py-2 text-gray-600 dark:text-gray-400">
+            <div className="px-3 py-2 text-gray-600 dark:text-gray-400">
               <ul>
                 <span aria-hidden="true" className="text-sm">
                   Navigation
@@ -141,7 +141,7 @@ export default function CommandMenu() {
                   {Navigation.map((item) => (
                     <li key={item.label}>
                       <Link href={item.href}>
-                        <a className="flex items-center p-3 space-x-2 rounded-md ">
+                        <a className="flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200">
                           <div>{item.icon}</div>
                           <div>{item.label}</div>
                         </a>
@@ -160,7 +160,7 @@ export default function CommandMenu() {
                         target="_blank"
                         rel="noreferrer"
                         aria-label={`Open ${item.href} in a new tab`}
-                        className="flex items-center p-3 space-x-2 rounded-md "
+                        className="flex items-center p-3 space-x-2 rounded-md dark:hover:bg-gray-800 hover:bg-gray-200"
                       >
                         <div>{item.icon}</div>
                         <div>{item.label}</div>
@@ -177,7 +177,7 @@ export default function CommandMenu() {
                       case 'light':
                         return (
                           <li
-                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer"
+                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-200"
                             onClick={() => setTheme('dark')}
                           >
                             <MoonIcon
@@ -191,7 +191,7 @@ export default function CommandMenu() {
                       case 'dark':
                         return (
                           <li
-                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer"
+                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-200"
                             onClick={() => setTheme('light')}
                           >
                             <SunIcon
@@ -205,7 +205,7 @@ export default function CommandMenu() {
                     }
                   })()}
                   <li
-                    className="flex items-center p-3 space-x-2 rounded-md cursor-pointer"
+                    className="flex items-center p-3 space-x-2 rounded-md cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-200"
                     onClick={() => setTheme('system')}
                   >
                     <Half2Icon
@@ -217,73 +217,7 @@ export default function CommandMenu() {
                   </li>
                 </ul>
               </ul>
-            </DialogPrimitive.Description>
-            {/* <DialogPrimitive.Description className="mt-2 text-sm font-normal text-gray-500 dark:text-gray-400">
-              Make changes to your profile here. Click save when you&apos;re
-              done.
-            </DialogPrimitive.Description>
-            <form className="mt-2 space-y-2">
-              <fieldset>
-                <label
-                  htmlFor="firstName"
-                  className="text-xs font-medium text-gray-700 dark:text-gray-400"
-                >
-                  First Name
-                </label>
-                <input
-                  id="firstName"
-                  type="text"
-                  placeholder="Tim"
-                  autoComplete="given-name"
-                  className={cn(
-                    'block w-full mt-1 rounded-md',
-                    'text-sm text-gray-700 placeholder:text-gray-500 dark:text-gray-400 dark:placeholder:text-gray-600',
-                    'dark:bg-gray-800 border border-gray-400 dark:border-gray-700 focus-visible:border-transparent',
-                    'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
-                  )}
-                />
-              </fieldset>
-              <fieldset>
-                <label
-                  htmlFor="familyName"
-                  className="text-xs font-medium text-gray-700 dark:text-gray-400"
-                >
-                  Family Name
-                </label>
-                <input
-                  id="familyName"
-                  type="text"
-                  placeholder="Cook"
-                  autoComplete="family-name"
-                  className={cn(
-                    'block w-full mt-1 rounded-md',
-                    'text-sm text-gray-700 placeholder:text-gray-500 dark:text-gray-400 dark:placeholder:text-gray-600',
-                    'dark:bg-gray-800 border border-gray-400 dark:border-gray-700 focus-visible:border-transparent',
-                    'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
-                  )}
-                />
-              </fieldset>
-            </form>
-
-            <div className="flex justify-end mt-4">
-              <DialogPrimitive.Close
-                className={cn(
-                  'inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md select-none',
-                  'text-white dark:text-gray-100 bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600',
-                  'border border-transparent',
-                  'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
-                )}
-              >
-                Save
-              </DialogPrimitive.Close>
             </div>
-
-            <DialogPrimitive.Close
-              className={cn(
-                'absolute inline-flex items-center justify-center top-3.5 right-3.5 p-1 rounded-full',
-                'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
-              )}
-            ></DialogPrimitive.Close> */}
           </DialogPrimitive.Content>
         </Transition.Child>
       </Transition.Root>
