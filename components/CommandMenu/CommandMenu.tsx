@@ -136,6 +136,7 @@ export default function CommandMenu() {
           window.location.href = all[cursor].href;
         } else if (all[cursor].type === 'Socials') {
           window.open(all[cursor].href);
+          setIsOpen(false);
         }
       }
     };
