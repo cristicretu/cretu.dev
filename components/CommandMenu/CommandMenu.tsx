@@ -22,18 +22,22 @@ interface CommandMenuProps {
   label: string;
   href?: string;
   icon: ReactNode;
+  type?: 'Navigation' | 'Socials' | 'Theme';
+  theme?: 'dark' | 'light' | 'system';
 }
 
 const Navigation: CommandMenuProps[] = [
   {
     label: 'Home',
     href: '/',
-    icon: <ArrowRightIcon width={20} height={20} />
+    icon: <ArrowRightIcon width={20} height={20} />,
+    type: 'Navigation'
   },
   {
     label: 'Writing',
     href: '/writing',
-    icon: <ArrowRightIcon width={20} height={20} />
+    icon: <ArrowRightIcon width={20} height={20} />,
+    type: 'Navigation'
   }
 ];
 
@@ -41,27 +45,35 @@ const Socials: CommandMenuProps[] = [
   {
     label: 'Github',
     href: 'https://github.com/cristicretu',
-    icon: <GitHubLogoIcon width={20} height={20} />
+    icon: <GitHubLogoIcon width={20} height={20} />,
+    type: 'Socials'
   },
   {
     label: 'Twitter',
     href: 'https://twitter.com/cristicrtu',
-    icon: <TwitterLogoIcon width={20} height={20} />
+    icon: <TwitterLogoIcon width={20} height={20} />,
+    type: 'Socials'
   }
 ];
 
 const Theme: CommandMenuProps[] = [
   {
     label: 'Change theme to light',
-    icon: <SunIcon width={20} height={20} />
+    icon: <SunIcon width={20} height={20} />,
+    type: 'Theme',
+    theme: 'light'
   },
   {
     label: 'Change theme to dark',
-    icon: <MoonIcon width={20} height={20} />
+    icon: <MoonIcon width={20} height={20} />,
+    type: 'Theme',
+    theme: 'dark'
   },
   {
     label: 'Change theme to system',
-    icon: <Half2Icon width={20} height={20} />
+    icon: <Half2Icon width={20} height={20} />,
+    type: 'Theme',
+    theme: 'system'
   }
 ];
 
@@ -77,15 +89,27 @@ export default function CommandMenu() {
   // const SearchResults = posts
   //   .sort()
   //   .filter((date) => date.title.toLowerCase().includes(Results.toLowerCase()));
-  console.log(Results);
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 38) {
-      setCursor((cursor) => Math.max(0, cursor - 1));
-    } else if (e.keyCode === 40) {
-      setCursor((cursor) => Math.min(6, cursor + 1));
+  const handleEnter = (e) => {
+    if (e.keyCode === 13 && isOpen) {
+      console.log(all[cursor]);
     }
   };
+
+  useEffect(() => {
+    const navigated = (e) => {
+      if (e.keyCode === 38 && isOpen) {
+        setCursor((cursor) => (cursor === 0 ? all.length - 2 : cursor - 1));
+      } else if (e.keyCode === 40 && isOpen) {
+        setCursor((cursor) => (cursor + 1 > all.length - 2 ? 0 : cursor + 1));
+      }
+    };
+
+    window.addEventListener('keydown', navigated);
+    return () => {
+      window.removeEventListener('keydown', navigated);
+    };
+  });
 
   useEffect(() => {
     const clickedCmdk = (e) => {
@@ -101,6 +125,25 @@ export default function CommandMenu() {
       window.removeEventListener('keydown', clickedCmdk);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    const clickedEnter = (e) => {
+      if (e.keyCode === 13 && isOpen) {
+        if (all[cursor].type === 'Theme') {
+          setTheme(all[cursor].label);
+        } else if (all[cursor].type === 'Navigation') {
+          window.location.href = all[cursor].href;
+        } else if (all[cursor].type === 'Socials') {
+          window.open(all[cursor].href);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', clickedEnter);
+    return () => {
+      window.removeEventListener('keydown', clickedEnter);
+    };
+  }, [cursor, isOpen]);
 
   useEffect(() => {
     setCursor(0);
@@ -159,11 +202,10 @@ export default function CommandMenu() {
             <DialogPrimitive.Title className="w-full p-4 border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ">
               <input
                 // value={Results}
-                className="w-full text-gray-900 placeholder-gray-500 bg-transparent outline-none dark:placeholder-gray-600 dark:text-gray-100"
+                className="w-full text-gray-900 placeholder-gray-500 bg-transparent outline-none dark:placeholder-gray-500 dark:text-gray-100"
                 aria-label="Search for links or commands"
                 type="text"
                 // onChange={(e) => setResults(e.target.value)}
-                onKeyDown={handleKeyDown}
                 placeholder="Search for links or commands..."
               />
             </DialogPrimitive.Title>
@@ -178,9 +220,12 @@ export default function CommandMenu() {
                       <Link href={item.href}>
                         <a
                           className={cn(
-                            'flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200',
-                            cursor === index ? 'bg-red-500' : ''
+                            'flex items-center p-3 space-x-2 transition-all rounded-md',
+                            cursor === index
+                              ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
+                              : ''
                           )}
+                          onKeyPress={handleEnter}
                           onMouseOver={() => setCursor(index)}
                         >
                           <div>{item.icon}</div>
@@ -202,9 +247,9 @@ export default function CommandMenu() {
                         rel="noreferrer"
                         aria-label={`Open ${item.href} in a new tab`}
                         className={cn(
-                          'flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200',
+                          'flex items-center p-3 space-x-2 transition-all rounded-md',
                           cursor === index + Navigation.length
-                            ? 'bg-red-500'
+                            ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                             : ''
                         )}
                         onMouseOver={() => setCursor(index + Navigation.length)}
@@ -220,12 +265,22 @@ export default function CommandMenu() {
                 </span>
                 <ul className="flex flex-col space-y-1">
                   {(function () {
+                    console.log(resolvedTheme);
                     switch (resolvedTheme) {
                       case 'light':
                         return (
                           <li
-                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-200"
-                            onClick={() => setTheme('dark')}
+                            className={cn(
+                              'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
+                              cursor === all.length - 3
+                                ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
+                                : ''
+                            )}
+                            onMouseOver={() => setCursor(all.length - 3)}
+                            onClick={() => {
+                              setTheme('dark');
+                              setIsOpen(false);
+                            }}
                           >
                             <MoonIcon
                               className="w-5 h-5 text-gray-700 dark:text-gray-300"
@@ -238,8 +293,17 @@ export default function CommandMenu() {
                       case 'dark':
                         return (
                           <li
-                            className="flex items-center p-3 space-x-2 rounded-md cursor-pointer dark:hover:bg-gray-800 hover:bg-gray-200"
-                            onClick={() => setTheme('light')}
+                            className={cn(
+                              'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
+                              cursor === all.length - 3
+                                ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
+                                : ''
+                            )}
+                            onMouseOver={() => setCursor(all.length - 3)}
+                            onClick={() => {
+                              setTheme('light');
+                              setIsOpen(false);
+                            }}
                           >
                             <SunIcon
                               className="w-5 h-5 text-gray-700 dark:text-gray-300"
@@ -253,11 +317,16 @@ export default function CommandMenu() {
                   })()}
                   <li
                     className={cn(
-                      'flex items-center p-3 space-x-2 transition-all rounded-md dark:hover:bg-gray-800 hover:bg-gray-200',
-                      cursor === all.length - 2 ? 'bg-red-500' : ''
+                      'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
+                      cursor === all.length - 2
+                        ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
+                        : ''
                     )}
                     onMouseOver={() => setCursor(all.length - 2)}
-                    onClick={() => setTheme('system')}
+                    onClick={() => {
+                      setTheme('system');
+                      setIsOpen(false);
+                    }}
                   >
                     <Half2Icon
                       className="w-5 h-5 text-gray-700 dark:text-gray-300"
