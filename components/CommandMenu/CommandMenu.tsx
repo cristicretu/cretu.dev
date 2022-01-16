@@ -12,6 +12,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { Transition } from '@headlessui/react';
+import { useRouter } from 'next/router';
 import { useTheme } from 'next-themes';
 
 function cn(...classes: string[]) {
@@ -81,6 +82,8 @@ export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { resolvedTheme, setTheme, theme } = useTheme();
 
+  const router = useRouter();
+
   const [cursor, setCursor] = useState(0);
 
   const all = [...Navigation, ...Socials, ...Theme];
@@ -133,7 +136,7 @@ export default function CommandMenu() {
           setTheme(all[cursor].theme);
           setIsOpen(false);
         } else if (all[cursor].type === 'Navigation') {
-          window.location.href = all[cursor].href;
+          router.push(all[cursor].href);
         } else if (all[cursor].type === 'Socials') {
           window.open(all[cursor].href);
           setIsOpen(false);
