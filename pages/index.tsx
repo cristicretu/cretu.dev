@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import Image from 'next/image';
 
 import BlogPost from '@components/BlogPost';
 import Container from '@components/Container';
+import Image from 'next/image';
 import Link from 'next/link';
 import ProjectCard from '@components/ProjectCard';
 import useDelayedRender from 'use-delayed-render';
@@ -21,20 +21,6 @@ export default function Home() {
   useEffect(() => {
     setShow(true);
   }, [setShow]);
-
-  // useEffect(() => {
-  //   const clickedCmdk = (e) => {
-  //     let charCode = String.fromCharCode(e.which).toLowerCase()
-  //     if (e.metaKey && charCode === 'k') {
-  //       e.preventDefault()
-  //       console.log("cmd+k works")
-  //     }
-  //   }
-  //   window.addEventListener("keydown", clickedCmdk)
-  //   return () => {
-  //     window.removeEventListener("keydown", clickedCmdk)
-  //   }
-  // })
 
   return (
     <Container>

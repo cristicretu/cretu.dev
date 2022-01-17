@@ -18,6 +18,12 @@
   src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
 }
 
+.mycenter {
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+}
+
 .custom-hover {
   @apply relative after:absolute after:bg-gray-700 dark:after:bg-gray-200 after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300;
 }
@@ -40,8 +46,8 @@
   position: sticky;
   z-index: 10;
   top: 0;
-  backdrop-filter: saturate(180%) blur(25px);
-  -webkit-backdrop-filter: saturate(180%) blur(25px);
+  backdrop-filter: saturate(300%) blur(25px);
+  -webkit-backdrop-filter: saturate(300%) blur(25px);
   transition: background-color 0.1 ease-in-out;
 }
 
@@ -54,17 +60,28 @@
 }
 
 .myblur {
-  backdrop-filter: saturate(180%) blur(25px);
-  -webkit-backdrop-filter: saturate(180%) blur(25px);
+  backdrop-filter: saturate(300%) blur(25px);
+  -webkit-backdrop-filter: saturate(300%) blur(25px);
   transition: background-color 0.1 ease-in-out;
 }
 
 .light .myblur {
-  @apply bg-opacity-50 bg-gray-50;
+  @apply bg-opacity-70 bg-gray-50;
 }
 
 .dark .myblur {
-  @apply bg-gray-900 bg-opacity-50;
+  @apply bg-gray-900 bg-opacity-70;
+}
+
+@supports not (
+  (-webkit-backdrop-filter: blur(25px)) or (backdrop-filter: blur(25px))
+) {
+  .light .myblur {
+    @apply bg-gray-100 bg-opacity-100;
+  }
+  .dark .myblur {
+    @apply bg-gray-900 bg-opacity-100;
+  }
 }
 
 .myfooter {
@@ -129,6 +146,7 @@ html {
   @apply bg-gray-50 dark:bg-gray-900;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
   min-height: 100vh;
 }
 
