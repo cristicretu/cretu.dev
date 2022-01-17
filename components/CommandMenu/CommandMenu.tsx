@@ -8,13 +8,7 @@ import {
   SunIcon,
   TwitterLogoIcon
 } from '@radix-ui/react-icons';
-import React, {
-  Fragment,
-  ReactNode,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
+import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import { Transition } from '@headlessui/react';
@@ -33,7 +27,12 @@ interface CommandMenuProps {
   theme?: 'dark' | 'light' | 'system';
 }
 
-export default function CommandMenu() {
+interface Props {
+  buttonOpen: boolean;
+  setButtonOpen: (open: boolean) => void;
+}
+
+export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { resolvedTheme, setTheme, theme } = useTheme();
 
@@ -93,6 +92,31 @@ export default function CommandMenu() {
     .sort()
     .filter((item) => item.label.toLowerCase().includes(Results.toLowerCase()));
 
+  const handleChange = (e) => {
+    setResults(e.target.value);
+    setCursor(all.indexOf(SearchResults[0]));
+  };
+
+  const samePage = (href) => {
+    return href === router.pathname;
+  };
+
+  function containsSocial(element, index, array) {
+    return element.type === 'Socials';
+  }
+
+  function containsTheme(element, index, array) {
+    return element.type === 'Theme';
+  }
+
+  function containsNavigation(element, index, array) {
+    return element.type === 'Navigation';
+  }
+
+  useEffect(() => {
+    setIsOpen(buttonOpen);
+  }, [buttonOpen, setButtonOpen]);
+
   useEffect(() => {
     const navigated = (e) => {
       if (e.keyCode === 38 && isOpen) {
@@ -123,18 +147,6 @@ export default function CommandMenu() {
     };
   }, [isOpen]);
 
-  function containsSocial(element, index, array) {
-    return element.type === 'Socials';
-  }
-
-  function containsTheme(element, index, array) {
-    return element.type === 'Theme';
-  }
-
-  function containsNavigation(element, index, array) {
-    return element.type === 'Navigation';
-  }
-
   useEffect(() => {
     const clickedEnter = (e) => {
       if (e.keyCode === 13 && isOpen) {
@@ -156,18 +168,14 @@ export default function CommandMenu() {
     };
   }, [all, cursor, isOpen, router, setTheme, theme]);
 
-  const handleChange = (e) => {
-    setResults(e.target.value);
-    setCursor(all.indexOf(SearchResults[0]));
-  };
-
   useEffect(() => {
     setCursor(0);
-  }, [isOpen]);
+    setButtonOpen(isOpen);
+  }, [isOpen, setButtonOpen]);
 
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
-      <DialogPrimitive.Trigger asChild className="visible md:hidden">
+      {/* <DialogPrimitive.Trigger asChild className="visible md:hidden">
         <button
           aria-label="Command Menu"
           type="button"
@@ -180,7 +188,7 @@ export default function CommandMenu() {
         >
           ⌘
         </button>
-      </DialogPrimitive.Trigger>
+      </DialogPrimitive.Trigger> */}
       <Transition.Root show={isOpen}>
         <Transition.Child
           as={Fragment}
@@ -243,9 +251,13 @@ export default function CommandMenu() {
                         <Link href={item.href}>
                           <a
                             className={cn(
-                              'flex items-center p-3 space-x-2 transition-all rounded-md',
+                              'flex items-center p-3 space-x-2 transition-all rounded-md ',
                               cursor === index
-                                ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
+                                ? `bg-gray-200 ${
+                                    samePage(item.href)
+                                      ? 'bg-opacity-40 dark:bg-opacity-40 text-gray-400 dark:text-gray-500 cursor-not-allowed'
+                                      : ''
+                                  } dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white`
                                 : ''
                             )}
                             onMouseOver={() => setCursor(index)}
@@ -298,11 +310,15 @@ export default function CommandMenu() {
                         <a
                           href={item.href}
                           className={cn(
-                            'flex items-center p-3 space-x-2 transition-all rounded-md',
+                            'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
                             cursor === index
                               ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                               : ''
                           )}
+                          onClick={() => {
+                            setTheme(item.theme);
+                            setIsOpen(false);
+                          }}
                           onMouseOver={() => setCursor(index)}
                         >
                           <div>{item.icon}</div>
