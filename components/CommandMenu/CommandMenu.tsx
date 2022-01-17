@@ -114,15 +114,15 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
     return href === router.pathname;
   };
 
-  function containsSocial(element, index, array) {
+  function containsSocial(element, index, _) {
     return element.type === 'Socials';
   }
 
-  function containsTheme(element, index, array) {
+  function containsTheme(element, index, _) {
     return element.type === 'Theme';
   }
 
-  function containsNavigation(element, index, array) {
+  function containsNavigation(element, index, _) {
     return element.type === 'Navigation';
   }
 
@@ -214,6 +214,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
   useEffect(() => {
     setCursor(0);
     setButtonOpen(isOpen);
+    setResults('');
   }, [isOpen, setButtonOpen]);
 
   return (
