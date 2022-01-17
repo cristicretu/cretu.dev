@@ -8,7 +8,7 @@ import {
   SunIcon,
   TwitterLogoIcon
 } from '@radix-ui/react-icons';
-import React, { Fragment, ReactNode, useEffect, useState } from 'react';
+import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 import { Transition } from '@headlessui/react';
@@ -92,9 +92,32 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
     .sort()
     .filter((item) => item.label.toLowerCase().includes(Results.toLowerCase()));
 
+  const itemsRef = useRef([]);
+
+  // useEffect(() => {
+  //   const items = itemsRef.current;
+  //   const item = items[cursor];
+  //   if (item) {
+  //     item.focus();
+  //   }
+  // });
+
+  useEffect(() => {
+    itemsRef.current = itemsRef.current.slice(0, SearchResults.length);
+  }, [SearchResults]);
+
+  console.log(itemsRef.current[cursor]);
+
+  const executeScroll = (idx) =>
+    itemsRef[idx]?.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start'
+    });
+
   const handleChange = (e) => {
     setResults(e.target.value);
-    setCursor(all.indexOf(SearchResults[0]));
+    setCursor(0);
   };
 
   const samePage = (href) => {
@@ -120,9 +143,15 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
   useEffect(() => {
     const navigated = (e) => {
       if (e.keyCode === 38 && isOpen) {
-        setCursor((cursor) => (cursor === 0 ? all.length - 1 : cursor - 1));
+        setCursor((cursor) =>
+          cursor === 0 ? SearchResults.length - 1 : cursor - 1
+        );
+        executeScroll(cursor);
       } else if (e.keyCode === 40 && isOpen) {
-        setCursor((cursor) => (cursor + 1 > all.length - 1 ? 0 : cursor + 1));
+        setCursor((cursor) =>
+          cursor + 1 > SearchResults.length - 1 ? 0 : cursor + 1
+        );
+        executeScroll(cursor);
       }
     };
 
@@ -150,13 +179,13 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
   useEffect(() => {
     const clickedEnter = (e) => {
       if (e.keyCode === 13 && isOpen) {
-        if (all[cursor].type === 'Theme') {
-          setTheme(all[cursor].theme);
+        if (SearchResults[cursor].type === 'Theme') {
+          setTheme(SearchResults[cursor].theme);
           setIsOpen(false);
-        } else if (all[cursor].type === 'Navigation') {
-          router.push(all[cursor].href);
-        } else if (all[cursor].type === 'Socials') {
-          window.open(all[cursor].href);
+        } else if (SearchResults[cursor].type === 'Navigation') {
+          router.push(SearchResults[cursor].href);
+        } else if (SearchResults[cursor].type === 'Socials') {
+          window.open(SearchResults[cursor].href);
           setIsOpen(false);
         }
       }
@@ -166,7 +195,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
     return () => {
       window.removeEventListener('keydown', clickedEnter);
     };
-  }, [all, cursor, isOpen, router, setTheme, theme]);
+  }, [SearchResults, cursor, isOpen, router, setTheme, theme]);
 
   useEffect(() => {
     setCursor(0);
@@ -246,6 +275,9 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                                   } dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white`
                                 : ''
                             )}
+                            ref={(el) => {
+                              itemsRef.current[index] = el;
+                            }}
                             onMouseOver={() => setCursor(index)}
                           >
                             <div>{item.icon}</div>
@@ -274,6 +306,9 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                               ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                               : ''
                           )}
+                          ref={(el) => {
+                            itemsRef.current[index] = el;
+                          }}
                           onMouseOver={() => setCursor(index)}
                         >
                           <div>{item.icon}</div>
@@ -303,6 +338,9 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         onClick={() => {
                           setTheme(item.theme);
                           setIsOpen(false);
+                        }}
+                        ref={(el) => {
+                          itemsRef.current[index] = el;
                         }}
                         onMouseOver={() => setCursor(index)}
                       >
