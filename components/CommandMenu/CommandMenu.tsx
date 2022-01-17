@@ -25,6 +25,7 @@ interface CommandMenuProps {
   icon?: ReactNode;
   type?: 'Navigation' | 'Socials' | 'Theme';
   theme?: 'dark' | 'light' | 'system';
+  rightText?: string;
 }
 
 interface Props {
@@ -43,25 +44,29 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
       label: 'Home',
       href: '/',
       icon: <ArrowRightIcon width={20} height={20} />,
-      type: 'Navigation'
+      type: 'Navigation',
+      rightText: 'Go to'
     },
     {
       label: 'Writing',
       href: '/writing',
       icon: <ArrowRightIcon width={20} height={20} />,
-      type: 'Navigation'
+      type: 'Navigation',
+      rightText: 'Go to'
     },
     {
-      label: 'Github',
+      label: 'GitHub',
       href: 'https://github.com/cristicretu',
       icon: <GitHubLogoIcon width={20} height={20} />,
-      type: 'Socials'
+      type: 'Socials',
+      rightText: 'Open'
     },
     {
       label: 'Twitter',
       href: 'https://twitter.com/cristicrtu',
       icon: <TwitterLogoIcon width={20} height={20} />,
-      type: 'Socials'
+      type: 'Socials',
+      rightText: 'Open'
     },
     {
       label:
@@ -75,13 +80,15 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
           <SunIcon width={20} height={20} />
         ),
       type: 'Theme',
-      theme: resolvedTheme === 'light' ? 'dark' : 'light'
+      theme: resolvedTheme === 'light' ? 'dark' : 'light',
+      rightText: 'Run command'
     },
     {
       label: 'Change theme to system',
       icon: <Half2Icon width={20} height={20} />,
       type: 'Theme',
-      theme: 'system'
+      theme: 'system',
+      rightText: 'Run command'
     }
   ];
 
@@ -94,26 +101,9 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
 
   const itemsRef = useRef([]);
 
-  // useEffect(() => {
-  //   const items = itemsRef.current;
-  //   const item = items[cursor];
-  //   if (item) {
-  //     item.focus();
-  //   }
-  // });
-
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, SearchResults.length);
   }, [SearchResults]);
-
-  console.log(itemsRef.current[cursor]);
-
-  const executeScroll = (idx) =>
-    itemsRef[idx]?.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'start'
-    });
 
   const handleChange = (e) => {
     setResults(e.target.value);
@@ -142,16 +132,40 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
 
   useEffect(() => {
     const navigated = (e) => {
+      // up
       if (e.keyCode === 38 && isOpen) {
         setCursor((cursor) =>
           cursor === 0 ? SearchResults.length - 1 : cursor - 1
         );
-        executeScroll(cursor);
+        itemsRef.current[
+          cursor === 0 ? SearchResults.length - 1 : cursor - 1
+        ].scrollIntoView(
+          cursor === 0
+            ? { behaviour: 'smooth' }
+            : {
+                block: 'end',
+                inline: 'nearest',
+                behavior: 'smooth'
+              }
+        );
+        // down
       } else if (e.keyCode === 40 && isOpen) {
         setCursor((cursor) =>
           cursor + 1 > SearchResults.length - 1 ? 0 : cursor + 1
         );
-        executeScroll(cursor);
+        itemsRef.current[
+          cursor + 1 > SearchResults.length - 1 ? 0 : cursor + 1
+        ].scrollIntoView(
+          cursor + 1 > SearchResults.length - 1
+            ? {
+                behavior: 'smooth'
+              }
+            : {
+                block: 'start',
+                inline: 'nearest',
+                behavior: 'smooth'
+              }
+        );
       }
     };
 
@@ -232,7 +246,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
             forceMount
             className={cn(
               'fixed z-50',
-              'w-[95vw]  md:w-full max-w-2xl md:-ml-1 rounded-md shadow-lg',
+              'w-[95vw]  md:w-full max-w-2xl md:-ml-2 rounded-md shadow-lg',
               'mycenter',
               'myblur border border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ',
               'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
@@ -250,7 +264,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 placeholder="Search for links or commands..."
               />
             </DialogPrimitive.Title>
-            <div className="px-3 py-2 max-h-[34vh] overflow-y-auto text-gray-600 dark:text-gray-400">
+            <div className="px-3 py-2 max-h-[30vh] overflow-y-auto text-gray-600 dark:text-gray-400">
               <ul>
                 {!SearchResults.length && <p>No results found.</p>}
 
@@ -266,7 +280,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         <Link href={item.href}>
                           <a
                             className={cn(
-                              'flex items-center p-3 space-x-2 transition-all rounded-md ',
+                              'flex items-center focus:outline-none  justify-between p-3 space-x-2 transition-all rounded-md ',
                               cursor === index
                                 ? `bg-gray-200 ${
                                     samePage(item.href)
@@ -280,8 +294,21 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                             }}
                             onMouseOver={() => setCursor(index)}
                           >
-                            <div>{item.icon}</div>
-                            <div>{item.label}</div>
+                            <div className="flex space-x-2">
+                              <div>{item.icon}</div>
+                              <div>{item.label}</div>
+                            </div>
+
+                            <div
+                              className={cn(
+                                'transition-all',
+                                cursor === index
+                                  ? 'dark:text-gray-400 text-gray-600'
+                                  : 'text-transparent dark:text-transparent'
+                              )}
+                            >
+                              {item.rightText}
+                            </div>
                           </a>
                         </Link>
                       </li>
@@ -301,7 +328,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         <a
                           href={item.href}
                           className={cn(
-                            'flex items-center p-3 space-x-2 transition-all rounded-md',
+                            'flex items-center p-3 justify-between focus:outline-none  transition-all rounded-md',
                             cursor === index
                               ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                               : ''
@@ -311,8 +338,20 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                           }}
                           onMouseOver={() => setCursor(index)}
                         >
-                          <div>{item.icon}</div>
-                          <div>{item.label}</div>
+                          <div className="flex items-center space-x-2">
+                            <div>{item.icon}</div>
+                            <div>{item.label}</div>
+                          </div>
+                          <div
+                            className={cn(
+                              'transition-all',
+                              cursor === index
+                                ? 'dark:text-gray-400 text-gray-600'
+                                : 'text-transparent dark:text-transparent'
+                            )}
+                          >
+                            {item.rightText}
+                          </div>
                         </a>
                       </li>
                     );
@@ -330,7 +369,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                       <li
                         key={index}
                         className={cn(
-                          'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
+                          'flex items-center p-3 justify-between focus:outline-none  transition-all rounded-md cursor-pointer',
                           cursor === index
                             ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                             : ''
@@ -344,8 +383,21 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         }}
                         onMouseOver={() => setCursor(index)}
                       >
-                        <div>{item.icon}</div>
-                        <div>{item.label}</div>
+                        <div className="flex items-center space-x-2">
+                          <div>{item.icon}</div>
+                          <div>{item.label}</div>
+                        </div>
+
+                        <div
+                          className={cn(
+                            'transition-all',
+                            cursor === index
+                              ? 'dark:text-gray-400 text-gray-600'
+                              : 'text-transparent dark:text-transparent'
+                          )}
+                        >
+                          {item.rightText}
+                        </div>
                       </li>
                     );
                   }
