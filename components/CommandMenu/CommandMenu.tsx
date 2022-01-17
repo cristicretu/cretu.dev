@@ -143,7 +143,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
           cursor === 0
             ? { behaviour: 'smooth' }
             : {
-                block: 'end',
+                block: 'start',
                 inline: 'nearest',
                 behavior: 'smooth'
               }
@@ -161,7 +161,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 behavior: 'smooth'
               }
             : {
-                block: 'start',
+                block: 'end',
                 inline: 'nearest',
                 behavior: 'smooth'
               }
