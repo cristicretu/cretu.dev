@@ -292,24 +292,22 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 {SearchResults.map((item, index) => {
                   if (item.type === 'Theme') {
                     return (
-                      <li key={index}>
-                        <a
-                          href={item.href}
-                          className={cn(
-                            'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
-                            cursor === index
-                              ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
-                              : ''
-                          )}
-                          onClick={() => {
-                            setTheme(item.theme);
-                            setIsOpen(false);
-                          }}
-                          onMouseOver={() => setCursor(index)}
-                        >
-                          <div>{item.icon}</div>
-                          <div>{item.label}</div>
-                        </a>
+                      <li
+                        key={index}
+                        className={cn(
+                          'flex items-center p-3 space-x-2 transition-all rounded-md cursor-pointer',
+                          cursor === index
+                            ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
+                            : ''
+                        )}
+                        onClick={() => {
+                          setTheme(item.theme);
+                          setIsOpen(false);
+                        }}
+                        onMouseOver={() => setCursor(index)}
+                      >
+                        <div>{item.icon}</div>
+                        <div>{item.label}</div>
                       </li>
                     );
                   }
