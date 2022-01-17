@@ -303,7 +303,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                               className={cn(
                                 'transition-all',
                                 cursor === index
-                                  ? 'dark:text-gray-400 text-gray-600'
+                                  ? 'dark:text-gray-400 text-gray-400'
                                   : 'text-transparent dark:text-transparent'
                               )}
                             >
