@@ -143,7 +143,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
           cursor === 0
             ? { behaviour: 'smooth' }
             : {
-                block: 'start',
+                block: 'nearest',
                 inline: 'nearest',
                 behavior: 'smooth'
               }
@@ -161,7 +161,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 behavior: 'smooth'
               }
             : {
-                block: 'end',
+                block: 'nearest',
                 inline: 'nearest',
                 behavior: 'smooth'
               }
@@ -264,7 +264,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 placeholder="Search for links or commands..."
               />
             </DialogPrimitive.Title>
-            <div className="px-3 py-2 max-h-[30vh] overflow-y-auto text-gray-600 dark:text-gray-400">
+            <div className="px-3 py-2 max-h-[32vh] overflow-y-auto text-gray-600 dark:text-gray-400">
               <ul>
                 {!SearchResults.length && <p>No results found.</p>}
 
