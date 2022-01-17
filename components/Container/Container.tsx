@@ -1,22 +1,17 @@
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
-import React, { useEffect, useState } from 'react';
 
 import CommandMenu from '@components/CommandMenu';
 import Footer from 'components/Footer/Footer';
 import Head from 'next/head';
 import NavItem from '@components/Navitem';
-import ThemeSwitcher from '@components/ThemeSwitcher';
+import React from 'react';
 import { useRouter } from 'next/dist/client/router';
-import { useTheme } from 'next-themes';
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Container(props) {
-  const [mounted, setMounted] = useState(false);
-  const { resolvedTheme, setTheme, theme } = useTheme();
-
   const router = useRouter();
   const { children, ...customMeta } = props;
   const meta = {
@@ -27,7 +22,7 @@ export default function Container(props) {
     ...customMeta
   };
 
-  useEffect(() => setMounted(true), []);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <div className="min-h-screen font-sans text-gray-800 polka dark:text-gray-200 capsize">
@@ -53,7 +48,7 @@ export default function Container(props) {
         )}
       </Head>
 
-      <CommandMenu />
+      <CommandMenu buttonOpen={open} setButtonOpen={setOpen} />
 
       <nav
         className={cn(
@@ -62,12 +57,28 @@ export default function Container(props) {
       >
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           <div className="flex space-x-2 text-base items-center md:ml-[-0.64rem]">
-            {/* <NavItem myHref={'/'} text={'Home'} /> */}
-            {/* <NavItem myHref={'/writing'} text={'Writing'} /> */}
+            <NavItem myHref={'/'} text={'Home'} />
+            <NavItem myHref={'/writing'} text={'Writing'} />
+            <button
+              aria-label="Command Menu"
+              type="button"
+              className={cn(
+                'inline-flex md:hidden justify-center px-3 py-2 text-2xl font-extralight rounded-md select-none',
+                'text-gray-900 bg-white hover:bg-gray-50 dark:text-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700',
+                'border border-gray-300 dark:border-gray-600',
+                'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
+              )}
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              ⌘
+            </button>
           </div>
           <div className="flex flex-row items-center space-x-4">
             <a
               href="https://twitter.com/cristicrtu"
+              className="visible md:hidden"
               target="_blank"
               rel="noreferrer"
               aria-label="Twitter"
@@ -76,13 +87,28 @@ export default function Container(props) {
             </a>
             <a
               href="https://github.com/cristicretu/"
+              className="visible md:hidden"
               target="_blank"
               rel="noreferrer"
               aria-label="Github"
             >
               <GitHubLogoIcon className="w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100" />
             </a>
-            <ThemeSwitcher />
+            <button
+              aria-label="Command Menu"
+              type="button"
+              className={cn(
+                ' hidden md:inline-flex justify-center  px-3 py-2 text-2xl font-extralight rounded-md select-none',
+                'text-gray-900 bg-white hover:bg-gray-50 dark:text-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700',
+                'border border-gray-300 dark:border-gray-600',
+                'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
+              )}
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
+              ⌘
+            </button>
           </div>
         </div>
       </nav>
