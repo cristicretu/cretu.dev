@@ -33,7 +33,7 @@ export default function ThemeSwitcher(props) {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative hidden text-left">
       <DropdownMenuPrimitive.Root>
         <DropdownMenuPrimitive.Trigger
           className={cx(

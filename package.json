@@ -11,6 +11,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.3",
+    "@radix-ui/react-dialog": "^0.1.5",
     "@radix-ui/react-dropdown-menu": "^0.1.4",
     "@radix-ui/react-icons": "^1.0.3",
     "@radix-ui/react-toggle-group": "^0.1.4",
@@ -32,6 +34,7 @@
     "remark-gfm": "^3.0.1",
     "remark-slug": "^7.0.1",
     "sharp": "^0.29.3",
+    "tailwindcss-radix": "^1.6.0",
     "use-delayed-render": "^0.0.7"
   },
   "devDependencies": {
