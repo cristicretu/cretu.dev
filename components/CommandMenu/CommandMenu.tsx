@@ -175,20 +175,6 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
 
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={setIsOpen}>
-      {/* <DialogPrimitive.Trigger asChild className="visible md:hidden">
-        <button
-          aria-label="Command Menu"
-          type="button"
-          className={cn(
-            'inline-flex justify-center px-2 py-1 text-2xl font-extralight rounded-md select-none',
-            'text-gray-900 bg-white hover:bg-gray-50 dark:text-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700',
-            'border border-gray-300 dark:border-gray-600',
-            'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
-          )}
-        >
-          ⌘
-        </button>
-      </DialogPrimitive.Trigger> */}
       <Transition.Root show={isOpen}>
         <Transition.Child
           as={Fragment}
@@ -217,7 +203,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
             forceMount
             className={cn(
               'fixed z-50',
-              'w-[95vw] overflow-auto md:w-full max-w-2xl md:-ml-2 rounded-md shadow-lg',
+              'w-[95vw]  md:w-full max-w-2xl md:-ml-1 rounded-md shadow-lg',
               'mycenter',
               'myblur border border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ',
               'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
@@ -235,7 +221,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 placeholder="Search for links or commands..."
               />
             </DialogPrimitive.Title>
-            <div className="px-3 py-2 text-gray-600 dark:text-gray-400">
+            <div className="px-3 py-2 max-h-[34vh] overflow-y-auto text-gray-600 dark:text-gray-400">
               <ul>
                 {!SearchResults.length && <p>No results found.</p>}
 
