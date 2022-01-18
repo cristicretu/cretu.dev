@@ -94,16 +94,14 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
 
   const [cursor, setCursor] = useState(0);
 
+  const [cursorMoved, setCursorMoved] = useState(false);
+
   const [Results, setResults] = useState('');
   const SearchResults = all
     .sort()
     .filter((item) => item.label.toLowerCase().includes(Results.toLowerCase()));
 
   const itemsRef = useRef([]);
-
-  useEffect(() => {
-    itemsRef.current = itemsRef.current.slice(0, SearchResults.length);
-  }, [SearchResults]);
 
   const handleChange = (e) => {
     setResults(e.target.value);
@@ -127,6 +125,10 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
   }
 
   useEffect(() => {
+    itemsRef.current = itemsRef.current.slice(0, SearchResults.length);
+  }, [SearchResults]);
+
+  useEffect(() => {
     setIsOpen(buttonOpen);
   }, [buttonOpen, setButtonOpen]);
 
@@ -137,6 +139,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
         setCursor((cursor) =>
           cursor === 0 ? SearchResults.length - 1 : cursor - 1
         );
+        setCursorMoved(true);
         itemsRef.current[
           cursor === 0 ? SearchResults.length - 1 : cursor - 1
         ].scrollIntoView(
@@ -153,6 +156,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
         setCursor((cursor) =>
           cursor + 1 > SearchResults.length - 1 ? 0 : cursor + 1
         );
+        setCursorMoved(true);
         itemsRef.current[
           cursor + 1 > SearchResults.length - 1 ? 0 : cursor + 1
         ].scrollIntoView(
@@ -215,6 +219,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
     setCursor(0);
     setButtonOpen(isOpen);
     setResults('');
+    setCursorMoved(false);
   }, [isOpen, setButtonOpen]);
 
   return (
@@ -262,7 +267,11 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 onChange={(e) => {
                   handleChange(e);
                 }}
-                placeholder="Search for links or commands..."
+                placeholder={
+                  !cursorMoved
+                    ? 'Search for links or commands...'
+                    : `${SearchResults.length && SearchResults[cursor].label}`
+                }
               />
             </DialogPrimitive.Title>
             <div className="px-3 py-2 max-h-[32vh] overflow-y-auto text-gray-600 dark:text-gray-400">
@@ -281,7 +290,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         <Link href={item.href}>
                           <a
                             className={cn(
-                              'flex items-center focus:outline-none  justify-between p-3 space-x-2 transition-all rounded-md ',
+                              'flex items-center focus:outline-none  justify-between p-3 space-x-2 rounded-md ',
                               cursor === index
                                 ? `bg-gray-200 ${
                                     samePage(item.href)
@@ -293,7 +302,10 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                             ref={(el) => {
                               itemsRef.current[index] = el;
                             }}
-                            onMouseOver={() => setCursor(index)}
+                            onMouseOver={() => {
+                              setCursor(index);
+                              setCursorMoved(true);
+                            }}
                           >
                             <div className="flex space-x-2">
                               <div>{item.icon}</div>
@@ -302,7 +314,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
 
                             <div
                               className={cn(
-                                'transition-all',
+                                '',
                                 cursor === index
                                   ? 'dark:text-gray-400 text-gray-400'
                                   : 'text-transparent dark:text-transparent'
@@ -329,7 +341,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         <a
                           href={item.href}
                           className={cn(
-                            'flex items-center p-3 justify-between focus:outline-none  transition-all rounded-md',
+                            'flex items-center p-3 justify-between focus:outline-none rounded-md',
                             cursor === index
                               ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                               : ''
@@ -337,7 +349,10 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                           ref={(el) => {
                             itemsRef.current[index] = el;
                           }}
-                          onMouseOver={() => setCursor(index)}
+                          onMouseOver={() => {
+                            setCursor(index);
+                            setCursorMoved(true);
+                          }}
                         >
                           <div className="flex items-center space-x-2">
                             <div>{item.icon}</div>
@@ -345,7 +360,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                           </div>
                           <div
                             className={cn(
-                              'transition-all',
+                              '',
                               cursor === index
                                 ? 'dark:text-gray-400 text-gray-600'
                                 : 'text-transparent dark:text-transparent'
@@ -370,7 +385,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                       <li
                         key={index}
                         className={cn(
-                          'flex items-center p-3 justify-between focus:outline-none  transition-all rounded-md cursor-pointer',
+                          'flex items-center p-3 justify-between focus:outline-none rounded-md cursor-pointer',
                           cursor === index
                             ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                             : ''
@@ -382,7 +397,10 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         ref={(el) => {
                           itemsRef.current[index] = el;
                         }}
-                        onMouseOver={() => setCursor(index)}
+                        onMouseOver={() => {
+                          setCursor(index);
+                          setCursorMoved(true);
+                        }}
                       >
                         <div className="flex items-center space-x-2">
                           <div>{item.icon}</div>
@@ -391,7 +409,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
 
                         <div
                           className={cn(
-                            'transition-all',
+                            '',
                             cursor === index
                               ? 'dark:text-gray-400 text-gray-600'
                               : 'text-transparent dark:text-transparent'
