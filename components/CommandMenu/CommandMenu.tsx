@@ -305,6 +305,9 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                             onMouseOver={() => {
                               setCursor(index);
                               setCursorMoved(true);
+                              itemsRef.current[index].scrollIntoView({
+                                behavior: 'smooth'
+                              });
                             }}
                           >
                             <div className="flex space-x-2">
@@ -352,6 +355,9 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                           onMouseOver={() => {
                             setCursor(index);
                             setCursorMoved(true);
+                            itemsRef.current[index].scrollIntoView({
+                              behavior: 'smooth'
+                            });
                           }}
                         >
                           <div className="flex items-center space-x-2">
@@ -393,6 +399,9 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         onClick={() => {
                           setTheme(item.theme);
                           setIsOpen(false);
+                          itemsRef.current[index].scrollIntoView({
+                            behavior: 'smooth'
+                          });
                         }}
                         ref={(el) => {
                           itemsRef.current[index] = el;
