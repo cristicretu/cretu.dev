@@ -5,8 +5,8 @@
 @font-face {
   font-family: 'IBM Plex Sans';
   font-style: normal;
-  font-weight: 500 600 700 800 900;
-  font-display: swap;
+  font-weight: 100 900;
+  font-display: optional;
   src: url(/fonts/IBMPlexSans-Regular.woff2) format('woff2');
 }
 
@@ -14,7 +14,7 @@
   font-family: 'Playfair Display';
   font-style: normal;
   font-weight: normal;
-  font-display: swap;
+  font-display: optional;
   src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
 }
 
