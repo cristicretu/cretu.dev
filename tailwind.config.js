@@ -3,22 +3,15 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
   mode: 'jit',
-  purge: {
-    content: [
-      './components/**/*.{js,ts,jsx,tsx}',
-      './pages/**/*.{js,ts,jsx,tsx}'
-    ],
-    options: {
-      safelist: {
-        standard: ['outline-none']
-      }
-    }
-  },
+  content: [
+    './components/**/*.{js,ts,jsx,tsx}',
+    './pages/**/*.{js,ts,jsx,tsx}'
+  ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
-        gray: colors.gray
+        gray: colors.neutral
       },
       fontFamily: {
         sans: ['IBM Plex Sans', ...fontFamily.sans],
