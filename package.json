@@ -40,7 +40,7 @@
     "use-delayed-render": "^0.0.7"
   },
   "devDependencies": {
-    "@types/react": "^17.0.35",
+    "@types/react": "^17.0.38",
     "autoprefixer": "^10.2.6",
     "eslint": "<8.0.0",
     "eslint-config-next": "12.0.4",
