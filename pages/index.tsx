@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-
 import BlogPost from '@components/BlogPost';
 import Container from '@components/Container';
+import ProjectCard from '@components/ProjectCard';
 import Image from 'next/image';
 import Link from 'next/link';
-import ProjectCard from '@components/ProjectCard';
+import React, { useEffect } from 'react';
 import useDelayedRender from 'use-delayed-render';
 
 function cx(...classes: string[]) {

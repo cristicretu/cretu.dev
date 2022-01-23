@@ -1,7 +1,7 @@
 import DownloadImage from '@components/DownloadImage';
+import TwitterAt from '@components/TwitterAt';
 import Image from 'next/image';
 import Link from 'next/link';
-import TwitterAt from '@components/TwitterAt';
 
 const CustomLink = (props: any) => {
   const href = props.href;

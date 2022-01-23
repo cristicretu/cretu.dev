@@ -1,5 +1,4 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
-
 import { useTheme } from 'next-themes';
 
 class MyDocument extends Document {
