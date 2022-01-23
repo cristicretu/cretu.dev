@@ -20,7 +20,7 @@
     "@tailwindcss/typography": "^0.4.1",
     "date-fns": "^2.0.0-beta.5",
     "gray-matter": "^4.0.3",
-    "mdx-bundler": "^8.0.0",
+    "mdx-bundler": "^8.0.1",
     "mdx-prism": "^0.3.4",
     "next": "latest",
     "next-mdx-remote": "^3.0.8",
