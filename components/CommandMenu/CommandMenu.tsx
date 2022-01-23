@@ -1,5 +1,5 @@
+import { Transition } from '@headlessui/react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-
 import {
   ArrowRightIcon,
   GitHubLogoIcon,
@@ -8,12 +8,10 @@ import {
   SunIcon,
   TwitterLogoIcon
 } from '@radix-ui/react-icons';
-import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
-
 import Link from 'next/link';
-import { Transition } from '@headlessui/react';
 import { useRouter } from 'next/router';
 import { useTheme } from 'next-themes';
+import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');

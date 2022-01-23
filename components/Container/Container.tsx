@@ -1,11 +1,10 @@
-import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
-
 import CommandMenu from '@components/CommandMenu';
-import Footer from 'components/Footer/Footer';
-import Head from 'next/head';
 import NavItem from '@components/Navitem';
-import React from 'react';
+import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
+import Footer from 'components/Footer/Footer';
 import { useRouter } from 'next/dist/client/router';
+import Head from 'next/head';
+import React from 'react';
 
 function cn(...classes: string[]) {
   return classes.filter(Boolean).join(' ');

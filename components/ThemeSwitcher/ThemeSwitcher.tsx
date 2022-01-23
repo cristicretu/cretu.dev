@@ -1,11 +1,9 @@
 // credits:
 // https://github.com/ecklf/tailwindcss-radix/blob/main/demo/components/shared/ThemeSwitcher.tsx
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-
 import { Half2Icon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
-
-import React from 'react';
 import { useTheme } from 'next-themes';
+import React from 'react';
 
 function cx(...classes: string[]) {
   return classes.filter(Boolean).join(' ');

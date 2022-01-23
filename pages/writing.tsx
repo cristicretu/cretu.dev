@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-
 import BlogPost from '@components/BlogPost';
 import Container from '@components/Container';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { getAllFilesFrontMatter } from 'lib/mdx';
+import React, { useState } from 'react';
 import useDelayedRender from 'use-delayed-render';
 
 interface writingProps {
