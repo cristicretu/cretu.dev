@@ -38,7 +38,7 @@ export default function Writing({ posts }: writingProps): JSX.Element {
             'before flex flex-col space-y-4',
             rendered ? 'after' : ''
           )}
-          style={{ transitionDelay: '80ms' }}
+          style={{ transitionDelay: '30ms' }}
         >
           <h1 className="font-serif text-4xl font-bold text-gray-900 dark:text-gray-100">
             Writing
@@ -54,7 +54,7 @@ export default function Writing({ posts }: writingProps): JSX.Element {
             'relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 before',
             rendered ? 'after' : ''
           )}
-          style={{ transitionDelay: '120ms' }}
+          style={{ transitionDelay: '60ms' }}
         >
           <MagnifyingGlassIcon className="w-5 h-5 fill-current" />
           <input
@@ -73,7 +73,7 @@ export default function Writing({ posts }: writingProps): JSX.Element {
             'flex flex-col space-y-2 before',
             rendered ? 'after' : ''
           )}
-          style={{ transitionDelay: '160ms' }}
+          style={{ transitionDelay: '90ms' }}
         >
           {SearchResults.map((data) => (
             <BlogPost
