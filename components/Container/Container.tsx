@@ -96,7 +96,7 @@ export default function Container(props) {
           </div>
         </div>
       </nav>
-      <main className="flex flex-col justify-center flex-grow max-w-2xl px-4 mx-auto my-auto text-gray-800 motion-reduce:transition-none motion-reduce:transform-none dark:text-gray-200">
+      <main className="flex flex-col justify-center flex-grow max-w-2xl px-4 py-12 mx-auto my-auto text-gray-800 motion-reduce:transition-none motion-reduce:transform-none dark:text-gray-200">
         {children}
       </main>
 
