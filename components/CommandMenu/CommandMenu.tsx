@@ -127,6 +127,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, SearchResults.length);
   }, [SearchResults]);
+  console.log(itemsRef.current);
 
   useEffect(() => {
     setIsOpen(buttonOpen);
@@ -274,7 +275,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 }
               />
             </DialogPrimitive.Title>
-            <div className="px-3 py-2 max-h-[32vh] overflow-y-auto text-gray-600 dark:text-gray-400">
+            <div className="px-3 py-2 max-h-[40vh] md:max-h-[32vh] overflow-y-auto text-gray-600 dark:text-gray-400">
               <ul>
                 {!SearchResults.length && <p>No results found.</p>}
 
@@ -286,7 +287,19 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 {SearchResults.map((item, index) => {
                   if (item.type === 'Navigation') {
                     return (
-                      <li key={index}>
+                      <li
+                        key={index}
+                        ref={(el) => {
+                          itemsRef.current[index] = el;
+                        }}
+                        onMouseOver={() => {
+                          setCursor(index);
+                          setCursorMoved(true);
+                          itemsRef.current[index].scrollIntoView({
+                            behavior: 'smooth'
+                          });
+                        }}
+                      >
                         <Link href={item.href}>
                           <a
                             className={cn(
@@ -299,16 +312,6 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                                   } dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white`
                                 : ''
                             )}
-                            ref={(el) => {
-                              itemsRef.current[index] = el;
-                            }}
-                            onMouseOver={() => {
-                              setCursor(index);
-                              setCursorMoved(true);
-                              itemsRef.current[index].scrollIntoView({
-                                behavior: 'smooth'
-                              });
-                            }}
                           >
                             <div className="flex space-x-2">
                               <div>{item.icon}</div>
@@ -340,7 +343,19 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 {SearchResults.map((item, index) => {
                   if (item.type === 'Socials') {
                     return (
-                      <li key={index}>
+                      <li
+                        key={index}
+                        ref={(el) => {
+                          itemsRef.current[index] = el;
+                        }}
+                        onMouseOver={() => {
+                          setCursor(index);
+                          setCursorMoved(true);
+                          itemsRef.current[index].scrollIntoView({
+                            behavior: 'smooth'
+                          });
+                        }}
+                      >
                         <a
                           href={item.href}
                           className={cn(
@@ -349,16 +364,6 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                               ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
                               : ''
                           )}
-                          ref={(el) => {
-                            itemsRef.current[index] = el;
-                          }}
-                          onMouseOver={() => {
-                            setCursor(index);
-                            setCursorMoved(true);
-                            itemsRef.current[index].scrollIntoView({
-                              behavior: 'smooth'
-                            });
-                          }}
                         >
                           <div className="flex items-center space-x-2">
                             <div>{item.icon}</div>

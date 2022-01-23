@@ -12,7 +12,7 @@ export default function Footer(): JSX.Element {
   });
 
   return (
-    <div className="flex flex-col justify-center mt-8 mb-2 text-gray-800 dark:text-gray-300 delayed">
+    <div className="flex flex-col justify-center w-full pb-3 mx-auto text-gray-800 dark:text-gray-300 delayed">
       <hr
         className={cx(
           'w-full border-1 border-gray-200 dark:border-gray-800 before',
@@ -22,7 +22,7 @@ export default function Footer(): JSX.Element {
       />
       <div
         className={cx(
-          'font-serif flex flex-row justify-between text-opacity-70 mt-2 dark:text-opacity-70 text-lg text-gray-700 dark:text-gray-300 before',
+          'font-serif flex px-4  flex-row justify-between text-opacity-70 mt-2 dark:text-opacity-70 text-lg text-gray-700 dark:text-gray-300 before',
           rendered ? 'after' : ''
         )}
         style={{ transitionDelay: '280ms' }}
