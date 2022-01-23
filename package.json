@@ -8,7 +8,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lint": "eslint ./components/* ./pages/* .eslintrc.json --fix --ext ts,tsx,js,jsx,json,yml,yaml,css,mdx --ignore-pattern 'node_modules'"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.3",
