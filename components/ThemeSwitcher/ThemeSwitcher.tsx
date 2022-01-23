@@ -5,10 +5,11 @@ import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
 import { Half2Icon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
 
 import React from 'react';
-import cx from 'classnames';
 import { useTheme } from 'next-themes';
 
-interface Props {}
+function cx(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
 
 const themes = [
   {
