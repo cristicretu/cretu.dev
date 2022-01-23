@@ -127,7 +127,6 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, SearchResults.length);
   }, [SearchResults]);
-  console.log(itemsRef.current);
 
   useEffect(() => {
     setIsOpen(buttonOpen);

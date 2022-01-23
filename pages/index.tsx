@@ -32,7 +32,7 @@ export default function Home() {
                 'flex before items-center space-x-4',
                 rendered ? 'after' : ''
               )}
-              style={{ transitionDelay: '80ms' }}
+              style={{ transitionDelay: '30ms' }}
             >
               <div className="relative w-16 h-16">
                 <Image
@@ -59,7 +59,7 @@ export default function Home() {
               'flex flex-col space-y-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '120ms' }}
+            style={{ transitionDelay: '60ms' }}
           >
             <p>
               <span className="font-serif text-lg italic">
@@ -76,7 +76,7 @@ export default function Home() {
               'flex flex-col space-y-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '160ms' }}
+            style={{ transitionDelay: '90ms' }}
           >
             <p>
               Learning about performant, accessible, and beautiful web
@@ -94,7 +94,7 @@ export default function Home() {
               'flex flex-col space-y-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '200ms' }}
+            style={{ transitionDelay: '120ms' }}
           >
             <p>
               Enjoying sports, design, and music. I listen to a lot of lo-fi and
@@ -107,7 +107,7 @@ export default function Home() {
               'grid grid-cols-1 md:grid-cols-2 before',
               rendered ? 'after' : ''
             )}
-            style={{ transitionDelay: '240ms' }}
+            style={{ transitionDelay: '150ms' }}
           >
             <div className="flex flex-col mt-4 space-y-4 md:mt-8">
               <p>Projects</p>
