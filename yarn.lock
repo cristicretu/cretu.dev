@@ -2770,22 +2770,6 @@ hast-util-to-html@^7.1.1:
     unist-util-is "^4.0.0"
     xtend "^4.0.0"
 
-hast-util-to-html@^8.0.1:
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/hast-util-to-html/-/hast-util-to-html-8.0.3.tgz#4e37580872e143ea9ce0dba87918b19e4ea997e3"
-  integrity sha512-/D/E5ymdPYhHpPkuTHOUkSatxr4w1ZKrZsG0Zv/3C2SRVT0JFJG53VS45AMrBtYk0wp5A7ksEhiC8QaOZM95+A==
-  dependencies:
-    "@types/hast" "^2.0.0"
-    ccount "^2.0.0"
-    comma-separated-tokens "^2.0.0"
-    hast-util-is-element "^2.0.0"
-    hast-util-whitespace "^2.0.0"
-    html-void-elements "^2.0.0"
-    property-information "^6.0.0"
-    space-separated-tokens "^2.0.0"
-    stringify-entities "^4.0.2"
-    unist-util-is "^5.0.0"
-
 hast-util-to-parse5@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/hast-util-to-parse5/-/hast-util-to-parse5-6.0.0.tgz#1ec44650b631d72952066cea9b1445df699f8479"
@@ -2845,11 +2829,6 @@ html-void-elements@^1.0.0:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/html-void-elements/-/html-void-elements-1.0.5.tgz#ce9159494e86d95e45795b166c2021c2cfca4483"
   integrity sha512-uE/TxKuyNIcx44cIWnjr/rfIATDH7ZaOMmstu0CwhFG1Dunhlp4OC6/NMbhiwoq5BpW0ubi303qnEk/PZj614w==
-
-html-void-elements@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/html-void-elements/-/html-void-elements-2.0.1.tgz#29459b8b05c200b6c5ee98743c41b979d577549f"
-  integrity sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==
 
 http-cache-semantics@^4.0.0:
   version "4.1.0"
@@ -4681,10 +4660,10 @@ prismjs@~1.23.0:
   optionalDependencies:
     clipboard "^2.0.0"
 
-prismjs@~1.25.0:
-  version "1.25.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.25.0.tgz#6f822df1bdad965734b310b315a23315cf999756"
-  integrity sha512-WCjJHl1KEWbnkQom1+SzftbtXMKQoezOCYs5rECqMN+jP+apI7ftoflyqigqzopSO3hMhTEb0mFClA8lkolgEg==
+prismjs@~1.26.0:
+  version "1.26.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.26.0.tgz#16881b594828bb6b45296083a8cbab46b0accd47"
+  integrity sha512-HUoH9C5Z3jKkl3UunCyiD5jwk0+Hz0fIgQ2nbwU2Oo/ceuTAQAg+pPVnfdt2TJWRVLcxKh9iuoYDUSc8clb5UQ==
 
 process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -4853,16 +4832,16 @@ refractor@3.3.0:
     parse-entities "^2.0.0"
     prismjs "~1.23.0"
 
-refractor@^4.2.1:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/refractor/-/refractor-4.3.0.tgz#c33e4f5702d4a5b195db137d8b1e092ab3090cbb"
-  integrity sha512-avSi9ItM6ewXJJIid5KzAgGi7AWpGatAKvQYqLFqZYZsc9klJ7IZVBZv1ocbgZANnZQOVAX46geNd3XQZxWyuw==
+refractor@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/refractor/-/refractor-4.4.0.tgz#093c3391c95e36e0fa1b630d7b13216cd7a0f643"
+  integrity sha512-JmpsdoB9Va7BxQAAsuFW4cvN6plRKmSVNua8vUjbB6uRv+9cwm5JDH67P8qYr0OAFXWE1D4WlrIAPzQNcyEaoQ==
   dependencies:
     "@types/hast" "^2.0.0"
     "@types/prismjs" "^1.0.0"
     hastscript "^7.0.0"
     parse-entities "^4.0.0"
-    prismjs "~1.25.0"
+    prismjs "~1.26.0"
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"
@@ -4925,17 +4904,15 @@ rehype-parse@^8.0.2:
     parse5 "^6.0.0"
     unified "^10.0.0"
 
-rehype-prism-plus@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/rehype-prism-plus/-/rehype-prism-plus-1.1.3.tgz#54437cd5a9550e0ffce11599fd4869c9cbac7eab"
-  integrity sha512-ADk7Wr5HJO0igRfwYOzBi2AYu8Wd9YRsDOxp/fRtZXjelujr8PHjEkYNmH9TEKTJp2U72vU4tKaOn/49MuhDUw==
+rehype-prism-plus@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/rehype-prism-plus/-/rehype-prism-plus-1.3.1.tgz#731ea52a0cebea31b65fa0c2a5aa8cc9ee80bc1b"
+  integrity sha512-wMxGPCuU96Bi3zbC9lc7nx4vxFJ5i5i2CrM+ZOZUe8zEPmFqUNF7RJIwwcZ3vfVpghMcHi35A8cSF2tKyrsYxw==
   dependencies:
-    hast-util-to-html "^8.0.1"
     hast-util-to-string "^2.0.0"
     parse-numeric-range "^1.3.0"
-    refractor "^4.2.1"
+    refractor "^4.4.0"
     rehype-parse "^8.0.2"
-    unified "^10.1.0"
     unist-util-filter "^4.0.0"
     unist-util-visit "^4.0.0"
 
@@ -6027,7 +6004,7 @@ stringify-entities@^3.0.1:
     character-entities-legacy "^1.0.0"
     xtend "^4.0.0"
 
-stringify-entities@^4.0.0, stringify-entities@^4.0.2:
+stringify-entities@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/stringify-entities/-/stringify-entities-4.0.2.tgz#13d113dc7449dc8ae4cb22c28883ee3fff8753e3"
   integrity sha512-MTxTVcEkorNtBbNpoFJPEh0kKdM6+QbMjLbaxmvaPMmayOXdr/AIVIIJX7FReUVweRBFJfZepK4A4AKgwuFpMQ==
@@ -6368,7 +6345,7 @@ unified@9.2.0:
     trough "^1.0.0"
     vfile "^4.0.0"
 
-unified@^10.0.0, unified@^10.1.0:
+unified@^10.0.0:
   version "10.1.1"
   resolved "https://registry.yarnpkg.com/unified/-/unified-10.1.1.tgz#345e349e3ab353ab612878338eb9d57b4dea1d46"
   integrity sha512-v4ky1+6BN9X3pQrOdkFIPWAaeDsHPE1svRDxq7YpTc2plkIqFMwukfqM+l0ewpP9EfwARlt9pPFAeWYhHm8X9w==
