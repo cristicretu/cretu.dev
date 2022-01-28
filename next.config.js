@@ -6,6 +6,6 @@ module.exports = {
     }
   },
   images: {
-    domains: []
+    domains: ['api.microlink.io']
   }
 };
