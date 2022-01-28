@@ -17,6 +17,31 @@ module.exports = {
         sans: ['IBM Plex Sans', ...fontFamily.sans],
         serif: ['Playfair Display', ...fontFamily.serif]
       },
+      keyframes: {
+        'slide-in': {
+          '0%': { opacity: 0, transform: 'translateY(16px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' }
+        },
+        'slide-out': {
+          '0%': { opacity: 1, transform: 'translateY(0px)' },
+          '100%': { opacity: 0, transform: 'translateY(16px)' }
+        },
+        'text-shimmer': {
+          from: { backgroundPosition: '0 0' },
+          to: { backgroundPosition: '-200% 0' }
+        },
+        tilt: {
+          '0%, 50%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(0.5deg)' },
+          '75%': { transform: 'rotate(-0.5deg)' }
+        }
+      },
+      animation: {
+        'slide-in': 'slide-in 0.1s ease-out',
+        'slide-out': 'slide-out 0.1s ease',
+        'text-shimmer': 'text-shimmer 2s ease-out infinite alternate',
+        tilt: 'tilt 10s infinite linear'
+      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
