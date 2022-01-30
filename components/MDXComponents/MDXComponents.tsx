@@ -1,7 +1,8 @@
 import DownloadImage from '@components/DownloadImage';
-import TwitterAt from '@components/TwitterAt';
+import ExternalLink from '@components/ExternalLink';
 import Image from 'next/image';
 import Link from 'next/link';
+import TwitterAt from '@components/TwitterAt';
 
 const CustomLink = (props: any) => {
   const href = props.href;
@@ -22,7 +23,8 @@ const MDXComponents = {
   Image,
   a: CustomLink,
   TwitterAt,
-  DownloadImage
+  DownloadImage,
+  ExternalLink
 };
 
 export default MDXComponents;
