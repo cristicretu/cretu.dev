@@ -10,12 +10,20 @@ function cn(...args) {
   return args.filter(Boolean).join(' ');
 }
 
+interface Props {
+  href?: string;
+  children?: any;
+  className?: string;
+  customLine?: boolean;
+}
+
 export default function ExternalLink({
   href,
   children,
   className,
+  customLine = true,
   ...props
-}: React.ComponentProps<'a'>): JSX.Element {
+}: React.ComponentProps<'a'> & Props): JSX.Element {
   const { resolvedTheme } = useTheme();
 
   const shimmer = (w: number, h: number, theme?: string) => `
@@ -47,7 +55,11 @@ export default function ExternalLink({
             aria-label={`Open ${href} in a new tab`}
             {...props}
           >
-            <span className="custom-hover cursor-arrow">{children}</span>
+            <span
+              className={cn(customLine ? 'custom-hover' : '', 'cursor-arrow')}
+            >
+              {children}
+            </span>
             <span className=" cursor-arrow">↗</span>
           </a>
         </TooltipPrimitive.Trigger>
