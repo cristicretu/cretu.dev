@@ -110,10 +110,11 @@ Read more here:
 
 _~Implement your styles..._
 
+Interface with props:
+
 ```tsx
 interface Props {
   variant?: ButtonTypes
-
   loading?: boolean
   shadow?: boolean
   autoFocus?: boolean
@@ -138,7 +139,10 @@ const defaultProps {
 
 type NativeProps = Omit<React.ButtonHTMLAttributes<any>, keyof Props>
 export type ButtonProps = Props & NativeProps
+```
+Button Component:
 
+```tsx
 const ButtonComponent = React.forwardRef<
 	  HTMLButtonElement,
 	  React.PropsWithChildren<ButtonProps>
@@ -146,7 +150,7 @@ const ButtonComponent = React.forwardRef<
   (btnProps: ButtonProps & typeof defaultProps, ref:
   React.ref<HTMLButtonElement | null>)
   ) => {
-	...
+	...custom logic and destructuring here...
 
 	return (
 		<Button
@@ -165,7 +169,11 @@ const ButtonComponent = React.forwardRef<
 	)
   }
 )
+```
 
+Styles example, custom logic or variants (depending on your library of choice) are marked with `{}`:
+
+```jsx
 const Button = styled('button', {
 	box-sizing: 'border-box',
 	display: 'inline-block',
