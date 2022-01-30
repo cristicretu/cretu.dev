@@ -1,47 +1,66 @@
-import fs from 'fs';
-import matter from 'gray-matter';
-import mdxPrism from 'mdx-prism';
-import path from 'path';
-import readingTime from 'reading-time';
-import remarkSlug from 'remark-slug';
-import { serialize } from 'next-mdx-remote/serialize';
+import { readFileSync, readdirSync } from 'fs';
 
-const root = process.cwd();
+import { bundleMDX } from 'mdx-bundler';
+import { join } from 'path';
+import matter from 'gray-matter';
+import readingTime from 'reading-time';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeCodeTitles from 'rehype-code-titles';
+import rehypePrism from 'rehype-prism-plus';
+import rehypeSlug from 'rehype-slug';
+import remarkGfm from 'remark-gfm';
 
 export async function getFiles(type) {
-  return fs.readdirSync(path.join(root, 'data', type));
+  return readdirSync(join(process.cwd(), 'data', type));
 }
 
-export async function getFileBySlug(type, slug) {
+export async function getFileBySlug(type, slug?) {
   const source = slug
-    ? fs.readFileSync(path.join(root, 'data', type, `${slug}.mdx`), 'utf8')
-    : fs.readFileSync(path.join(root, 'data', `${type}.mdx`), 'utf8');
+    ? readFileSync(join(process.cwd(), 'data', type, `${slug}.mdx`), 'utf8')
+    : readFileSync(join(process.cwd(), 'data', `${type}.mdx`), 'utf8');
 
-  const { data, content } = matter(source);
-  const mdxSource = await serialize(content, {
-    mdxOptions: {
-      remarkPlugins: [remarkSlug],
-      rehypePlugins: [mdxPrism]
+  const { code, frontmatter } = await bundleMDX({
+    source,
+    xdmOptions(options) {
+      // this is the recommended way to add custom remark/rehype plugins:
+      // The syntax might look weird, but it protects you in case we add/remove
+      // plugins in the future.
+      options.remarkPlugins = [...(options?.remarkPlugins ?? []), remarkGfm];
+      options.rehypePlugins = [
+        ...(options?.rehypePlugins ?? []),
+        rehypeSlug,
+        rehypeCodeTitles,
+        rehypePrism,
+        [
+          rehypeAutolinkHeadings,
+          {
+            properties: {
+              className: ['anchor']
+            }
+          }
+        ]
+      ] as any;
+      return options;
     }
   });
 
   return {
-    mdxSource,
+    code,
     frontMatter: {
-      wordCount: content.split(/\s+/gu).length,
-      readingTime: readingTime(content),
+      wordCount: source.split(/\s+/gu).length,
+      readingTime: readingTime(source),
       slug: slug || null,
-      ...data
+      ...frontmatter
     }
   };
 }
 
 export async function getAllFilesFrontMatter(type) {
-  const files = fs.readdirSync(path.join(root, 'data', type));
+  const files = readdirSync(join(process.cwd(), 'data', type));
 
   return files.reduce((allPosts, postSlug) => {
-    const source = fs.readFileSync(
-      path.join(root, 'data', type, postSlug),
+    const source = readFileSync(
+      join(process.cwd(), 'data', type, postSlug),
       'utf8'
     );
     const { data } = matter(source);
