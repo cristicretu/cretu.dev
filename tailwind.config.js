@@ -56,9 +56,6 @@ module.exports = {
             'h2,h3,h4': {
               'scroll-margin-top': spacing[32]
             },
-            thead: {
-              borderBottomColor: theme('colors.gray.200')
-            },
             code: { color: theme('colors.pink.500') },
             'blockquote p:first-of-type::before': false,
             'blockquote p:last-of-type::after': false
@@ -66,7 +63,7 @@ module.exports = {
         },
         dark: {
           css: {
-            color: theme('colors.gray.200'),
+            color: theme('colors.gray.300'),
             a: {
               color: theme('colors.blue.400'),
               '&:hover': {
@@ -93,12 +90,9 @@ module.exports = {
                 '&:before': { backgroundColor: theme('colors.gray.500') }
               }
             },
-            strong: { color: theme('colors.gray.100') },
+            strong: { color: theme('colors.gray.300') },
             thead: {
-              th: {
-                color: theme('colors.gray.100')
-              },
-              borderBottomColor: theme('colors.gray.600')
+              color: theme('colors.gray.100')
             },
             tbody: {
               tr: {
