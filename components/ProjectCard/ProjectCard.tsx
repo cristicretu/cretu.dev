@@ -29,10 +29,13 @@ export default function ProjectCard({
           type === 'small' ? 'text-md' : 'text-lg'
         )}
       >
-        <ExternalLink href={url}>{title}</ExternalLink>
-        <a href={github} target="_blank" rel="noreferrer" aria-label="GitHub">
-          <GitHubLogoIcon className="w-4 h-auto pt-1 text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100" />
-        </a>
+        {url && <ExternalLink href={url}>{title}</ExternalLink>}
+        {!url && title && <>{title}</>}
+        {github && (
+          <a href={github} target="_blank" rel="noreferrer" aria-label="GitHub">
+            <GitHubLogoIcon className="w-4 h-auto pt-1 text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100" />
+          </a>
+        )}
       </p>
       <p>{description}</p>
     </div>

@@ -1,9 +1,10 @@
+import React, { useEffect } from 'react';
+
 import BlogPost from '@components/BlogPost';
 import Container from '@components/Container';
-import ProjectCard from '@components/ProjectCard';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import ProjectCard from '@components/ProjectCard';
 import useDelayedRender from 'use-delayed-render';
 
 function cx(...classes: string[]) {
@@ -103,30 +104,38 @@ export default function Home() {
 
           <div
             className={cx(
-              'grid grid-cols-1 md:grid-cols-2 before',
+              'grid grid-cols-1 md:grid-cols-2 before gap-5',
               rendered ? 'after' : ''
             )}
             style={{ transitionDelay: '150ms' }}
           >
             <div className="flex flex-col mt-4 space-y-4 md:mt-8">
-              <p>Projects</p>
+              <p>Building</p>
               <ProjectCard
-                title="Inspo."
-                description="Get inspiration for your React Components."
+                title="⌘K Menu"
+                description="A menu for quick access to the site. Press ⌘ + K here."
+              />
+              <ProjectCard
+                title="lds"
+                description="An opinionated, minimal, and accessible design system."
+              />
+              <ProjectCard
+                title="Inspo. 🚧"
+                description="A collection of components providing inspiration for designers and developers."
                 type="small"
                 github="https://github.com/cristicretu/inspo"
                 url="https://inspo.cretu.dev"
               />
               <ProjectCard
                 title="Covid Tracker"
-                description="Realtime Covid-19 Tracker for Romania."
+                description="A simple, responsive, and accessible Covid Tracker."
                 type="small"
                 github="https://github.com/cristicretu/rocovidtracker"
                 url="https://covid.cretu.dev"
               />
               <ProjectCard
-                title="Ultimate Front-End Template"
-                description="Reusable front-end template, using my prefereed stack: NextJs, TailwindCSS, Typescript with Dark Mode, Custom Font, and more."
+                title="Ultimate Template"
+                description="A template for building your own front-end."
                 type="small"
                 github="https://github.com/cristicretu/ts-next-tailwind-template"
                 url="https://template.cretu.dev"
