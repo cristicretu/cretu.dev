@@ -36,7 +36,7 @@
     "rehype-slug": "^5.0.1",
     "remark-gfm": "^3.0.1",
     "remark-slug": "^7.0.1",
-    "sharp": "^0.29.3",
+    "sharp": "^0.30.0",
     "tailwindcss-radix": "^1.6.0",
     "use-delayed-render": "^0.0.7"
   },
