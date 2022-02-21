@@ -24,7 +24,7 @@
     "mdx-bundler": "^8.0.1",
     "mdx-prism": "^0.3.4",
     "next": "latest",
-    "next-mdx-remote": "^3.0.8",
+    "next-mdx-remote": "^4.0.0",
     "next-themes": "^0.0.15",
     "node-fetch": "^3.2.0",
     "react": "^17.0.2",
