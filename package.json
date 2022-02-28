@@ -51,7 +51,7 @@
     "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-md": "^1.0.19",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react": "^7.29.2",
     "postcss": "^8.4.6",
     "prettier": "^2.4.1",
     "tailwindcss": "^3.0.23",
