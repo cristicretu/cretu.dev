@@ -42,7 +42,7 @@
     "use-delayed-render": "^0.0.7"
   },
   "devDependencies": {
-    "@types/react": "^17.0.39",
+    "@types/react": "^17.0.40",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
     "autoprefixer": "^10.4.2",
