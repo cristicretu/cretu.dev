@@ -23,7 +23,7 @@
     "prepare": "husky install",
     "postinstall": "yarn husky install && yarn build",
     "pre-commit": "yarn lint:fix",
-    "pre-push": "yarn check-format"
+    "pre-push": "yarn lint:fix"
   },
   "prettier": {
     "singleQuote": true,
