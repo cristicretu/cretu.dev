@@ -1,37 +1,39 @@
-import BlogPost from '@components/BlogPost';
-import Container from '@components/Container';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { getAllFilesFrontMatter } from 'lib/mdx';
-import React, { useState } from 'react';
-import useDelayedRender from 'use-delayed-render';
+import React, { useState } from 'react'
+
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+import useDelayedRender from 'use-delayed-render'
+
+import BlogPost from '@components/BlogPost'
+import Container from '@components/Container'
+import { getAllFilesFrontMatter } from 'lib/mdx'
 
 interface writingProps {
-  posts;
+  posts
 }
 
 function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ')
 }
 
 export default function Writing({ posts }: writingProps): JSX.Element {
   const { rendered } = useDelayedRender(true, {
-    exitDelay: 2000
-  });
+    exitDelay: 2000,
+  })
 
-  const [Results, setResults] = useState('');
+  const [Results, setResults] = useState('')
   const SearchResults = posts
     .sort(
       (a, b) =>
         Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
     )
-    .filter((date) => date.title.toLowerCase().includes(Results.toLowerCase()));
+    .filter(date => date.title.toLowerCase().includes(Results.toLowerCase()))
 
   return (
     <Container
-      title="Cristian Crețu - Writing"
-      description="My ideas about programming, tech, and personal life."
+      title='Cristian Crețu - Writing'
+      description='My ideas about programming, tech, and personal life.'
     >
-      <div className="flex flex-col space-y-4 text-gray-600 delayed dark:text-gray-400">
+      <div className='flex flex-col space-y-4 text-gray-600 delayed dark:text-gray-400'>
         <div
           className={cx(
             'before flex flex-col space-y-4',
@@ -39,7 +41,7 @@ export default function Writing({ posts }: writingProps): JSX.Element {
           )}
           style={{ transitionDelay: '30ms' }}
         >
-          <h1 className="font-serif text-4xl font-bold text-gray-900 dark:text-gray-100">
+          <h1 className='font-serif text-4xl font-bold text-gray-900 dark:text-gray-100'>
             Writing
           </h1>
           <p>
@@ -55,14 +57,14 @@ export default function Writing({ posts }: writingProps): JSX.Element {
           )}
           style={{ transitionDelay: '60ms' }}
         >
-          <MagnifyingGlassIcon className="w-5 h-5 fill-current" />
+          <MagnifyingGlassIcon className='w-5 h-5 fill-current' />
           <input
             value={Results}
-            className="flex-grow block w-full bg-transparent outline-none rounded-xs"
-            aria-label="Search articles"
-            type="text"
-            onChange={(e) => setResults(e.target.value)}
-            placeholder="Search Articles"
+            className='flex-grow block w-full bg-transparent outline-none rounded-xs'
+            aria-label='Search articles'
+            type='text'
+            onChange={e => setResults(e.target.value)}
+            placeholder='Search Articles'
           />
         </div>
 
@@ -74,26 +76,26 @@ export default function Writing({ posts }: writingProps): JSX.Element {
           )}
           style={{ transitionDelay: '90ms' }}
         >
-          {SearchResults.map((data) => (
+          {SearchResults.map(data => (
             <BlogPost
               key={data.title}
               title={data.title}
               summary={data.summary}
               slug={data.slug}
               date={data.publishedAt}
-              variant="writing"
+              variant='writing'
             />
           ))}
         </div>
       </div>
     </Container>
-  );
+  )
 }
 
 export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog');
+  const posts = await getAllFilesFrontMatter('blog')
 
   return {
-    props: { posts }
-  };
+    props: { posts },
+  }
 }

@@ -1,13 +1,13 @@
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ')
 }
 
 export default function NavItem({ myHref, text }) {
-  const router = useRouter();
-  const isActive = router.asPath === myHref;
+  const router = useRouter()
+  const isActive = router.asPath === myHref
 
   return (
     <Link href={myHref}>
@@ -22,5 +22,5 @@ export default function NavItem({ myHref, text }) {
         {text}
       </a>
     </Link>
-  );
+  )
 }

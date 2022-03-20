@@ -1,1 +1,1 @@
-export { default } from './DownloadImage';
+export { default } from './DownloadImage'

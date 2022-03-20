@@ -1,1 +1,1 @@
-export { default } from './Navitem';
+export { default } from './Navitem'

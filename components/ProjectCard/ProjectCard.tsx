@@ -1,17 +1,19 @@
-import ExternalLink from '@components/ExternalLink';
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
-import React from 'react';
+import React from 'react'
+
+import { GitHubLogoIcon } from '@radix-ui/react-icons'
+
+import ExternalLink from '@components/ExternalLink'
 
 interface ProjectCardProps {
-  url?: string;
-  github?: string;
-  title: string;
-  description: string;
-  type?: string;
+  url?: string
+  github?: string
+  title: string
+  description: string
+  type?: string
 }
 
 function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ')
 }
 
 export default function ProjectCard({
@@ -19,7 +21,7 @@ export default function ProjectCard({
   github,
   title,
   description,
-  type
+  type,
 }: ProjectCardProps): JSX.Element {
   return (
     <div>
@@ -32,12 +34,12 @@ export default function ProjectCard({
         {url && <ExternalLink href={url}>{title}</ExternalLink>}
         {!url && title && <>{title}</>}
         {github && (
-          <a href={github} target="_blank" rel="noreferrer" aria-label="GitHub">
-            <GitHubLogoIcon className="w-4 h-auto pt-1 text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100" />
+          <a href={github} target='_blank' rel='noreferrer' aria-label='GitHub'>
+            <GitHubLogoIcon className='w-4 h-auto pt-1 text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
           </a>
         )}
       </p>
       <p>{description}</p>
     </div>
-  );
+  )
 }

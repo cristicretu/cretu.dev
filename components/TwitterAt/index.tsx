@@ -1,1 +1,1 @@
-export { default } from './TwitterAt';
+export { default } from './TwitterAt'
