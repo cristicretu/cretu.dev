@@ -2,14 +2,90 @@
   "name": "cretu.dev",
   "version": "2.0.0",
   "type": "commonjs",
-  "author": "Cristian Crețu <crisemcr@gmail.com>",
+  "author": {
+    "email": "crisemcr@gmail.com",
+    "name": "Cristian Crețu",
+    "url": "https://cretu.dev"
+  },
+  "homepage": "https://cretu.dev",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cristicretu/cretu.dev/issues"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
-    "lint": "eslint ./components/* ./pages/* .eslintrc.json --fix --ext ts,tsx,js,jsx,json,yml,yaml,css,mdx --ignore-pattern 'node_modules'"
+    "lint": "npx eslint . --ext .ts,.tsx",
+    "lint:fix": "npx eslint . --ext .ts,.tsx --fix",
+    "prepare": "husky install",
+    "postinstall": "yarn husky install && yarn build",
+    "pre-commit": "yarn lint:fix",
+    "pre-push": "yarn check-format"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "tabWidth": 2,
+    "printWidth": 80,
+    "useTabs": false,
+    "semi": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
+  },
+  "eslintConfig": {
+    "extends": [
+      "next",
+      "eslint:recommended",
+      "next/core-web-vitals",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "ignorePatterns": [
+      "postcss.config.js",
+      "tailwind.config.js"
+    ],
+    "rules": {
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "internal"
+          ],
+          "pathGroups": [
+            {
+              "pattern": "react",
+              "group": "external",
+              "position": "before"
+            }
+          ],
+          "pathGroupsExcludedImportTypes": [
+            "react"
+          ],
+          "newlines-between": "always",
+          "alphabetize": {
+            "order": "asc",
+            "caseInsensitive": true
+          }
+        }
+      ],
+      "no-unused-vars": "off",
+      "no-console": "warn",
+      "@typescript-eslint/explicit-module-boundary-types": "off"
+    },
+    "globals": {
+      "React": true,
+      "JSX": true
+    }
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
@@ -39,7 +115,8 @@
     "remark-slug": "^7.0.1",
     "sharp": "^0.30.3",
     "tailwindcss-radix": "^1.6.0",
-    "use-delayed-render": "^0.0.7"
+    "use-delayed-render": "^0.0.7",
+    "eslint-config-prettier": "^8.5.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.40",
@@ -55,6 +132,28 @@
     "postcss": "^8.4.8",
     "prettier": "^2.4.1",
     "tailwindcss": "^3.0.23",
-    "typescript": "^4.6.2"
-  }
+    "typescript": "^4.6.2",
+    "husky": "^7.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "keywords": [
+    "tailwindcss",
+    "template",
+    "radix",
+    "react",
+    "nextjs",
+    "portfolio",
+    "personal-site"
+  ]
 }

@@ -1,42 +1,43 @@
-import { getFileBySlug, getFiles } from 'lib/mdx';
+import { useMemo } from 'react'
 
-import BlogComponent from '@components/BlogComponent';
-import { MDXRemote } from 'next-mdx-remote';
-import components from '@components/MDXComponents';
-import { getMDXComponent } from 'mdx-bundler/client';
-import { useMemo } from 'react';
+import { getMDXComponent } from 'mdx-bundler/client'
+import { MDXRemote } from 'next-mdx-remote'
+
+import BlogComponent from '@components/BlogComponent'
+import components from '@components/MDXComponents'
+import { getFileBySlug, getFiles } from 'lib/mdx'
 
 export default function Blog({ code, frontMatter }) {
-  const Component = useMemo(() => getMDXComponent(code), [code]);
+  const Component = useMemo(() => getMDXComponent(code), [code])
 
   return (
     <BlogComponent frontMatter={frontMatter}>
       <Component
         components={
           {
-            ...components
+            ...components,
           } as any
         }
       />
     </BlogComponent>
-  );
+  )
 }
 
 export async function getStaticPaths() {
-  const posts = await getFiles('blog');
+  const posts = await getFiles('blog')
 
   return {
-    paths: posts.map((p) => ({
+    paths: posts.map(p => ({
       params: {
-        slug: p.replace(/\.mdx/, '')
-      }
+        slug: p.replace(/\.mdx/, ''),
+      },
     })),
-    fallback: false
-  };
+    fallback: false,
+  }
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getFileBySlug('blog', params.slug);
+  const post = await getFileBySlug('blog', params.slug)
 
-  return { props: { ...post } };
+  return { props: { ...post } }
 }

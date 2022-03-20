@@ -1,38 +1,39 @@
 // credits:
 // https://github.com/ecklf/tailwindcss-radix/blob/main/demo/components/shared/ThemeSwitcher.tsx
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { Half2Icon, MoonIcon, SunIcon } from '@radix-ui/react-icons';
-import { useTheme } from 'next-themes';
-import React from 'react';
+import React from 'react'
+
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+import { Half2Icon, MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { useTheme } from 'next-themes'
 
 function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(' ')
 }
 
 const themes = [
   {
     key: 'light',
     label: 'Light',
-    icon: <SunIcon />
+    icon: <SunIcon />,
   },
   {
     key: 'dark',
     label: 'Dark',
-    icon: <MoonIcon />
+    icon: <MoonIcon />,
   },
 
   {
     key: 'system',
     label: 'System',
-    icon: <Half2Icon />
-  }
-];
+    icon: <Half2Icon />,
+  },
+]
 
 export default function ThemeSwitcher(props) {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme()
 
   return (
-    <div className="relative hidden text-left">
+    <div className='relative hidden text-left'>
       <DropdownMenuPrimitive.Root>
         <DropdownMenuPrimitive.Trigger
           className={cx(
@@ -41,28 +42,28 @@ export default function ThemeSwitcher(props) {
             'border border-gray-300 dark:border-gray-600',
             'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
           )}
-          aria-label="Change theme"
+          aria-label='Change theme'
         >
           {(function () {
             switch (resolvedTheme) {
               case 'light':
                 return (
-                  <SunIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                );
+                  <SunIcon className='w-5 h-5 text-gray-700 dark:text-gray-300' />
+                )
               case 'dark':
                 return (
-                  <MoonIcon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                );
+                  <MoonIcon className='w-5 h-5 text-gray-700 dark:text-gray-300' />
+                )
               default:
                 return (
-                  <Half2Icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
-                );
+                  <Half2Icon className='w-5 h-5 text-gray-700 dark:text-gray-300' />
+                )
             }
           })()}
         </DropdownMenuPrimitive.Trigger>
 
         <DropdownMenuPrimitive.Content
-          align="end"
+          align='end'
           sideOffset={5}
           className={cx(
             ' radix-side-bottom:animate-slide-down radix-side-top:animate-slide-up',
@@ -79,20 +80,20 @@ export default function ThemeSwitcher(props) {
                   'text-gray-500 focus:bg-gray-200 dark:text-gray-400 dark:focus:bg-gray-800 dark:focus:bg-opacity-30 focus:bg-opacity-20'
                 )}
                 onClick={() => {
-                  setTheme(key);
+                  setTheme(key)
                 }}
               >
                 {React.cloneElement(icon, {
-                  className: 'w-5 h-5 mr-2 text-gray-700 dark:text-gray-300'
+                  className: 'w-5 h-5 mr-2 text-gray-700 dark:text-gray-300',
                 })}
-                <span className="flex-grow text-gray-700 dark:text-gray-300">
+                <span className='flex-grow text-gray-700 dark:text-gray-300'>
                   {label}
                 </span>
               </DropdownMenuPrimitive.Item>
-            );
+            )
           })}
         </DropdownMenuPrimitive.Content>
       </DropdownMenuPrimitive.Root>
     </div>
-  );
+  )
 }

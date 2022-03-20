@@ -2,10 +2,10 @@ module.exports = {
   swcMinify: true,
   resolve: {
     fallback: {
-      fs: false
-    }
+      fs: false,
+    },
   },
   images: {
-    domains: ['api.microlink.io']
-  }
-};
+    domains: ['api.microlink.io'],
+  },
+}
