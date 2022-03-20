@@ -19,6 +19,7 @@
     "format": "prettier --write .",
     "lint": "npx eslint . --ext .ts,.tsx",
     "lint:fix": "npx eslint . --ext .ts,.tsx --fix",
+    "check-format": "prettier --list-different \"./**/*.{md,mdx,ts,js,tsx,jsx}\"",
     "prepare": "husky install",
     "postinstall": "yarn husky install && yarn build",
     "pre-commit": "yarn lint:fix",
