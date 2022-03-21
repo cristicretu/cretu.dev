@@ -5,12 +5,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import ExternalLink from '@components/ExternalLink'
+import { IMeta } from '@lib/types'
 
 import Container from '../Container/Container'
 
 interface BlogComponentProps {
-  children?: any
-  frontMatter?: any
+  children?: React.ReactNode
+  frontMatter?: IMeta
 }
 
 const editUrl = slug =>

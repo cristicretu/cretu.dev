@@ -5,7 +5,6 @@ import { useRouter } from 'next/dist/client/router'
 import Head from 'next/head'
 
 import CommandMenu from '@components/CommandMenu'
-import NavItem from '@components/Navitem'
 import Footer from 'components/Footer/Footer'
 
 function cn(...classes: string[]) {

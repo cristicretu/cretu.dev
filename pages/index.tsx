@@ -17,7 +17,7 @@ export default function Home() {
     exitDelay: 2000,
   })
 
-  const [show, setShow] = React.useState(false)
+  const [, setShow] = React.useState(false)
 
   useEffect(() => {
     setShow(true)

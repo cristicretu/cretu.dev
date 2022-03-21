@@ -16,7 +16,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --write .",
+    "format": "prettier --write \"./**/*.{ts,js,tsx,jsx}\"",
     "lint": "npx eslint . --ext .ts,.tsx",
     "lint:fix": "npx eslint . --ext .ts,.tsx --fix",
     "check-format": "prettier --list-different \"./**/*.{ts,js,tsx,jsx}\"",
