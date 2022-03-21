@@ -121,6 +121,13 @@ export default function Home() {
                 description='An opinionated, minimal, and accessible design system.'
               />
               <ProjectCard
+                title='Ultimate Template'
+                description='A full-fledged front-end template for building your own apps.'
+                type='small'
+                github='https://github.com/cristicretu/ts-next-tailwind-template'
+                url='https://template.cretu.dev'
+              />
+              <ProjectCard
                 title='Inspo. 🚧'
                 description='A collection of components providing inspiration for designers and developers.'
                 type='small'
@@ -133,13 +140,6 @@ export default function Home() {
                 type='small'
                 github='https://github.com/cristicretu/rocovidtracker'
                 url='https://covid.cretu.dev'
-              />
-              <ProjectCard
-                title='Ultimate Template'
-                description='A template for building your own front-end.'
-                type='small'
-                github='https://github.com/cristicretu/ts-next-tailwind-template'
-                url='https://template.cretu.dev'
               />
             </div>
 
