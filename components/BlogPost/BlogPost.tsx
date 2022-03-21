@@ -8,7 +8,7 @@ interface BlogPostProps {
   summary: string
   slug: string
   type?: string
-  date?: any
+  date?: string
   variant: 'writing' | 'index'
 }
 

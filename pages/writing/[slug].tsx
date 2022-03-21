@@ -1,7 +1,6 @@
-import { useMemo } from 'react'
+import React, { useMemo } from 'react'
 
 import { getMDXComponent } from 'mdx-bundler/client'
-import { MDXRemote } from 'next-mdx-remote'
 
 import BlogComponent from '@components/BlogComponent'
 import components from '@components/MDXComponents'

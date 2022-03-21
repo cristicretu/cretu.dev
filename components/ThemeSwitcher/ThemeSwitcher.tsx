@@ -29,7 +29,7 @@ const themes = [
   },
 ]
 
-export default function ThemeSwitcher(props) {
+export default function ThemeSwitcher() {
   const { resolvedTheme, setTheme } = useTheme()
 
   return (

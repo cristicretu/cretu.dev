@@ -11,7 +11,7 @@ function cn(...args) {
 
 interface Props {
   href?: string
-  children?: any
+  children?: React.ReactNode
   className?: string
   customLine?: boolean
 }
@@ -19,7 +19,6 @@ interface Props {
 export default function ExternalLink({
   href,
   children,
-  className,
   customLine = true,
   ...props
 }: React.ComponentProps<'a'> & Props): JSX.Element {

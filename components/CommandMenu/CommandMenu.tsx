@@ -111,15 +111,15 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
     return href === router.pathname
   }
 
-  function containsSocial(element, index, _) {
+  function containsSocial(element) {
     return element.type === 'Socials'
   }
 
-  function containsTheme(element, index, _) {
+  function containsTheme(element) {
     return element.type === 'Theme'
   }
 
-  function containsNavigation(element, index, _) {
+  function containsNavigation(element) {
     return element.type === 'Navigation'
   }
 

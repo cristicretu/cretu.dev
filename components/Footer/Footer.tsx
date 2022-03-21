@@ -9,7 +9,7 @@ function cx(...classes: string[]) {
 }
 
 export default function Footer(): JSX.Element {
-  const { mounted, rendered } = useDelayedRender(true, {
+  const { rendered } = useDelayedRender(true, {
     exitDelay: 2000,
   })
 
