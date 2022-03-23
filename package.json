@@ -116,8 +116,7 @@
     "remark-gfm": "^3.0.1",
     "remark-slug": "^7.0.1",
     "sharp": "^0.30.3",
-    "tailwindcss-radix": "^1.6.0",
-    "use-delayed-render": "^0.0.7"
+    "tailwindcss-radix": "^1.6.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.41",
