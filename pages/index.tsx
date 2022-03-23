@@ -1,40 +1,17 @@
-import React, { useEffect } from 'react'
-
 import Image from 'next/image'
 import Link from 'next/link'
-import useDelayedRender from 'use-delayed-render'
 
 import BlogPost from '@components/BlogPost'
 import Container from '@components/Container'
 import ProjectCard from '@components/ProjectCard'
 
-function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export default function Home() {
-  const { rendered } = useDelayedRender(true, {
-    exitDelay: 2000,
-  })
-
-  const [, setShow] = React.useState(false)
-
-  useEffect(() => {
-    setShow(true)
-  }, [setShow])
-
   return (
     <Container>
       <div className='w-full'>
         <div className='flex flex-col space-y-4 text-gray-600 dark:text-gray-400'>
           <div className='flex items-center mb-2 space-x-4 delayed'>
-            <div
-              className={cx(
-                'flex before items-center space-x-4',
-                rendered ? 'after' : ''
-              )}
-              style={{ transitionDelay: '30ms' }}
-            >
+            <div className='flex  items-center space-x-4'>
               <div className='relative w-16 h-16'>
                 <Image
                   src='/static/images/favicon.webp'
@@ -55,13 +32,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div
-            className={cx(
-              'flex flex-col space-y-2 before',
-              rendered ? 'after' : ''
-            )}
-            style={{ transitionDelay: '60ms' }}
-          >
+          <div className='flex flex-col space-y-2 '>
             <p>
               <span className='font-serif text-lg italic'>
                 Making the web feel &apos;right&apos; and faster.
@@ -72,13 +43,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div
-            className={cx(
-              'flex flex-col space-y-2 before',
-              rendered ? 'after' : ''
-            )}
-            style={{ transitionDelay: '90ms' }}
-          >
+          <div className='flex flex-col space-y-2 '>
             <p>
               Learning about performant, accessible, and beautiful web
               components and apps.
@@ -90,26 +55,14 @@ export default function Home() {
             </p>
           </div>
 
-          <div
-            className={cx(
-              'flex flex-col space-y-2 before',
-              rendered ? 'after' : ''
-            )}
-            style={{ transitionDelay: '120ms' }}
-          >
+          <div className='flex flex-col space-y-2 '>
             <p>
               Enjoying sports, design, and music. I listen to a lot of lo-fi and
               electronic songs.
             </p>
           </div>
 
-          <div
-            className={cx(
-              'grid grid-cols-1 md:grid-cols-2 before gap-5',
-              rendered ? 'after' : ''
-            )}
-            style={{ transitionDelay: '150ms' }}
-          >
+          <div className='grid grid-cols-1 md:grid-cols-2  gap-5'>
             <div className='flex flex-col mt-4 space-y-4 md:mt-8'>
               <p>Building</p>
               <ProjectCard
