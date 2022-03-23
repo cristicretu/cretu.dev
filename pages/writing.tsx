@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
-import useDelayedRender from 'use-delayed-render'
 
 import BlogPost from '@components/BlogPost'
 import Container from '@components/Container'
@@ -11,15 +10,7 @@ interface writingProps {
   posts
 }
 
-function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export default function Writing({ posts }: writingProps): JSX.Element {
-  const { rendered } = useDelayedRender(true, {
-    exitDelay: 2000,
-  })
-
   const [Results, setResults] = useState('')
   const SearchResults = posts
     .sort(
@@ -34,13 +25,7 @@ export default function Writing({ posts }: writingProps): JSX.Element {
       description='My ideas about programming, tech, and personal life.'
     >
       <div className='flex flex-col space-y-4 text-gray-600 delayed dark:text-gray-400'>
-        <div
-          className={cx(
-            'before flex flex-col space-y-4',
-            rendered ? 'after' : ''
-          )}
-          style={{ transitionDelay: '30ms' }}
-        >
+        <div className=' flex flex-col space-y-4'>
           <h1 className='font-serif text-4xl font-bold text-gray-900 dark:text-gray-100'>
             Writing
           </h1>
@@ -50,13 +35,7 @@ export default function Writing({ posts }: writingProps): JSX.Element {
             posts.
           </p>
         </div>
-        <div
-          className={cx(
-            'relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800 before',
-            rendered ? 'after' : ''
-          )}
-          style={{ transitionDelay: '60ms' }}
-        >
+        <div className='relative w-full space-x-2 flex px-4 py-2 items-center font-bold text-lg rounded-md text-gray-900 bg-gray-100 dark:text-gray-100 dark:bg-gray-800'>
           <MagnifyingGlassIcon className='w-5 h-5 fill-current' />
           <input
             value={Results}
@@ -69,13 +48,7 @@ export default function Writing({ posts }: writingProps): JSX.Element {
         </div>
 
         {!SearchResults.length && <p>No results found.</p>}
-        <div
-          className={cx(
-            'flex flex-col space-y-2 before',
-            rendered ? 'after' : ''
-          )}
-          style={{ transitionDelay: '90ms' }}
-        >
+        <div className='flex flex-col space-y-2 '>
           {SearchResults.map(data => (
             <BlogPost
               key={data.title}
