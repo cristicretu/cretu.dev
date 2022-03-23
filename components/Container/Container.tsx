@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Transition } from '@headlessui/react'
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons'
 import { useRouter } from 'next/dist/client/router'
 import Head from 'next/head'
@@ -97,11 +98,20 @@ export default function Container(props) {
           </div>
         </div>
       </nav>
-      <main className='flex flex-col justify-center flex-grow max-w-2xl px-4 py-12 mx-auto my-auto text-gray-800 motion-reduce:transition-none motion-reduce:transform-none dark:text-gray-200'>
-        {children}
-      </main>
-
-      <Footer />
+      <Transition
+        appear={true}
+        show={true}
+        enter='transition-all duration-500 delay-[300ms]'
+        enterFrom='scale-90 opacity-0'
+        enterTo='scale-100 opacity-100'
+      >
+        <div className='flex flex-col h-[92vh]'>
+          <main className='flex flex-col justify-center flex-grow max-w-2xl px-4 py-12 mx-auto my-auto text-gray-800 motion-reduce:transition-none motion-reduce:transform-none dark:text-gray-200'>
+            {children}
+          </main>
+          <Footer />
+        </div>
+      </Transition>
     </div>
   )
 }

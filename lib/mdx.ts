@@ -39,6 +39,7 @@ export async function getFileBySlug(type, slug?) {
             },
           },
         ],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ] as any
       return options
     },
