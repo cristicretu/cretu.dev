@@ -5392,10 +5392,6 @@ use-callback-ref@^1.2.3:
   version "1.2.5"
   resolved "https://registry.npmjs.org/use-callback-ref/-/use-callback-ref-1.2.5.tgz"
 
-use-delayed-render@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.npmjs.org/use-delayed-render/-/use-delayed-render-0.0.7.tgz"
-
 use-sidecar@^1.0.1:
   version "1.0.5"
   resolved "https://registry.npmjs.org/use-sidecar/-/use-sidecar-1.0.5.tgz"

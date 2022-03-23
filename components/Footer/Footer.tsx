@@ -1,9 +1,5 @@
 import ExternalLink from '@components/ExternalLink'
 
-function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
 export default function Footer(): JSX.Element {
   return (
     <div className='flex flex-col justify-center w-full pb-3 max-w-2xl mx-auto text-gray-800 dark:text-gray-300 '>

@@ -15,6 +15,7 @@ export default function Blog({ code, frontMatter }) {
         components={
           {
             ...components,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any
         }
       />
