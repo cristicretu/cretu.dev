@@ -1,13 +1,20 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import AudioPlayer from '@components/AudioPlayer'
 import BlogPost from '@components/BlogPost'
 import Container from '@components/Container'
 import ProjectCard from '@components/ProjectCard'
+import useAudio from '@lib/useAudio'
 
 export default function Home() {
+  const [playing, setPlaying] = useAudio('/static/audio/0.mp3')
+
   return (
     <Container>
+      <button onClick={() => setPlaying(!playing)}>
+        {playing ? 'Pause' : 'Play'}
+      </button>
       <div className='w-full'>
         <div className='flex flex-col space-y-4 text-gray-600 dark:text-gray-400'>
           <div className='flex items-center mb-2 space-x-4 delayed'>
