@@ -15,11 +15,7 @@ export default function AudioPlayer({
 }: IPlayerProps) {
   let normalizedUrl = url.split('_')[0]
   normalizedUrl = normalizedUrl.split('/')[3]
-  const isSameSong = title.includes(normalizedUrl)
-  // console.log(isSameSong)
-  // console.log(url)
-  // console.log(normalizedUrl)
-  // console.log(title)
+  const isSameSong = title.replace('-', '').includes(normalizedUrl)
   return (
     <div
       className={classNames(
