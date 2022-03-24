@@ -8,13 +8,8 @@ import ProjectCard from '@components/ProjectCard'
 import useAudio from '@lib/useAudio'
 
 export default function Home() {
-  const [playing, setPlaying] = useAudio('/static/audio/0.mp3')
-
   return (
     <Container>
-      <button onClick={() => setPlaying(!playing)}>
-        {playing ? 'Pause' : 'Play'}
-      </button>
       <div className='w-full'>
         <div className='flex flex-col space-y-4 text-gray-600 dark:text-gray-400'>
           <div className='flex items-center mb-2 space-x-4 delayed'>
@@ -62,11 +57,12 @@ export default function Home() {
             </p>
           </div>
 
-          <div className='flex flex-col space-y-2 '>
-            <p>
-              Enjoying sports, design, and music. I listen to a lot of lo-fi and
-              electronic songs.
-            </p>
+          <div className='flex flex-row space-x-1 items-center'>
+            <p>Enjoying sports, design, and music. I listen to a lot of</p>
+            <AudioPlayer url='/static/audio/0.mp3' title='lo-fi' />
+            <p>and</p>
+            <AudioPlayer url='/static/audio/0.mp3' title='electronic' />
+            <p>songs.</p>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2  gap-5'>
