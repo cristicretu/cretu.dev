@@ -3,6 +3,7 @@ import React from 'react'
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
 
 import ExternalLink from '@components/ExternalLink'
+import { classNames } from '@lib/classNames'
 
 interface ProjectCardProps {
   url?: string
@@ -10,10 +11,6 @@ interface ProjectCardProps {
   title: string
   description: string
   type?: string
-}
-
-function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
 }
 
 export default function ProjectCard({
@@ -26,7 +23,7 @@ export default function ProjectCard({
   return (
     <div>
       <p
-        className={cx(
+        className={classNames(
           'font-bold flex items-center space-x-1 text-black dark:text-white',
           type === 'small' ? 'text-md' : 'text-lg'
         )}
