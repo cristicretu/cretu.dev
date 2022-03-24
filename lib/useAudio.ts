@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react'
 
 const useAudio = (url: string) => {
-  const [audio] = useState(typeof Audio !== 'undefined' && new Audio(url))
+  const [audio, setAudio] = useState(
+    typeof Audio !== 'undefined' && new Audio(url)
+  )
   const [playing, setPlaying] = useState(false)
+
+  useEffect(() => {
+    setAudio(new Audio(url))
+  }, [url])
 
   useEffect(() => {
     playing ? audio.play() : audio.pause()

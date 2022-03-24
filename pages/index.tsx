@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -8,6 +10,11 @@ import ProjectCard from '@components/ProjectCard'
 import useAudio from '@lib/useAudio'
 
 export default function Home() {
+  const lofiSong = '/static/audio/lofi_0.mp3'
+  const electroSong = '/static/audio/electro_0.mp3'
+  const [url, setUrl] = useState(lofiSong)
+  const [playing, setPlaying] = useAudio(url)
+
   return (
     <Container>
       <div className='w-full'>
@@ -59,9 +66,41 @@ export default function Home() {
 
           <div className='flex flex-row space-x-1 items-center'>
             <p>Enjoying sports, design, and music. I listen to a lot of</p>
-            <AudioPlayer url='/static/audio/0.mp3' title='lo-fi' />
+            <div
+              onClick={() => {
+                if (url !== lofiSong && playing) {
+                  setUrl(lofiSong)
+                } else if (url !== lofiSong && !playing) {
+                  setUrl(lofiSong)
+                  setPlaying(true)
+                }
+              }}
+            >
+              <AudioPlayer
+                playing={playing}
+                setPlaying={setPlaying}
+                title='lofi'
+                url={url}
+              />
+            </div>
             <p>and</p>
-            <AudioPlayer url='/static/audio/0.mp3' title='electronic' />
+            <div
+              onClick={() => {
+                if (url !== electroSong && playing) {
+                  setUrl(electroSong)
+                } else if (url !== electroSong && !playing) {
+                  setUrl(electroSong)
+                  setPlaying(true)
+                }
+              }}
+            >
+              <AudioPlayer
+                playing={playing}
+                setPlaying={setPlaying}
+                title='electronic'
+                url={url}
+              />
+            </div>
             <p>songs.</p>
           </div>
 
