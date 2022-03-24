@@ -79,7 +79,7 @@ export default function Home() {
               <AudioPlayer
                 playing={playing}
                 setPlaying={setPlaying}
-                title='lofi'
+                title='lo-fi'
                 url={url}
               />
             </div>
