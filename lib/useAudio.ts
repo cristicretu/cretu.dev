@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { silencePromise } from './promise'
 
 const useAudio = (url: string) => {
   const [audio, setAudio] = useState(
@@ -11,14 +12,14 @@ const useAudio = (url: string) => {
   }, [url])
 
   useEffect(() => {
-    playing ? audio.play() : audio.pause()
+    playing ? silencePromise(audio.play()) : silencePromise(audio.pause())
   }, [audio, playing])
 
   useEffect(() => {
     audio.addEventListener('ended', () => setPlaying(false))
     return () => {
       audio.removeEventListener('ended', () => setPlaying(false))
-      audio.pause()
+      silencePromise(audio.pause())
     }
   }, [audio])
 
