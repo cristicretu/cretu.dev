@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import { silencePromise } from './promise'
 
 const useAudio = (url: string) => {
