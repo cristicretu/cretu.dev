@@ -10,8 +10,10 @@ import ProjectCard from '@components/ProjectCard'
 import useAudio from '@lib/useAudio'
 
 export default function Home() {
-  const lofiSong = '/static/audio/lofi_0.mp3'
-  const electroSong = '/static/audio/electro_0.mp3'
+  const lofiSong = `/static/audio/lofi_${Math.floor(Math.random() * 4)}.mp3`
+  const electroSong = `/static/audio/electro_${Math.floor(
+    Math.random() * 4
+  )}.mp3`
   const [url, setUrl] = useState(lofiSong)
   const [playing, setPlaying] = useAudio(url)
 
