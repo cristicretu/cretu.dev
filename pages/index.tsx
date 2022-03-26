@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Image from 'next/image'
 import Link from 'next/link'
@@ -10,10 +10,9 @@ import ProjectCard from '@components/ProjectCard'
 import useAudio from '@lib/useAudio'
 
 export default function Home() {
-  const lofiSong = `/static/audio/lofi_${Math.floor(Math.random() * 4)}.mp3`
-  const electroSong = `/static/audio/electro_${Math.floor(
-    Math.random() * 4
-  )}.mp3`
+  const [random] = useState(Math.floor(Math.random() * 4))
+  const lofiSong = `/static/audio/lofi_${random}.mp3`
+  const electroSong = `/static/audio/electro_${random}.mp3`
   const [url, setUrl] = useState(lofiSong)
   const [playing, setPlaying] = useAudio(url)
 
