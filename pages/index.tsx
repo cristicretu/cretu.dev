@@ -43,10 +43,10 @@ export default function Home() {
           </div>
 
           <div className='flex flex-col space-y-2 '>
+            <span className='font-serif text-lg italic'>
+              Making the web feel &apos;right&apos; and faster.
+            </span>
             <p>
-              <span className='font-serif text-lg italic'>
-                Making the web feel &apos;right&apos; and faster.
-              </span>{' '}
               Creating full-stack applications - focusing on performance and
               usability. Thinkering with digital art and creating visual
               interfaces. Student and side-project hustler.
@@ -65,44 +65,47 @@ export default function Home() {
             </p>
           </div>
 
-          <div className='flex flex-row space-x-1 items-center'>
-            <p>Enjoying sports, design, and music. I listen to a lot of</p>
-            <div
-              onClick={() => {
-                if (url !== lofiSong && playing) {
-                  setUrl(lofiSong)
-                } else if (url !== lofiSong && !playing) {
-                  setUrl(lofiSong)
-                  setPlaying(true)
-                }
-              }}
-            >
-              <AudioPlayer
-                playing={playing}
-                setPlaying={setPlaying}
-                title='lo-fi'
-                url={url}
-              />
+          <div className='flex flex-col md:flex-row md:space-x-1 md:items-center'>
+            <p>Enjoying sports, design, and music.</p>
+            <div className='flex flex-row space-x-1 items-center'>
+              <p>I listen to a lot of</p>
+              <div
+                onClick={() => {
+                  if (url !== lofiSong && playing) {
+                    setUrl(lofiSong)
+                  } else if (url !== lofiSong && !playing) {
+                    setUrl(lofiSong)
+                    setPlaying(true)
+                  }
+                }}
+              >
+                <AudioPlayer
+                  playing={playing}
+                  setPlaying={setPlaying}
+                  title='lo-fi'
+                  url={url}
+                />
+              </div>
+              <p>and</p>
+              <div
+                onClick={() => {
+                  if (url !== electroSong && playing) {
+                    setUrl(electroSong)
+                  } else if (url !== electroSong && !playing) {
+                    setUrl(electroSong)
+                    setPlaying(true)
+                  }
+                }}
+              >
+                <AudioPlayer
+                  playing={playing}
+                  setPlaying={setPlaying}
+                  title='electronic'
+                  url={url}
+                />
+              </div>
+              <p>songs.</p>
             </div>
-            <p>and</p>
-            <div
-              onClick={() => {
-                if (url !== electroSong && playing) {
-                  setUrl(electroSong)
-                } else if (url !== electroSong && !playing) {
-                  setUrl(electroSong)
-                  setPlaying(true)
-                }
-              }}
-            >
-              <AudioPlayer
-                playing={playing}
-                setPlaying={setPlaying}
-                title='electronic'
-                url={url}
-              />
-            </div>
-            <p>songs.</p>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2  gap-5'>
