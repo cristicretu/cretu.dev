@@ -1,11 +1,21 @@
+import { useEffect, useState } from 'react'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
+import AudioPlayer from '@components/AudioPlayer'
 import BlogPost from '@components/BlogPost'
 import Container from '@components/Container'
 import ProjectCard from '@components/ProjectCard'
+import useAudio from '@lib/useAudio'
 
 export default function Home() {
+  const [random] = useState(Math.floor(Math.random() * 4))
+  const lofiSong = `/static/audio/lofi_${random}.mp3`
+  const electroSong = `/static/audio/electro_${random}.mp3`
+  const [url, setUrl] = useState(lofiSong)
+  const [playing, setPlaying] = useAudio(url)
+
   return (
     <Container>
       <div className='w-full'>
@@ -55,11 +65,44 @@ export default function Home() {
             </p>
           </div>
 
-          <div className='flex flex-col space-y-2 '>
-            <p>
-              Enjoying sports, design, and music. I listen to a lot of lo-fi and
-              electronic songs.
-            </p>
+          <div className='flex flex-row space-x-1 items-center'>
+            <p>Enjoying sports, design, and music. I listen to a lot of</p>
+            <div
+              onClick={() => {
+                if (url !== lofiSong && playing) {
+                  setUrl(lofiSong)
+                } else if (url !== lofiSong && !playing) {
+                  setUrl(lofiSong)
+                  setPlaying(true)
+                }
+              }}
+            >
+              <AudioPlayer
+                playing={playing}
+                setPlaying={setPlaying}
+                title='lo-fi'
+                url={url}
+              />
+            </div>
+            <p>and</p>
+            <div
+              onClick={() => {
+                if (url !== electroSong && playing) {
+                  setUrl(electroSong)
+                } else if (url !== electroSong && !playing) {
+                  setUrl(electroSong)
+                  setPlaying(true)
+                }
+              }}
+            >
+              <AudioPlayer
+                playing={playing}
+                setPlaying={setPlaying}
+                title='electronic'
+                url={url}
+              />
+            </div>
+            <p>songs.</p>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2  gap-5'>
