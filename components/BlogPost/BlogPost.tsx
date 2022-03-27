@@ -3,6 +3,8 @@ import React from 'react'
 import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
 
+import { classNames } from '@lib/classNames'
+
 interface BlogPostProps {
   title: string
   summary: string
@@ -10,10 +12,6 @@ interface BlogPostProps {
   type?: string
   date?: string
   variant: 'writing' | 'index'
-}
-
-function cx(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
 }
 
 export default function BlogPost({
@@ -31,7 +29,7 @@ export default function BlogPost({
           <div className='flex flex-col space-y-1'>
             <div className='flex justify-between'>
               <p
-                className={cx(
+                className={classNames(
                   ' font-bold text-black dark:text-white',
                   type === 'small' ? 'text-md' : 'text-lg'
                 )}
@@ -56,7 +54,7 @@ export default function BlogPost({
           <div className='flex flex-col space-y-1'>
             <div className='flex justify-between'>
               <p
-                className={cx(
+                className={classNames(
                   ' font-bold text-black dark:text-white',
                   type === 'small' ? 'text-md' : 'text-lg'
                 )}
