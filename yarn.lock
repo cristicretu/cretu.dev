@@ -3448,9 +3448,10 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
 
-next-mdx-remote@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/next-mdx-remote/-/next-mdx-remote-4.0.0.tgz"
+next-mdx-remote@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/next-mdx-remote/-/next-mdx-remote-4.0.2.tgz#56c315819e6704dfb1fe68ce2f5ed0d315c34528"
+  integrity sha512-1cZM2xm+G1FyYodGt92lCXisP0owPeppVHeH5TIaXUGdt6ENBZYOxLNFaVl9fkS9wP/s2sLcC9m2c1iLH2H4rA==
   dependencies:
     "@mdx-js/mdx" "^2.0.0"
     "@mdx-js/react" "^2.0.0"
