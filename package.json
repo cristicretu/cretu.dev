@@ -119,7 +119,7 @@
     "tailwindcss-radix": "^1.6.0"
   },
   "devDependencies": {
-    "@types/react": "^17.0.41",
+    "@types/react": "^17.0.43",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "autoprefixer": "^10.4.4",
