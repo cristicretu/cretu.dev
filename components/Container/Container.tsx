@@ -6,6 +6,7 @@ import { useRouter } from 'next/dist/client/router'
 import Head from 'next/head'
 
 import CommandMenu from '@components/CommandMenu'
+import Footer from '@components/Footer'
 import { classNames } from '@lib/classNames'
 
 export default function Container(props) {
@@ -95,7 +96,7 @@ export default function Container(props) {
         <main className='flex flex-col justify-center flex-grow max-w-2xl px-4 py-12 mx-auto my-auto text-gray-800 motion-reduce:transition-none motion-reduce:transform-none dark:text-gray-200'>
           {children}
         </main>
-        {/* <Footer /> */}
+        <Footer />
       </Transition>
     </div>
   )

@@ -19,8 +19,8 @@ export default function Home() {
   return (
     <Container>
       <div className='w-full'>
-        <div className='flex flex-col space-y-4 text-gray-600 dark:text-gray-400'>
-          <div className='flex items-center mb-2 space-x-4 delayed'>
+        {/* <div className='flex flex-col space-y-4 text-gray-600 dark:text-gray-400'>
+          <div className='flex items-center mb-2 space-x-4'>
             <div className='flex  items-center space-x-4'>
               <div className='relative w-16 h-16'>
                 <Image
@@ -176,6 +176,14 @@ export default function Home() {
                 variant='index'
               />
             </div>
+          </div>
+        </div> */}
+        <div className='grid grid-cols-3 grid-rows-1'>
+          <div className='col-span-3'>
+            <h1 className='text-4xl font-bold'>
+              Developer and designer making the web feel &apos;right&apos; and
+              faster. Focused on creating fluid and accessible interfaces.
+            </h1>
           </div>
         </div>
       </div>
