@@ -15,7 +15,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['IBM Plex Sans', ...fontFamily.sans],
-        serif: ['Playfair Display', ...fontFamily.serif],
+        serif: ['Domine', ...fontFamily.serif],
       },
       keyframes: {
         'slide-in': {
