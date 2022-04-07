@@ -273,7 +273,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 }
               />
             </DialogPrimitive.Title>
-            <div className='px-3 py-2 max-h-[40vh] md:max-h-[32vh] overflow-y-auto text-gray-600 dark:text-gray-400'>
+            <div className='px-3 py-2 max-h-[60vh] md:max-h-[32vh] overflow-y-auto text-gray-600 dark:text-gray-400'>
               <ul>
                 {!SearchResults.length && <p>No results found.</p>}
 

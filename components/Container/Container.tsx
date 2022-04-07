@@ -52,10 +52,10 @@ export default function Container(props) {
           aria-label='Command Menu'
           type='button'
           className={classNames(
-            'inline-flex justify-center px-3 py-2 text-2xl font-extralight rounded-md select-none',
+            'inline-flex justify-center px-3 py-2 text-2xl font-extralight rounded-md',
             'text-gray-900 bg-white hover:bg-gray-50 dark:text-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700',
             'border border-gray-300 dark:border-gray-600',
-            'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
+            'focus:outline-none focus-visible:ring focus-visible:ring-blue-500 focus-visible:ring-opacity-75'
           )}
           onClick={() => {
             setOpen(true)
@@ -71,7 +71,7 @@ export default function Container(props) {
             rel='noreferrer'
             aria-label='Twitter'
           >
-            <TwitterLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
+            <TwitterLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100 text-opacity-60 hover:text-opacity-100' />
           </a>
           <a
             href='https://github.com/cristicretu/'
@@ -80,56 +80,10 @@ export default function Container(props) {
             rel='noreferrer'
             aria-label='Github'
           >
-            <GitHubLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
+            <GitHubLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100 text-opacity-60 hover:text-opacity-100' />
           </a>
         </div>
       </nav>
-
-      {/* <nav
-        className={cn(
-          'w-full px-4 py-3 mx-auto border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 sticky-nav'
-        )}
-      >
-        <div className='flex items-center justify-between max-w-2xl mx-auto'>
-          <div className='flex items-center space-x-2 text-base md:px-4'>
-            <button
-              aria-label='Command Menu'
-              type='button'
-              className={cn(
-                'inline-flex justify-center px-3 py-2 text-2xl font-extralight rounded-md select-none',
-                'text-gray-900 bg-white hover:bg-gray-50 dark:text-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700',
-                'border border-gray-300 dark:border-gray-600',
-                'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
-              )}
-              onClick={() => {
-                setOpen(true)
-              }}
-            >
-              ⌘
-            </button>
-          </div>
-          <div className='flex flex-row items-center space-x-4'>
-            <a
-              href='https://twitter.com/cristicrtu'
-              className='visible'
-              target='_blank'
-              rel='noreferrer'
-              aria-label='Twitter'
-            >
-              <TwitterLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
-            </a>
-            <a
-              href='https://github.com/cristicretu/'
-              className='visible'
-              target='_blank'
-              rel='noreferrer'
-              aria-label='Github'
-            >
-              <GitHubLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
-            </a>
-          </div>
-        </div>
-      </nav> */}
 
       <Transition
         appear={true}
