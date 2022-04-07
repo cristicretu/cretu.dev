@@ -11,11 +11,11 @@
 }
 
 @font-face {
-  font-family: 'Playfair Display';
+  font-family: 'Domine';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-display: optional;
-  src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
+  src: url(/fonts/Domine-Regular.woff2) format('woff2');
 }
 
 .mycenter {

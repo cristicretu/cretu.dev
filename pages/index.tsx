@@ -180,10 +180,13 @@ export default function Home() {
         </div> */}
         <div className='grid grid-cols-3 grid-rows-1'>
           <div className='col-span-3'>
-            <h1 className='text-4xl font-bold'>
+            <p className='text-3xl font-serif'>
               Developer and designer making the web feel &apos;right&apos; and
-              faster. Focused on creating fluid and accessible interfaces.
-            </h1>
+              faster.{' '}
+              <span className='text-gray-500 dark:text-gray-400'>
+                Focused on creating fluid and accessible interfaces.
+              </span>
+            </p>
           </div>
         </div>
       </div>
