@@ -42,6 +42,23 @@
   background-size: 36px 36px;
 }
 
+.new-sticky-nav {
+  position: sticky;
+  z-index: 10;
+  top: 16px;
+  backdrop-filter: saturate(300%) blur(25px);
+  -webkit-backdrop-filter: saturate(300%) blur(25px);
+  transition: background-color 0.1 ease-in-out;
+}
+
+.light .new-sticky-nav {
+  @apply bg-opacity-50 bg-gray-50;
+}
+
+.dark .new-sticky-nav {
+  @apply bg-opacity-50 bg-gray-800;
+}
+
 .sticky-nav {
   position: sticky;
   z-index: 10;
