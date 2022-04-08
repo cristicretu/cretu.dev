@@ -127,20 +127,6 @@
   border-top-color: #f5f5f5;
 }
 
-.delayed {
-  transition: opacity 300ms ease, transform 300ms ease;
-}
-
-.before {
-  opacity: 0;
-  transition: opacity 300ms ease, transform 300ms ease, width 300ms ease,
-    border-color 300ms ease;
-}
-
-.after {
-  opacity: 1;
-}
-
 ::-moz-selection {
   /* Code for Firefox */
   /* color: #fefefe;
@@ -166,7 +152,7 @@ html {
 }
 
 #__next {
-  @apply bg-gray-50 dark:bg-gray-900;
+  @apply polka;
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;

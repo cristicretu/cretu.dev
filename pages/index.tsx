@@ -178,14 +178,42 @@ export default function Home() {
             </div>
           </div>
         </div> */}
-        <div className='grid grid-cols-3 grid-rows-1'>
-          <div className='col-span-3'>
-            <p className='text-3xl font-serif'>
+        <div className='grid grid-cols-3 grid-rows-1 gap-16'>
+          {/* hero */}
+          <div className='col-span-3 flex flex-col gap-2'>
+            <p className='flex items-center relative gap-2'>
+              {/* <div className='relative w-8 h-8 hover:scale-110 transition-all duration-500'>
+                <Image
+                  src='/static/images/favicon.webp'
+                  layout='fill'
+                  objectFit='cover'
+                  alt='Profile Picture'
+                  className='rounded-full'
+                />
+              </div> */}
+              <span className='font-semibold text-xl'>Cristian Crețu</span>
+              <div className='flex-grow border-t' />
+            </p>
+            <p className='text-3xl font-serif tracking-wide'>
               Developer and designer making the web feel &apos;right&apos; and
               faster.{' '}
               <span className='text-gray-500 dark:text-gray-400'>
                 Focused on creating fluid and accessible interfaces.
               </span>
+            </p>
+          </div>
+
+          {/* about */}
+          <p className='text-2xl font-serif'>About</p>
+          <div className='col-span-2 flex flex-col gap-2'>
+            <p> Thinkering with digital art and creating visual interfaces.</p>
+            <p>
+              Interested in C, TypeScript, and Python. Curious about Rust and
+              Swift. Building products using React, Next.js, and GraphQL.
+            </p>
+            <p>
+              Enjoying sports, design, and music. I listen to a lot of lo-fi and
+              electronic songs.
             </p>
           </div>
         </div>
