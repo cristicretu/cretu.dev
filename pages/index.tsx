@@ -50,8 +50,44 @@ export default function Home() {
                 Swift. Building products using React, Next.js, and GraphQL.
               </p>
               <p>
-                Enjoying sports, design, and music. I listen to a lot of lo-fi
-                and electronic songs.
+                Enjoying sports, design, and music. I listen to a lot of{' '}
+                <span
+                  onClick={() => {
+                    if (url !== lofiSong && playing) {
+                      setUrl(lofiSong)
+                    } else if (url !== lofiSong && !playing) {
+                      setUrl(lofiSong)
+                      setPlaying(true)
+                    }
+                  }}
+                >
+                  <AudioPlayer
+                    playing={playing}
+                    setPlaying={setPlaying}
+                    title='lo-fi'
+                    url={url}
+                  />
+                </span>{' '}
+                and{' '}
+                <span
+                  onClick={() => {
+                    if (url !== electroSong && playing) {
+                      setUrl(electroSong)
+                    } else if (url !== electroSong && !playing) {
+                      setUrl(electroSong)
+                      setPlaying(true)
+                    }
+                  }}
+                >
+                  {' '}
+                  <AudioPlayer
+                    playing={playing}
+                    setPlaying={setPlaying}
+                    title='electronic'
+                    url={url}
+                  />
+                </span>{' '}
+                songs.
               </p>
             </div>
           </div>
