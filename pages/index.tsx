@@ -178,7 +178,7 @@ export default function Home() {
             </div>
           </div>
         </div> */}
-        <div className='grid grid-cols-3 grid-rows-1 gap-16'>
+        <div className='grid grid-cols-3 grid-rows-1 gap-y-28 gap-x-2'>
           {/* hero */}
           <div className='col-span-3 flex flex-col gap-2'>
             <p className='flex items-center relative gap-2'>
@@ -215,6 +215,28 @@ export default function Home() {
               Enjoying sports, design, and music. I listen to a lot of lo-fi and
               electronic songs.
             </p>
+          </div>
+
+          {/* writing */}
+          <div className='col-span-2'>
+            <p className='text-2xl font-serif'>Writing</p>
+            <BlogPost
+              summary='Short tutorial explaining how to create good-looking gradients.'
+              title='Making Gradients'
+              slug='gradient-wallpapers'
+              type='small'
+              variant='index'
+            />
+          </div>
+          <div className=''>
+            <p className='text-2xl font-serif'>Building</p>
+            <BlogPost
+              summary='Short tutorial explaining how to create good-looking gradients.'
+              title='Making Gradients'
+              slug='gradient-wallpapers'
+              type='small'
+              variant='index'
+            />
           </div>
         </div>
       </div>
