@@ -1,4 +1,4 @@
-![image](https://cdn.discordapp.com/attachments/797485737272541250/955171995077714021/CleanShot_2022-03-20_at_8.30_1.png)
+![Vincent m_Poster Gradient_01](https://user-images.githubusercontent.com/45521157/162631061-e4f991bf-86f1-4e1f-b217-46c5aa38d91a.png)
 
 <hr>
 
