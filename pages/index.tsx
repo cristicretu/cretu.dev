@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import Image from 'next/image'
 import Link from 'next/link'
 
 import AudioPlayer from '@components/AudioPlayer'
@@ -21,18 +20,20 @@ export default function Home() {
       <div className='w-full'>
         <div className='grid grid-cols-3 grid-rows-1 gap-y-28 gap-x-2 text-gray-700 dark:text-gray-300'>
           {/* hero */}
-          <div className='col-span-3 flex flex-col gap-2'>
-            <p className='flex items-center relative gap-2'>
-              <span className='font-semibold text-xl'>Cristian Crețu</span>
-              <div className='flex-grow border-t' />
-            </p>
-            <p className='text-3xl font-serif tracking-wide'>
-              Developer and designer making the web feel &apos;right&apos; and
-              faster.{' '}
+          <div className='col-span-3'>
+            <div className='flex flex-row gap-2 items-center'>
+              <p className='font-semibold text-xl'>Cristian Crețu</p>
+              <div className='flex-grow border-t'></div>
+            </div>
+            <div className='text-3xl font-serif tracking-wide'>
+              <span>
+                Developer and designer making the web feel &apos;right&apos; and
+                faster.{' '}
+              </span>
               <span className='text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all'>
                 Focused on creating fluid and accessible interfaces.
               </span>
-            </p>
+            </div>
           </div>
 
           {/* about */}
@@ -94,7 +95,7 @@ export default function Home() {
 
           <div>
             <p className='text-2xl font-serif hover:text-gray-900 dark:hover:text-gray-100 transition-all'>
-              Stamps
+              Projects
             </p>
           </div>
 
