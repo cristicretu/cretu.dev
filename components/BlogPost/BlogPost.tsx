@@ -30,7 +30,7 @@ export default function BlogPost({
             <div className='flex justify-between'>
               <p
                 className={classNames(
-                  ' font-bold text-black dark:text-white',
+                  'font-serif text-black dark:text-white',
                   type === 'small' ? 'text-md' : 'text-lg'
                 )}
               >
@@ -46,10 +46,9 @@ export default function BlogPost({
   return (
     <Link href={`/writing/${slug}`}>
       <a className='flex items-center py-6 space-x-2 transition-colors duration-200 rounded-md cursor-pointer group hover:bg-gray-200 dark:hover:bg-gray-800'>
-        <em className='text-sm rotate-90'>
-          <hr className='h-full mb-2 dotted'></hr>
+        <aside className=' [writing-mode:vertical-rl] pl-2 top-0 text-center text-sm text-gray-400 dark:text-gray-600'>
           {format(parseISO(date), 'MMMM dd')}
-        </em>
+        </aside>
         <div className='flex items-center w-full space-x-2 rounded-md '>
           <div className='flex flex-col space-y-1'>
             <div className='flex justify-between'>

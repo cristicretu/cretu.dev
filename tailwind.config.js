@@ -15,7 +15,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['IBM Plex Sans', ...fontFamily.sans],
-        serif: ['Playfair Display', ...fontFamily.serif],
+        serif: ['Domine', ...fontFamily.serif],
       },
       keyframes: {
         'slide-in': {
@@ -107,5 +107,9 @@ module.exports = {
   variants: {
     typography: ['dark'],
   },
-  plugins: [require('@tailwindcss/typography'), require('tailwindcss-radix')],
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('tailwindcss-radix'),
+    require('@tailwindcss/line-clamp'),
+  ],
 }

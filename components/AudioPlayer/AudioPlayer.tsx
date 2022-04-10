@@ -17,10 +17,12 @@ export default function AudioPlayer({
   normalizedUrl = normalizedUrl.split('/')[3]
   const isSameSong = title.replace('-', '').includes(normalizedUrl)
   return (
-    <div
+    <span
       className={classNames(
-        'flex flex-row items-center space-x-2  dark:text-red-400 text-red-600',
-        playing && isSameSong === true ? 'text-blue-700 dark:text-blue-400' : ''
+        'transition-all duration-200',
+        playing && isSameSong === true
+          ? `bg-[url('https://snippets.alexandru.so/squiggle.svg')] `
+          : 'custom-hover'
       )}
     >
       <button
@@ -30,14 +32,6 @@ export default function AudioPlayer({
       >
         {title}
       </button>
-      {playing && isSameSong ? (
-        <div className='flex h-4 w-4 items-center'>
-          <span className='animate-ping absolute h-3 w-3 rounded-full bg-blue-500 dark:bg-blue-300 opacity-75'></span>
-          <span className='relative rounded-full h-3 w-3 bg-blue-500 dark:bg-blue-300'></span>
-        </div>
-      ) : (
-        <></>
-      )}
-    </div>
+    </span>
   )
 }

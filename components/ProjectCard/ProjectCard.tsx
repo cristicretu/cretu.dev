@@ -10,7 +10,6 @@ interface ProjectCardProps {
   github?: string
   title: string
   description: string
-  type?: string
 }
 
 export default function ProjectCard({
@@ -18,21 +17,20 @@ export default function ProjectCard({
   github,
   title,
   description,
-  type,
 }: ProjectCardProps): JSX.Element {
   return (
     <div>
       <p
         className={classNames(
-          'font-bold flex items-center space-x-1 text-black dark:text-white',
-          type === 'small' ? 'text-md' : 'text-lg'
+          'font-serif flex items-center space-x-1 text-black dark:text-white',
+          'text-md'
         )}
       >
         {url && <ExternalLink href={url}>{title}</ExternalLink>}
         {!url && title && <>{title}</>}
         {github && (
           <a href={github} target='_blank' rel='noreferrer' aria-label='GitHub'>
-            <GitHubLogoIcon className='w-4 h-auto pt-1 text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
+            <GitHubLogoIcon className='w-4 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
           </a>
         )}
       </p>
