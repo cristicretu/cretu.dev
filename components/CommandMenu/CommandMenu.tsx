@@ -14,9 +14,7 @@ import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
+import { classNames } from '@lib/classNames'
 
 interface CommandMenuProps {
   label?: string
@@ -249,12 +247,12 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
         >
           <DialogPrimitive.Content
             forceMount
-            className={cn(
+            className={classNames(
               'fixed z-50',
-              'w-[95vw]  md:w-full max-w-2xl md:-ml-2 rounded-md shadow-lg',
+              'w-[95vw] md:w-full max-w-2xl rounded-md shadow-lg',
               'mycenter',
               'myblur border border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 ',
-              'focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'
+              'focus:outline-none focus-visible:ring focus-visible:ring-yellow-500 focus-visible:ring-opacity-75'
             )}
           >
             <DialogPrimitive.Title className='w-full p-4 border-b border-black dark:border-gray-100 dark:border-opacity-20 border-opacity-20 '>
@@ -273,7 +271,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                 }
               />
             </DialogPrimitive.Title>
-            <div className='px-3 py-2 max-h-[60vh] md:max-h-[32vh] overflow-y-auto text-gray-600 dark:text-gray-400'>
+            <div className='px-3 py-2 max-h-[80vh] md:max-h-[36vh] overflow-y-auto text-gray-600 dark:text-gray-400'>
               <ul>
                 {!SearchResults.length && <p>No results found.</p>}
 
@@ -297,7 +295,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                       >
                         <Link href={item.href}>
                           <a
-                            className={cn(
+                            className={classNames(
                               'flex items-center focus:outline-none  justify-between p-3 space-x-2 rounded-md ',
                               cursor === index
                                 ? `bg-gray-200 ${
@@ -314,7 +312,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                             </div>
 
                             <div
-                              className={cn(
+                              className={classNames(
                                 '',
                                 cursor === index
                                   ? 'dark:text-gray-400 text-gray-400'
@@ -350,7 +348,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                       >
                         <a
                           href={item.href}
-                          className={cn(
+                          className={classNames(
                             'flex items-center p-3 justify-between focus:outline-none rounded-md',
                             cursor === index
                               ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
@@ -362,7 +360,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                             <div>{item.label}</div>
                           </div>
                           <div
-                            className={cn(
+                            className={classNames(
                               '',
                               cursor === index
                                 ? 'dark:text-gray-400 text-gray-600'
@@ -387,7 +385,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                     return (
                       <li
                         key={index}
-                        className={cn(
+                        className={classNames(
                           'flex items-center p-3 justify-between focus:outline-none rounded-md cursor-pointer',
                           cursor === index
                             ? 'bg-gray-200 dark:bg-gray-700 dark:bg-opacity-80 text-black dark:text-white'
@@ -414,7 +412,7 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
                         </div>
 
                         <div
-                          className={cn(
+                          className={classNames(
                             '',
                             cursor === index
                               ? 'dark:text-gray-400 text-gray-600'
