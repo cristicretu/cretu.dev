@@ -25,7 +25,7 @@ export default function Home() {
               <p className='font-semibold text-xl'>Cristian Crețu</p>
               <div className='flex-grow border-t'></div>
             </div>
-            <div className='text-3xl font-serif tracking-wide'>
+            <h1 className='text-3xl font-serif tracking-wide'>
               <span>
                 Developer and designer making the web feel &apos;right&apos; and
                 faster.{' '}
@@ -33,7 +33,7 @@ export default function Home() {
               <span className='text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-all'>
                 Focused on creating fluid and accessible interfaces.
               </span>
-            </div>
+            </h1>
           </div>
 
           {/* about */}
