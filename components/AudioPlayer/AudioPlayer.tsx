@@ -19,8 +19,10 @@ export default function AudioPlayer({
   return (
     <span
       className={classNames(
-        ' dark:text-red-400 text-red-600 hover:text-purple-600 dark:hover:text-purple-400 transition-all',
-        playing && isSameSong === true ? 'text-blue-700 dark:text-blue-400' : ''
+        'transition-all duration-200',
+        playing && isSameSong === true
+          ? `bg-[url('https://snippets.alexandru.so/squiggle.svg')] `
+          : 'custom-hover'
       )}
     >
       <button

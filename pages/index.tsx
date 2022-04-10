@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <Container>
       <div className='w-full'>
-        <div className='flex flex-col md:grid grid-cols-3 grid-rows-1 gap-y-28 gap-x-2 text-gray-700 dark:text-gray-300'>
+        <div className='flex flex-col md:grid grid-cols-3 grid-rows-1 gap-y-16 md:gap-y-28 gap-x-2 text-gray-700 dark:text-gray-300'>
           {/* hero */}
           <div className='col-span-3'>
             <div className='flex flex-row gap-2 items-center'>
@@ -112,6 +112,7 @@ export default function Home() {
                 description='Complex Front-end Template for Next.js, TailwindCSS, and TypeScript.'
                 url='https://template.cretu.dev'
               />
+              <span className='font-serif cursor-wait'>More...</span>
             </div>
           </div>
 
