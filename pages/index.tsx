@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <Container>
       <div className='w-full'>
-        <div className='grid grid-cols-3 grid-rows-1 gap-y-28 gap-x-2 text-gray-700 dark:text-gray-300'>
+        <div className='flex flex-col md:grid grid-cols-3 grid-rows-1 gap-y-28 gap-x-2 text-gray-700 dark:text-gray-300'>
           {/* hero */}
           <div className='col-span-3'>
             <div className='flex flex-row gap-2 items-center'>
@@ -93,10 +93,24 @@ export default function Home() {
             </div>
           </div>
 
-          <div>
-            <p className='text-2xl font-serif hover:text-gray-900 dark:hover:text-gray-100 transition-all'>
+          <div className='flex flex-col gap-4'>
+            <p className='text-2xl font-serif transition duration-200 ease-in-out hover:text-gray-900 group dark:hover:text-gray-200'>
               Projects
             </p>
+            <div className='flex flex-col gap-4'>
+              <ProjectCard
+                title='Keep The Streak'
+                github='https://github.com/cristicretu/keep-the-streak'
+                url='https://github.com/cristicretu/keep-the-streak'
+                description={`GitHub Action that notifies the user when he hasn't committed on a particular day.`}
+              />
+              <ProjectCard
+                title='Ultimate Template'
+                github='https://github.com/cristicretu/ts-next-tailwind-template'
+                description='Complex Front-end Template for Next.js, TailwindCSS, and TypeScript.'
+                url='https://template.cretu.dev'
+              />
+            </div>
           </div>
 
           {/* writing */}
