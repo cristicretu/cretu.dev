@@ -30,7 +30,7 @@ export default function ProjectCard({
         {!url && title && <>{title}</>}
         {github && (
           <a href={github} target='_blank' rel='noreferrer' aria-label='GitHub'>
-            <GitHubLogoIcon className='w-4 h-auto pt-1 text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
+            <GitHubLogoIcon className='w-4 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-40 dark:hover:text-opacity-100 text-opacity-40 hover:text-opacity-100' />
           </a>
         )}
       </p>
