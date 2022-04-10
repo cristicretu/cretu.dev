@@ -48,7 +48,7 @@ export default function Container(props) {
 
       <CommandMenu buttonOpen={open} setButtonOpen={setOpen} />
 
-      <nav className='new-sticky-nav max-w-2xl px-4 py-2 rounded-md mx-auto flex justify-between items-center'>
+      <nav className='new-sticky-nav top-2 md:top-4 max-w-2xl px-4 py-2 rounded-md mx-auto flex justify-between items-center'>
         <button
           aria-label='Command Menu'
           type='button'
