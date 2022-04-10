@@ -54,7 +54,7 @@ export default function BlogPost({
             <div className='flex justify-between'>
               <p
                 className={classNames(
-                  ' font-bold text-black dark:text-white',
+                  'font-serif font-bold text-black dark:text-white',
                   type === 'small' ? 'text-md' : 'text-lg'
                 )}
               >
