@@ -44,7 +44,9 @@ export default function Home() {
             <div className='flex flex-col gap-2'>
               <p>
                 {' '}
-                Thinkering with digital art and creating visual interfaces.
+                <mark className='bg-yellow-100 dark:bg-yellow-200 '>
+                  Thinkering with digital art and creating visual interfaces.
+                </mark>
               </p>
               <p>
                 Interested in C, TypeScript, and Python. Curious about Rust and
