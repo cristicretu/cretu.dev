@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <Container>
       <div className='w-full'>
-        <div className='flex flex-col md:grid grid-cols-3 grid-rows-1 gap-y-16 md:gap-y-28 gap-x-2 text-gray-700 dark:text-gray-300'>
+        <div className='flex flex-col md:grid grid-cols-3 grid-rows-1 gap-y-16 md:gap-y-28 gap-x-4 text-gray-700 dark:text-gray-300'>
           {/* hero */}
           <div className='col-span-3'>
             <div className='flex flex-row gap-2 items-center'>
@@ -99,7 +99,7 @@ export default function Home() {
             <p className='text-2xl font-serif transition duration-200 ease-in-out hover:text-gray-900 group dark:hover:text-gray-200'>
               Projects
             </p>
-            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-2 -mt-2'>
               <ProjectCard
                 title='Keep The Streak'
                 github='https://github.com/cristicretu/keep-the-streak'
