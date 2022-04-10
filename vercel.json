@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "headers": [
     {
-      "source": "/fonts/IBMPlexSans-Regular.woff2",
+      "source": "/fonts/inter-var-latin.woff2",
       "headers": [
         {
           "key": "Cache-Control",
@@ -11,7 +11,7 @@
       ]
     },
     {
-      "source": "/fonts/PlayfairDisplay-Regular.woff2",
+      "source": "/fonts/Domine-Regular.woff2",
       "headers": [
         {
           "key": "Cache-Control",

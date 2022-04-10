@@ -14,7 +14,7 @@ module.exports = {
         gray: colors.neutral,
       },
       fontFamily: {
-        sans: ['IBM Plex Sans', ...fontFamily.sans],
+        sans: ['Inter', ...fontFamily.sans],
         serif: ['Domine', ...fontFamily.serif],
       },
       keyframes: {
