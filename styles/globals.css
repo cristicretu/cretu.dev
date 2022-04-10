@@ -11,11 +11,11 @@
 }
 
 @font-face {
-  font-family: 'Playfair Display';
+  font-family: 'Domine';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-display: optional;
-  src: url(/fonts/PlayfairDisplay-Regular.woff2) format('woff2');
+  src: url(/fonts/Domine-Regular.woff2) format('woff2');
 }
 
 .mycenter {
@@ -40,6 +40,29 @@
   opacity: 1;
   background-image: radial-gradient(#ecedec 1.1px, #fafafa 1.1px);
   background-size: 36px 36px;
+}
+
+.new-sticky-nav {
+  position: sticky;
+  z-index: 10;
+  /* top: 16px; */
+  backdrop-filter: saturate(300%) blur(25px);
+  -webkit-backdrop-filter: saturate(300%) blur(25px);
+  transition: background-color 0.1 ease-in-out;
+}
+
+.light .new-sticky-nav {
+  @apply bg-opacity-50 bg-gray-50;
+  -webkit-box-shadow: 0px -20px 1px rgba(250, 250, 250, 0.9);
+  -moz-box-shadow: 0px -20px 1px rgba(250, 250, 250, 0.9);
+  box-shadow: 0px -20px 1px rgba(250, 250, 250, 0.9);
+}
+
+.dark .new-sticky-nav {
+  @apply bg-opacity-50 bg-gray-800;
+  -webkit-box-shadow: 0px -20px 1px rgba(23, 23, 23, 0.9);
+  -moz-box-shadow: 0px -20px 1px rgba(23, 23, 23, 0.9);
+  box-shadow: 0px -20px 1px rgba(23, 23, 23, 0.9);
 }
 
 .sticky-nav {
@@ -104,20 +127,6 @@
   border-top-color: #f5f5f5;
 }
 
-.delayed {
-  transition: opacity 300ms ease, transform 300ms ease;
-}
-
-.before {
-  opacity: 0;
-  transition: opacity 300ms ease, transform 300ms ease, width 300ms ease,
-    border-color 300ms ease;
-}
-
-.after {
-  opacity: 1;
-}
-
 ::-moz-selection {
   /* Code for Firefox */
   /* color: #fefefe;
@@ -129,12 +138,12 @@
 
 .light ::selection {
   color: black;
-  background: #ffd900;
+  background: #fef9c3;
 }
 
 .dark ::selection {
   color: white;
-  background: #ffc800;
+  background: #fbbf24;
 }
 
 html {
@@ -143,7 +152,7 @@ html {
 }
 
 #__next {
-  @apply bg-gray-50 dark:bg-gray-900;
+  @apply polka;
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;

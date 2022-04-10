@@ -58,7 +58,7 @@ export default function ExternalLink({
             >
               {children}
             </span>
-            <span className=' cursor-arrow'>↗</span>
+            <span className='cursor-arrow'>↗</span>
           </a>
         </TooltipPrimitive.Trigger>
         <TooltipPrimitive.Content
