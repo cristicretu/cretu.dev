@@ -19,7 +19,7 @@ export default function ProjectCard({
   description,
 }: ProjectCardProps): JSX.Element {
   return (
-    <div>
+    <div className='flex flex-col space-y-1 rounded-md -ml-2 px-2 py-2 ransition-colors duration-200 cursor-pointer group hover:bg-gray-200 dark:hover:bg-gray-800'>
       <p
         className={classNames(
           'font-serif flex items-center space-x-1 text-black dark:text-white',

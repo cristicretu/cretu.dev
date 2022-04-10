@@ -25,7 +25,7 @@ export default function BlogPost({
   if (variant === 'index') {
     return (
       <Link href={`/writing/${slug}`}>
-        <a className='flex items-center w-full space-x-2 rounded-md '>
+        <a className='flex items-center w-full space-x-2 rounded-md -ml-2 px-2 py-2 ransition-colors duration-200 cursor-pointer group hover:bg-gray-200 dark:hover:bg-gray-800'>
           <div className='flex flex-col space-y-1'>
             <div className='flex justify-between'>
               <p
