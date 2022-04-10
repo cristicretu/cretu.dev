@@ -138,12 +138,12 @@
 
 .light ::selection {
   color: black;
-  background: #ffd900;
+  background: #fef9c3;
 }
 
 .dark ::selection {
   color: white;
-  background: #ffc800;
+  background: #fbbf24;
 }
 
 html {
