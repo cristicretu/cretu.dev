@@ -116,7 +116,7 @@
     "remark-gfm": "^3.0.1",
     "remark-slug": "^7.0.1",
     "sharp": "^0.30.3",
-    "tailwindcss-radix": "^1.6.0"
+    "tailwindcss-radix": "^2.0.0"
   },
   "devDependencies": {
     "@tailwindcss/line-clamp": "^0.3.1",
