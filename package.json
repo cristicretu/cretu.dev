@@ -115,7 +115,7 @@
     "rehype-slug": "^5.0.1",
     "remark-gfm": "^3.0.1",
     "remark-slug": "^7.0.1",
-    "sharp": "^0.30.3",
+    "sharp": "^0.30.4",
     "tailwindcss-radix": "^2.0.0"
   },
   "devDependencies": {
