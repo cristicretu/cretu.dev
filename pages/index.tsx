@@ -7,7 +7,6 @@ import BlogPost from '@components/BlogPost'
 import Container from '@components/Container'
 import ProjectCard from '@components/ProjectCard'
 import useAudio from '@lib/useAudio'
-import { supabase } from 'utils/supabaseClient'
 
 export default function Home() {
   const [random] = useState(Math.floor(Math.random() * 4))
@@ -16,15 +15,8 @@ export default function Home() {
   const [url, setUrl] = useState(lofiSong)
   const [playing, setPlaying] = useAudio(url)
 
-  async function signInWithGithub() {
-    const { user, session, error } = await supabase.auth.signIn({
-      provider: 'github',
-    })
-  }
-
   return (
     <Container>
-      <button onClick={signInWithGithub}>Sign in with Github</button>
       <div className='w-full'>
         <div className='flex flex-col md:grid grid-cols-3 grid-rows-1 gap-y-16 md:gap-y-28 gap-x-4 text-gray-700 dark:text-gray-300'>
           {/* hero */}
