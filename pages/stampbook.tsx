@@ -1,21 +1,10 @@
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
-import { useUser, Auth } from '@supabase/supabase-auth-helpers/react'
 import Link from 'next/link'
 
 import Container from '@components/Container'
 import StampbookComponent from '@components/Stampbook'
 import prisma from '@lib/prisma'
-import { supabase } from 'utils/supabaseClient'
 
 export default function Stampbook({ fallbackStamps }) {
-  // const LoginWithGithub = async () => {
-  //   const { user, session, error } = await supabase.auth.signIn({
-  //     provider: 'github',
-  //   })
-  // }
-
-  const { user, error } = useUser()
-
   return (
     <Container
       title='Cristian Crețu - Stampbook'
@@ -40,23 +29,6 @@ export default function Stampbook({ fallbackStamps }) {
           Use this page to send me any thoughts you have and be part of this
           website&apos;s history.
         </p>
-        {user && (
-          <div>
-            {' '}
-            <button onClick={() => supabaseClient.auth.signOut()}>
-              Sign out
-            </button>
-            <div>{user.email}</div>
-            <div>{user.user_metadata.name}</div>
-          </div>
-        )}
-        {!user && (
-          <Auth
-            onlyThirdPartyProviders={true}
-            supabaseClient={supabase}
-            providers={['github']}
-          />
-        )}
         <StampbookComponent fallbackData={fallbackStamps} />
       </div>
     </Container>

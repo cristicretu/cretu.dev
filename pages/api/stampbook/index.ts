@@ -24,21 +24,29 @@ export default async function handler(
     )
   }
 
-  // const session = await supabase.auth.session()
+  const user = await supabase.auth.api.getUserByCookie(req)
 
-  // if (!session) {
-  //   res.status(401).json({ session })
-  // }
-
-  const myuser = supabase.auth.user()
-
-  if (!myuser) {
-    res.status(401).json({ myuser })
+  if (!user) {
+    return res.status(401).json({
+      error: 'You must be logged in to create a stamp',
+    })
   }
 
   if (req.method === 'POST') {
-    const user = supabase.auth.user()
+    const newStamp = await prisma.stampbook.create({
+      data: {
+        email: user.data.user_metadata.email,
+        body: (req.body.body || '').trim(0, 500),
+        createdBy: user.data.user_metadata.full_name,
+      },
+    })
 
-    res.json({ message: `Hello ${user.email}` })
+    return res.status(200).json({
+      id: newStamp.id,
+      body: newStamp.body,
+      createdAt: newStamp.createdAt,
+      updatedAt: newStamp.updatedAt,
+    })
+    // const stamp = await prisma.stampbook.create({
   }
 }
