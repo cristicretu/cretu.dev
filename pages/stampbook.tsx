@@ -1,10 +1,15 @@
+import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { useUser, Auth } from '@supabase/supabase-auth-helpers/react'
 import Link from 'next/link'
 
 import Container from '@components/Container'
 import StampbookComponent from '@components/Stampbook'
 import prisma from '@lib/prisma'
+import { supabase } from 'utils/supabaseClient'
 
 export default function Stampbook({ fallbackStamps }) {
+  const { user, error } = useUser()
+
   return (
     <Container
       title='Cristian Crețu - Stampbook'
