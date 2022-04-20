@@ -24,12 +24,21 @@ export default async function handler(
     )
   }
 
-  const session = await supabase.auth.session()
-  const { email } = session.user
+  // const session = await supabase.auth.session()
 
-  if (!session) {
-    res.status(401).json({ message: 'Unauthorized' })
+  // if (!session) {
+  //   res.status(401).json({ session })
+  // }
+
+  const myuser = supabase.auth.user()
+
+  if (!myuser) {
+    res.status(401).json({ myuser })
   }
 
-  res.json({ message: `Hello ${email}` })
+  if (req.method === 'POST') {
+    const user = supabase.auth.user()
+
+    res.json({ message: `Hello ${user.email}` })
+  }
 }
