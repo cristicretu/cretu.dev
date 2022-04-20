@@ -120,6 +120,7 @@
     "remark-slug": "^7.0.1",
     "swr": "^1.3.0",
     "sharp": "^0.30.4",
+    "swr": "^1.3.0",
     "tailwindcss-radix": "^2.0.0"
   },
   "devDependencies": {
