@@ -1,3 +1,8 @@
+import { format, parseISO } from 'date-fns'
+import useSWR, { useSWRConfig } from 'swr'
+
+import fetcher from '@lib/fetcher'
+
 interface IStampProps {
   id: number
   body: string
@@ -6,10 +11,27 @@ interface IStampProps {
 }
 
 export default function StampbookComponent({
-  stamps,
+  fallbackData,
 }: {
-  stamps: IStampProps[]
+  fallbackData: IStampProps[]
 }) {
-  console.log(stamps)
-  return <div>i am stampbook comp hehe</div>
+  // const { mutate } = useSWRConfig()
+  // const { data: stamps } = useSWR('/api/stampbook', fetcher, {
+  //   fallbackData,
+  // })
+  return (
+    <div>
+      {fallbackData?.map(stamp => (
+        <div key={stamp.id}>
+          <h2>{stamp.body}</h2>
+          <p>
+            {format(
+              parseISO(new Date(stamp.updatedAt).toISOString()),
+              'MMMM dd, yyyy'
+            )}
+          </p>
+        </div>
+      ))}
+    </div>
+  )
 }
