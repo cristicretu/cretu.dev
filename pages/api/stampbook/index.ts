@@ -47,6 +47,5 @@ export default async function handler(
       createdAt: newStamp.createdAt,
       updatedAt: newStamp.updatedAt,
     })
-    // const stamp = await prisma.stampbook.create({
   }
 }
