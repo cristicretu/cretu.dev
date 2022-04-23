@@ -2,9 +2,9 @@ import { useRef, useState } from 'react'
 
 import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
-import { Auth, useUser } from '@supabase/supabase-auth-helpers/react'
+import { useUser } from '@supabase/supabase-auth-helpers/react'
 import { format, parseISO } from 'date-fns'
-import useSWR, { mutate, useSWRConfig } from 'swr'
+import useSWR, { useSWRConfig } from 'swr'
 
 import fetcher from '@lib/fetcher'
 import { node_env } from '@lib/node_env'
