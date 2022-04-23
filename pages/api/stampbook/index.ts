@@ -18,7 +18,8 @@ export default async function handler(
       stamps.map(stamp => ({
         id: stamp.id,
         body: stamp.body,
-        createdAt: stamp.createdAt,
+        email: stamp.email,
+        createdBy: stamp.createdBy,
         updatedAt: stamp.updatedAt,
       }))
     )
@@ -36,7 +37,7 @@ export default async function handler(
     const newStamp = await prisma.stampbook.create({
       data: {
         email: user.data.user_metadata.email,
-        body: (req.body.body || '').trim(0, 500),
+        body: (req.body.body || '').trim(0, 280),
         createdBy: user.data.user_metadata.full_name,
       },
     })
@@ -44,6 +45,7 @@ export default async function handler(
     return res.status(200).json({
       id: newStamp.id,
       body: newStamp.body,
+      email: newStamp.email,
       createdAt: newStamp.createdAt,
       updatedAt: newStamp.updatedAt,
     })

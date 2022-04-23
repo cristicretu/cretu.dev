@@ -15,6 +15,7 @@ interface IStampProps {
   body: string
   createdBy: string
   updatedAt: string
+  email: string
 }
 
 export default function StampbookComponent({
@@ -22,7 +23,7 @@ export default function StampbookComponent({
 }: {
   fallbackData: IStampProps[]
 }) {
-  const { user } = useUser()
+  const user = supabase.auth.user()
   const InputEl = useRef(null)
   const { mutate } = useSWRConfig()
   const [error, setError] = useState<string>('')
@@ -34,22 +35,26 @@ export default function StampbookComponent({
 
   const handleProviderSignIn = async () => {
     setLoading(true)
-    const { error } = await supabase.auth.signIn(
-      { provider: 'github' },
-      { redirectTo: `${URL}/stampbook` }
-    )
-    if (error) {
+
+    try {
+      const { error } = await supabaseClient.auth.signIn(
+        { provider: 'github' },
+        { redirectTo: `${URL}/stampbook` }
+      )
+
+      if (error) {
+        setError(error.message)
+      }
+    } catch (error) {
       setError(error.message)
+    } finally {
       setLoading(false)
     }
-
-    setLoading(false)
   }
 
   const handleSignOut = () => {
     setLoading(true)
     supabaseClient.auth.signOut()
-
     setLoading(false)
   }
 
@@ -57,6 +62,13 @@ export default function StampbookComponent({
     e.preventDefault()
     setLoading(true)
     setError('')
+
+    if (InputEl.current.value.length > 250) {
+      setError('Stamp is too long')
+      setLoading(false)
+      return
+    }
+
     const res = await fetch('/api/stampbook', {
       method: 'POST',
       headers: {
@@ -73,15 +85,6 @@ export default function StampbookComponent({
       return
     }
 
-    fallbackData.unshift(
-      {
-        id: 999,
-        body: InputEl.current.value,
-        createdBy: user.user_metadata.username,
-        updatedAt: format(new Date(), 'yyyy-MM-dd'),
-      },
-      ...fallbackData
-    )
     InputEl.current.value = ''
     mutate('/api/stampbook')
     setSucces('Hooray! Thanks for your stamp!')
@@ -160,18 +163,36 @@ export default function StampbookComponent({
           </div>
         )}
       </div>
-      <div>
-        {fallbackData?.map(stamp => (
-          <div key={stamp.id} className='bg-red-500 p-2 m-4'>
-            <h2>{stamp.body}</h2>
-            <p>
-              {format(
-                parseISO(new Date(stamp.updatedAt).toISOString()),
-                'MMMM dd, yyyy'
-              )}
-            </p>
-          </div>
-        ))}
+      <div className='flex flex-col gap-8'>
+        {(stamps as IStampProps[]).map(stamp => {
+          return (
+            <div key={stamp.id} className=''>
+              <h2>{stamp.body}</h2>
+              <div className='flex flex-row gap-2 items-center text-sm text-gray-500 dark:text-gray-400'>
+                <p>{stamp.createdBy}</p>
+                <span className='text-gray-300 dark:text-gray-700'>•</span>
+                <p className=''>
+                  {format(
+                    parseISO(new Date(stamp.updatedAt).toISOString()),
+                    'PPPp'
+                  )}
+                </p>
+                {stamp.email === user?.user_metadata.email && (
+                  <>
+                    <span className='text-gray-300 dark:text-gray-700'>•</span>
+                    <button
+                      // onClick={() => handleDeleteStamp(stamp.id)}
+                      onClick={() => console.log('delete' + stamp.id)}
+                      className='text-red-500'
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )
+        })}
       </div>
     </>
   )
