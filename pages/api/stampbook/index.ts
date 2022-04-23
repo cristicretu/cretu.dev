@@ -38,7 +38,9 @@ export default async function handler(
       data: {
         email: user.data.user_metadata.email,
         body: (req.body.body || '').trim(0, 280),
-        createdBy: user.data.user_metadata.full_name,
+        createdBy:
+          user.data.user_metadata.full_name ||
+          user.data.user_metadata.user_name,
       },
     })
 
