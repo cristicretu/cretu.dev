@@ -23,7 +23,7 @@ export default function StampbookComponent({
 }: {
   fallbackData: IStampProps[]
 }) {
-  const user = supabase.auth.user()
+  const { user } = useUser()
   const InputEl = useRef(null)
   const { mutate } = useSWRConfig()
   const [error, setError] = useState<string>('')
@@ -58,12 +58,24 @@ export default function StampbookComponent({
     setLoading(false)
   }
 
+  const handleDeleteStamp = async (id: number) => {
+    setLoading(true)
+    setSucces('')
+    await fetch(`/api/stampbook/${id}`, {
+      method: 'DELETE',
+    })
+
+    setLoading(false)
+    mutate('/api/stampbook')
+  }
+
   const postStamp = async e => {
     e.preventDefault()
     setLoading(true)
+    setSucces('')
     setError('')
 
-    if (InputEl.current.value.length > 250) {
+    if (InputEl.current.value.length > 280) {
       setError('Stamp is too long')
       setLoading(false)
       return
@@ -181,8 +193,7 @@ export default function StampbookComponent({
                   <>
                     <span className='text-gray-300 dark:text-gray-700'>•</span>
                     <button
-                      // onClick={() => handleDeleteStamp(stamp.id)}
-                      onClick={() => console.log('delete' + stamp.id)}
+                      onClick={() => handleDeleteStamp(stamp.id)}
                       className='text-red-500'
                     >
                       Delete
