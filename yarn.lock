@@ -547,13 +547,6 @@
   dependencies:
     cross-fetch "^3.0.6"
 
-"@supabase/gotrue-js@^1.22.13":
-  version "1.22.13"
-  resolved "https://registry.yarnpkg.com/@supabase/gotrue-js/-/gotrue-js-1.22.13.tgz#4b680b40e34f2ea37f4d227ae0147d60dd6288fa"
-  integrity sha512-Ylus1KWkLRo6Hy9wLzzE4jAr+Fkt8Bi8a1YnX9aWIXPl/R8PxMb4fL928UAEm9fuyFZ1Z1F+BTTK2RM6NLReUQ==
-  dependencies:
-    cross-fetch "^3.0.6"
-
 "@supabase/postgrest-js@^0.37.2":
   version "0.37.2"
   resolved "https://registry.yarnpkg.com/@supabase/postgrest-js/-/postgrest-js-0.37.2.tgz#4243587eea5ad9507371fcdc4b3ec096d652ad03"
@@ -561,15 +554,7 @@
   dependencies:
     cross-fetch "^3.0.6"
 
-"@supabase/realtime-js@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-1.7.1.tgz#57c96494a60b40e6bb57f18826a51f1d34f9a2bf"
-  integrity sha512-ovp9UXzi3ibA/AOyL4CXW7hjbrR+ZQoxbJZ8rfZTSMpqYhT8Jl8/sLUozMobIzSV6gsZYuHR3QnzJmemzvBQhg==
-  dependencies:
-    "@types/phoenix" "^1.5.4"
-    websocket "^1.0.34"
-
-"@supabase/realtime-js@^1.7.2":
+"@supabase/realtime-js@^1.7.1", "@supabase/realtime-js@^1.7.2":
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/@supabase/realtime-js/-/realtime-js-1.7.2.tgz#9670d02b8283d7780f4970660609077feab37296"
   integrity sha512-DMUaFIKj7KszGtWTTQbhMmUzZf7UnwYqySsmY+G8HgYxvY3ZaVa+DZD0I6ofgr4OLNr0po/ODM2a4lf5m5GNBg==
