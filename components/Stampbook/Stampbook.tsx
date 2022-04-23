@@ -7,8 +7,7 @@ import { format, parseISO } from 'date-fns'
 import useSWR, { mutate, useSWRConfig } from 'swr'
 
 import fetcher from '@lib/fetcher'
-import URL from '@lib/production'
-import { supabase } from 'utils/supabaseClient'
+import { node_env } from '@lib/node_env'
 
 interface IStampProps {
   id: number
@@ -39,7 +38,11 @@ export default function StampbookComponent({
     try {
       const { error } = await supabaseClient.auth.signIn(
         { provider: 'github' },
-        { redirectTo: `${URL}/stampbook` }
+        {
+          redirectTo: `${
+            node_env === true ? 'https://cretu.dev' : 'http://localhost:3000'
+          }/stampbook`,
+        }
       )
 
       if (error) {
