@@ -7,14 +7,14 @@ class MyDocument extends Document {
         <Head>
           <link
             rel='preload'
-            href='/fonts/IBMPlexSans-Regular.woff2'
+            href='/fonts/inter-var-latin.woff2'
             as='font'
             type='font/woff2'
             crossOrigin='anonymous'
           />
           <link
             rel='preload'
-            href='/fonts/PlayfairDisplay-Regular.woff2'
+            href='/fonts/Domine-Regular.woff2'
             as='font'
             type='font/woff2'
             crossOrigin='anonymous'

@@ -52,6 +52,13 @@ export default function CommandMenu({ buttonOpen, setButtonOpen }: Props) {
       rightText: 'Go to',
     },
     {
+      label: 'Stampbook',
+      href: '/stampbook',
+      icon: <ArrowRightIcon width={20} height={20} />,
+      type: 'Navigation',
+      rightText: 'Go to',
+    },
+    {
       label: 'GitHub',
       href: 'https://github.com/cristicretu',
       icon: <GitHubLogoIcon width={20} height={20} />,
