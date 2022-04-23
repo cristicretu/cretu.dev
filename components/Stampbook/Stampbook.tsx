@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react'
 
+import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { Auth, useUser } from '@supabase/supabase-auth-helpers/react'
 import { format, parseISO } from 'date-fns'
 import useSWR, { mutate, useSWRConfig } from 'swr'
 
 import fetcher from '@lib/fetcher'
+import URL from '@lib/production'
 import { supabase } from 'utils/supabaseClient'
 
 interface IStampProps {
@@ -34,7 +36,7 @@ export default function StampbookComponent({
     setLoading(true)
     const { error } = await supabase.auth.signIn(
       { provider: 'github' },
-      { redirectTo: '/stampbook' }
+      { redirectTo: `${URL}/stampbook` }
     )
     if (error) {
       setError(error.message)
@@ -44,19 +46,18 @@ export default function StampbookComponent({
     setLoading(false)
   }
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     setLoading(true)
-    const { error } = await supabase.auth.signOut()
-
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    }
+    supabaseClient.auth.signOut()
 
     setLoading(false)
   }
 
   const postStamp = async e => {
+    // if (!user) {
+    //   return
+    // }
+
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -93,16 +94,13 @@ export default function StampbookComponent({
 
   return (
     <>
-      <form
-        onSubmit={postStamp}
-        className='flex flex-col gap-4 bg-gradient-to-r from-slate-200 to-slate-300 border-gray-400 dark:from-slate-900 dark:to-slate-800 border dark:border-gray-700 bg-opacity-4 p-8 rounded-md'
-      >
+      <div className='flex flex-col gap-4 bg-gradient-to-r from-slate-200 to-slate-300 border-gray-400 dark:from-slate-900 dark:to-slate-800 border dark:border-gray-700 bg-opacity-4 p-8 rounded-md'>
         <h2 className='font-bold text-xl'>Post your stamp!</h2>
         <p className=''>
           Add a single message. If you want to add your stamp as a tag, contact
           me on Twitter!
         </p>
-        <div className='flex flex-row gap-2'>
+        <form onSubmit={postStamp} className='flex flex-row gap-2'>
           {user && (
             <>
               <input
@@ -139,13 +137,20 @@ export default function StampbookComponent({
             </>
           )}
           {!user && (
-            <button onClick={handleProviderSignIn}>sign in with GITHUB</button>
+            <button
+              className='px-4 py-2 bg-gray-100 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-800 transition-all rounded-md flex flex-row items-center gap-2'
+              onClick={handleProviderSignIn}
+            >
+              <span>Sign in with</span>
+              <GitHubLogoIcon />
+              <span>GitHub</span>
+            </button>
           )}
-        </div>
+        </form>
         {user && (
           <div className='text-gray-500 text-sm flex items-center gap-1'>
             <p>Signed in as {user.user_metadata.user_name}.</p>
-            <span onClick={handleSignOut}>Sign out.</span>
+            <button onClick={handleSignOut}>Sign out.</button>
           </div>
         )}
         {error && (
@@ -158,7 +163,7 @@ export default function StampbookComponent({
             <p>{succes}</p>
           </div>
         )}
-      </form>
+      </div>
       <div>
         {fallbackData?.map(stamp => (
           <div key={stamp.id} className='bg-red-500 p-2 m-4'>
