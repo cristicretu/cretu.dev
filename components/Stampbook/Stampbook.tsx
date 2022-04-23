@@ -54,10 +54,6 @@ export default function StampbookComponent({
   }
 
   const postStamp = async e => {
-    // if (!user) {
-    //   return
-    // }
-
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -136,17 +132,17 @@ export default function StampbookComponent({
               </button>
             </>
           )}
-          {!user && (
-            <button
-              className='px-4 py-2 bg-gray-100 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-800 transition-all rounded-md flex flex-row items-center gap-2'
-              onClick={handleProviderSignIn}
-            >
-              <span>Sign in with</span>
-              <GitHubLogoIcon />
-              <span>GitHub</span>
-            </button>
-          )}
         </form>
+        {!user && (
+          <button
+            className='px-4 py-2 bg-gray-100 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-800 transition-all mx-auto rounded-md flex flex-row items-center gap-2'
+            onClick={handleProviderSignIn}
+          >
+            <span>Sign in with</span>
+            <GitHubLogoIcon />
+            <span>GitHub</span>
+          </button>
+        )}
         {user && (
           <div className='text-gray-500 text-sm flex items-center gap-1'>
             <p>Signed in as {user.user_metadata.user_name}.</p>
