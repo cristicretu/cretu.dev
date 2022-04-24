@@ -42,12 +42,7 @@ export default function Home() {
               About
             </p>
             <div className='flex flex-col gap-2'>
-              <p>
-                {' '}
-                <mark className='bg-yellow-100 dark:bg-yellow-200 '>
-                  Thinkering with digital art and creating visual interfaces.
-                </mark>
-              </p>
+              <p>Thinkering with digital art and creating visual interfaces.</p>
               <p>
                 Interested in C, TypeScript, and Python. Curious about Rust and
                 Swift. Building products using React, Next.js, and GraphQL.

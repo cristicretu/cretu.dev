@@ -15,7 +15,7 @@ interface BlogComponentProps {
 }
 
 const editUrl = slug =>
-  `https://github.com/cristicretu/cretu.dev/edit/main/data/blog/${slug}.mdx`
+  `https://github.com/cristicretu/cretu.dev/edit/main/data/writing/${slug}.mdx`
 
 export default function BlogComponent({
   children,

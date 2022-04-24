@@ -5,13 +5,14 @@ import Link from 'next/link'
 
 import BlogPost from '@components/BlogPost'
 import Container from '@components/Container'
-import { getAllFilesFrontMatter } from 'lib/mdx'
+import { allWritings, Writing } from 'contentlayer/generated'
+// import { getAllFilesFrontMatter } from 'lib/mdx'
 
 interface writingProps {
-  posts
+  posts: Writing[]
 }
 
-export default function Writing({ posts }: writingProps): JSX.Element {
+export default function WritingPage({ posts }: writingProps): JSX.Element {
   const [Results, setResults] = useState('')
   const SearchResults = posts
     .sort(
@@ -19,6 +20,8 @@ export default function Writing({ posts }: writingProps): JSX.Element {
         Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
     )
     .filter(date => date.title.toLowerCase().includes(Results.toLowerCase()))
+
+  console.log(posts)
 
   return (
     <Container
@@ -78,7 +81,9 @@ export default function Writing({ posts }: writingProps): JSX.Element {
 }
 
 export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog')
+  const posts: Writing[] = allWritings.sort((a, b) => {
+    return Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
+  })
 
   return {
     props: { posts },
