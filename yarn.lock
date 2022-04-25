@@ -5123,10 +5123,10 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-tailwindcss-radix@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/tailwindcss-radix/-/tailwindcss-radix-2.0.0.tgz#59076c616dca7d4f53996f4775304213d111a46f"
-  integrity sha512-OLEEfQ2qeUdQU+fJ9wQf5A7/eIYn8oKIfHzPBDImHQ/QxR7digIpTCEwJWO0qy0r0kH+0nJaS4pZHeYG9W5Neg==
+tailwindcss-radix@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/tailwindcss-radix/-/tailwindcss-radix-2.2.0.tgz#8679d682e5758c1d50714d02cc5af82d7fda0d03"
+  integrity sha512-ErcLnoyB60lVB3jpeTOI2m2Cif3I6mTyjPiNs1/L/5cH+7FzbqzprLxwWgQtWQCIJCbzaZ2lh8AFEIo4He47XQ==
 
 tailwindcss@^3.0.24:
   version "3.0.24"
