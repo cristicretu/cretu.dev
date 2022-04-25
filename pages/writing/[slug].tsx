@@ -8,7 +8,7 @@ const Post = ({ post }: { post: Writing }) => {
   const Component = useMDXComponent(post.body.code)
 
   return (
-    <div>
+    <div className='prose'>
       <Component
         components={
           {
