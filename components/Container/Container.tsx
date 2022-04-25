@@ -12,7 +12,7 @@ interface IContainerProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  date: any
+  date?: any
 }
 
 export default function Container({
