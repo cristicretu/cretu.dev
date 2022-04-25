@@ -1,2 +1,6 @@
 .next
 node_modules
+.contentlayer
+.husky
+.github
+.vscode
