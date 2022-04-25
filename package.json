@@ -19,6 +19,7 @@
     "next": "12.1.5",
     "next-contentlayer": "^0.2.4",
     "next-seo": "^5.4.0",
+    "next-themes": "^0.1.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "rehype-autolink-headings": "^6.1.1",
