@@ -2,19 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@layer base {
+  html {
+    @apply max-h-screen  antialiased
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply p-0 m-0 font-sans
+  }
+
+  body:after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    right: -50%;
+    bottom: -50%;
+    left: -50%;
+    z-index: -1;
+    @apply bg-white dark:bg-black;
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer components {
+  /* needed to override tailwind forms styles */
+  select {
+    @apply w-full px-4 py-2 border border-gray-200 rounded outline-none text-primary bg-gray-1000 bg-opacity-5 hover:bg-opacity-10 focus:border-gray-1000 focus:outline-none focus:ring-0 dark:border-gray-800 dark:bg-white dark:focus:border-gray-600;
+  }
+
+  button:focus,
+  a:focus {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-blue-500 dark:ring-offset-black;
+  }
+
+  button:active:not(:focus-visible),
+  a:active:not(:focus-visible),
+  button:focus:not(:focus-visible),
+  a:focus:not(:focus-visible) {
+    @apply outline-none ring-0 ring-offset-0;
+  }
+
+  input[type='text'],
+  textarea {
+    @apply bg-white border border-gray-200 outline-none dark:border-gray-700 dark:bg-gray-800;
+  }
+
+  input[type='checkbox'] {
+    @apply dark:border-gray-600 dark:bg-gray-700;
+  }
+
+  input:focus,
+  textarea:focus {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-black;
+  }
+
+  .font-list-heading {
+    @apply font-sans text-lg font-bold text-primary;
+  }
+
+  .tabbed-navigation::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bg-dots {
+    background: linear-gradient(90deg, #f9fafb 15px, transparent 1%) center,
+      linear-gradient(#f9fafb 15px, transparent 1%) center, rgba(0, 0, 0, 0.24);
+    background-size: 16px 16px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .bg-dots {
+      background: linear-gradient(90deg, #050505 15px, transparent 1%) center,
+        linear-gradient(#050505 15px, transparent 1%) center,
+        rgba(255, 255, 255, 0.16);
+      background-size: 16px 16px;
+    }
+  }
 }
 
-* {
-  box-sizing: border-box;
+/* Your own custom utilities */
+@layer utilities {
+  .text-primary {
+    @apply text-gray-1000 dark:text-gray-100;
+  }
+
+  .text-secondary {
+    @apply text-gray-700 dark:text-gray-300;
+  }
+
+  .text-tertiary {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  .text-quaternary {
+    @apply text-gray-400 dark:text-gray-500;
+  }
+
+  .bg-elevated {
+    @apply bg-gray-400 bg-opacity-5 dark:bg-gray-50;
+  }
+
+  .filter-none {
+    filter: none;
+  }
+
+  .filter-grayscale {
+    filter: grayscale(100%);
+  }
+
+  .filter-saturate {
+    -webkit-filter: brightness(105%) saturate(200%) contrast(1);
+    filter: brightness(105%) saturate(200%) contrast(1);
+  }
+
+  .filter-blur {
+    backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  .highlight-link-hover {
+    @apply -mx-0.5 rounded-sm bg-opacity-20 px-0.5 text-gray-1000 no-underline dark:bg-opacity-100 dark:text-gray-300 md:hover:bg-yellow-400 md:hover:bg-opacity-30 md:dark:hover:bg-yellow-500 md:dark:hover:bg-opacity-100 md:dark:hover:text-gray-1000;
+  }
+
+  .highlight-link {
+    @apply -mx-0.5 bg-opacity-20 px-0.5 text-gray-1000 dark:bg-gray-100 dark:bg-opacity-20 dark:text-gray-300 md:hover:bg-opacity-30 md:dark:hover:bg-yellow-500 md:dark:hover:bg-opacity-100 md:dark:hover:text-gray-1000;
+  }
+
+  .blink {
+    animation: blink-animation 1.5s steps(2, start) infinite;
+    -webkit-animation: blink-animation 1.5s steps(2, start) infinite;
+  }
 }
