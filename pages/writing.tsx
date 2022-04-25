@@ -21,8 +21,6 @@ export default function WritingPage({ posts }: writingProps): JSX.Element {
     )
     .filter(date => date.title.toLowerCase().includes(Results.toLowerCase()))
 
-  console.log(posts)
-
   return (
     <Container
       title='Cristian Crețu - Writing'

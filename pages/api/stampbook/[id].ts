@@ -47,7 +47,7 @@ export default async function handler(
       },
     })
 
-    return res.status(204).json({})
+    return res.status(204).end()
   }
 
   res.send('Method not allowed.')
