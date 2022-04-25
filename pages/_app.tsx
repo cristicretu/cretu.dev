@@ -8,21 +8,13 @@ import Layout from '@components/Layout'
 import { Providers } from '@components/Providers'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const getLayout =
-    Component.getLayout ||
-    ((
-      page:
-        | boolean
-        | ReactChild
-        | ReactFragment
-        | ReactPortal
-        | null
-        | undefined
-    ) => (
-      <Providers pageProps={pageProps}>
-        <Layout>{page}</Layout>
-      </Providers>
-    ))
+  const getLayout = (
+    page: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
+  ) => (
+    <Providers pageProps={pageProps}>
+      <Layout>{page}</Layout>
+    </Providers>
+  )
 
   return getLayout(<Component {...pageProps} />)
 }
