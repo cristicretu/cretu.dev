@@ -2,17 +2,17 @@ export const baseUrl =
   process.env.NODE_ENV === 'production' ? 'https://cretu.dev' : ''
 
 export const defaultSEO = {
-  title: 'Crețu Cristian',
+  title: 'Cristian Crețu',
   description: 'Developer and designer.',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: baseUrl,
-    site_name: 'Crețu Cristian',
+    site_name: 'Cristian Crețu',
     images: [
       {
         url: `${baseUrl}/static/og/default.png`,
-        alt: 'Crețu Cristian',
+        alt: 'Cristian Crețu',
       },
     ],
   },
