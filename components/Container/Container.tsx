@@ -3,6 +3,7 @@ import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
+import Footer from '@components/Footer'
 import { cn } from '@lib/classNames'
 import { baseUrl } from 'config/seo'
 
@@ -72,8 +73,17 @@ export default function Container({
         enterFrom='scale-90 opacity-0'
         enterTo='scale-100 opacity-100'
       >
-        <main className='flex flex-col justify-center max-w-2xl px-4 py-12 mx-auto my-auto'>
+        <main
+          className={cn(
+            'px-4 py-12',
+            'max-w-2xl',
+            'mx-auto my-auto',
+            'flex flex-col justify-center gap-12',
+            'divide-y divide-gray-300 dark:divide-gray-700'
+          )}
+        >
           <div>{children}</div>
+          <Footer />
         </main>
       </Transition>
     </div>
