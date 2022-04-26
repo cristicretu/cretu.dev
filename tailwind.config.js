@@ -1,14 +1,14 @@
 const { spacing, fontFamily } = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 
-const mono = [
-  'ui-monospace',
-  'SFMono-Regular',
-  'Menlo',
-  'Monaco',
-  'Consolas',
-  'Liberation Mono',
-  'monospace',
+const sans = [
+  'Inter',
+  '-apple-system',
+  'system-ui',
+  'Segoe UI',
+  'Roboto',
+  'Helvetica Neue',
+  'sans-serif',
 ]
 
 module.exports = {
@@ -37,7 +37,7 @@ module.exports = {
         current: 'currentColor',
       },
       fontFamily: {
-        sans: [...mono, 'system-ui'],
+        sans: [...sans, 'system-ui'],
       },
     },
     typography: theme => ({

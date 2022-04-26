@@ -1,7 +1,9 @@
+import { Transition } from '@headlessui/react'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
+import { cn } from '@lib/classNames'
 import { baseUrl } from 'config/seo'
 
 interface IContainerProps {
@@ -35,7 +37,15 @@ export default function Container({
   }
 
   return (
-    <div className='bg-gray-50 dark:bg-gray-900 relative flex h-full min-h-screen w-full'>
+    <div
+      className={cn(
+        'bg-gray-50 dark:bg-gray-1000',
+        'text-primary',
+        'relative h-full min-h-screen w-full',
+        'flex flex-col',
+        'motion-reduce:transition-none motion-reduce:transform-none'
+      )}
+    >
       <Head>
         <NextSeo {...meta} />
         <meta name='robots' content='follow, index' />
@@ -55,20 +65,17 @@ export default function Container({
           <meta property='article:published_time' content={meta.date} />
         )}
       </Head>
-      <div className='flex flex-col justify-center px-8'>
-        <nav className='flex items-center justify-between w-full relative max-w-2xl border-gray-200 dark:border-gray-700 mx-auto pt-8 pb-8 sm:pb-16  text-gray-900 bg-gray-50  dark:bg-gray-900 bg-opacity-60 dark:text-gray-100'>
-          {/* <MobileMenu />
-            <NavItem href='/' text='Home' />
-            <NavItem href='/guestbook' text='Guestbook' />
-            <NavItem href='/dashboard' text='Dashboard' />
-            <NavItem href='/blog' text='Blog' />
-            <NavItem href='/snippets' text='Snippets' /> */}
-        </nav>
-      </div>
-      <main className='flex flex-col justify-center px-8 bg-gray-50 dark:bg-gray-900'>
-        {children}
-        {/* <Footer /> */}
-      </main>
+      <Transition
+        appear={true}
+        show={true}
+        enter='transition-all duration-500 delay-[200ms]'
+        enterFrom='scale-90 opacity-0'
+        enterTo='scale-100 opacity-100'
+      >
+        <main className='flex flex-col justify-center max-w-2xl px-4 py-12 mx-auto my-auto'>
+          <div>{children}</div>
+        </main>
+      </Transition>
     </div>
   )
 }

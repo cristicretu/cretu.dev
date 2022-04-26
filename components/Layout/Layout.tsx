@@ -5,9 +5,5 @@ export default function Layout({
 }: {
   children: React.ReactNode
 }): JSX.Element {
-  return (
-    <div className='relative flex h-full min-h-screen w-full'>
-      <div className='flex flex-1'>{children}</div>
-    </div>
-  )
+  return <div className='relative h-full min-h-screen w-full'>{children}</div>
 }
