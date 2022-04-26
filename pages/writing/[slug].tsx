@@ -2,13 +2,14 @@ import type { GetStaticPaths, GetStaticProps } from 'next'
 import { useMDXComponent } from 'next-contentlayer/hooks'
 
 import components from '@components/MDXComponents'
+import WritingLayout from '@components/WritingLayout'
 import { allWritings, Writing } from 'contentlayer/generated'
 
 const Post = ({ post }: { post: Writing }) => {
   const Component = useMDXComponent(post.body.code)
 
   return (
-    <div className='prose'>
+    <WritingLayout post={post}>
       <Component
         components={
           {
@@ -17,7 +18,7 @@ const Post = ({ post }: { post: Writing }) => {
           } as any
         }
       />
-    </div>
+    </WritingLayout>
   )
 }
 

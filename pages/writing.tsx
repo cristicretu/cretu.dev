@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react'
 
 import { pick } from 'contentlayer/client'
-import type { GetStaticProps } from 'next'
 import Link from 'next/link'
 
 import Container from '@components/Container'
@@ -44,7 +43,12 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
     }
   }
   return (
-    <Container>
+    <Container
+      back={{
+        href: '/',
+        label: 'Index',
+      }}
+    >
       <h1 className='font-semibold'>Writing</h1>
       <div
         ref={parentRef}

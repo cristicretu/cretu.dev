@@ -3,6 +3,7 @@ import {
   defineDocumentType,
   makeSource,
 } from 'contentlayer/source-files'
+import readingTime from 'reading-time'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import rehypeCodeTitles from 'rehype-code-titles'
 import rehypePrism from 'rehype-prism-plus'
@@ -10,7 +11,7 @@ import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
 
 const computedFields: ComputedFields = {
-  readingTime: { type: 'json', resolve: doc => doc.readingTime },
+  readingTime: { type: 'json', resolve: doc => readingTime(doc.body.raw) },
   wordCount: {
     type: 'number',
     resolve: doc => doc.body.raw.split(/\s+/gu).length,
@@ -34,7 +35,7 @@ const Writing = defineDocumentType(() => ({
   computedFields,
 }))
 
-const contentlayerConfig = makeSource({
+const contentLayerConfig = makeSource({
   contentDirPath: 'data',
   documentTypes: [Writing],
   mdx: {
@@ -55,4 +56,4 @@ const contentlayerConfig = makeSource({
   },
 })
 
-export default contentlayerConfig
+export default contentLayerConfig

@@ -1,6 +1,7 @@
 import { Transition } from '@headlessui/react'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import Footer from '@components/Footer'
@@ -8,6 +9,10 @@ import { cn } from '@lib/classNames'
 import { baseUrl } from 'config/seo'
 
 interface IContainerProps {
+  back?: {
+    href: string
+    label: string
+  }
   children?: React.ReactNode
   title?: string
   description?: string
@@ -19,6 +24,7 @@ interface IContainerProps {
 }
 
 export default function Container({
+  back,
   children,
   title,
   description,
@@ -82,7 +88,26 @@ export default function Container({
             'divide-y divide-gray-300 dark:divide-gray-700'
           )}
         >
-          <div>{children}</div>
+          <div className='flex flex-col gap-2'>
+            {back && (
+              <Link href={back.href}>
+                <a
+                  className={cn(
+                    'text-tertiary hover:text-secondary transition duration-200 ease-in-out cursor-pointer group'
+                  )}
+                >
+                  <span
+                    aria-hidden='true'
+                    className='inline-block transition-transform duration-200 ease-in-out translate-x-0 group-hover:-translate-x-1'
+                  >
+                    ⇤
+                  </span>{' '}
+                  {back.label}
+                </a>
+              </Link>
+            )}
+            {children}
+          </div>
           <Footer />
         </main>
       </Transition>
