@@ -88,7 +88,7 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
 
 export default WritingPage
 
-export function getStaticProps(): GetStaticProps {
+export function getStaticProps() {
   const posts = allWritings
     .map(post => pick(post, ['slug', 'title', 'summary', 'publishedAt']))
     .sort(
@@ -96,5 +96,9 @@ export function getStaticProps(): GetStaticProps {
         Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
     )
 
-  return { props: { posts } }
+  return {
+    props: {
+      posts,
+    },
+  }
 }
