@@ -32,7 +32,6 @@ module.exports = {
         'design-details': '#458886',
         'design-details-light': '#EEF3F3',
         'design-details-dark': '#273F3F',
-        'hacker-news': '#FF965A',
         twitter: '#479BEA',
         current: 'currentColor',
       },

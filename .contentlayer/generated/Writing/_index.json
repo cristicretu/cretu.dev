@@ -17,6 +17,12 @@
       "flattenedPath": "writing/2021"
     },
     "type": "Writing",
+    "readingTime": {
+      "text": "4 min read",
+      "minutes": 3.84,
+      "time": 230400,
+      "words": 768
+    },
     "wordCount": 770,
     "slug": "2021"
   }
