@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import '../styles/prose.css'
 import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
+import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 
 import Layout from '@components/Layout'
@@ -11,9 +12,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = (
     page: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
   ) => (
-    <Providers pageProps={pageProps}>
-      <Layout>{page}</Layout>
-    </Providers>
+    <ThemeProvider disableTransitionOnChange attribute='class'>
+      <Providers pageProps={pageProps}>
+        <Layout>{page}</Layout>
+      </Providers>
+    </ThemeProvider>
   )
 
   return getLayout(<Component {...pageProps} />)
