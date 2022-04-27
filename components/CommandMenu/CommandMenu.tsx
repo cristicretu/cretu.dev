@@ -4,17 +4,24 @@ import { Dialog, Transition } from '@headlessui/react'
 
 import { commands } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
+import Link from 'next/link'
 
 export default function CommandMenu() {
   // dialog state
-  const [isOpen, setIsOpen] = useState(false)
+  const itemsRef = useRef(commands)
 
-  const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
-  const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
-  const [transform, setTransform] = useState('translate(0, 0')
+  console.log('itemsRef', itemsRef)
+
+  const [isOpen, setIsOpen] = useState(false)
 
   const parentRef = useRef<HTMLDivElement>(null)
   const highlightRef = useRef<HTMLDivElement>(null)
+
+  const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(
+    parentRef.current?.firstChild
+  )
+  const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
+  const [transform, setTransform] = useState('translate(0, 0')
 
   const cardStyle =
     'flex flex-col px-2 py-3 relative hover:highlight sm:hover:!bg-transparent rounded-xl transition-colors duration-300'
@@ -40,6 +47,61 @@ export default function CommandMenu() {
   }
 
   useEffect(() => {
+    const navigated = (e: { keyCode: number; preventDefault: () => void }) => {
+      // up
+      if (e.keyCode === 38 && isOpen) {
+        e.preventDefault()
+        if (highlightedTab) {
+          const prev = highlightedTab.previousElementSibling
+          if (prev) {
+            const parent = parentRef.current!
+
+            setIsHoveredFromNull(!highlightedTab)
+            setHighlightedTab(prev as HTMLElement)
+
+            const tabBoundingBox = prev!.getBoundingClientRect()
+            const parentBoundingBox = parent.getBoundingClientRect()
+            const highlightOffset = tabBoundingBox!.top - parentBoundingBox.top
+
+            // exit early if event triggered by children
+            if (prev.className === cardStyle) {
+              setTransform(`translate(0, ${highlightOffset}px)`)
+            }
+          }
+        }
+        // down
+      } else if (e.keyCode === 40 && isOpen) {
+        e.preventDefault()
+        if (highlightedTab) {
+          const next = highlightedTab.nextElementSibling
+          if (next) {
+            const parent = parentRef.current!
+
+            setIsHoveredFromNull(!highlightedTab)
+            setHighlightedTab(next as HTMLElement)
+
+            const tabBoundingBox = next!.getBoundingClientRect()
+            const parentBoundingBox = parent.getBoundingClientRect()
+            const highlightOffset = tabBoundingBox!.top - parentBoundingBox.top
+
+            // exit early if event triggered by children
+            if (next.className === cardStyle) {
+              setTransform(`translate(0, ${highlightOffset}px)`)
+            }
+          }
+        }
+      }
+    }
+
+    window.addEventListener('keydown', navigated)
+
+    return () => {
+      window.removeEventListener('keydown', navigated)
+    }
+  }, [highlightedTab, isOpen])
+
+  // CMD + K
+  useEffect(() => {
     const clickedCmdk = (e: {
       which: number
       metaKey: boolean
@@ -58,7 +120,19 @@ export default function CommandMenu() {
     }
   }, [isOpen])
 
-  console.log(highlightedTab)
+  // Press enter & execute command
+  useEffect(() => {
+    const callback = (e: { keyCode: number }) => {
+      if (e.keyCode === 13 && isOpen && highlightedTab) {
+        highlightedTab.click()
+      }
+    }
+
+    window.addEventListener('keydown', callback)
+    return () => {
+      window.removeEventListener('keydown', callback)
+    }
+  }, [isOpen, highlightedTab])
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -96,9 +170,9 @@ export default function CommandMenu() {
               'ring-1 ring-black/10 dark:ring-gray-500/10'
             )}
           >
-            <Dialog.Title>
+            {/* <Dialog.Title>
               <input />
-            </Dialog.Title>
+            </Dialog.Title> */}
             <Dialog.Description>
               <div ref={parentRef} className='relative'>
                 {/* Highlighter */}
@@ -123,27 +197,25 @@ export default function CommandMenu() {
                 </div>
                 {/* Entries */}
                 {commands.map((meta, index) => (
-                  <a
-                    key={index}
-                    className={cardStyle}
-                    onMouseOver={handleMouseOver}
-                  >
-                    <span className='text-gray-500 dark:text-gray-500'>
-                      {meta.label}
-                    </span>
-                  </a>
+                  <Link href={meta.href!} key={index}>
+                    <a className={cardStyle} onMouseOver={handleMouseOver}>
+                      <div className='flex flex-row justify-between'>
+                        <div>icon</div>
+                        <div>{meta.label}</div>
+                      </div>
+                    </a>
+                  </Link>
                 ))}
-                <span>asdas</span>
+                <span>Separator</span>
                 {commands.map((meta, index) => (
-                  <a
-                    key={index}
-                    className={cardStyle}
-                    onMouseOver={handleMouseOver}
-                  >
-                    <p className='text-gray-500 dark:text-gray-500'>
-                      {meta.label}
-                    </p>
-                  </a>
+                  <li key={index}>
+                    <a className={cardStyle} onMouseOver={handleMouseOver}>
+                      <div className='flex flex-row justify-between'>
+                        <div>icon</div>
+                        <div>{meta.label}</div>
+                      </div>
+                    </a>
+                  </li>
                 ))}
               </div>
             </Dialog.Description>
