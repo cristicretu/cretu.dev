@@ -162,6 +162,14 @@
     @apply bg-gray-400 bg-opacity-5 dark:bg-gray-50;
   }
 
+  .bg-primary {
+    @apply bg-gray-100/60 dark:bg-gray-800/50;
+  }
+
+  .highlight {
+    @apply bg-black bg-opacity-[0.1] dark:bg-white dark:bg-opacity-[0.08]
+  }
+
   .filter-none {
     filter: none;
   }

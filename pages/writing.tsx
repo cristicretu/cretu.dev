@@ -43,6 +43,7 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
       setTransform(`translate(0, ${highlightOffset}px)`)
     }
   }
+
   return (
     <Container
       back={{
