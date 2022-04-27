@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import { Dialog, Transition } from '@headlessui/react'
 
@@ -27,26 +27,45 @@ export default function CommandMenu() {
   }, [isOpen])
 
   return (
-    <Dialog
-      open={isOpen}
-      onClose={setIsOpen}
-      className={cn('fixed inset-0', 'p-4 pt-[25vh] overflow-y-auto')}
-    >
-      <Dialog.Overlay
-        className={cn('fixed inset-0 bg-gray-50/75 dark:bg-black/75')}
-      />
-      <div
-        className={cn(
-          'max-w-2xl mx-auto px-2',
-          'relative',
-          'bg-red-500',
-          'rounded-md shadow-2xl',
-          'ring-1 ring-black/10'
-        )}
+    <Transition show={isOpen} as={Fragment}>
+      <Dialog
+        onClose={setIsOpen}
+        className={cn('fixed inset-0', 'p-4 pt-[25vh] overflow-y-auto')}
       >
-        m,essi
-        <button onClick={() => changeTheme}>change</button>
-      </div>
-    </Dialog>
+        <Transition.Child
+          enter='duration-100 ease-out'
+          enterFrom='opacity-0'
+          enterTo='opacity-100'
+          leave='duration-100 ease-in'
+          leaveFrom='opacity-100'
+          leaveTo='opacity-0'
+        >
+          <Dialog.Overlay
+            className={cn('fixed inset-0 bg-gray-50/75 dark:bg-black/75')}
+          />
+        </Transition.Child>
+
+        <Transition.Child
+          enter='duration-100 ease-out'
+          enterFrom='opacity-0 scale-95'
+          enterTo='opacity-100 scale-100'
+          leave='duration-100 ease-in'
+          leaveFrom='opacity-100 scale-100'
+          leaveTo='opacity-0 scale-95'
+        >
+          <div
+            className={cn(
+              'max-w-2xl mx-auto px-2',
+              'relative',
+              'bg-red-500',
+              'rounded-md shadow-2xl',
+              'ring-1 ring-black/10'
+            )}
+          >
+            m,essi
+          </div>
+        </Transition.Child>
+      </Dialog>
+    </Transition>
   )
 }
