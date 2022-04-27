@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 
 import { pick } from 'contentlayer/client'
+import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
 
 import Container from '@components/Container'
@@ -73,14 +74,17 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
           />
         </div>
         <div className='flex flex-col divide-y divide-gray-300 dark:divide-gray-700 mt-3'>
-          {posts.map(post => (
+          {posts.map((post, index) => (
             <Link key={post.slug} href={`/writing/${post.slug}`}>
               <a
-                className={cn('flex flex-row justify-between py-3')}
+                className={cn('flex flex-row justify-between py-3 rounded-xs')}
                 onMouseOver={handleMouseOver}
               >
-                <span>{post.title}</span>
-                <span>{post.publishedAt}</span>
+                <span className='text-quaternary pr-2'>{index}</span>
+                <span className='flex-grow'>{post.title}</span>
+                <span className='text-tertiary'>
+                  {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
+                </span>
               </a>
             </Link>
           ))}
