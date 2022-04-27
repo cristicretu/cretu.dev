@@ -81,7 +81,7 @@ export default function Container({
       >
         <main
           className={cn(
-            'px-4 py-12',
+            'px-4 pt-12',
             'max-w-2xl',
             'mx-auto my-auto',
             'flex flex-col justify-center gap-12',
@@ -108,7 +108,9 @@ export default function Container({
             )}
             {children}
           </div>
-          <Footer />
+          <footer>
+            <Footer />
+          </footer>
         </main>
       </Transition>
     </div>

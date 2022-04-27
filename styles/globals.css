@@ -11,6 +11,55 @@
     src: url('/fonts/Inter-Regular.woff2') format('woff2'),
   }
 
+  .capsize::before {
+    content: '';
+    margin-bottom: -0.098em;
+    display: table;
+  }
+  
+  .capsize::after {
+    content: '';
+    margin-top: -0.219em;
+    display: table;
+  }
+
+  pre::-webkit-scrollbar {
+    display: none;
+  }
+  
+  pre {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  /* https://seek-oss.github.io/capsize/ */
+  .capsize::before {
+    content: '';
+    margin-bottom: -0.098em;
+    display: table;
+  }
+  
+  .capsize::after {
+    content: '';
+    margin-top: -0.219em;
+    display: table;
+  }
+
+  ::-moz-selection {
+    color: #fff;
+    background: #000;
+  }
+
+  .light ::selection {
+    color: #fff;
+    background: #000;
+  }
+
+  .dark ::selection {
+    background: #fff;
+    color: #000;
+  }
+
   html {
     @apply max-h-screen antialiased
   }
@@ -127,7 +176,7 @@
   }
 
   .filter-blur {
-    backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(25px);
   }
 
   .highlight-link-hover {
