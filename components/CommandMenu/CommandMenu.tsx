@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 
 import { Dialog, Transition } from '@headlessui/react'
+import Link from 'next/link'
 
 import { commands } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
-import Link from 'next/link'
 
 export default function CommandMenu() {
   // dialog state
@@ -17,9 +17,7 @@ export default function CommandMenu() {
   const parentRef = useRef<HTMLDivElement>(null)
   const highlightRef = useRef<HTMLDivElement>(null)
 
-  const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(
-    parentRef.current?.firstChild
-  )
+  const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
   const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
   const [transform, setTransform] = useState('translate(0, 0')
 
