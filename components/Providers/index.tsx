@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { NextPageContext } from 'next'
-import { ThemeProvider } from 'next-themes'
 
 import { SEO } from './SEO'
 
@@ -24,7 +23,6 @@ export function Providers({ children }: IProps) {
 
   return (
     <>
-      <ThemeProvider disableTransitionOnChange attribute='class' />
       <SEO />
       {children}
     </>
