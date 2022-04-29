@@ -1,8 +1,8 @@
 export type Action = {
-  name?: string
+  name: string
   shortcut?: string[]
   keywords?: string
-  section?: 'Navigation' | 'Socials' | 'Themes'
+  section: 'Navigation' | 'Socials' | 'Themes'
   icon?: string | React.ReactElement | React.ReactNode
   subtitle?: string
   perform?: () => void

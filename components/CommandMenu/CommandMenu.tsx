@@ -1,5 +1,4 @@
-import React, {
-  createRef,
+import {
   Fragment,
   MouseEventHandler,
   useEffect,
@@ -11,7 +10,7 @@ import React, {
 import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link'
 
-import { Action, Navigation, Socials, Themes } from '@data/commands/cmd'
+import { Navigation, Socials, Themes } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
 
 export default function CommandMenu() {
@@ -20,7 +19,6 @@ export default function CommandMenu() {
   const [results, setResults] = useState(
     Navigation.concat(Socials).concat(Themes)
   )
-  const [cursor, setCursor] = useState(0)
   const [input, setInput] = useState('')
 
   // const searchResults = useMemo(() => {
@@ -30,7 +28,7 @@ export default function CommandMenu() {
   // })
 
   const searchResults = useMemo(() => {
-    let answer: Action[] = []
+    const answer = []
 
     const myFilter = results.filter(result =>
       result.name.toLowerCase().includes(input.toLowerCase())
@@ -102,7 +100,6 @@ export default function CommandMenu() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value)
-    setCursor(0)
   }
 
   useEffect(() => {
