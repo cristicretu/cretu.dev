@@ -12,20 +12,32 @@ import Link from 'next/link'
 
 import { Navigation, Socials, Themes } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
+import type { Action } from '@data/commands/cmd'
 
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false)
 
-  const [results, setResults] = useState(
-    Navigation.concat(Socials).concat(Themes)
-  )
+  const [results] = useState(Navigation.concat(Socials).concat(Themes))
   const [input, setInput] = useState('')
 
-  // const searchResults = useMemo(() => {
-  //   const filteredResults = results.filter(result =>
-  //     result.name.toLowerCase().includes(searchBox.current?.value.toLowerCase())
-  //   )
-  // })
+  const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
+  const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
+  const [transform, setTransform] = useState('translate(0, 0')
+
+  const parentRef = useRef<HTMLDivElement>(null)
+  const highlightRef = useRef<HTMLDivElement>(null)
+
+  const cardStyle =
+    'px-2 py-3 relative text-base hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
+
+  const placeholder = useMemo(() => {
+    if (highlightedTab) {
+      return highlightedTab.textContent
+    }
+    if (input.length === 0) {
+      return 'Type a command or search...'
+    }
+  }, [highlightedTab, input])
 
   const searchResults = useMemo(() => {
     const answer = []
@@ -52,16 +64,6 @@ export default function CommandMenu() {
 
     return answer
   }, [input, results])
-
-  const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
-  const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
-  const [transform, setTransform] = useState('translate(0, 0')
-
-  const parentRef = useRef<HTMLDivElement>(null)
-  const highlightRef = useRef<HTMLDivElement>(null)
-
-  const cardStyle =
-    'px-2 py-3 relative text-base hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
 
   function handleMouseOver(
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -110,9 +112,15 @@ export default function CommandMenu() {
     }) => {
       if (event.key === 'ArrowUp' && isOpen) {
         event.preventDefault()
-        const prev = highlightedTab?.previousElementSibling
-        if (prev) {
-          changeHighlight(prev as HTMLElement)
+        const index = results.findIndex(
+          result => result.name === highlightedTab?.textContent
+        )
+
+        if (index > 0) {
+          const prev = highlightedTab?.previousElementSibling
+          if (prev) {
+            changeHighlight(prev as HTMLElement)
+          }
         }
       } else if (event.key === 'ArrowDown' && isOpen) {
         event.preventDefault()
@@ -172,7 +180,7 @@ export default function CommandMenu() {
             <Dialog.Title>
               <input
                 className='w-full placeholder-gray-500 bg-transparent  dark:placeholder-gray-500 dark:text-gray-100'
-                placeholder='Search commands...'
+                placeholder={placeholder as any}
                 aria-label='Search for links or commands'
                 value={input}
                 onChange={handleChange}
