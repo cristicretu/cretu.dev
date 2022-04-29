@@ -1,28 +1,69 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
+import React, {
+  createRef,
+  Fragment,
+  MouseEventHandler,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 
 import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link'
 
-import { commands } from '@data/commands/cmd'
+import { Action, Navigation, Socials, Themes } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
 
 export default function CommandMenu() {
-  // dialog state
-  const itemsRef = useRef(commands)
-
-  console.log('itemsRef', itemsRef)
-
   const [isOpen, setIsOpen] = useState(false)
 
-  const parentRef = useRef<HTMLDivElement>(null)
-  const highlightRef = useRef<HTMLDivElement>(null)
+  const [results, setResults] = useState(
+    Navigation.concat(Socials).concat(Themes)
+  )
+  const [cursor, setCursor] = useState(0)
+  const [input, setInput] = useState('')
+
+  // const searchResults = useMemo(() => {
+  //   const filteredResults = results.filter(result =>
+  //     result.name.toLowerCase().includes(searchBox.current?.value.toLowerCase())
+  //   )
+  // })
+
+  const searchResults = useMemo(() => {
+    let answer: Action[] = []
+
+    const myFilter = results.filter(result =>
+      result.name.toLowerCase().includes(input.toLowerCase())
+    )
+
+    let last = ''
+    for (let i = 0; i < myFilter.length; i++) {
+      const result = myFilter[i]
+      if (i === 0) {
+        answer.push(result.section)
+        last = result.section
+      } else {
+        if (last !== result.section) {
+          answer.push(result.section)
+          last = result.section
+        }
+      }
+
+      answer.push(result)
+    }
+
+    return answer
+  }, [input, results])
 
   const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
   const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
   const [transform, setTransform] = useState('translate(0, 0')
 
+  const parentRef = useRef<HTMLDivElement>(null)
+  const highlightRef = useRef<HTMLDivElement>(null)
+
   const cardStyle =
-    'flex flex-col px-2 py-3 relative hover:highlight sm:hover:!bg-transparent rounded-xl transition-colors duration-300'
+    'px-2 py-3 relative text-base hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
 
   function handleMouseOver(
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -44,93 +85,55 @@ export default function CommandMenu() {
     }
   }
 
-  useEffect(() => {
-    const navigated = (e: { keyCode: number; preventDefault: () => void }) => {
-      // up
-      if (e.keyCode === 38 && isOpen) {
-        e.preventDefault()
-        if (highlightedTab) {
-          const prev = highlightedTab.previousElementSibling
-          if (prev) {
-            const parent = parentRef.current!
+  const changeHighlight = (node: HTMLElement | null) => {
+    setIsHoveredFromNull(!highlightedTab)
+    setHighlightedTab(node)
 
-            setIsHoveredFromNull(!highlightedTab)
-            setHighlightedTab(prev as HTMLElement)
+    if (node) {
+      const tabBoundingBox = node.getBoundingClientRect()
+      const parentBoundingBox = parentRef.current!.getBoundingClientRect()
+      const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
 
-            const tabBoundingBox = prev!.getBoundingClientRect()
-            const parentBoundingBox = parent.getBoundingClientRect()
-            const highlightOffset = tabBoundingBox!.top - parentBoundingBox.top
-
-            // exit early if event triggered by children
-            if (prev.className === cardStyle) {
-              setTransform(`translate(0, ${highlightOffset}px)`)
-            }
-          }
-        }
-        // down
-      } else if (e.keyCode === 40 && isOpen) {
-        e.preventDefault()
-        if (highlightedTab) {
-          const next = highlightedTab.nextElementSibling
-          if (next) {
-            const parent = parentRef.current!
-
-            setIsHoveredFromNull(!highlightedTab)
-            setHighlightedTab(next as HTMLElement)
-
-            const tabBoundingBox = next!.getBoundingClientRect()
-            const parentBoundingBox = parent.getBoundingClientRect()
-            const highlightOffset = tabBoundingBox!.top - parentBoundingBox.top
-
-            // exit early if event triggered by children
-            if (next.className === cardStyle) {
-              setTransform(`translate(0, ${highlightOffset}px)`)
-            }
-          }
-        }
+      if (node.className === cardStyle) {
+        setTransform(`translate(0, ${highlightOffset}px)`)
       }
     }
+  }
 
-    window.addEventListener('keydown', navigated)
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value)
+    setCursor(0)
+  }
 
-    return () => {
-      window.removeEventListener('keydown', navigated)
-    }
-  }, [highlightedTab, isOpen])
-
-  // CMD + K
   useEffect(() => {
-    const clickedCmdk = (e: {
-      which: number
-      metaKey: boolean
+    const handler = (event: {
+      key: string
       preventDefault: () => void
+      metaKey: boolean
     }) => {
-      const charCode = String.fromCharCode(e.which).toLowerCase()
-      if (e.metaKey && charCode === 'k') {
-        e.preventDefault()
+      if (event.key === 'ArrowUp' && isOpen) {
+        event.preventDefault()
+        const prev = highlightedTab?.previousElementSibling
+        if (prev) {
+          changeHighlight(prev as HTMLElement)
+        }
+      } else if (event.key === 'ArrowDown' && isOpen) {
+        event.preventDefault()
+        const next = highlightedTab?.nextElementSibling
+        if (next) {
+          changeHighlight(next as HTMLElement)
+        }
+      } else if (event.key === 'Enter' && isOpen && highlightedTab) {
+        highlightedTab?.click()
+      } else if (event.key === 'k' && event.metaKey) {
+        event.preventDefault()
         setIsOpen(!isOpen)
       }
     }
 
-    window.addEventListener('keydown', clickedCmdk)
-    return () => {
-      window.removeEventListener('keydown', clickedCmdk)
-    }
-  }, [isOpen])
-
-  // Press enter & execute command
-  useEffect(() => {
-    const callback = (e: { keyCode: number }) => {
-      if (e.keyCode === 13 && isOpen && highlightedTab) {
-        highlightedTab.click()
-      }
-    }
-
-    window.addEventListener('keydown', callback)
-    return () => {
-      window.removeEventListener('keydown', callback)
-    }
-  }, [isOpen, highlightedTab])
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  })
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -161,18 +164,27 @@ export default function CommandMenu() {
         >
           <div
             className={cn(
-              'max-w-2xl mx-auto px-4',
+              'max-w-2xl mx-auto p-10',
               'relative',
               'bg-primary filter-blur',
               'rounded-md shadow-2xl dark:shadow-gray-800',
-              'ring-1 ring-black/10 dark:ring-gray-500/10'
+              'ring-1 ring-black/10 dark:ring-gray-500/10',
+              'flex flex-col divide-y'
             )}
           >
-            {/* <Dialog.Title>
-              <input />
-            </Dialog.Title> */}
+            <Dialog.Title>
+              <input
+                className='w-full placeholder-gray-500 bg-transparent  dark:placeholder-gray-500 dark:text-gray-100'
+                placeholder='Search commands...'
+                aria-label='Search for links or commands'
+                value={input}
+                onChange={handleChange}
+                type='text'
+                spellCheck={false}
+              />
+            </Dialog.Title>
             <Dialog.Description>
-              <div ref={parentRef} className='relative'>
+              <div ref={parentRef} className='relative text-sm'>
                 {/* Highlighter */}
                 <div
                   ref={highlightRef}
@@ -193,8 +205,29 @@ export default function CommandMenu() {
                     )}
                   />
                 </div>
-                {/* Entries */}
-                {commands.map((meta, index) => (
+                {!searchResults.length && <p>No results found.</p>}
+
+                {searchResults.map((result, index) => {
+                  if (typeof result === 'string') {
+                    return <Fragment key={index}>{result}</Fragment>
+                  }
+                  return (
+                    <div
+                      key={index}
+                      className={cn(cardStyle)}
+                      onMouseOver={handleMouseOver as MouseEventHandler}
+                      onMouseLeave={() => setIsHoveredFromNull(false)}
+                      onClick={() => {
+                        setIsOpen(false)
+                        result.perform ? result.perform() : undefined
+                      }}
+                    >
+                      {result.name}
+                    </div>
+                  )
+                })}
+
+                {/* {searchResults.map((meta, index) => (
                   <Link href={meta.href!} key={index}>
                     <a className={cardStyle} onMouseOver={handleMouseOver}>
                       <div className='flex flex-row justify-between'>
@@ -203,18 +236,7 @@ export default function CommandMenu() {
                       </div>
                     </a>
                   </Link>
-                ))}
-                <span>Separator</span>
-                {commands.map((meta, index) => (
-                  <li key={index}>
-                    <a className={cardStyle} onMouseOver={handleMouseOver}>
-                      <div className='flex flex-row justify-between'>
-                        <div>icon</div>
-                        <div>{meta.label}</div>
-                      </div>
-                    </a>
-                  </li>
-                ))}
+                ))} */}
               </div>
             </Dialog.Description>
           </div>

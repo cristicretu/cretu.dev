@@ -1,25 +1,70 @@
-import React from 'react'
-
-interface Command {
-  label: string
-  href?: string
-  icon?: React.ReactNode
-  onExecute: (args: string[]) => void
+export type Action = {
+  name?: string
+  shortcut?: string[]
+  keywords?: string
+  section?: 'Navigation' | 'Socials' | 'Themes'
+  icon?: string | React.ReactElement | React.ReactNode
+  subtitle?: string
+  perform?: () => void
 }
 
-export const commands: Command[] = [
+export const Navigation: Action[] = [
   {
-    label: 'Home',
-    href: '/',
-    onExecute: () => {
-      window.location.href = '/'
-    },
+    name: 'Home',
+    keywords: 'home',
+    perform: () => (window.location.href = '/'),
+    section: 'Navigation',
   },
   {
-    label: 'Writing',
-    href: '/writing',
-    onExecute: () => {
-      window.location.href = '/writing'
+    name: 'Writing',
+    keywords: 'writing',
+    perform: () => (window.location.href = '/writing'),
+    section: 'Navigation',
+  },
+]
+
+export const Socials: Action[] = [
+  {
+    name: 'Twitter',
+    keywords: 'twitter',
+    perform: () => {
+      window.location.href = 'https://twitter.com/cristicrtu'
     },
+    section: 'Socials',
+  },
+  {
+    name: 'GitHub',
+    keywords: 'github',
+    perform: () => {
+      window.location.href = 'https://github.com/cristicretu'
+    },
+    section: 'Socials',
+  },
+]
+
+export const Themes: Action[] = [
+  {
+    name: 'Change theme to light',
+    keywords: 'light',
+    perform: () => {
+      document.body.classList.remove('dark')
+    },
+    section: 'Themes',
+  },
+  {
+    name: 'Change theme to dark',
+    keywords: 'dark',
+    perform: () => {
+      document.body.classList.add('dark')
+    },
+    section: 'Themes',
+  },
+  {
+    name: 'Change theme to system',
+    keywords: 'system',
+    perform: () => {
+      document.body.classList.toggle('dark')
+    },
+    section: 'Themes',
   },
 ]
