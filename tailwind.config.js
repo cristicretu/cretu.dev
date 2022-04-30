@@ -32,6 +32,7 @@ module.exports = {
         'design-details-dark': '#273F3F',
         twitter: '#479BEA',
         current: 'currentColor',
+        transparent: 'transparent',
       },
       fontFamily: {
         sans: ['Inter', ...fontFamily.sans],
