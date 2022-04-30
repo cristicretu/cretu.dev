@@ -102,19 +102,19 @@
     @apply outline-none ring-0 ring-offset-0;
   }
 
-  input[type='text'],
+  /* input[type='text'],
   textarea {
     @apply bg-white border border-gray-200 outline-none dark:border-gray-700 dark:bg-gray-800;
-  }
+  } */
 
   input[type='checkbox'] {
     @apply dark:border-gray-600 dark:bg-gray-700;
   }
 
-  input:focus,
+  /* input:focus,
   textarea:focus {
     @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-white dark:ring-offset-black;
-  }
+  } */
 
   .font-list-heading {
     @apply font-sans text-lg font-bold text-primary;
@@ -167,7 +167,7 @@
   }
 
   .highlight {
-    @apply bg-black bg-opacity-[0.1] dark:bg-white dark:bg-opacity-[0.08]
+    @apply bg-black/10  dark:bg-white/[.06]
   }
 
   .filter-none {

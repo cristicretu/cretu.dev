@@ -11,8 +11,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link'
 
 import { Navigation, Socials, Themes } from '@data/commands/cmd'
-import { cn } from '@lib/classNames'
 import type { Action } from '@data/commands/cmd'
+import { cn } from '@lib/classNames'
 
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false)
@@ -169,17 +169,25 @@ export default function CommandMenu() {
         >
           <div
             className={cn(
-              'max-w-2xl mx-auto p-10',
+              'max-w-2xl mx-auto',
               'relative',
               'bg-primary filter-blur',
               'rounded-md shadow-2xl dark:shadow-gray-800',
-              'ring-1 ring-black/10 dark:ring-gray-500/10',
-              'flex flex-col divide-y'
+              'ring-1 ring-black/10 dark:ring-gray-500/50',
+              'flex flex-col'
             )}
           >
-            <Dialog.Title>
+            <Dialog.Title
+              className={cn('border-b border-black/10 dark:border-gray-500/50')}
+            >
               <input
-                className='w-full placeholder-gray-500 bg-transparent  dark:placeholder-gray-500 dark:text-gray-100'
+                autoComplete='off'
+                className={cn(
+                  'w-full',
+                  'p-4',
+                  'bg-transparent',
+                  'focus:ring-0 outline-none'
+                )}
                 placeholder={placeholder as any}
                 aria-label='Search for links or commands'
                 value={input}
@@ -189,7 +197,15 @@ export default function CommandMenu() {
               />
             </Dialog.Title>
             <Dialog.Description>
-              <div ref={parentRef} className='relative text-sm'>
+              <div
+                ref={parentRef}
+                className={cn(
+                  'relative',
+                  'text-sm text-quaternary',
+                  'my-4 mx-3',
+                  'overflow-auto'
+                )}
+              >
                 {/* Highlighter */}
                 <div
                   ref={highlightRef}
