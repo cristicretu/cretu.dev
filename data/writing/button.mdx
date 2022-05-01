@@ -5,23 +5,143 @@ summary: 'Deep dive into the process of building a complex button.'
 image: '/static/images/btnblog/banner.png'
 ---
 
-```json title="Truncated .contentlayer/generated/Post/posts__hello-world.mdx.json" showLineNumbers {1,3} /post/
-{
-  "type": "Post",
-  "_id": "posts/hello-world.mdx",
-  "_raw": {
-    "sourceFileName": "hello-world.mdx",
-    "contentType": "mdx"
-    // [...]
-  },
-  "body": {
-    "raw": "\n# Hello World\n\nThis is my first post....\n",
-    "code": "var Component=(()=>{var m=Object.create; [...]"
+## Context
+
+A button is one of the most complex pieces of a particular design system. When checking out a new library, the button is the first component I look after.
+It can immediately tell me the quality, depth, and customization of the whole ecosystem.
+
+If all of your buttons look like this:
+
+```html showLineNumbers title="Basic button"
+<button>Click me</button>
+```
+
+then we have a lot of work to do.
+
+### Thinking big
+
+This guide is aimed at large-scale design systems but can be adapted for your side-projects or demos. I will try to cover all of the important aspects of a **good** button.
+
+### Starting off
+
+You _should_ use the native `<button>` element. You can find all its attributes <ExternalLink  href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attributes">here</ExternalLink>.
+
+### Size
+
+All buttons should have two or three different sizes - do this with <ExternalLink  href="https://www.npmjs.com/package/scalable">scalable</ExternalLink> sizes.
+
+#### Usage:
+
+Don't use a `<div>` or something else as a button. Stick to the `button` tag
+
+```jsx showLineNumbers title="Native button"
+<button size='small'>...</button>
+```
+
+### Hover state
+
+This indicates that a button is clickable and interactive when hovered with the mouse.
+**It's good practice that on mobile it _should not_ have any hover state.**
+Use media queries like this to make sure you can use the hover state:
+
+```css showLineNumbers title="button.css"
+@media (hover: hover) and (pointer: fine) {
+  button:hover {
+    color: red;
   }
 }
 ```
 
-```ts showLineNumbers
+### Focus state
+
+This important feature indicates that the focus is on the button. Add your own `outline` or leave the default one - but _never_ remove it completely: `outline: 0`!
+
+### Shape
+
+Maybe you want just an icon or an avatar button. Either way, this is made possible with a `shape` prop. What this does is set the border radius of the button. Again three or four variants would be good, i.e small, medium, large, full.
+
+```jsx showLineNumbers title="button.tsx"
+<button shape='medium'>...</button>
+```
+
+### Icons
+
+Indicating external links, or action type - icons assure a better understanding of the button.
+You should have two props `suffix` and `prefix` showing the position of the icon.
+They could be passed as svgs or better as JSX.Elements.
+Padding should be dynamically scaled depending on the variant of the button, and the size of the text.
+
+```jsx showLineNumbers title="button.tsx"
+<button prefix={<LeftArrow />} suffix={<RightArrow />}>
+  ...
+</button>
+```
+
+### Variant
+
+Implement as many variants as you want, but make sure to create as little styling as you can - to abstract the component when put together with other props.
+Some examples:
+
+- <ExternalLink href='https://vercel.com/design/button#variant-shadow'>Vercel</ExternalLink>
+- <ExternalLink href='https://mui.com/components/buttons/#basic-button'>MUI</ExternalLink>
+
+### Disabled
+
+Indicate that the button is disabled.
+You can also use a tooltip, or a `cursor: not-allowed;`
+
+### Loading
+
+Show that the action is asynchronous and is waiting for a response. A spinner is the most common way of indicating this.
+
+### Succes Criterion
+
+According to <ExternalLink href="https://www.w3.org/TR/WCAG21/#target-size">w3.org</ExternalLink>: buttons should have at least 44 by 44px so make sure you achieve that to assure accessibility on mobile.
+
+Read more here:
+
+- <ExternalLink href='https://www.w3.org/TR/wai-aria-practices/#button'>Button</ExternalLink>
+- <ExternalLink href='https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-3'>Keyboard</ExternalLink>
+- <ExternalLink href='https://www.w3.org/TR/wai-aria-practices/#wai-aria-roles-states-and-properties-3'>WAI-Aria</ExternalLink>
+
+## Full-fledged button example
+
+_~Implement your styles..._
+
+Interface with props:
+
+```tsx showLineNumbers title="button.tsx"
+interface Props {
+  variant?: ButtonTypes
+  loading?: boolean
+  shadow?: boolean
+  autoFocus?: boolean
+  disabled?: boolean
+  htmlType: React.ButtonHTMLAttributes<any>['type']
+  suffix?: React.ReactNode
+  prefix?: React.ReactNode
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
+  className?: string
+  href?: string
+}
+
+const defaultProps {
+  variant: 'contained' as ButtonTypes,
+  loading: false.
+  shadow: false,
+  autoFocus: false,
+  disabled: false,
+  htmlType: 'button' as React.ButtonHTMLAttributes<any>['type'],
+  className: ''
+}
+
+type NativeProps = Omit<React.ButtonHTMLAttributes<any>, keyof Props>
+export type ButtonProps = Props & NativeProps
+```
+
+Button Component:
+
+```tsx showLineNumbers title="button.tsx"
 const ButtonComponent = React.forwardRef<
 	  HTMLButtonElement,
 	  React.PropsWithChildren<ButtonProps>
@@ -29,7 +149,7 @@ const ButtonComponent = React.forwardRef<
   (btnProps: ButtonProps & typeof defaultProps, ref:
   React.ref<HTMLButtonElement | null>)
   ) => {
-	...custom logic and destructuring here...
+	// ...custom logic and destructuring here...
 
 	return (
 		<Button
@@ -52,7 +172,7 @@ const ButtonComponent = React.forwardRef<
 
 Styles example, custom logic or variants (depending on your library of choice) are marked with `{}`:
 
-```jsx showLineNumbers
+```tsx showLineNumbers title="button.tsx"
 const Button = styled('button', {
 	box-sizing: 'border-box',
 	display: 'inline-block',
@@ -61,7 +181,10 @@ const Button = styled('button', {
 	font-weight: {weight},
 	font-size: {SCALES.font(0.75)},
 	justify-content: 'center',
+	white-space: 'nowrap',
 	text-align: 'center',
+	transition: 'background-color 200ms ease 0ms, box-shadow 200ms ease 0ms, border 200ms ease 0ms, color 200ms ease 0ms',
+	position: 'relative',
 	overflow: 'hidden',
 	color: {color},
 	background-color: {bg},
@@ -75,11 +198,6 @@ const Button = styled('button', {
 	...
 })
 ```
-
-- testing
-- <a href='vercel.com' target='_blank' rel='noopener noreferrer'>
-    vercel
-  </a>
 
 This is an almost-complete button component. Use your logic for destructuring props, passing refs, and more. Make use of compound variants for different UI libraries.
 
