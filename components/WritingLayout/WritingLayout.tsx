@@ -3,6 +3,7 @@ import Image from 'next/image'
 
 import Container from '@components/Container'
 import { Writing } from 'contentlayer/generated'
+import ExternalLink from '@components/ExternalLink'
 
 interface IWritingLayoutProps {
   children: React.ReactNode
@@ -25,7 +26,7 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
         label: 'Writing',
       }}
     >
-      <article className='flex flex-col items-start justify-center w-full max-w-2xl mx-auto mb-16'>
+      <article className='flex flex-col items-start justify-center w-full max-w-2xl mx-auto'>
         <h1 className='mb-4 text-3xl font-bold tracking-tight text-black md:text-5xl dark:text-white'>
           {post.title}
         </h1>
@@ -51,18 +52,12 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
             ></Image>
           </div>
         )}
-        <div className='w-full mt-4 prose dark:prose-dark max-w-2xl'>
+        <div className='w-full my-4 prose dark:prose-dark max-w-2xl'>
           {children}
         </div>
-        <div className='text-sm text-gray-700 dark:text-gray-300'>
-          <a
-            href={editUrl(post.slug)}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            {'Edit on GitHub'}
-          </a>
-        </div>
+        <ExternalLink arrow={true} href={editUrl(post.slug)}>
+          Edit source on GitHub.
+        </ExternalLink>
       </article>
     </Container>
   )
