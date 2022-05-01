@@ -245,24 +245,10 @@ export default function CommandMenu() {
                     return <Fragment key={index}>{result}</Fragment>
                   }
                   return (
-                    // <div
-                    //   key={index}
-                    //   className={cn(cardStyle)}
-                    //   onMouseOver={handleMouseOver as MouseEventHandler}
-                    //   onMouseLeave={() => setIsHoveredFromNull(false)}
-                    //   onClick={() => {
-                    //     setIsOpen(false)
-                    //     result.perform ? result.perform() : undefined
-                    //   }}
-                    // >
-                    //   {result.name}
-                    // </div>
-                    <MenuItem
+                    <div
                       key={index}
-                      index={index}
-                      activeIndex={activeIndex}
-                      className={cardStyle}
-                      onMouseOver={handleMouseOver}
+                      className={cn(cardStyle)}
+                      onMouseOver={handleMouseOver as MouseEventHandler}
                       onMouseLeave={() => setIsHoveredFromNull(false)}
                       onClick={() => {
                         setIsOpen(false)
@@ -270,7 +256,21 @@ export default function CommandMenu() {
                       }}
                     >
                       {result.name}
-                    </MenuItem>
+                    </div>
+                    // <MenuItem
+                    //   key={index}
+                    //   index={index}
+                    //   activeIndex={activeIndex}
+                    //   className={cardStyle}
+                    //   onMouseOver={handleMouseOver}
+                    //   onMouseLeave={() => setIsHoveredFromNull(false)}
+                    //   onClick={() => {
+                    //     setIsOpen(false)
+                    //     result.perform ? result.perform() : undefined
+                    //   }}
+                    // >
+                    //   {result.name}
+                    // </MenuItem>
                   )
                 })}
 
