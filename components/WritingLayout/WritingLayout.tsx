@@ -1,4 +1,5 @@
 import { format, parseISO } from 'date-fns'
+import Image from 'next/image'
 
 import Container from '@components/Container'
 import { Writing } from 'contentlayer/generated'
@@ -39,6 +40,17 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
             {post.readingTime.text}
           </p>
         </div>
+        {post.image && (
+          <div className='relative w-full h-96 mt-8'>
+            <Image
+              src={post.image}
+              layout='fill'
+              objectFit='cover'
+              alt={`${post.title}`}
+              className='rounded-lg'
+            ></Image>
+          </div>
+        )}
         <div className='w-full mt-4 prose dark:prose-dark max-w-2xl'>
           {children}
         </div>

@@ -18,6 +18,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      spacing: {
+        128: '32rem',
+      },
       colors: {
         white: '#fff',
         green: colors.emerald,

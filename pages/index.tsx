@@ -12,7 +12,6 @@ const Home: NextPage = () => {
           Developer and designer making products that feel &apos;right&apos; and
           faster.
           <span className='text-secondary'>
-            {' '}
             Focused on creating fluid and accessible interfaces.
           </span>
         </p>

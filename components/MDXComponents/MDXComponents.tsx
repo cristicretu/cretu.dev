@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import ExternalLink from '@components/ExternalLink'
 import DownloadImage from '@components/DownloadImage'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +23,6 @@ const MDXComponents = {
   Image,
   a: CustomLink,
   DownloadImage,
-  ExternalLink,
 }
 
 export default MDXComponents
