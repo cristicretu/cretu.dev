@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
+import ExternalLink from '@components/ExternalLink'
 
 const Home: NextPage = () => {
   return (
@@ -19,10 +20,11 @@ const Home: NextPage = () => {
           Thinkering with digital art and creating visual interfaces.
           Experimenting with 3D and CAD modeling.
         </p>
-        <p className='bg-red-500'>
+        <p>
           Interested in C, TypeScript, and Python. Curious about Rust and Swift.
           Building products using React and Next.js.
         </p>
+        <ExternalLink href='https://cretu.dev'>Google</ExternalLink>
         <p>
           Enjoying sports, design, and music. I listen to a lot of lo-fi and
           electronic songs.

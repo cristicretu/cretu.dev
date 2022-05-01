@@ -1,0 +1,89 @@
+---
+title: 'You think you can build a button?'
+publishedAt: '2022-01-30'
+summary: 'Deep dive into the process of building a complex button.'
+image: '/static/images/btnblog/banner.png'
+---
+
+```json title="Truncated .contentlayer/generated/Post/posts__hello-world.mdx.json" showLineNumbers {1,3} /post/
+{
+  "type": "Post",
+  "_id": "posts/hello-world.mdx",
+  "_raw": {
+    "sourceFileName": "hello-world.mdx",
+    "contentType": "mdx"
+    // [...]
+  },
+  "body": {
+    "raw": "\n# Hello World\n\nThis is my first post....\n",
+    "code": "var Component=(()=>{var m=Object.create; [...]"
+  }
+}
+```
+
+```tsx showLineNumbers
+const ButtonComponent = React.forwardRef<
+	  HTMLButtonElement,
+	  React.PropsWithChildren<ButtonProps>
+>(
+  (btnProps: ButtonProps & typeof defaultProps, ref:
+  React.ref<HTMLButtonElement | null>)
+  ) => {
+	...custom logic and destructuring here...
+
+	return (
+		<Button
+			as={htmlType}
+			ref={buttonRef}
+			type={htmlType}
+			className={className}
+			disabled={disabled}
+			onClick={handleClick}
+		>
+		{loading && <Spinner/>}
+		{!!prefix && <span className={styles.prefix[size]}>{prefix}</span>}
+		{children}
+		{!!suffix && <span className={styles.suffix[size]}>{suffix}</span>}
+		</Button>
+	)
+  }
+)
+```
+
+Styles example, custom logic or variants (depending on your library of choice) are marked with `{}`:
+
+```jsx showLineNumbers
+const Button = styled('button', {
+	box-sizing: 'border-box',
+	display: 'inline-block',
+	border-radius: {radius},
+	line-height: {SCALES.height(2.5)},
+	font-weight: {weight},
+	font-size: {SCALES.font(0.75)},
+	justify-content: 'center',
+	white-space: 'nowrap',
+	text-align: 'center',
+	transition: 'background-color 200ms ease 0ms, box-shadow 200ms ease 0ms, border 200ms ease 0ms, color 200ms ease 0ms',
+	position: 'relative',
+	overflow: 'hidden',
+	color: {color},
+	background-color: {bg},
+	cursor: {cursor},
+	pointer-events: {events},
+	border: `1px solid ${border}`,
+	width: {auto ? 'auto': 'initial'},
+	height: {SCALES.height(2.5)},
+	padding: {SCALES.pX(1)} {SCALES.py(0.5)},
+	margin: {SCALED.m(0.25)}
+	...
+})
+```
+
+- testing
+- <a href='vercel.com' target='_blank' rel='noopener noreferrer'>
+    vercel
+  </a>
+
+This is an almost-complete button component. Use your logic for destructuring props, passing refs, and more. Make use of compound variants for different UI libraries.
+
+Hope this helped you! Go build cool buttons!

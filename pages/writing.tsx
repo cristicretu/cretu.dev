@@ -24,12 +24,14 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
         <Link key={post.slug} href={`/writing/${post.slug}`}>
           <a
             className={cn(
-              'flex flex-row justify-between py-3 px-2 -mx-2 rounded-md',
+              'flex flex-row justify-between py-2 px-2 -mx-2 rounded-md',
               'hover:bg-gray-200 dark:hover:bg-gray-800',
               'transition-all duration-200'
             )}
           >
-            <span className='text-quaternary pr-2'>{index}</span>
+            <span className='text-quaternary pr-2'>
+              {posts.length - index - 1}
+            </span>
             <span className='flex-grow'>{post.title}</span>
             <span className='text-tertiary'>
               {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}

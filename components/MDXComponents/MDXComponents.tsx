@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-// import DownloadImage from '@components/DownloadImage'
-// import ExternalLink from '@components/ExternalLink'
-// import TwitterAt from '@components/TwitterAt'
+import ExternalLink from '@components/ExternalLink'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomLink = (props: any) => {
@@ -26,7 +24,7 @@ const MDXComponents = {
   a: CustomLink,
   // TwitterAt,
   // DownloadImage,
-  // ExternalLink,
+  ExternalLink,
 }
 
 export default MDXComponents
