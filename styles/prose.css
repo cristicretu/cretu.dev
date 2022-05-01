@@ -199,7 +199,7 @@ pre {
 
 div[data-rehype-pretty-code-fragment] pre {
   overflow-x: auto;
-  @apply py-2 text-sm leading-7;
+  @apply py-11 text-sm leading-7;
 }
 
 div[data-rehype-pretty-code-fragment] code {
@@ -211,7 +211,7 @@ div[data-rehype-pretty-code-fragment] .syntax-line {
 }
 
 div[data-rehype-pretty-code-fragment] .syntax-line--highlighted {
-  @apply border-l-blue-300/60 bg-blue-200/10;
+  @apply border-l-blue-300/60 bg-blue-200/10 rounded-md;
 }
 
 code[data-line-numbers] {
@@ -221,7 +221,6 @@ code[data-line-numbers] {
 code[data-line-numbers] .syntax-line::before {
   counter-increment: line;
   content: counter(line);
-  display: inline-block;
   text-align: right;
 
   @apply mr-3 w-4 text-white/20;
@@ -235,7 +234,7 @@ p > code,
 li > code,
 span[data-rehype-pretty-code-fragment],
 div[data-rehype-pretty-code-fragment] .syntax-word--highlighted {
-  @apply rounded-md bg-rose-200/10 px-1.5 py-0.5 font-mono text-sm;
+  @apply rounded-md bg-rose-200/10 font-mono text-sm;
 }
 
 p > code,
@@ -245,5 +244,5 @@ span[data-rehype-pretty-code-fragment] {
 }
 
 div[data-rehype-pretty-code-title] {
-  @apply -mb-6 rounded-md bg-gray-900 px-3 py-1 font-mono text-xs text-gray-500 shadow-sm;
+  @apply -mb-14 rounded-md max-w-[80vw] mx-2 px-3 font-mono text-xs text-gray-300 shadow-sm relative  dark:bg-gray-900;
 }

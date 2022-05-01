@@ -21,7 +21,7 @@ image: '/static/images/btnblog/banner.png'
 }
 ```
 
-```tsx showLineNumbers
+```ts showLineNumbers
 const ButtonComponent = React.forwardRef<
 	  HTMLButtonElement,
 	  React.PropsWithChildren<ButtonProps>
@@ -61,10 +61,7 @@ const Button = styled('button', {
 	font-weight: {weight},
 	font-size: {SCALES.font(0.75)},
 	justify-content: 'center',
-	white-space: 'nowrap',
 	text-align: 'center',
-	transition: 'background-color 200ms ease 0ms, box-shadow 200ms ease 0ms, border 200ms ease 0ms, color 200ms ease 0ms',
-	position: 'relative',
 	overflow: 'hidden',
 	color: {color},
 	background-color: {bg},
