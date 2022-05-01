@@ -1,5 +1,6 @@
-import {
+import React, {
   Fragment,
+  LegacyRef,
   MouseEventHandler,
   useEffect,
   useMemo,
@@ -16,6 +17,7 @@ import { cn } from '@lib/classNames'
 
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeIndex, setActiveIndex] = useState<number>(0)
 
   const [results] = useState(Navigation.concat(Socials).concat(Themes))
   const [input, setInput] = useState('')
@@ -24,7 +26,7 @@ export default function CommandMenu() {
   const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
   const [transform, setTransform] = useState('translate(0, 0')
 
-  const parentRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLUListElement>(null)
   const highlightRef = useRef<HTMLDivElement>(null)
 
   const cardStyle =
@@ -79,6 +81,15 @@ export default function CommandMenu() {
     const parentBoundingBox = parent.getBoundingClientRect()
     const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
 
+    // console.log(window.scroll)
+    window.scrollTo({
+      top: highlightOffset + 200 + window.scrollY,
+      behavior: 'smooth',
+    })
+    // console.log('tabBoundingBox', tabBoundingBox)
+    // console.log('parentBoundingBox', parentBoundingBox)
+    // console.log('highlightOffset', highlightOffset)
+
     // exit early if event triggered by children
     if (node.className === cardStyle) {
       setTransform(`translate(0, ${highlightOffset}px)`)
@@ -87,9 +98,10 @@ export default function CommandMenu() {
 
   const changeHighlight = (node: HTMLElement | null) => {
     setIsHoveredFromNull(!highlightedTab)
-    setHighlightedTab(node)
 
     if (node) {
+      setHighlightedTab(node)
+
       const tabBoundingBox = node.getBoundingClientRect()
       const parentBoundingBox = parentRef.current!.getBoundingClientRect()
       const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
@@ -197,13 +209,13 @@ export default function CommandMenu() {
               />
             </Dialog.Title>
             <Dialog.Description>
-              <div
+              <ul
                 ref={parentRef}
                 className={cn(
                   'relative',
                   'text-sm text-quaternary',
                   'my-4 mx-3',
-                  'overflow-auto'
+                  'overflow-auto h-[25vh]'
                 )}
               >
                 {/* Highlighter */}
@@ -233,10 +245,24 @@ export default function CommandMenu() {
                     return <Fragment key={index}>{result}</Fragment>
                   }
                   return (
-                    <div
+                    // <div
+                    //   key={index}
+                    //   className={cn(cardStyle)}
+                    //   onMouseOver={handleMouseOver as MouseEventHandler}
+                    //   onMouseLeave={() => setIsHoveredFromNull(false)}
+                    //   onClick={() => {
+                    //     setIsOpen(false)
+                    //     result.perform ? result.perform() : undefined
+                    //   }}
+                    // >
+                    //   {result.name}
+                    // </div>
+                    <MenuItem
                       key={index}
-                      className={cn(cardStyle)}
-                      onMouseOver={handleMouseOver as MouseEventHandler}
+                      index={index}
+                      activeIndex={activeIndex}
+                      className={cardStyle}
+                      onMouseOver={handleMouseOver}
                       onMouseLeave={() => setIsHoveredFromNull(false)}
                       onClick={() => {
                         setIsOpen(false)
@@ -244,7 +270,7 @@ export default function CommandMenu() {
                       }}
                     >
                       {result.name}
-                    </div>
+                    </MenuItem>
                   )
                 })}
 
@@ -258,11 +284,39 @@ export default function CommandMenu() {
                     </a>
                   </Link>
                 ))} */}
-              </div>
+              </ul>
             </Dialog.Description>
           </div>
         </Transition.Child>
       </Dialog>
     </Transition>
+  )
+}
+
+function MenuItem({
+  index,
+  activeIndex,
+  children,
+  className,
+  ...props
+}: {
+  index: any
+  activeIndex: number
+  children: React.ReactNode
+  className?: string
+  props?: React.HTMLAttributes<HTMLDivElement>
+}) {
+  // and now we can style
+  const isActive = index === activeIndex
+  return (
+    <div
+      // and add an ID
+      id={index}
+      data-highlighted={isActive ? '' : undefined}
+      className={className}
+      {...props}
+    >
+      {children}
+    </div>
   )
 }

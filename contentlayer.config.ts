@@ -5,10 +5,33 @@ import {
 } from 'contentlayer/source-files'
 import readingTime from 'reading-time'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import rehypeCodeTitles from 'rehype-code-titles'
-import rehypePrism from 'rehype-prism-plus'
+import rehypePrettyCode, { Options } from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import remarkGfm from 'remark-gfm'
+
+const rehypePrettyCodeOptions: Partial<Options> = {
+  theme: 'poimandres',
+  tokensMap: {
+    // VScode command palette: Inspect Editor Tokens and Scopes
+    // https://github.com/Binaryify/OneDark-Pro/blob/47c66a2f2d3e5c85490e1aaad96f5fab3293b091/themes/OneDark-Pro.json
+    fn: 'entity.name.function',
+    objKey: 'meta.object-literal.key',
+  },
+  onVisitLine(node) {
+    // Prevent lines from collapsing in `display: grid` mode, and
+    // allow empty lines to be copy/pasted
+    if (node.children.length === 0) {
+      node.children = [{ type: 'text', value: ' ' }]
+    }
+    node.properties.className.push('syntax-line')
+  },
+  onVisitHighlightedLine(node) {
+    node.properties.className.push('syntax-line--highlighted')
+  },
+  onVisitHighlightedWord(node) {
+    node.properties.className = ['syntax-word--highlighted']
+  },
+}
 
 const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: doc => readingTime(doc.body.raw) },
@@ -42,8 +65,7 @@ const contentLayerConfig = makeSource({
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
       rehypeSlug,
-      rehypeCodeTitles,
-      rehypePrism,
+      [rehypePrettyCode, rehypePrettyCodeOptions],
       [
         rehypeAutolinkHeadings,
         {
