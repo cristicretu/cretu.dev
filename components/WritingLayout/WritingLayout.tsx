@@ -2,8 +2,8 @@ import { format, parseISO } from 'date-fns'
 import Image from 'next/image'
 
 import Container from '@components/Container'
-import { Writing } from 'contentlayer/generated'
 import ExternalLink from '@components/ExternalLink'
+import { Writing } from 'contentlayer/generated'
 
 interface IWritingLayoutProps {
   children: React.ReactNode
