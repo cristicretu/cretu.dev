@@ -5,12 +5,14 @@ import Image from 'next/image'
 interface Props {
   href: string
   children?: React.ReactNode
+  arrow?: boolean
 }
 
 // https://github.com/Pondorasti/alexandru/blob/main/components/LinkPreview/LinkPreview.tsx
 export default function ExternalLink({
   href,
   children,
+  arrow = false,
   ...props
 }: React.ComponentProps<'a'> & Props) {
   const { resolvedTheme } = useTheme()
@@ -45,33 +47,17 @@ export default function ExternalLink({
             {...props}
           >
             <span
-              className={`relative after:absolute after:bg-gray-400 after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300`}
+              className={
+                arrow
+                  ? `relative after:absolute after:bg-gray-400 after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300`
+                  : ''
+              }
             >
               {children}
-              {' ↗'}
+              {arrow && ' ↗'}
             </span>
           </a>
         </TooltipPrimitive.Trigger>
-        <TooltipPrimitive.Content
-          side='top'
-          sideOffset={16}
-          className='w-64 h-40 p-2 bg-white border rounded-lg border-divider dark:bg-gray-900 animate-slide-in radix-state-closed:animate-slide-out'
-        >
-          <Image
-            src={`https://api.microlink.io?url=${sanitizedHref}&screenshot=true&meta=false&colorScheme=${
-              resolvedTheme === 'dark' ? 'dark' : 'light'
-            }&embed=screenshot.url`}
-            alt=''
-            className='p-2 overflow-hidden rounded-md'
-            width={240}
-            height={144}
-            placeholder='blur'
-            blurDataURL={`data:image/svg+xml;base64,${toBase64(
-              shimmer(240, 144, resolvedTheme)
-            )}`}
-            objectFit='cover'
-          />
-        </TooltipPrimitive.Content>
       </TooltipPrimitive.Root>
     </TooltipPrimitive.Provider>
   )

@@ -2,6 +2,7 @@
 
 import writing__2021Mdx from './writing__2021.mdx.json' assert { type: 'json' }
 import writing__buttonMdx from './writing__button.mdx.json' assert { type: 'json' }
-import writing__testMdx from './writing__test.mdx.json' assert { type: 'json' }
+import writing__gradientsMdx from './writing__gradients.mdx.json' assert { type: 'json' }
+import writing__learnWebMdx from './writing__learn-web.mdx.json' assert { type: 'json' }
 
-export const allWritings = [writing__2021Mdx, writing__buttonMdx, writing__testMdx]
+export const allWritings = [writing__2021Mdx, writing__buttonMdx, writing__gradientsMdx, writing__learnWebMdx]
