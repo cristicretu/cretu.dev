@@ -1,9 +1,18 @@
+import { useEffect, useState } from 'react'
+
 export default function Footer(): JSX.Element {
-  const date = new Date()
-  const localTime = date.toLocaleString('ro-RO', {
-    timeZone: 'Europe/Bucharest',
-    hour: 'numeric',
-    minute: 'numeric',
+  const [localTime, setLocalTime] = useState(new Date().toLocaleString())
+
+  useEffect(() => {
+    setInterval(() => {
+      const date = new Date()
+      const time = date.toLocaleString('ro-RO', {
+        timeZone: 'Europe/Bucharest',
+        hour: 'numeric',
+        minute: 'numeric',
+      })
+      setLocalTime(time)
+    }, 1000)
   })
   return (
     <div className='text-tertiary py-4 flex justify-between'>
