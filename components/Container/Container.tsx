@@ -129,7 +129,7 @@ export default function Container({
           </button>
           <main
             className={cn(
-              'px-4 pt-12',
+              'px-4 pt-24',
               'max-w-2xl',
               'mx-auto my-auto',
               'flex flex-col justify-center gap-12',
