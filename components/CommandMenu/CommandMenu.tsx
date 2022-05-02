@@ -85,19 +85,17 @@ export default function CommandMenu() {
     const parentBoundingBox = parent.getBoundingClientRect()
     const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
 
-    // console.log(window.scroll)
-    window.scrollTo({
-      top: highlightOffset + 200 + window.scrollY,
-      behavior: 'smooth',
-    })
-    // console.log('tabBoundingBox', tabBoundingBox)
-    // console.log('parentBoundingBox', parentBoundingBox)
-    // console.log('highlightOffset', highlightOffset)
-
     // exit early if event triggered by children
     if (node.className === cardStyle) {
-      setTransform(`translate(0, ${highlightOffset}px)`)
+      setTransform(
+        `translate(0, ${highlightOffset + parentRef.current!.scrollTop}px)`
+      )
     }
+    node.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center',
+    })
   }
 
   const changeHighlight = (node: HTMLElement | null) => {
@@ -111,7 +109,12 @@ export default function CommandMenu() {
       const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
 
       if (node.className === cardStyle) {
-        setTransform(`translate(0, ${highlightOffset}px)`)
+        console.log('highlightOffset', highlightOffset)
+        console.log('tabBoundingBox', tabBoundingBox)
+        console.log('parrentRef.current', parentRef.current!.scrollTop)
+        setTransform(
+          `translate(0, ${highlightOffset + parentRef.current!.scrollTop}px)`
+        )
       }
 
       node.scrollIntoView({
@@ -121,8 +124,6 @@ export default function CommandMenu() {
       })
     }
   }
-
-  console.log(parentRef.current?.scrollTop)
 
   useEffect(() => {
     const handler = (event: {
