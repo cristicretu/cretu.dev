@@ -93,6 +93,13 @@ export default function CommandMenu() {
     }
   }
 
+  const setHighlight = (idx: number) => {
+    if (parentRef.current) {
+      const children = parentRef.current!.children
+      changeHighlight(children[idx] as HTMLElement)
+    }
+  }
+
   const changeHighlight = (node: HTMLElement | null) => {
     setIsHoveredFromNull(!highlightedTab)
 
