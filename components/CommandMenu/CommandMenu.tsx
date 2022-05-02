@@ -120,8 +120,6 @@ export default function CommandMenu() {
     }
   }
 
-  console.log(searchResults)
-
   useEffect(() => {
     const handler = (event: {
       key: string
@@ -231,8 +229,8 @@ export default function CommandMenu() {
                   <div
                     ref={highlightRef}
                     className={cn(
-                      'absolute hidden h-12 w-full sm:block',
-                      'duration-200',
+                      'absolute h-12 w-full block',
+                      'duration-200 ',
                       isHoveredFromNull
                         ? 'transition-none'
                         : 'transition-transform '

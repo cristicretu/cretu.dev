@@ -19,7 +19,7 @@ const Home: NextPage = () => {
           Thinkering with digital art and creating visual interfaces.
           Experimenting with 3D and CAD modeling.
         </p>
-        <p>
+        <p className='bg-blue-400'>
           Interested in C, TypeScript, and Python. Curious about Rust and Swift.
           Building products using React and Next.js.
         </p>
