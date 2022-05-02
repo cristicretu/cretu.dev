@@ -1,6 +1,5 @@
 import React, {
   Fragment,
-  LegacyRef,
   MouseEventHandler,
   useEffect,
   useMemo,
@@ -12,12 +11,10 @@ import { Dialog, Transition } from '@headlessui/react'
 import Link from 'next/link'
 
 import { Navigation, Socials, Themes } from '@data/commands/cmd'
-import type { Action } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
 
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false)
-  const [activeIndex, setActiveIndex] = useState<number>(0)
 
   const [results] = useState(Navigation.concat(Socials).concat(Themes))
   const [input, setInput] = useState('')
@@ -25,7 +22,6 @@ export default function CommandMenu() {
   const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
   const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
   const [transform, setTransform] = useState('translate(0, 0')
-
   const parentRef = useRef<HTMLUListElement>(null)
   const highlightRef = useRef<HTMLDivElement>(null)
 
@@ -67,9 +63,17 @@ export default function CommandMenu() {
     return answer
   }, [input, results])
 
-  function handleMouseOver(
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value)
+  }
+
+  const handleReset = () => {
+    setInput('')
+  }
+
+  const handleMouseOver = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
-  ) {
+  ) => {
     const node = event.target as HTMLElement
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const parent = parentRef.current!
@@ -109,11 +113,13 @@ export default function CommandMenu() {
       if (node.className === cardStyle) {
         setTransform(`translate(0, ${highlightOffset}px)`)
       }
-    }
-  }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value)
+      node.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      })
+    }
   }
 
   useEffect(() => {
@@ -153,7 +159,7 @@ export default function CommandMenu() {
   })
 
   return (
-    <Transition show={isOpen} as={Fragment}>
+    <Transition show={isOpen} as={Fragment} afterLeave={handleReset}>
       <Dialog
         onClose={setIsOpen}
         className={cn('fixed inset-0', 'p-4 pt-[25vh] overflow-y-auto')}
@@ -290,33 +296,5 @@ export default function CommandMenu() {
         </Transition.Child>
       </Dialog>
     </Transition>
-  )
-}
-
-function MenuItem({
-  index,
-  activeIndex,
-  children,
-  className,
-  ...props
-}: {
-  index: any
-  activeIndex: number
-  children: React.ReactNode
-  className?: string
-  props?: React.HTMLAttributes<HTMLDivElement>
-}) {
-  // and now we can style
-  const isActive = index === activeIndex
-  return (
-    <div
-      // and add an ID
-      id={index}
-      data-highlighted={isActive ? '' : undefined}
-      className={className}
-      {...props}
-    >
-      {children}
-    </div>
   )
 }

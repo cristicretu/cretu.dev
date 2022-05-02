@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <h1 className='font-semibold'>Cristian Crețu</h1>
         <p>
           Developer and designer making products that feel &apos;right&apos; and
-          faster.
+          faster.{' '}
           <span className='text-secondary'>
             Focused on creating fluid and accessible interfaces.
           </span>
@@ -23,7 +23,6 @@ const Home: NextPage = () => {
           Interested in C, TypeScript, and Python. Curious about Rust and Swift.
           Building products using React and Next.js.
         </p>
-        <ExternalLink href='https://cretu.dev'>Google</ExternalLink>
         <p>
           Enjoying sports, design, and music. I listen to a lot of lo-fi and
           electronic songs.
