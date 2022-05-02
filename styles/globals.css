@@ -163,7 +163,7 @@
   }
 
   .bg-primary {
-    @apply bg-gray-100/60 dark:bg-gray-800/50;
+    @apply bg-gray-100/60 dark:bg-gray-1000/70;
   }
 
   .highlight {

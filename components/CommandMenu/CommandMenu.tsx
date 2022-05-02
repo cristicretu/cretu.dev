@@ -91,11 +91,6 @@ export default function CommandMenu() {
         `translate(0, ${highlightOffset + parentRef.current!.scrollTop}px)`
       )
     }
-    node.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center',
-      inline: 'center',
-    })
   }
 
   const changeHighlight = (node: HTMLElement | null) => {
@@ -124,6 +119,8 @@ export default function CommandMenu() {
       })
     }
   }
+
+  console.log(searchResults)
 
   useEffect(() => {
     const handler = (event: {
@@ -165,7 +162,7 @@ export default function CommandMenu() {
     <Transition show={isOpen} as={Fragment} afterLeave={handleReset}>
       <Dialog
         onClose={setIsOpen}
-        className={cn('fixed inset-0', 'p-4 pt-[25vh] overflow-y-auto')}
+        className={cn('fixed inset-0', 'p-4 pt-[20vh] overflow-y-auto')}
       >
         <Transition.Child
           enter='duration-100 ease-out'
@@ -193,13 +190,13 @@ export default function CommandMenu() {
               'max-w-2xl mx-auto',
               'relative',
               'bg-primary filter-blur',
-              'rounded-md shadow-2xl dark:shadow-gray-800',
-              'ring-1 ring-black/10 dark:ring-gray-500/50',
+              'rounded-md shadow-2xl dark:shadow-gray-900',
+              'ring-1 ring-black/10 dark:ring-gray-700/50',
               'flex flex-col'
             )}
           >
             <Dialog.Title
-              className={cn('border-b border-black/10 dark:border-gray-500/50')}
+              className={cn('border-b border-black/10 dark:border-gray-700/50')}
             >
               <input
                 autoComplete='off'
@@ -218,82 +215,74 @@ export default function CommandMenu() {
               />
             </Dialog.Title>
             <Dialog.Description>
-              <ul
-                ref={parentRef}
-                className={cn(
-                  'relative',
-                  'text-sm text-quaternary',
-                  'my-4 mx-3',
-                  'overflow-auto h-[25vh]'
-                )}
-              >
-                {/* Highlighter */}
-                <div
-                  ref={highlightRef}
+              {!searchResults.length && (
+                <p className='text-secondary p-2'>No results found.</p>
+              )}
+              {searchResults.length && (
+                <ul
+                  ref={parentRef}
                   className={cn(
-                    'absolute hidden h-12 w-full sm:block',
-                    'duration-200',
-                    isHoveredFromNull
-                      ? 'transition-none'
-                      : 'transition-transform '
+                    'relative',
+                    'text-sm text-quaternary',
+                    'my-4 mx-3',
+                    'overflow-auto h-[32vh]'
                   )}
-                  style={{ transform }}
                 >
                   <div
+                    ref={highlightRef}
                     className={cn(
-                      'h-full w-full rounded-xl highlight',
-                      highlightedTab ? 'opacity-100' : 'opacity-0',
-                      'transition-opacity duration-300'
+                      'absolute hidden h-12 w-full sm:block',
+                      'duration-200',
+                      isHoveredFromNull
+                        ? 'transition-none'
+                        : 'transition-transform '
                     )}
-                  />
-                </div>
-                {!searchResults.length && <p>No results found.</p>}
-
-                {searchResults.map((result, index) => {
-                  if (typeof result === 'string') {
-                    return <Fragment key={index}>{result}</Fragment>
-                  }
-                  return (
+                    style={{ transform }}
+                  >
                     <div
-                      key={index}
-                      className={cn(cardStyle)}
-                      onMouseOver={handleMouseOver as MouseEventHandler}
-                      onMouseLeave={() => setIsHoveredFromNull(false)}
-                      onClick={() => {
-                        setIsOpen(false)
-                        result.perform ? result.perform() : undefined
-                      }}
-                    >
-                      {result.name}
-                    </div>
-                    // <MenuItem
-                    //   key={index}
-                    //   index={index}
-                    //   activeIndex={activeIndex}
-                    //   className={cardStyle}
-                    //   onMouseOver={handleMouseOver}
-                    //   onMouseLeave={() => setIsHoveredFromNull(false)}
-                    //   onClick={() => {
-                    //     setIsOpen(false)
-                    //     result.perform ? result.perform() : undefined
-                    //   }}
-                    // >
-                    //   {result.name}
-                    // </MenuItem>
-                  )
-                })}
+                      className={cn(
+                        'h-full w-full rounded-xl highlight',
+                        highlightedTab ? 'opacity-100' : 'opacity-0',
+                        'transition-opacity duration-300'
+                      )}
+                    />
+                  </div>
 
-                {/* {searchResults.map((meta, index) => (
-                  <Link href={meta.href!} key={index}>
-                    <a className={cardStyle} onMouseOver={handleMouseOver}>
-                      <div className='flex flex-row justify-between'>
-                        <div>icon</div>
-                        <div>{meta.label}</div>
+                  {searchResults.map((result, index) => {
+                    if (typeof result === 'string') {
+                      return <Fragment key={index}>{result}</Fragment>
+                    }
+                    return (
+                      <div
+                        key={index}
+                        className={cn(cardStyle)}
+                        onMouseOver={handleMouseOver as MouseEventHandler}
+                        onMouseLeave={() => setIsHoveredFromNull(false)}
+                        onClick={() => {
+                          setIsOpen(false)
+                          result.perform ? result.perform() : undefined
+                        }}
+                      >
+                        {result.name}
                       </div>
-                    </a>
-                  </Link>
-                ))} */}
-              </ul>
+                      // <MenuItem
+                      //   key={index}
+                      //   index={index}
+                      //   activeIndex={activeIndex}
+                      //   className={cardStyle}
+                      //   onMouseOver={handleMouseOver}
+                      //   onMouseLeave={() => setIsHoveredFromNull(false)}
+                      //   onClick={() => {
+                      //     setIsOpen(false)
+                      //     result.perform ? result.perform() : undefined
+                      //   }}
+                      // >
+                      //   {result.name}
+                      // </MenuItem>
+                    )
+                  })}
+                </ul>
+              )}
             </Dialog.Description>
           </div>
         </Transition.Child>
