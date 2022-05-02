@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Transition } from '@headlessui/react'
+import splitbee from '@splitbee/web'
 import { NextSeo } from 'next-seo'
 import { useTheme } from 'next-themes'
 import Head from 'next/head'
@@ -54,6 +55,8 @@ export default function Container({
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  splitbee.init()
 
   return (
     <>
