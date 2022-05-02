@@ -122,6 +122,8 @@ export default function CommandMenu() {
     }
   }
 
+  console.log(parentRef.current?.scrollTop)
+
   useEffect(() => {
     const handler = (event: {
       key: string
