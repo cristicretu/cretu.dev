@@ -22,7 +22,13 @@ import { useRouter } from 'next/router'
 import { Navigation, Socials, Themes } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
 
-export default function CommandMenu() {
+export default function CommandMenu({
+  opened,
+  setOpened,
+}: {
+  opened: boolean
+  setOpened: (opened: boolean) => void
+}) {
   const [isOpen, setIsOpen] = useState(false)
   const { resolvedTheme, setTheme } = useTheme()
   const router = useRouter()
@@ -102,6 +108,7 @@ export default function CommandMenu() {
     setInput('')
     setHighlightedTab(null)
     setIsHoveredFromNull(true)
+    setOpened(false)
   }
 
   const handleEnter = () => {
@@ -210,6 +217,10 @@ export default function CommandMenu() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   })
+
+  useEffect(() => {
+    setIsOpen(opened)
+  }, [opened])
 
   return (
     <Transition
