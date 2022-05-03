@@ -69,11 +69,22 @@ export default function CommandMenu() {
         }
       }
 
-      answer.push(result)
+      if (result.section === 'Themes') {
+        if (
+          (result.keywords === 'dark' && resolvedTheme === 'light') ||
+          (result.keywords === 'light' && resolvedTheme === 'dark')
+        ) {
+          answer.push(result)
+        } else if (result.keywords === 'system') {
+          answer.push(result)
+        }
+      } else {
+        answer.push(result)
+      }
     }
 
     return answer
-  }, [input, results])
+  }, [input, resolvedTheme, results])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value)
