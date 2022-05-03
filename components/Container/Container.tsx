@@ -18,6 +18,7 @@ interface IContainerProps {
     href: string
     label: string
   }
+  footer?: boolean
   children?: React.ReactNode
   title?: string
   description?: string
@@ -29,6 +30,7 @@ interface IContainerProps {
 }
 
 export default function Container({
+  footer = true,
   back,
   children,
   title,
@@ -159,9 +161,11 @@ export default function Container({
               )}
               {children}
             </div>
-            <footer>
-              <Footer />
-            </footer>
+            {footer && (
+              <footer>
+                <Footer />
+              </footer>
+            )}
           </main>
         </Transition>
       </div>
