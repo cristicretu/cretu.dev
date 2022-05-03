@@ -144,7 +144,7 @@ export default function Container({
                 <Link href={back.href}>
                   <a
                     className={cn(
-                      'text-tertiary hover:text-secondary transition duration-200 ease-in-out cursor-pointer group'
+                      'text-tertiary hover:text-secondary transition duration-200 ease-in-out cursor-pointer group mb-4'
                     )}
                   >
                     <span
