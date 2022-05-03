@@ -1,5 +1,3 @@
-import { useRef, useState } from 'react'
-
 import { pick } from 'contentlayer/client'
 import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
@@ -10,7 +8,6 @@ import type { Writing } from 'contentlayer/generated'
 
 import { allWritings } from '.contentlayer/generated'
 
-// https://github.com/Pondorasti/alexandru/blob/main/pages/journal/index.tsx
 const WritingPage = ({ posts }: { posts: Writing[] }) => {
   return (
     <Container
@@ -29,11 +26,11 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
               'transition-all duration-200'
             )}
           >
-            <span className='text-quaternary pr-2'>
+            <span className='text-quaternary pr-4'>
               {posts.length - index - 1}
             </span>
-            <span className='flex-grow'>{post.title}</span>
-            <span className='text-tertiary'>
+            <span className='flex-grow truncate mr-2'>{post.title}</span>
+            <span className='text-tertiary flex-shrink-0'>
               {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
             </span>
           </a>
