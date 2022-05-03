@@ -36,9 +36,9 @@ export default function Container({
   back,
   showNav = true,
   children,
-  title,
-  description,
-  image,
+  title = 'Cristian Crețu - Developer & Designer.',
+  description = 'Full-stack developer and digital artist.',
+  image = 'https://cretu.dev/static/images/banner.png',
   date,
   ...props
 }: IContainerProps): JSX.Element {

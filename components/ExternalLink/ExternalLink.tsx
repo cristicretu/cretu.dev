@@ -1,6 +1,4 @@
 import * as TooltipPrimitive from '@radix-ui/react-tooltip'
-import { useTheme } from 'next-themes'
-import Image from 'next/image'
 
 interface Props {
   href: string
@@ -15,26 +13,6 @@ export default function ExternalLink({
   arrow = false,
   ...props
 }: React.ComponentProps<'a'> & Props) {
-  const { resolvedTheme } = useTheme()
-
-  const shimmer = (w: number, h: number, theme?: string) => `
-  <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <rect id="r" width="${w}" height="${h}" fill="${
-    theme === 'dark' ? '#171717' : '#e2e8f0'
-  }" />
-    <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
-  </svg>`
-
-  const toBase64 = (str: string) =>
-    typeof window === 'undefined'
-      ? Buffer.from(str).toString('base64')
-      : window.btoa(str)
-
-  const sanitizedHref = href
-    .replace(/:/g, '%3A')
-    .replace(/\//g, '%2F')
-    .replace(/#/g, '%23')
-
   return (
     <TooltipPrimitive.Provider>
       <TooltipPrimitive.Root>
