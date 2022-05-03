@@ -19,7 +19,6 @@ export default function CommandMenu() {
 
   const [results] = useState(Navigation.concat(Socials).concat(Themes))
   const [input, setInput] = useState('')
-  const [cursor, setCursor] = useState(1)
 
   const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
   const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
@@ -28,7 +27,7 @@ export default function CommandMenu() {
   const highlightRef = useRef<HTMLDivElement>(null)
 
   const cardStyle =
-    'px-2 py-3 relative text-base hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
+    'px-2 py-3 relative flex text-base text-secondary hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
 
   const placeholder = useMemo(() => {
     if (highlightedTab) {
@@ -67,6 +66,15 @@ export default function CommandMenu() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value)
+    // set highlighted tab to the third child
+    // 0 is the highlight
+    // 1 is the group
+    if (parentRef.current) {
+      const children = parentRef.current.children
+      if (children.length > 1) {
+        changeHighlight(children[2] as HTMLElement)
+      }
+    }
   }
 
   const handleReset = () => {
@@ -76,9 +84,16 @@ export default function CommandMenu() {
   const handleMouseOver = (
     event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
-    const node = event.target as HTMLElement
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const parent = parentRef.current!
+    if (!parent) {
+      return
+    }
+
+    const node = event.target as HTMLElement
+    if (!node) {
+      return
+    }
 
     setIsHoveredFromNull(!highlightedTab)
     setHighlightedTab(node)
@@ -93,33 +108,35 @@ export default function CommandMenu() {
     }
   }
 
-  const changeHighlight = useCallback(() => {
+  const changeHighlight = (node: Element) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    console.log(node)
     const parent = parentRef.current!
     if (!parent) {
       return
     }
-    const children = parent.children
-    const node = children[cursor] as HTMLElement
 
-    if (node) {
-      setIsHoveredFromNull(!highlightedTab)
-
-      const tabBoundingBox = node.getBoundingClientRect()
-      const parentBoundingBox = parent.getBoundingClientRect()
-      const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
-
-      if (node.className === cardStyle) {
-        setHighlightedTab(node)
-
-        setTransform(`translate(0, ${highlightOffset + parent.scrollTop}px)`)
-        node.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'center',
-        })
-      }
+    if (!node) {
+      return
     }
-  }, [cursor, highlightedTab])
+
+    setIsHoveredFromNull(!highlightedTab)
+
+    const tabBoundingBox = node.getBoundingClientRect()
+    const parentBoundingBox = parent.getBoundingClientRect()
+    const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
+
+    if (node.className === cardStyle) {
+      setHighlightedTab(node as HTMLElement)
+
+      setTransform(`translate(0, ${highlightOffset + parent.scrollTop}px)`)
+      node.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      })
+    }
+  }
 
   useEffect(() => {
     const handler = (event: {
@@ -129,15 +146,27 @@ export default function CommandMenu() {
     }) => {
       if (event.key === 'ArrowUp' && isOpen) {
         event.preventDefault()
-        if (cursor > 1) {
-          // setHighlight(cursor - 1)
-          setCursor(cursor - 1)
+        if (highlightedTab && highlightedTab.previousElementSibling) {
+          if (highlightedTab.previousElementSibling.className === cardStyle) {
+            changeHighlight(highlightedTab.previousElementSibling)
+          } else if (
+            highlightedTab.previousElementSibling.previousElementSibling
+          ) {
+            changeHighlight(
+              highlightedTab.previousElementSibling.previousElementSibling
+            )
+          }
         }
       } else if (event.key === 'ArrowDown' && isOpen) {
         event.preventDefault()
-        if (cursor < results.length) {
-          // setHighlight(cursor + 1)
-          setCursor(cursor + 1)
+        if (highlightedTab && highlightedTab.nextElementSibling) {
+          if (highlightedTab.nextElementSibling.className === cardStyle) {
+            changeHighlight(highlightedTab.nextElementSibling)
+          } else if (highlightedTab.nextElementSibling.nextElementSibling) {
+            changeHighlight(
+              highlightedTab.nextElementSibling.nextElementSibling
+            )
+          }
         }
       } else if (event.key === 'Enter' && isOpen && highlightedTab) {
         highlightedTab?.click()
@@ -150,10 +179,6 @@ export default function CommandMenu() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   })
-
-  useEffect(() => {
-    changeHighlight()
-  }, [changeHighlight, cursor])
 
   return (
     <Transition show={isOpen} as={Fragment} afterLeave={handleReset}>
@@ -203,7 +228,7 @@ export default function CommandMenu() {
                   'bg-transparent',
                   'focus:ring-0 outline-none'
                 )}
-                placeholder={placeholder as any}
+                placeholder={placeholder as string}
                 aria-label='Search for links or commands'
                 value={input}
                 onChange={handleChange}
@@ -220,7 +245,6 @@ export default function CommandMenu() {
                   ref={parentRef}
                   className={cn(
                     'relative',
-                    'text-sm text-quaternary',
                     'my-4 mx-3',
                     'overflow-auto h-[32vh]'
                   )}
@@ -247,7 +271,11 @@ export default function CommandMenu() {
 
                   {searchResults.map((result, index) => {
                     if (typeof result === 'string') {
-                      return <Fragment key={index}>{result}</Fragment>
+                      return (
+                        <span key={index} className='text-quaternary text-xs'>
+                          {result}
+                        </span>
+                      )
                     }
                     return (
                       <div
