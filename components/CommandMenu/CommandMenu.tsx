@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   MouseEventHandler,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -18,6 +19,7 @@ export default function CommandMenu() {
 
   const [results] = useState(Navigation.concat(Socials).concat(Themes))
   const [input, setInput] = useState('')
+  const [cursor, setCursor] = useState(1)
 
   const [highlightedTab, setHighlightedTab] = useState<HTMLElement | null>(null)
   const [isHoveredFromNull, setIsHoveredFromNull] = useState(true)
@@ -87,45 +89,37 @@ export default function CommandMenu() {
 
     // exit early if event triggered by children
     if (node.className === cardStyle) {
-      setTransform(
-        `translate(0, ${highlightOffset + parentRef.current!.scrollTop}px)`
-      )
+      setTransform(`translate(0, ${highlightOffset + parent.scrollTop}px)`)
     }
   }
 
-  const setHighlight = (idx: number) => {
-    if (parentRef.current) {
-      const children = parentRef.current!.children
-      changeHighlight(children[idx] as HTMLElement)
+  const changeHighlight = useCallback(() => {
+    const parent = parentRef.current!
+    if (!parent) {
+      return
     }
-  }
-
-  const changeHighlight = (node: HTMLElement | null) => {
-    setIsHoveredFromNull(!highlightedTab)
+    const children = parent.children
+    const node = children[cursor] as HTMLElement
 
     if (node) {
-      setHighlightedTab(node)
+      setIsHoveredFromNull(!highlightedTab)
 
       const tabBoundingBox = node.getBoundingClientRect()
-      const parentBoundingBox = parentRef.current!.getBoundingClientRect()
+      const parentBoundingBox = parent.getBoundingClientRect()
       const highlightOffset = tabBoundingBox.top - parentBoundingBox.top
 
       if (node.className === cardStyle) {
-        console.log('highlightOffset', highlightOffset)
-        console.log('tabBoundingBox', tabBoundingBox)
-        console.log('parrentRef.current', parentRef.current!.scrollTop)
-        setTransform(
-          `translate(0, ${highlightOffset + parentRef.current!.scrollTop}px)`
-        )
-      }
+        setHighlightedTab(node)
 
-      node.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center',
-      })
+        setTransform(`translate(0, ${highlightOffset + parent.scrollTop}px)`)
+        node.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center',
+        })
+      }
     }
-  }
+  }, [cursor, highlightedTab])
 
   useEffect(() => {
     const handler = (event: {
@@ -135,21 +129,15 @@ export default function CommandMenu() {
     }) => {
       if (event.key === 'ArrowUp' && isOpen) {
         event.preventDefault()
-        const index = results.findIndex(
-          result => result.name === highlightedTab?.textContent
-        )
-
-        if (index > 0) {
-          const prev = highlightedTab?.previousElementSibling
-          if (prev) {
-            changeHighlight(prev as HTMLElement)
-          }
+        if (cursor > 1) {
+          // setHighlight(cursor - 1)
+          setCursor(cursor - 1)
         }
       } else if (event.key === 'ArrowDown' && isOpen) {
         event.preventDefault()
-        const next = highlightedTab?.nextElementSibling
-        if (next) {
-          changeHighlight(next as HTMLElement)
+        if (cursor < results.length) {
+          // setHighlight(cursor + 1)
+          setCursor(cursor + 1)
         }
       } else if (event.key === 'Enter' && isOpen && highlightedTab) {
         highlightedTab?.click()
@@ -162,6 +150,10 @@ export default function CommandMenu() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   })
+
+  useEffect(() => {
+    changeHighlight()
+  }, [changeHighlight, cursor])
 
   return (
     <Transition show={isOpen} as={Fragment} afterLeave={handleReset}>
@@ -219,7 +211,7 @@ export default function CommandMenu() {
                 spellCheck={false}
               />
             </Dialog.Title>
-            <Dialog.Description>
+            <Dialog.Description as='div'>
               {!searchResults.length && (
                 <p className='text-secondary p-2'>No results found.</p>
               )}
@@ -270,20 +262,6 @@ export default function CommandMenu() {
                       >
                         {result.name}
                       </div>
-                      // <MenuItem
-                      //   key={index}
-                      //   index={index}
-                      //   activeIndex={activeIndex}
-                      //   className={cardStyle}
-                      //   onMouseOver={handleMouseOver}
-                      //   onMouseLeave={() => setIsHoveredFromNull(false)}
-                      //   onClick={() => {
-                      //     setIsOpen(false)
-                      //     result.perform ? result.perform() : undefined
-                      //   }}
-                      // >
-                      //   {result.name}
-                      // </MenuItem>
                     )
                   })}
                 </ul>
