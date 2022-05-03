@@ -79,6 +79,17 @@ export default function CommandMenu() {
 
   const handleReset = () => {
     setInput('')
+    setHighlightedTab(null)
+    setIsHoveredFromNull(true)
+  }
+
+  const handleEnter = () => {
+    if (parentRef.current) {
+      const children = parentRef.current.children
+      if (children.length > 1) {
+        changeHighlight(children[2] as HTMLElement)
+      }
+    }
   }
 
   const handleMouseOver = (
@@ -181,7 +192,12 @@ export default function CommandMenu() {
   })
 
   return (
-    <Transition show={isOpen} as={Fragment} afterLeave={handleReset}>
+    <Transition
+      show={isOpen}
+      as={Fragment}
+      afterLeave={handleReset}
+      afterEnter={handleEnter}
+    >
       <Dialog
         onClose={setIsOpen}
         className={cn('fixed inset-0', 'p-4 pt-[20vh] overflow-y-auto')}
