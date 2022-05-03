@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.6.0",
+    "@modulz/radix-icons": "^4.0.0",
     "@radix-ui/react-tooltip": "^0.1.7",
     "@splitbee/web": "^0.3.0",
     "contentlayer": "^0.2.4",
