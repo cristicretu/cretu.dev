@@ -17,7 +17,6 @@ import {
   TwitterLogoIcon,
 } from '@modulz/radix-icons'
 import { useTheme } from 'next-themes'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { Navigation, Socials, Themes } from '@data/commands/cmd'
@@ -38,7 +37,7 @@ export default function CommandMenu() {
   const highlightRef = useRef<HTMLDivElement>(null)
 
   const cardStyle =
-    'px-2 py-3 cursor-pointer relative flex items-center gap-2 text-base text-tertiary hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
+    'px-2 py-3 cursor-pointer relative flex items-center gap-2 text-base hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
 
   const placeholder = useMemo(() => {
     if (highlightedTab) {
@@ -243,10 +242,10 @@ export default function CommandMenu() {
           leave='duration-100 ease-in'
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
+          className='max-w-2xl mx-auto'
         >
           <div
             className={cn(
-              'max-w-2xl mx-auto',
               'relative',
               'bg-primary filter-blur',
               'rounded-md shadow-2xl dark:shadow-gray-900',
@@ -283,7 +282,8 @@ export default function CommandMenu() {
                   className={cn(
                     'relative',
                     'mt-3 mb-3.5 mx-3',
-                    'overflow-auto max-h-[32vh]'
+                    'overflow-auto max-h-[32vh]',
+                    'text-tertiary'
                   )}
                 >
                   <div
@@ -318,7 +318,12 @@ export default function CommandMenu() {
                       return (
                         <li
                           key={index}
-                          className={cn(cardStyle)}
+                          className={cn(
+                            cardStyle,
+                            result.name === highlightedTab?.textContent
+                              ? 'text-primary'
+                              : ''
+                          )}
                           onMouseOver={handleMouseOver as MouseEventHandler}
                           onMouseLeave={() => setIsHoveredFromNull(false)}
                           onClick={() => {
@@ -335,7 +340,12 @@ export default function CommandMenu() {
                       return (
                         <li
                           key={index}
-                          className={cn(cardStyle)}
+                          className={cn(
+                            cardStyle,
+                            result.name === highlightedTab?.textContent
+                              ? 'text-primary'
+                              : ''
+                          )}
                           onMouseOver={handleMouseOver as MouseEventHandler}
                           onMouseLeave={() => setIsHoveredFromNull(false)}
                           onClick={() => {
@@ -357,7 +367,12 @@ export default function CommandMenu() {
                       return (
                         <li
                           key={index}
-                          className={cn(cardStyle)}
+                          className={cn(
+                            cardStyle,
+                            result.name === highlightedTab?.textContent
+                              ? 'text-primary'
+                              : ''
+                          )}
                           onMouseOver={handleMouseOver as MouseEventHandler}
                           onMouseLeave={() => setIsHoveredFromNull(false)}
                           onClick={() => {
