@@ -49,7 +49,7 @@
     "eslint-plugin-react": "^7.29.4",
     "globby": "^13.1.1",
     "husky": "7.0.4",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.13",
     "prettier": "2.6.2",
     "reading-time": "1.5.0",
     "rehype-autolink-headings": "^6.1.1",
