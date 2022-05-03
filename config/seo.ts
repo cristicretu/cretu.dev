@@ -11,7 +11,7 @@ export const defaultSEO = {
     site_name: 'Cristian Crețu',
     images: [
       {
-        url: `${baseUrl}/static/og/default.png`,
+        url: `${baseUrl}/static/images/banner.png`,
         alt: 'Cristian Crețu',
       },
     ],
