@@ -170,6 +170,10 @@
     @apply bg-black/10  dark:bg-white/[.06]
   }
 
+  .button-primary {
+    @apply flex space-x-2 flex-none items-center justify-center cursor-pointer leading-none transition-all font-semibold px-4 py-2 text-sm rounded-md text-gray-700 dark:text-gray-300 hover:text-gray-1000 shadow-sm bg-white dark:bg-gray-900 border border-gray-400 border-opacity-30 dark:border-opacity-30 dark:border-gray-500 dark:hover:text-white hover:border-opacity-50 dark:hover:border-opacity-50 hover:shadow-sm
+  }
+
   .filter-none {
     filter: none;
   }

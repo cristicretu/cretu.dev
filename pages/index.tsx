@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
-import ExternalLink from '@components/ExternalLink'
 
 const Home: NextPage = () => {
   return (
