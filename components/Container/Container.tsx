@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Transition } from '@headlessui/react'
 import splitbee from '@splitbee/web'
 import { NextSeo } from 'next-seo'
-import { useTheme } from 'next-themes'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+
+import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 
 import CommandMenu from '@components/CommandMenu'
 import Footer from '@components/Footer'
 import { cn } from '@lib/classNames'
 import { baseUrl } from 'config/seo'
+import React from 'react'
 
 interface IContainerProps {
   back?: {
@@ -19,6 +21,7 @@ interface IContainerProps {
     label: string
   }
   footer?: boolean
+  showNav?: boolean
   children?: React.ReactNode
   title?: string
   description?: string
@@ -32,6 +35,7 @@ interface IContainerProps {
 export default function Container({
   footer = true,
   back,
+  showNav = true,
   children,
   title,
   description,
@@ -83,14 +87,46 @@ export default function Container({
             <meta property='article:published_time' content={meta.date} />
           )}
         </Head>
-        <nav>
-          <button
-            className='button-primary-y text-3xl'
-            onClick={() => setIsOpen(true)}
-          >
-            ⌘
-          </button>
-        </nav>
+
+        <Transition
+          as={React.Fragment}
+          show={showNav}
+          enter='transition duration-100 ease-in-out'
+          enterFrom='opacity-0 scale-90'
+          enterTo='opacity-100 scale-100'
+          leave='transition ease-in-out'
+          leaveFrom='opacity-100 scale-100'
+          leaveTo='opacity-0 scale-95'
+        >
+          <nav className='new-sticky-nav top-2 md:top-4 max-w-2xl px-4 py-2 rounded-md mx-auto flex justify-between items-center'>
+            <button
+              className='button-primary-y text-3xl'
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              ⌘
+            </button>
+            <div className='flex flex-row items-center space-x-4'>
+              <a
+                href='https://twitter.com/cristicrtu'
+                className='visible'
+                target='_blank'
+                rel='noreferrer'
+                aria-label='Twitter'
+              >
+                <TwitterLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100 text-opacity-60 hover:text-opacity-100' />
+              </a>
+              <a
+                href='https://github.com/cristicretu/'
+                className='visible'
+                target='_blank'
+                rel='noreferrer'
+                aria-label='Github'
+              >
+                <GitHubLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100 text-opacity-60 hover:text-opacity-100' />
+              </a>
+            </div>
+          </nav>
+        </Transition>
         <Transition
           appear={true}
           show={true}

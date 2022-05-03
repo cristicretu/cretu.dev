@@ -340,6 +340,7 @@ export default function CommandMenu({
                           onClick={() => {
                             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                             router.push(result.href!)
+                            setIsOpen(false)
                           }}
                         >
                           <ArrowRightIcon width={20} height={20} />
