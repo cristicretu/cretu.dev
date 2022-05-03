@@ -1,7 +1,6 @@
 import React, {
   Fragment,
   MouseEventHandler,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -9,13 +8,25 @@ import React, {
 } from 'react'
 
 import { Dialog, Transition } from '@headlessui/react'
+import {
+  ArrowRightIcon,
+  GitHubLogoIcon,
+  Half2Icon,
+  MoonIcon,
+  SunIcon,
+  TwitterLogoIcon,
+} from '@modulz/radix-icons'
+import { useTheme } from 'next-themes'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { Navigation, Socials, Themes } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
 
 export default function CommandMenu() {
   const [isOpen, setIsOpen] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme()
+  const router = useRouter()
 
   const [results] = useState(Navigation.concat(Socials).concat(Themes))
   const [input, setInput] = useState('')
@@ -27,7 +38,7 @@ export default function CommandMenu() {
   const highlightRef = useRef<HTMLDivElement>(null)
 
   const cardStyle =
-    'px-2 py-3 relative flex text-base text-secondary hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
+    'px-2 py-3 cursor-pointer relative flex items-center gap-2 text-base text-tertiary hover:highlight hover:!bg-transparent rounded-xl transition-colors duration-300'
 
   const placeholder = useMemo(() => {
     if (highlightedTab) {
@@ -121,7 +132,6 @@ export default function CommandMenu() {
 
   const changeHighlight = (node: Element) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    console.log(node)
     const parent = parentRef.current!
     if (!parent) {
       return
@@ -256,13 +266,13 @@ export default function CommandMenu() {
               {!searchResults.length && (
                 <p className='text-secondary p-2'>No results found.</p>
               )}
-              {searchResults.length && (
+              {searchResults.length > 0 && (
                 <ul
                   ref={parentRef}
                   className={cn(
                     'relative',
-                    'my-4 mx-3',
-                    'overflow-auto h-[32vh]'
+                    'mt-3 mb-3.5 mx-3',
+                    'overflow-auto max-h-[32vh]'
                   )}
                 >
                   <div
@@ -293,20 +303,70 @@ export default function CommandMenu() {
                         </span>
                       )
                     }
-                    return (
-                      <div
-                        key={index}
-                        className={cn(cardStyle)}
-                        onMouseOver={handleMouseOver as MouseEventHandler}
-                        onMouseLeave={() => setIsHoveredFromNull(false)}
-                        onClick={() => {
-                          setIsOpen(false)
-                          result.perform ? result.perform() : undefined
-                        }}
-                      >
-                        {result.name}
-                      </div>
-                    )
+                    if (result.section === 'Navigation') {
+                      return (
+                        <li
+                          key={index}
+                          className={cn(cardStyle)}
+                          onMouseOver={handleMouseOver as MouseEventHandler}
+                          onMouseLeave={() => setIsHoveredFromNull(false)}
+                          onClick={() => {
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                            router.push(result.href!)
+                          }}
+                        >
+                          <ArrowRightIcon width={20} height={20} />
+                          <a>{result.name}</a>
+                        </li>
+                      )
+                    }
+                    if (result.section === 'Socials') {
+                      return (
+                        <li
+                          key={index}
+                          className={cn(cardStyle)}
+                          onMouseOver={handleMouseOver as MouseEventHandler}
+                          onMouseLeave={() => setIsHoveredFromNull(false)}
+                          onClick={() => {
+                            result.perform?.()
+                            setIsOpen(false)
+                          }}
+                        >
+                          {result.keywords === 'twitter' && (
+                            <TwitterLogoIcon width={20} height={20} />
+                          )}
+                          {result.keywords === 'github' && (
+                            <GitHubLogoIcon width={20} height={20} />
+                          )}
+                          <a>{result.name}</a>
+                        </li>
+                      )
+                    }
+                    if (result.section === 'Themes') {
+                      return (
+                        <li
+                          key={index}
+                          className={cn(cardStyle)}
+                          onMouseOver={handleMouseOver as MouseEventHandler}
+                          onMouseLeave={() => setIsHoveredFromNull(false)}
+                          onClick={() => {
+                            setIsOpen(false)
+                            setTheme(result.keywords)
+                          }}
+                        >
+                          {result.keywords === 'dark' && (
+                            <MoonIcon width={20} height={20} />
+                          )}
+                          {result.keywords === 'light' && (
+                            <SunIcon width={20} height={20} />
+                          )}
+                          {result.keywords === 'system' && (
+                            <Half2Icon width={20} height={20} />
+                          )}
+                          <span>{result.name}</span>
+                        </li>
+                      )
+                    }
                   })}
                 </ul>
               )}
