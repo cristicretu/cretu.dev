@@ -1,19 +1,18 @@
 import { useState } from 'react'
+import React from 'react'
 
 import { Transition } from '@headlessui/react'
+import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import splitbee from '@splitbee/web'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
-
 import CommandMenu from '@components/CommandMenu'
 import Footer from '@components/Footer'
 import { cn } from '@lib/classNames'
 import { baseUrl } from 'config/seo'
-import React from 'react'
 
 interface IContainerProps {
   back?: {
