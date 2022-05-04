@@ -1,6 +1,28 @@
 import type { NextPage } from 'next'
+import Image from 'next/image'
+import { Scroll, Keyframes, SpringConfigs } from 'scrollex'
 
 import Container from '@components/Container'
+import endeavours from '@data/endeavours/endeavours'
+
+const keyframes: Record<string, Keyframes> = {
+  image: ({ section, container }) => ({
+    [section.rightAt('container-right') - container.width]: {
+      translateX: -100,
+    },
+    [section.leftAt('container-left') + container.width]: {
+      translateX: 100,
+    },
+  }),
+}
+
+const springs: SpringConfigs = {
+  translateX: {
+    mass: 0.01,
+    stiffness: 200,
+    damping: 5,
+  },
+}
 
 const Home: NextPage = () => {
   return (
@@ -26,6 +48,36 @@ const Home: NextPage = () => {
           Enjoying sports, design, and music. I listen to a lot of lo-fi and
           electronic songs.
         </p>
+        <div>
+          <h2>Recent endeavours</h2>
+          <Scroll.Container scrollAxis='x' throttleAmount={0} className='mt-4'>
+            {endeavours.map((endeavor, index) => {
+              return (
+                <Scroll.Section key={index} className='h-[100vh] mx-4'>
+                  <div className='h-full inline-flex items-center '>
+                    <div className='overflow-hidden'>
+                      <Scroll.Item
+                        keyframes={keyframes.image}
+                        springs={springs}
+                      >
+                        <div className='relative h-128 w-80'>
+                          <Image
+                            src={endeavor.img}
+                            layout='fill'
+                            className='opacity-50 hover:opacity-100 transition-all duration-200'
+                            alt=''
+                            objectFit='cover'
+                          />
+                        </div>
+                        <span>{endeavor.name}</span>
+                      </Scroll.Item>
+                    </div>
+                  </div>
+                </Scroll.Section>
+              )
+            })}
+          </Scroll.Container>
+        </div>
       </header>
     </Container>
   )

@@ -23,6 +23,7 @@
     "@splitbee/web": "^0.3.0",
     "contentlayer": "^0.2.4",
     "date-fns": "^2.28.0",
+    "framer-motion": "^6.3.3",
     "match-sorter": "6.3.1",
     "next": "12.1.6",
     "next-contentlayer": "^0.2.4",
@@ -31,6 +32,7 @@
     "react": "18.1.0",
     "react-dom": "18.0.0",
     "rehype-pretty-code": "^0.3.1",
+    "scrollex": "^1.0.1",
     "sharp": "^0.30.4",
     "shiki": "^0.10.1"
   },
