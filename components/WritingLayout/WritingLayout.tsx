@@ -16,7 +16,7 @@ const editUrl = (slug: string) =>
 export default function WritingLayout({ post, children }: IWritingLayoutProps) {
   return (
     <Container
-      showNav={false}
+      writingNav={post.slug}
       title={`${post.title} - Cristian Crețu`}
       description={post.summary}
       image={`https://cretu.dev${post.image}`}
