@@ -6,7 +6,6 @@ interface Props {
   arrow?: boolean
 }
 
-// https://github.com/Pondorasti/alexandru/blob/main/components/LinkPreview/LinkPreview.tsx
 export default function ExternalLink({
   href,
   children,
