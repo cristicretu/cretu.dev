@@ -5,10 +5,43 @@ import { Scroll, Keyframes, SpringConfigs } from 'scrollex'
 import Container from '@components/Container'
 import endeavours from '@data/endeavours/endeavours'
 
+const mainKeyframes: Record<string, Keyframes> = {
+  item: ({ data }) => ({
+    [data.index * 150]: {
+      opacity: 0,
+    },
+    [data.index * 150 + 1]: {
+      opacity: 1,
+    },
+  }),
+}
+
+const Introduction = [
+  'Thinkering with digital art and creating visual interfaces. Experimenting with 3D and CAD modeling.',
+  'Interested in C, TypeScript, and Python. Curious about Rust and Swift. Building products using React and Next.js.',
+  'Enjoying sports, design, and music. I listen to a lot of lo-fi and electronic songs.',
+]
 const Home: NextPage = () => {
   return (
     <Container>
       <header className='flex flex-col gap-16'>
+        <Scroll.Container scrollAxis='y' className='h-[100vh]'>
+          <Scroll.Section showOverflow className='h-[200vh]'>
+            <div className='sticky top-0 h-[100vh] flex flex-col overflow-y-hidden'>
+              <div className='flex flex-col gap-2 overflow-y-hidden'>
+                {Introduction.map((item, index) => (
+                  <Scroll.Item
+                    key={item}
+                    data={{ index }}
+                    keyframes={mainKeyframes.item}
+                  >
+                    <p>{item}</p>
+                  </Scroll.Item>
+                ))}
+              </div>
+            </div>
+          </Scroll.Section>
+        </Scroll.Container>
         <Intro />
         <Endeavours />
       </header>
