@@ -65,7 +65,17 @@ export default function CommandMenu({
     for (let i = 0; i < myFilter.length; i++) {
       const result = myFilter[i]
       if (i === 0) {
-        answer.push(result.section)
+        if (result.section === 'Themes') {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          if (result.keywords !== resolvedTheme) {
+            answer.push(result.section)
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          } else if (result.keywords! === 'system') {
+            answer.push(result.section)
+          }
+        } else {
+          answer.push(result.section)
+        }
         last = result.section
       } else {
         if (last !== result.section) {
@@ -75,10 +85,8 @@ export default function CommandMenu({
       }
 
       if (result.section === 'Themes') {
-        if (
-          (result.keywords === 'dark' && resolvedTheme === 'light') ||
-          (result.keywords === 'light' && resolvedTheme === 'dark')
-        ) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        if (result.keywords! !== resolvedTheme) {
           answer.push(result)
         } else if (result.keywords === 'system') {
           answer.push(result)
@@ -389,7 +397,8 @@ export default function CommandMenu({
                           onMouseLeave={() => setIsHoveredFromNull(false)}
                           onClick={() => {
                             setIsOpen(false)
-                            setTheme(result.keywords)
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                            setTheme(result.keywords!)
                           }}
                         >
                           {result.keywords === 'dark' && (
