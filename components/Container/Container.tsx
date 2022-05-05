@@ -62,7 +62,7 @@ export default function Container({
       <CommandMenu opened={isOpen} setOpened={setIsOpen} />
       <div
         className={cn(
-          'bg-gray-50 dark:bg-gray-1000',
+          'bg-dots',
           'text-primary',
           'relative h-full min-h-screen w-full',
           'flex flex-col',
@@ -160,11 +160,13 @@ export default function Container({
         >
           <main
             className={cn(
-              'px-4 pt-24',
+              'px-4 mt-20 pt-4',
               'max-w-2xl',
               'mx-auto my-auto',
               'flex flex-col justify-center gap-12',
-              'divide-y divide-gray-300 dark:divide-gray-700'
+              'divide-y divide-gray-300 dark:divide-gray-700',
+              'rounded-lg',
+              'shadow-2xl dark:shadow-gray-800/90'
             )}
           >
             <div className='flex flex-col gap-2'>
