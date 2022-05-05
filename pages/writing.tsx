@@ -27,7 +27,9 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
             )}
           >
             <span className='text-quaternary pr-4'>
-              {posts.length - index - 1}
+              {posts.length - index > 10
+                ? posts.length - index
+                : `0${posts.length - index}`}
             </span>
             <span className='flex-grow truncate mr-2'>{post.title}</span>
             <span className='text-tertiary flex-shrink-0'>
