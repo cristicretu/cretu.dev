@@ -1,6 +1,18 @@
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
+import Parallax from '@components/Parallax'
+
+const pics = [
+  '/static/images/banner.png',
+  '/static/images/banner.png',
+  '/static/images/banner.png',
+  '/static/images/banner.png',
+  '/static/images/banner.png',
+  '/static/images/banner.png',
+  '/static/images/banner.png',
+  '/static/images/banner.png',
+]
 
 const Home: NextPage = () => {
   return (
@@ -26,6 +38,13 @@ const Home: NextPage = () => {
           Enjoying sports, design, and music. I listen to a lot of lo-fi and
           electronic songs.
         </p>
+        <div className='flex flex-col gap-24'>
+          {[...Array(6).keys()].map((item, key) => (
+            <Parallax key={key}>
+              <div className='h-48 w-32 bg-red-500'>{item + 1}</div>
+            </Parallax>
+          ))}
+        </div>
       </header>
     </Container>
   )
