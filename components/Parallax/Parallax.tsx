@@ -22,8 +22,8 @@ export default function Parralax({
   ...props
 }: IParallaxProps) {
   const { scrollY } = useViewportScroll()
-  const ref = useRef()
-  const [elementTop, setElementTop] = useState(0)
+  const ref = useRef<HTMLDivElement>()
+  const [elementTop, setElementTop] = useState<any>(0)
   const [elementBottom, setElementBottom] = useState(0)
   const [clientHeight, setClientHeight] = useState(0)
 
@@ -67,8 +67,8 @@ export default function Parralax({
   const opacity = useTransform(
     scrollY,
     yOpacityRange,
-    opacityRange,
-    'anticipate'
+    opacityRange
+    // 'anticipate'
   )
 
   return (

@@ -39,11 +39,11 @@ const Home: NextPage = () => {
           electronic songs.
         </p>
         <div className='flex flex-col gap-24'>
-          {[...Array(6).keys()].map((item, key) => (
+          {/* {[...Array(6).keys()].map((item, key) => (
             <Parallax key={key}>
               <div className='h-48 w-32 bg-red-500'>{item + 1}</div>
             </Parallax>
-          ))}
+          ))} */}
         </div>
       </header>
     </Container>
