@@ -13,9 +13,9 @@ interface IParallaxProps {
   [key: string]: any
 }
 
-export default function Parralax({
+export default function Parallax({
   children,
-  yOffset = 100,
+  yOffset = 2048,
   easing = [0.42, 0, 0.58, 1],
   triggerPoint = 0.1,
   fadeOut = false,

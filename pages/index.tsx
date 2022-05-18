@@ -3,6 +3,8 @@ import type { NextPage } from 'next'
 import Container from '@components/Container'
 import Parallax from '@components/Parallax'
 
+import Image from 'next/image'
+
 const pics = [
   '/static/images/banner.png',
   '/static/images/banner.png',
@@ -38,12 +40,27 @@ const Home: NextPage = () => {
           Enjoying sports, design, and music. I listen to a lot of lo-fi and
           electronic songs.
         </p>
-        <div className='flex flex-col gap-24'>
-          {/* {[...Array(6).keys()].map((item, key) => (
+        <h2 className='font-semibold'>Recent endeavors</h2>
+        <div className='flex flex-col gap-4'>
+          {pics.map((item, key) => (
             <Parallax key={key}>
-              <div className='h-48 w-32 bg-red-500'>{item + 1}</div>
+              <div className='bg-red-500 rounded-lg p-1'>
+                <div className='h-48 w-full relative'>
+                  <Image
+                    src={item}
+                    objectFit='cover'
+                    layout='fill'
+                    className='rounded-md'
+                  />
+                </div>
+                <div className='p-2'>
+                  <p className='font-semibold'>Tesla</p>
+                  <p>Made x while acomplishing y, by doing z.</p>
+                  <p>Full-stack | Full time</p>
+                </div>
+              </div>
             </Parallax>
-          ))} */}
+          ))}
         </div>
       </header>
     </Container>
