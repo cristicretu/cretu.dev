@@ -1,10 +1,9 @@
-import { useState } from 'react'
 import React from 'react'
+import { useState } from 'react'
 
 import { Transition } from '@headlessui/react'
 import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import splitbee from '@splitbee/web'
-import { motion } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -152,18 +151,12 @@ export default function Container({
             )}
           </nav>
         </Transition>
-        {/* <Transition
+        <Transition
           appear={true}
           show={true}
           enter='transition-all duration-500 delay-[200ms]'
           enterFrom='scale-90 opacity-0'
           enterTo='scale-100 opacity-100'
-        > */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ ease: 'easeOut', duration: 0.45 }}
         >
           <main
             className={cn(
@@ -202,8 +195,7 @@ export default function Container({
               </footer>
             )}
           </main>
-          {/* </Transition> */}
-        </motion.div>
+        </Transition>
       </div>
     </>
   )
