@@ -17,7 +17,7 @@
     "pre-push": "yarn check-format"
   },
   "dependencies": {
-    "@headlessui/react": "^1.6.1",
+    "@headlessui/react": "^1.6.2",
     "@modulz/radix-icons": "^4.0.0",
     "@radix-ui/react-tooltip": "^0.1.7",
     "@splitbee/web": "^0.3.0",
