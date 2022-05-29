@@ -21,16 +21,6 @@ export function SEO() {
           href='/static/favicons/apple-touch-icon.png'
         />
         <link rel='manifest' href='/static/favicons/site.webmanifest' />
-        <meta
-          name='theme-color'
-          content='#fff'
-          media='(prefers-color-scheme: light)'
-        />
-        <meta
-          name='theme-color'
-          content='rgb(23, 23, 23)'
-          media='(prefers-color-scheme: dark)'
-        />
       </Head>
     </>
   )
