@@ -1,12 +1,12 @@
 import type { NextPage } from 'next'
+import Image from 'next/image'
 
 import Container from '@components/Container'
 import Parallax from '@components/Parallax'
-
-import Image from 'next/image'
+import { endeavorsList } from '@data/endeavors/endeavors'
 
 const pics = [
-  '/static/images/banner.png',
+  '/static/images/endeavors/streak.png',
   '/static/images/banner.png',
   '/static/images/banner.png',
   '/static/images/banner.png',
@@ -41,29 +41,38 @@ const Home: NextPage = () => {
           electronic songs.
         </p>
         <h2 className='font-semibold'>Recent endeavors</h2>
-        <div className='flex flex-col gap-4'>
-          {pics.map((item, key) => (
-            <Parallax key={key}>
-              <div className='bg-red-500 rounded-lg p-1'>
-                <div className='h-48 w-full relative'>
-                  <Image
-                    src={item}
-                    objectFit='cover'
-                    layout='fill'
-                    className='rounded-md'
-                  />
-                </div>
-                <div className='p-2'>
-                  <p className='font-semibold'>Tesla</p>
-                  <p>Made x while acomplishing y, by doing z.</p>
-                  <p>Full-stack | Full time</p>
-                </div>
-              </div>
-            </Parallax>
-          ))}
-        </div>
+        <Endeavors />
       </header>
     </Container>
+  )
+}
+
+const Endeavors = () => {
+  return (
+    <>
+      <div className='flex flex-col gap-4'>
+        {endeavorsList.map((item, key) => (
+          <Parallax key={key}>
+            <div className='cursor-pointer bg-gray-100  hover:bg-gray-200 border-black/10 dark:bg-gray-900 border dark:border-white/10 dark:hover:bg-gray-800 transition-all rounded-lg'>
+              <div className='h-72 w-full relative'>
+                <Image
+                  src={item.img}
+                  objectFit='cover'
+                  layout='fill'
+                  className='rounded-t-md'
+                  alt='Summary image'
+                />
+              </div>
+              <div className='p-2 flex flex-col gap-1'>
+                <p className='font-semibold text-lg'>{item.title}</p>
+                <p className='text-secondary'>{item.description}</p>
+                <p className='text-sm text-tertiary'>{item.timeline}</p>
+              </div>
+            </div>
+          </Parallax>
+        ))}
+      </div>
+    </>
   )
 }
 

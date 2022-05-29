@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useMemo } from 'react'
 
 import { useViewportScroll, useTransform } from 'framer-motion'
-import { motion } from 'framer-motion'
+import { LazyMotion, domAnimation, m } from 'framer-motion'
 
 interface IParallaxProps {
   children: React.ReactNode
@@ -23,7 +23,7 @@ export default function Parallax({
 }: IParallaxProps) {
   const { scrollY } = useViewportScroll()
   const ref = useRef<HTMLDivElement>()
-  const [elementTop, setElementTop] = useState<any>(0)
+  const [elementTop, setElementTop] = useState<number>(0)
   const [elementBottom, setElementBottom] = useState(0)
   const [clientHeight, setClientHeight] = useState(0)
 
@@ -62,24 +62,21 @@ export default function Parallax({
     [opacityInitialValue]
   )
 
-  // const yOpacityRange = [transformInitialValue, transformFinalValue];
   const yOpacityRange = [elementBottom, transformFinalValue - yOffset]
-  const opacity = useTransform(
-    scrollY,
-    yOpacityRange,
-    opacityRange
-    // 'anticipate'
-  )
+  const opacity = useTransform(scrollY, yOpacityRange, opacityRange)
 
   return (
-    <motion.div
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={ref as any}
-      initial={{ y: 0 }}
-      style={{ y, opacity }}
-      {...props}
-    >
-      {children}
-    </motion.div>
+    <LazyMotion features={domAnimation}>
+      {' '}
+      <m.div
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ref={ref as any}
+        initial={{ y: 0 }}
+        style={{ y, opacity }}
+        {...props}
+      >
+        {children}
+      </m.div>
+    </LazyMotion>
   )
 }
