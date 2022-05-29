@@ -1,9 +1,6 @@
 import type { NextPage } from 'next'
-import Image from 'next/image'
 
 import Container from '@components/Container'
-import Parallax from '@components/Parallax'
-import { endeavorsList } from '@data/endeavors/endeavors'
 import Endeavors from '@components/Endeavors'
 
 const Home: NextPage = () => {
