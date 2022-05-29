@@ -47,7 +47,7 @@ export default function Document() {
         />
         <meta
           name='theme-color'
-          content='#000000'
+          content='#060606'
           media='(prefers-color-scheme: dark)'
         />{' '}
         <meta
