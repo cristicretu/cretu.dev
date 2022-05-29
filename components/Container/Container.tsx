@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Transition } from '@headlessui/react'
 import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import splitbee from '@splitbee/web'
+import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -151,51 +152,51 @@ export default function Container({
             )}
           </nav>
         </Transition>
-        <Transition
-          appear={true}
-          show={true}
-          enter='transition-all duration-500 delay-[200ms]'
-          enterFrom='scale-90 opacity-0'
-          enterTo='scale-100 opacity-100'
-        >
-          <main
-            className={cn(
-              'px-4 mt-20',
-              'max-w-2xl',
-              'mx-auto my-auto',
-              'flex flex-col justify-center gap-12',
-              'divide-y divide-gray-300 dark:divide-gray-700',
-              'rounded-lg',
-              writingNav ? 'shadow-2xl dark:shadow-gray-800/90 pt-6' : ''
-            )}
+        <LazyMotion features={domAnimation}>
+          <m.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
           >
-            <div className='flex flex-col gap-2'>
-              {back && (
-                <Link href={back.href}>
-                  <a
-                    className={cn(
-                      'text-tertiary hover:text-secondary transition duration-200 ease-in-out cursor-pointer group mb-4'
-                    )}
-                  >
-                    <span
-                      aria-hidden='true'
-                      className='inline-block transition-transform duration-200 ease-in-out translate-x-0 group-hover:-translate-x-1'
-                    >
-                      ⇤
-                    </span>{' '}
-                    {back.label}
-                  </a>
-                </Link>
+            <main
+              className={cn(
+                'px-4 mt-20',
+                'max-w-2xl',
+                'mx-auto my-auto',
+                'flex flex-col justify-center gap-12',
+                'divide-y divide-gray-300 dark:divide-gray-700',
+                'rounded-lg',
+                writingNav ? 'shadow-2xl dark:shadow-gray-800/90 pt-6' : ''
               )}
-              {children}
-            </div>
-            {footer && (
-              <footer>
-                <Footer />
-              </footer>
-            )}
-          </main>
-        </Transition>
+            >
+              <div className='flex flex-col gap-2'>
+                {back && (
+                  <Link href={back.href}>
+                    <a
+                      className={cn(
+                        'text-tertiary hover:text-secondary transition duration-200 ease-in-out cursor-pointer group mb-4'
+                      )}
+                    >
+                      <span
+                        aria-hidden='true'
+                        className='inline-block transition-transform duration-200 ease-in-out translate-x-0 group-hover:-translate-x-1'
+                      >
+                        ⇤
+                      </span>{' '}
+                      {back.label}
+                    </a>
+                  </Link>
+                )}
+                {children}
+              </div>
+              {footer && (
+                <footer>
+                  <Footer />
+                </footer>
+              )}
+            </main>
+          </m.div>
+        </LazyMotion>
       </div>
     </>
   )
