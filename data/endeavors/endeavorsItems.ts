@@ -26,7 +26,7 @@ export const endeavorsList = [
     img: '/static/images/endeavors/landmarks.png',
     title: 'Landmarks',
     description:
-      'GitHub Action that notifies the user when he is close to lose the commit streak.',
+      'This is where I worked on the front-end and design aspect of multiple projects.',
     link: 'https://landmarks.ro',
     timeline: '2021 - March 2022',
   },
