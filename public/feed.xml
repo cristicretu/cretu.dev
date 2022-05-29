@@ -4,11 +4,7 @@
         <description><![CDATA[Cristian Crețu]]></description>
         <link>https://cretu.dev</link>
         <generator>RSS for Node</generator>
-<<<<<<< HEAD
-        <lastBuildDate>Sat, 21 May 2022 12:50:48 GMT</lastBuildDate>
-=======
-        <lastBuildDate>Sun, 29 May 2022 14:20:36 GMT</lastBuildDate>
->>>>>>> fb56238 (feat: readd motion)
+        <lastBuildDate>Sun, 29 May 2022 16:17:27 GMT</lastBuildDate>
         <atom:link href="https://cretu.dev/feed.xml" rel="self" type="application/rss+xml"/>
         <item>
             <title><![CDATA[2021 in Review]]></title>

@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
+import Endeavors from '@components/Endeavors'
 
 const Home: NextPage = () => {
   return (
@@ -26,6 +27,8 @@ const Home: NextPage = () => {
           Enjoying sports, design, and music. I listen to a lot of lo-fi and
           electronic songs.
         </p>
+        <h2 className='font-semibold'>Recent endeavors</h2>
+        <Endeavors />
       </header>
     </Container>
   )
