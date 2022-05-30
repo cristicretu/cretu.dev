@@ -64,7 +64,7 @@ export default function CommandMenu({
     let last = ''
     for (let i = 0; i < myFilter.length; i++) {
       const result = myFilter[i]
-      if (i === 0) {
+      if (answer.length === 0) {
         if (result.section === 'Themes') {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           if (result.keywords !== resolvedTheme) {
