@@ -51,7 +51,7 @@
     "globby": "^13.1.2",
     "husky": "8.0.1",
     "postcss": "^8.4.14",
-    "prettier": "2.6.2",
+    "prettier": "2.7.1",
     "reading-time": "1.5.0",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.0.1",
