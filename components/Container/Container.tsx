@@ -100,7 +100,7 @@ export default function Container({
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
         >
-          <nav className='sticky w-full bg-gray-100/40 z-[1] filter-blur dark:bg-gray-1000/40 top-2 md:top-4 max-w-2xl px-4 py-2 rounded-md mx-auto flex justify-between items-center'>
+          <nav className='sticky w-full bg-primary filter-blur z-[1] top-2 md:top-4 max-w-2xl px-4 py-2 rounded-md mx-auto flex justify-between items-center'>
             <button
               className='button-primary-y text-3xl'
               onClick={() => setIsOpen(!isOpen)}
