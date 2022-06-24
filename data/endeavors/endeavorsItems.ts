@@ -4,7 +4,7 @@ export const endeavorsList = [
     title: 'cretu.dev',
     description: 'My personal corner of the internet.',
     link: 'https://github.com/cristicretu/cretu.dev',
-    timeline: 'August 2021 - May 2022',
+    timeline: 'August 2021 - Present',
   },
   {
     img: '/static/images/endeavors/esentza.png',
