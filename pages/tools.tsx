@@ -1,24 +1,15 @@
-import Link from 'next/link'
+import Image from 'next/image'
 
 import Container from '@components/Container'
+import Tool from '@components/Tool/Tool'
+import { ToolBox } from '@data/tools/ToolBox'
 
 const Tools = () => {
   return (
     <Container footer={false}>
-      <header className='flex flex-col gap-8'>
-        <div className='flex gap-4 items-center'>
-          <div className='relative h-10 w-10'>
-            {/* <Image
-              src='/static/images/logo.png'
-              alt='logo'
-              className='absolute inset-0 object-cover rounded-full'
-              objectFit='cover'
-              layout='fill'
-            /> */}
-          </div>
-        </div>
+      <div className='flex flex-col gap-8'>
         <h1 className='font-semibold text-xl'>Tools</h1>
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-4 text-secondary'>
           <p>
             Those are the apps that I use almost daily, and that help me deliver
             my work.
@@ -28,7 +19,27 @@ const Tools = () => {
             with the things I use.
           </p>
         </div>
-      </header>
+
+        <div>
+          {/* Lazy */}
+          {ToolBox.sort((a, b) => {
+            if (a.name < b.name) {
+              return -1
+            }
+            if (a.name > b.name) {
+              return 1
+            }
+            return 0
+          }).map(tool => (
+            <Tool
+              key={tool.name}
+              name={tool.name}
+              image={tool.image}
+              description={tool.description}
+            />
+          ))}
+        </div>
+      </div>
     </Container>
   )
 }
