@@ -6,9 +6,10 @@
   @font-face {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 100 900;
+    font-weight: 100 400 900;
     font-display: swap;
-    src: url('/fonts/Inter-Regular.woff2') format('woff2');
+    src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2')
+      format('woff2');
   }
 
   .capsize::before {
