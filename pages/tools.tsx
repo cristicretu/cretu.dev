@@ -34,8 +34,8 @@ const Tools = () => {
             <Tool
               key={tool.name}
               name={tool.name}
-              image={tool.image}
               description={tool.description}
+              svg={tool.svg}
             />
           ))}
         </div>
