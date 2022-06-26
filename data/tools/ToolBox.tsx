@@ -3,12 +3,14 @@ import React from 'react'
 interface Tool {
   name: string
   description?: string
+  link: string
   svg?: React.ReactNode
 }
 
 export const ToolBox: Tool[] = [
   {
     name: 'GitHub',
+    link: 'https://github.com',
     description:
       'GitHub is a web-based hosting service for version control using Git. It is most used for software development.',
     svg: (
@@ -26,6 +28,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Twitter',
+    link: 'https://twitter.com',
     description:
       'One of my most favorite websites. It is the source for most of my friends, inspiration & more.',
     svg: (
@@ -43,6 +46,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'TailwindCSS',
+    link: 'https://tailwindcss.com',
     description:
       'When it comes to CSS, I always use TailwindCSS. It is a great tool for styling your website really fast.',
     svg: (
@@ -60,6 +64,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'NextJS',
+    link: 'https://nextjs.com',
     description:
       'My go-to framework for building web applications. The quality of the codebase is fantastic.',
     svg: (
@@ -83,6 +88,7 @@ export const ToolBox: Tool[] = [
   // },
   {
     name: 'Vercel',
+    link: 'https://vercel.com',
     description:
       'The most seamless way to deploy your website. I use it for all of my projects.',
     svg: (
@@ -100,6 +106,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Rectangle',
+    link: 'https://rectangleapp.com',
     description:
       "A replacement for MacOS's default window manager. Similar to Magnet but free and easier to use.",
     svg: (
@@ -117,6 +124,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'CleanshotX',
+    link: 'https://cleanshot.com',
     description:
       'Taking screenshots, making quick videos or gifs  is laughabally simple.',
     svg: (
@@ -140,6 +148,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Figma',
+    link: 'https://figma.com',
     description:
       'Nowadays I use Figma for almost all of my work: logos, UI design, wireframes, illustrations, etc. One of the best peices of software ever created.',
     svg: (
@@ -157,6 +166,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Linear',
+    link: 'https://linear.app',
     description: 'Linear is a wonderfuly crafter issue tracking tool.',
     svg: (
       <svg
@@ -173,6 +183,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Arc',
+    link: 'https://thebrowser.company',
     description:
       'Arc redefined the way I use the internet and my browser, unleashing the creative side of mine.',
     svg: (
@@ -207,6 +218,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'VSCode',
+    link: 'https://code.visualstudio.com',
     description:
       "VSCode is the text editor I reach for most often, given it's range of extensions. I pair it up with the VIM extension.",
     svg: (
@@ -224,6 +236,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Kitty',
+    link: 'https://sw.kovidgoyal.net/kitty',
     description: 'Kitty a fast terminal emulator that is minimal and powerful.',
     svg: (
       <svg
@@ -240,6 +253,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Safari',
+    link: 'https://www.apple.com/safari',
     description:
       'The browser I use most often. Combines great native funcitonality and speed.',
     svg: (
@@ -257,6 +271,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'MacBook Air',
+    link: 'https://www.apple.com/macbook-air',
     description:
       'The one tool that powers them all. This laptop has been absolutely phenomenal.',
     svg: (
@@ -274,6 +289,7 @@ export const ToolBox: Tool[] = [
   },
   {
     name: 'Photopea',
+    link: 'https://photopea.com',
     description:
       "This app does 80% of what Photoshop does, but it's free and most useful in 99% of the cases.",
     svg: (

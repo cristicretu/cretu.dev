@@ -36,6 +36,7 @@ const Tools = () => {
               name={tool.name}
               description={tool.description}
               svg={tool.svg}
+              link={tool.link}
             />
           ))}
         </div>
