@@ -7,7 +7,7 @@ import Endeavors from '@components/Endeavors'
 const Home: NextPage = () => {
   return (
     <Container>
-      <header className='flex flex-col gap-8'>
+      <header className='flex flex-col gap-6'>
         <div className='flex gap-4 items-center'>
           <div className='relative h-10 w-10'>
             <Image
@@ -20,7 +20,7 @@ const Home: NextPage = () => {
           </div>
           <h1 className='font-semibold text-lg'>Cristian Crețu</h1>
         </div>
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-2 text-secondary'>
           <p>
             Developer and designer making products that feel &apos;right&apos;
             and faster.{' '}
