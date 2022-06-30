@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import Container from '@components/Container'
 import Tool from '@components/Tool/Tool'
 import { ToolBox } from '@data/tools/ToolBox'
@@ -7,9 +5,9 @@ import { ToolBox } from '@data/tools/ToolBox'
 const Tools = () => {
   return (
     <Container footer={false}>
-      <div className='flex flex-col gap-8'>
+      <div className='flex flex-col gap-6'>
         <h1 className='font-semibold text-xl'>Tools</h1>
-        <div className='flex flex-col gap-4 text-secondary'>
+        <div className='flex flex-col gap-2 text-secondary'>
           <p>
             Those are the apps that I use almost daily, and that help me deliver
             my work.

@@ -16,7 +16,7 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
         label: 'Index',
       }}
     >
-      <h1 className='font-semibold'>Writing</h1>
+      <h1 className='font-semibold text-xl'>Writing</h1>
       {posts.map((post, index) => (
         <Link key={post.slug} href={`/writing/${post.slug}`}>
           <a
@@ -26,7 +26,7 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
               'transition-all duration-200'
             )}
           >
-            <span className='text-quaternary pr-4'>
+            <span className='text-quaternary pr-4 '>
               {posts.length - index > 10
                 ? posts.length - index
                 : `0${posts.length - index}`}

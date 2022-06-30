@@ -38,7 +38,7 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
               {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
             </p>
           </div>
-          <p className='mt-2 text-sm text-gray-600 dark:text-gray-400 min-w-32 md:mt-0'>
+          <p className='mt-2 text-sm text-tertiary min-w-32 md:mt-0'>
             {post.readingTime.text}
           </p>
         </div>
@@ -56,9 +56,11 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
         <div className='w-full my-4 prose dark:prose-dark max-w-2xl'>
           {children}
         </div>
-        <ExternalLink arrow={true} href={editUrl(post.slug)}>
-          Edit source on GitHub.
-        </ExternalLink>
+        <div className='button-primary-x'>
+          <ExternalLink arrow={true} href={editUrl(post.slug)}>
+            Edit source on GitHub.
+          </ExternalLink>
+        </div>
       </article>
     </Container>
   )
