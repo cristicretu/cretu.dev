@@ -2,10 +2,10 @@ import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import { useEffect, useState } from 'react'
 
 interface IFooterProps {
-  indexPage?: boolean
+  page?: string
 }
 
-export default function Footer({ indexPage }: IFooterProps): JSX.Element {
+export default function Footer({ page }: IFooterProps): JSX.Element {
   const [localTime, setLocalTime] = useState('')
 
   useEffect(() => {
@@ -32,7 +32,11 @@ export default function Footer({ indexPage }: IFooterProps): JSX.Element {
     }, 1000)
   })
   return (
-    <footer className={`flex flex-col gap-9 ${indexPage ? 'max-w-lg' : ''}`}>
+    <footer
+      className={`flex flex-col gap-9 mb-8 ${
+        page === 'index' ? 'max-w-lg' : page === 'writing' ? 'px-10' : ''
+      }`}
+    >
       <div className='flex flex-col'>
         <div className='border border-gray-300 dark:border-gray-700 border-dashed'></div>
         <div className='text-tertiary py-4 flex justify-between'>
@@ -40,7 +44,7 @@ export default function Footer({ indexPage }: IFooterProps): JSX.Element {
           <span className='w-16'>{localTime}</span>
         </div>
       </div>
-      {indexPage && (
+      {page === 'index' && (
         <span className='text-tertiary text-sm'>
           © Cristian Crețu 2022. Website built using Next.js & TailwindCSS (
           <a

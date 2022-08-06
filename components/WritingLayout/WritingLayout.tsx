@@ -26,6 +26,7 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
         href: '/writing',
         label: 'Writing',
       }}
+      page='writing'
     >
       <article className='flex flex-col items-start justify-center w-full max-w-2xl mx-auto'>
         <h1 className='mb-4 text-3xl font-bold tracking-tight text-black md:text-5xl dark:text-white'>
@@ -58,7 +59,7 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
         </div>
         <div className='button-primary-x'>
           <ExternalLink arrow={true} href={editUrl(post.slug)}>
-            Edit source on GitHub.
+            Edit source on GitHub
           </ExternalLink>
         </div>
       </article>
