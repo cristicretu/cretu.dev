@@ -70,7 +70,7 @@ export default function Container({
           'relative h-full min-h-screen w-full',
           'flex flex-col',
           'motion-reduce:transition-none motion-reduce:transform-none',
-          'pb-12'
+          'md:pb-12'
         )}
       >
         <Head>
@@ -158,7 +158,9 @@ export default function Container({
                 'flex flex-col justify-center gap-12',
                 // 'divide-y divide-gray-300 dark:divide-gray-700',
                 'rounded-lg',
-                writingNav ? 'shadow-2xl dark:shadow-gray-800/90 pt-6' : ''
+                writingNav
+                  ? 'shadow-2xl dark:shadow-gray-800/90 pt-6 bg-primary'
+                  : ''
               )}
             >
               <div className='flex flex-col gap-2'>

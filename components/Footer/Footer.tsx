@@ -56,8 +56,8 @@ export default function Footer({ page }: IFooterProps): JSX.Element {
   })
   return (
     <footer
-      className={`flex flex-col gap-9 mb-8 text-tertiary  ${
-        page === 'index' ? 'max-w-lg' : page === 'writing' ? 'px-10' : ''
+      className={`flex flex-col gap-9 mb-8 text-tertiary sm:px-0  ${
+        page === 'index' ? 'max-w-lg' : page === 'writing' ? '' : ''
       }`}
     >
       <div className='flex flex-col'>
@@ -67,7 +67,7 @@ export default function Footer({ page }: IFooterProps): JSX.Element {
           <span className='w-16'>{localTime}</span>
         </div>
         <div className='flex justify-end'>
-          <span>{weather}</span>
+          <span>{weather ? weather : ''}</span>
         </div>
       </div>
       {page === 'index' && (
