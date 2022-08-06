@@ -2,47 +2,51 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 
 import Container from '@components/Container'
-import Endeavors from '@components/Endeavors'
 
 const Home: NextPage = () => {
   return (
-    <Container>
-      <header className='flex flex-col gap-6'>
-        <div className='flex gap-4 items-center'>
-          <div className='relative h-10 w-10'>
-            <Image
-              src='/static/images/logo.png'
-              alt='logo'
-              className='absolute inset-0 object-cover rounded-full'
-              objectFit='cover'
-              layout='fill'
-            />
+    <Container indexPage>
+      <header className='flex flex-col gap-16'>
+        <div className='flex flex-col gap-4'>
+          <div className='flex flex-col gap-4'>
+            <div className='relative h-10 w-10'>
+              <Image
+                src='/static/images/logo.png'
+                alt='logo'
+                className='absolute inset-0 object-cover rounded-full'
+                objectFit='cover'
+                layout='fill'
+              />
+            </div>
+            <h1 className='font-semibold text-lg text-secondary'>
+              Cristian Crețu
+            </h1>
           </div>
-          <h1 className='font-semibold text-lg'>Cristian Crețu</h1>
+          <h2 className='font-black text-5xl leading-tight max-w-lg'>
+            Developer and Designer thinkering with fluid interfaces
+          </h2>
         </div>
-        <div className='flex flex-col gap-2 text-secondary'>
+        <div className='flex flex-col gap-6 leading-7 text-secondary max-w-lg'>
           <p>
-            Developer and designer making products that feel &apos;right&apos;
-            and faster.{' '}
-            <span className='text-secondary'>
-              Focused on creating fluid and accessible interfaces.
-            </span>
+            I’m passionate about design and simplicity, with a strong attraction
+            towards software, robotics, and engineering. Since the start, I’ve
+            focused on improving products by applying knowledge that involves a
+            creative process.
           </p>
           <p>
-            Thinkering with digital art and creating visual interfaces.
-            Experimenting with 3D and CAD modeling.
+            Striving towards unique experiences that feel magical and that give
+            a blissful feeling. Unlimitable obsessed with solving problems where
+            design and engineering intersect, by creating pixel-perfect,
+            polished interfaces.
           </p>
           <p>
-            Interested in C, TypeScript, and Python. Curious about Rust and
-            Swift. Building products using React and Next.js.
-          </p>
-          <p>
-            Enjoying sports, design, and music. I listen to a lot of lo-fi and
-            electronic songs.
+            Ardent in reading, writing, and improving consistently through
+            learning. Currently interested in C and TypeScript. Curious about
+            native apps with Swift.
           </p>
         </div>
-        <h2 className='font-semibold text-lg'>Recent endeavors</h2>
-        <Endeavors />
+        {/* <h2 className='font-semibold text-lg'>Recent endeavors</h2> */}
+        {/* <Endeavors /> */}
       </header>
     </Container>
   )
