@@ -2,11 +2,11 @@ import React from 'react'
 import { useState } from 'react'
 
 import { Transition } from '@headlessui/react'
-import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import splitbee from '@splitbee/web'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -103,7 +103,18 @@ export default function Container({
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
         >
-          <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-3xl px-4 py-2 gap-4 mx-auto flex justify-end items-center'>
+          <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-3xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
+            <Link href='/'>
+              <a className='relative h-10 w-10'>
+                <Image
+                  src='/static/images/logo.png'
+                  alt='logo'
+                  className='absolute inset-0 object-cover rounded-full'
+                  objectFit='cover'
+                  layout='fill'
+                />
+              </a>
+            </Link>
             {writingNav && (
               <div className='flex flex-row gap-1 text-tertiary bg-primary filter-blur p-3 rounded-full'>
                 <Link href='/'>

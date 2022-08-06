@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import Image from 'next/image'
 
 import Container from '@components/Container'
 
@@ -8,20 +7,9 @@ const Home: NextPage = () => {
     <Container page={'index'}>
       <header className='flex flex-col gap-16'>
         <div className='flex flex-col gap-4'>
-          <div className='flex flex-col gap-4'>
-            <div className='relative h-10 w-10'>
-              <Image
-                src='/static/images/logo.png'
-                alt='logo'
-                className='absolute inset-0 object-cover rounded-full'
-                objectFit='cover'
-                layout='fill'
-              />
-            </div>
-            <h1 className='font-semibold text-lg text-secondary'>
-              Cristian Crețu
-            </h1>
-          </div>
+          <h1 className='font-semibold text-lg text-secondary'>
+            Cristian Crețu
+          </h1>
           <h2 className='font-black text-5xl leading-tight max-w-lg'>
             Developer and Designer thinkering with fluid interfaces
           </h2>
