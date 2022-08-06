@@ -1,5 +1,6 @@
-import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import { useEffect, useState } from 'react'
+
+import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 
 interface IFooterProps {
   page?: string
@@ -7,6 +8,28 @@ interface IFooterProps {
 
 export default function Footer({ page }: IFooterProps): JSX.Element {
   const [localTime, setLocalTime] = useState('')
+  const [weather, setWeather] = useState('')
+
+  useEffect(() => {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.NEXT_PUBLIC_LAT}&lon=${process.env.NEXT_PUBLIC_LON}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}&units=metric`
+    )
+      .then(res => res.json())
+      .then(data => {
+        setWeather(
+          Math.round(data.main.temp).toString() +
+            '°C • ' +
+            data.weather[0].main +
+            ' • ' +
+            data.wind.speed +
+            ' km/h'
+        )
+      })
+      .catch(err => {
+        // eslint-disable-next-line no-console
+        console.error(err)
+      })
+  }, [])
 
   useEffect(() => {
     setLocalTime(
@@ -33,19 +56,22 @@ export default function Footer({ page }: IFooterProps): JSX.Element {
   })
   return (
     <footer
-      className={`flex flex-col gap-9 mb-8 ${
+      className={`flex flex-col gap-9 mb-8 text-tertiary  ${
         page === 'index' ? 'max-w-lg' : page === 'writing' ? 'px-10' : ''
       }`}
     >
       <div className='flex flex-col'>
         <div className='border border-gray-300 dark:border-gray-700 border-dashed'></div>
-        <div className='text-tertiary py-4 flex justify-between'>
+        <div className='py-4 flex justify-between'>
           <span>~ Prioritize yourself.</span>
           <span className='w-16'>{localTime}</span>
         </div>
+        <div className='flex justify-end'>
+          <span>{weather}</span>
+        </div>
       </div>
       {page === 'index' && (
-        <span className='text-tertiary text-sm'>
+        <span className='text-sm'>
           © Cristian Crețu 2022. Website built using Next.js & TailwindCSS (
           <a
             href='https://github.com/cristicretu/cretu.dev'
