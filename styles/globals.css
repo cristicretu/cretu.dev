@@ -126,14 +126,14 @@
   }
 
   .light .bg-dots {
-    background: linear-gradient(90deg, #f9fafb 15px, transparent 1%) center,
-      linear-gradient(#f9fafb 15px, transparent 1%) center, rgba(0, 0, 0, 0.24);
+    background: linear-gradient(90deg, #f9f9f9 15px, transparent 1%) center,
+      linear-gradient(#f9f9f9 15px, transparent 1%) center, rgba(0, 0, 0, 0.24);
     background-size: 16px 16px;
   }
 
   .dark .bg-dots {
-    background: linear-gradient(90deg, #050505 15px, transparent 1%) center,
-      linear-gradient(#050505 15px, transparent 1%) center,
+    background: linear-gradient(90deg, #171717 15px, transparent 1%) center,
+      linear-gradient(#171717 15px, transparent 1%) center,
       rgba(255, 255, 255, 0.12);
     background-size: 16px 16px;
   }
