@@ -23,9 +23,9 @@ const Home: NextPage = () => {
           </p>
           <p>
             Striving towards unique experiences that feel magical and that give
-            a blissful feeling. Unlimitable obsessed with solving problems where
-            design and engineering intersect, by creating pixel-perfect,
-            polished interfaces.
+            a blissful feeling. Unlimitedly obsessed with solving problems where
+            design and engineering intersect by creating pixel-perfect, polished
+            interfaces.
           </p>
           <p>
             Ardent in reading, writing, and improving consistently through
