@@ -31,6 +31,7 @@ interface IContainerProps {
   [key: string]: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   date?: any
+  indexPage?: boolean
 }
 
 export default function Container({
@@ -43,6 +44,7 @@ export default function Container({
   description = 'Full-stack developer and digital artist.',
   image = 'https://cretu.dev/static/images/banner.png',
   date,
+  indexPage,
   ...props
 }: IContainerProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
@@ -67,7 +69,8 @@ export default function Container({
           'text-primary',
           'relative h-full min-h-screen w-full',
           'flex flex-col',
-          'motion-reduce:transition-none motion-reduce:transform-none'
+          'motion-reduce:transition-none motion-reduce:transform-none',
+          'pb-12'
         )}
       >
         <Head>
@@ -90,7 +93,7 @@ export default function Container({
           )}
         </Head>
 
-        <Transition
+        {/* <Transition
           as={React.Fragment}
           show={showNav}
           enter='transition duration-100 ease-in-out'
@@ -151,7 +154,7 @@ export default function Container({
               </div>
             )}
           </nav>
-        </Transition>
+        </Transition> */}
         <LazyMotion features={domAnimation}>
           <m.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -161,10 +164,10 @@ export default function Container({
             <main
               className={cn(
                 'px-4 mt-20',
-                'max-w-2xl',
+                'max-w-3xl',
                 'mx-auto my-auto',
                 'flex flex-col justify-center gap-12',
-                'divide-y divide-gray-300 dark:divide-gray-700',
+                // 'divide-y divide-gray-300 dark:divide-gray-700',
                 'rounded-lg',
                 writingNav ? 'shadow-2xl dark:shadow-gray-800/90 pt-6' : ''
               )}
@@ -189,11 +192,7 @@ export default function Container({
                 )}
                 {children}
               </div>
-              {footer && (
-                <footer>
-                  <Footer />
-                </footer>
-              )}
+              {footer && <Footer indexPage={indexPage} />}
             </main>
           </m.div>
         </LazyMotion>

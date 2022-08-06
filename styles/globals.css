@@ -81,7 +81,7 @@
     bottom: -50%;
     left: -50%;
     z-index: -1;
-    @apply bg-white dark:bg-black;
+    @apply bg-gray-50 dark:bg-gray-900;
   }
 }
 
@@ -160,6 +160,7 @@
   .bg-elevated {
     @apply bg-gray-400 bg-opacity-5 dark:bg-gray-50;
   }
+  
   @supports (backdrop-filter: saturate(180%) blur(25px)) {
     .bg-primary {
       @apply bg-gray-100/60 dark:bg-gray-1000/70;
@@ -172,6 +173,10 @@
     .bg-primary {
       @apply bg-gray-100 dark:bg-gray-1000;
     }
+  }
+
+  .external-link {
+    @apply relative after:absolute after:bg-gray-200 after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300;
   }
 
   .highlight {
