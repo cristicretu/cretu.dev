@@ -26,7 +26,7 @@
     "framer-motion": "^6.3.16",
     "match-sorter": "6.3.1",
     "next": "12.2.0",
-    "next-contentlayer": "^0.2.5",
+    "next-contentlayer": "^0.2.7",
     "next-seo": "^5.4.0",
     "next-themes": "^0.2.0",
     "react": "18.2.0",
