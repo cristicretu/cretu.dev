@@ -8,11 +8,19 @@ export const endeavorsList = [
     timeline: 'May 2022 - Present',
   },
   {
-    img: '/static/images/banner.png',
+    img: '/static/images/endeavors/cretu.png',
     title: 'cretu.dev',
     description: 'My personal corner of the internet.',
     link: 'https://github.com/cristicretu/cretu.dev',
     timeline: 'August 2021 - Present',
+  },
+  {
+    img: '/static/images/endeavors/streak.png',
+    title: 'Keep the streak',
+    description:
+      'GitHub Action that notifies the user when he is close to lose the commit streak.',
+    link: 'https://github.com/cristicretu/keep-the-streak',
+    timeline: 'April 2022',
   },
   {
     img: '/static/images/endeavors/esentza.png',
@@ -23,26 +31,19 @@ export const endeavorsList = [
     timeline: 'September 2019 - Present',
   },
   {
-    img: '/static/images/endeavors/arcboosts.png',
-    title: 'Arc Boost Marketplace',
-    description: 'A place to store and share boosts for the new Arc Browser.',
-    link: 'https://arcboost-marketplace.vercel.app/',
-    timeline: 'July 2022',
-  },
-  {
     img: '/static/images/endeavors/light.png',
     title: 'Light Bulb Reading Environment',
     description: 'Experiment with skeuomorphic lighting.',
     link: 'https://light.cretu.dev/',
     timeline: 'July 2022',
   },
+
   {
-    img: '/static/images/endeavors/streak.png',
-    title: 'Keep the streak',
-    description:
-      'GitHub Action that notifies the user when he is close to lose the commit streak.',
-    link: 'https://github.com/cristicretu/keep-the-streak',
-    timeline: 'April 2022',
+    img: '/static/images/endeavors/arcboosts.png',
+    title: 'Arc Boost Marketplace',
+    description: 'A place to store and share boosts for the new Arc Browser.',
+    link: 'https://arcboost-marketplace.vercel.app/',
+    timeline: 'July 2022',
   },
   {
     img: '/static/images/endeavors/landmarks.png',
@@ -60,3 +61,5 @@ export const endeavorsList = [
   //   timeline: 'January 2022',
   // },
 ]
+
+export type Endeavor = typeof endeavorsList[0]

@@ -2,11 +2,11 @@ import React from 'react'
 import { useState } from 'react'
 
 import { Transition } from '@headlessui/react'
-import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import splitbee from '@splitbee/web'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -31,6 +31,7 @@ interface IContainerProps {
   [key: string]: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   date?: any
+  page?: string
 }
 
 export default function Container({
@@ -41,8 +42,9 @@ export default function Container({
   children,
   title = 'Cristian Crețu - Developer & Designer.',
   description = 'Full-stack developer and digital artist.',
-  image = 'https://cretu.dev/static/images/banner.png',
+  image = 'https://cretu.dev/static/images/og.png',
   date,
+  page,
   ...props
 }: IContainerProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
@@ -67,7 +69,8 @@ export default function Container({
           'text-primary',
           'relative h-full min-h-screen w-full',
           'flex flex-col',
-          'motion-reduce:transition-none motion-reduce:transform-none'
+          'motion-reduce:transition-none motion-reduce:transform-none',
+          'md:pb-12'
         )}
       >
         <Head>
@@ -100,15 +103,20 @@ export default function Container({
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
         >
-          <nav className='sticky w-full bg-primary filter-blur z-[1] top-2 md:top-4 max-w-2xl px-4 py-2 rounded-md mx-auto flex justify-between items-center'>
-            <button
-              className='button-primary-y text-3xl'
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              ⌘
-            </button>
+          <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-3xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
+            <Link href='/'>
+              <a className='relative h-10 w-10'>
+                <Image
+                  src='/static/images/logo.png'
+                  alt='logo'
+                  className='absolute inset-0 object-cover rounded-full'
+                  objectFit='cover'
+                  layout='fill'
+                />
+              </a>
+            </Link>
             {writingNav && (
-              <div className='flex flex-row gap-1 text-tertiary'>
+              <div className='flex flex-row gap-1 text-tertiary bg-primary filter-blur p-3 rounded-full'>
                 <Link href='/'>
                   <a className='hover:text-primary transition-all cursor-pointer'>
                     index
@@ -128,28 +136,12 @@ export default function Container({
                 </Link>
               </div>
             )}
-            {!writingNav && (
-              <div className='flex flex-row items-center space-x-4'>
-                <a
-                  href='https://twitter.com/cristicrtu'
-                  className='visible'
-                  target='_blank'
-                  rel='noreferrer'
-                  aria-label='Twitter'
-                >
-                  <TwitterLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100 text-opacity-60 hover:text-opacity-100' />
-                </a>
-                <a
-                  href='https://github.com/cristicretu/'
-                  className='visible'
-                  target='_blank'
-                  rel='noreferrer'
-                  aria-label='Github'
-                >
-                  <GitHubLogoIcon className='w-5 h-auto text-gray-900 transition-all duration-200 fill-current dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100 text-opacity-60 hover:text-opacity-100' />
-                </a>
-              </div>
-            )}
+            <button
+              className='button-primary-y text-3xl'
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              ⌘
+            </button>
           </nav>
         </Transition>
         <LazyMotion features={domAnimation}>
@@ -161,12 +153,14 @@ export default function Container({
             <main
               className={cn(
                 'px-4 mt-20',
-                'max-w-2xl',
+                'max-w-3xl',
                 'mx-auto my-auto',
                 'flex flex-col justify-center gap-12',
-                'divide-y divide-gray-300 dark:divide-gray-700',
+                // 'divide-y divide-gray-300 dark:divide-gray-700',
                 'rounded-lg',
-                writingNav ? 'shadow-2xl dark:shadow-gray-800/90 pt-6' : ''
+                writingNav
+                  ? 'shadow-2xl dark:shadow-gray-800/90 pt-6 bg-primary'
+                  : ''
               )}
             >
               <div className='flex flex-col gap-2'>
@@ -189,11 +183,7 @@ export default function Container({
                 )}
                 {children}
               </div>
-              {footer && (
-                <footer>
-                  <Footer />
-                </footer>
-              )}
+              {footer && <Footer page={page} />}
             </main>
           </m.div>
         </LazyMotion>
