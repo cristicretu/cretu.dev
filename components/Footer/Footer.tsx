@@ -1,17 +1,14 @@
-import {
-  Suspense,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from 'react'
+import { Suspense, useEffect, useState, useSyncExternalStore } from 'react'
 
 import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
+import useSWR from 'swr'
+import fetcher, { weatherFetcher } from '@lib/fetcher'
 
 interface IFooterProps {
   page?: string
 }
+
+// ----------------------------------------------------------- DATE -----------------------------------------------------------
 
 function dateToLocalTime(date: Date): string {
   return date.toLocaleString('ro-RO', {
@@ -28,7 +25,9 @@ const notifiers = new Set()
 if (typeof window !== 'undefined') {
   setInterval(() => {
     now = dateToLocalTime(new Date())
-    notifiers.forEach(notify => notify())
+    notifiers.forEach(notify => {
+      return notify()
+    })
   }, 1000)
 }
 
@@ -37,48 +36,43 @@ function subscribe(notify: () => void): () => void {
   return () => notifiers.delete(notify)
 }
 
-export default function Footer({ page }: IFooterProps): JSX.Element {
-  const [weather, setWeather] = useState('')
+// ----------------------------------------------------------- WEATHER -----------------------------------------------------------
 
-  useEffect(() => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.NEXT_PUBLIC_LAT}&lon=${process.env.NEXT_PUBLIC_LON}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}&units=metric`
-    )
-      .then(res => res.json())
-      .then(data => {
-        setWeather(
-          Math.round(data.main.temp).toString() +
-            '°C • ' +
-            data.weather[0].main +
-            ' • ' +
-            data.wind.speed +
-            ' km/h'
-        )
-      })
-      .catch(err => {
-        // eslint-disable-next-line no-console
-        console.error(err)
-      })
-  }, [])
+const API = `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.NEXT_PUBLIC_LAT}&lon=${process.env.NEXT_PUBLIC_LON}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}&units=metric`
+
+export default function Footer({ page }: IFooterProps): JSX.Element {
+  const { data, error } = useSWR(API, weatherFetcher, { suspense: true })
+  // const [weather, setWeather] = useState('')
+
+  // useEffect(() => {
+  //   console.log('i effected')
+  //   fetch(
+  //     `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.NEXT_PUBLIC_LAT}&lon=${process.env.NEXT_PUBLIC_LON}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}&units=metric`
+  //   )
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log('i fetched')
+
+  //       setWeather(
+  //         Math.round(data.main.temp).toString() +
+  //           '°C • ' +
+  //           data.weather[0].main +
+  //           ' • ' +
+  //           data.wind.speed +
+  //           ' km/h'
+  //       )
+  //     })
+  //     .catch(err => {
+  //       // eslint-disable-next-line no-console
+  //       console.error(err)
+  //     })
+  // }, [])
 
   const store = useSyncExternalStore(
     subscribe,
     () => now,
     () => now
   )
-
-  // export function useSyncExternalStore<Snapshot>(
-  //   subscribe: (onStoreChange: () => void) => () => void,
-  //   getSnapshot: () => Snapshot,
-  //   getServerSnapshot?: () => Snapshot,
-  // ): Snapshot;
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setNow(dateToLocalTime(new Date()))
-  //   }, 1000)
-  //   return () => clearInterval(interval)
-  // }, [])
 
   return (
     <Suspense fallback={null}>
@@ -91,10 +85,10 @@ export default function Footer({ page }: IFooterProps): JSX.Element {
           <div className='border border-gray-300 dark:border-gray-700 border-dashed'></div>
           <div className='py-4 flex justify-between'>
             <span>~ Prioritize yourself.</span>
-            <span className='w-16'>{store}</span>
+            <span className='w-16'>{store ? store : '00:00:00'}</span>
           </div>
           <div className='flex justify-end'>
-            <span>{weather ? weather : ''}</span>
+            <span>{data ? data : ''}</span>
           </div>
         </div>
         {page === 'index' && (
