@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
-import Endeavors from '@components/Endeavors'
+import { MemoizedEndeavors } from '@components/Endeavors'
 import { endeavorsList } from '@data/endeavors/endeavorsItems'
 
 const Home: NextPage = () => {
@@ -40,11 +40,13 @@ const Home: NextPage = () => {
           </div>
           <div className='flex flex-col gap-4'>
             <h3 className='font-semibold text-lg'>Recent endeavors</h3>
-            <div className='flex gap-6 overflow-x-scroll w-[100vw] relative left-1/2 right-1/2 -mx-[50vw] px-4 snap-x snap-mandatory masked-overflow'>
-              {endeavorsList.map((item, key) => (
-                <Endeavors key={key} endeavor={item} />
-              ))}
-            </div>
+            <Suspense fallback={null}>
+              <div className='flex gap-6 overflow-x-scroll w-[100vw] relative left-1/2 right-1/2 -mx-[50vw] px-4 snap-x snap-mandatory masked-overflow'>
+                {endeavorsList.map((item, key) => (
+                  <MemoizedEndeavors key={key} endeavor={item} />
+                ))}
+              </div>
+            </Suspense>
           </div>
         </header>
       </Container>

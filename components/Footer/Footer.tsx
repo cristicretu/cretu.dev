@@ -26,7 +26,7 @@ const notifiers = new Set()
 if (typeof window !== 'undefined') {
   setInterval(() => {
     now = dateToLocalTime(new Date())
-    notifiers.forEach(notify => {
+    notifiers.forEach((notify: any) => {
       return notify()
     })
   }, 1000)
@@ -42,7 +42,10 @@ function subscribe(notify: () => void): () => void {
 const API = `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.NEXT_PUBLIC_LAT}&lon=${process.env.NEXT_PUBLIC_LON}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}&units=metric`
 
 export default function Footer({ page }: IFooterProps): JSX.Element {
-  const { data } = useSWR(API, weatherFetcher, { suspense: true })
+  const { data } = useSWR(API, weatherFetcher, {
+    suspense: true,
+    refreshInterval: 1000 * 60,
+  })
 
   const store = useSyncExternalStore(
     subscribe,
