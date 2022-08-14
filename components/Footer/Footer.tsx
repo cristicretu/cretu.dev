@@ -1,8 +1,9 @@
-import { Suspense, useEffect, useState, useSyncExternalStore } from 'react'
+import { Suspense, useSyncExternalStore } from 'react'
 
 import { GitHubLogoIcon, TwitterLogoIcon } from '@modulz/radix-icons'
 import useSWR from 'swr'
-import fetcher, { weatherFetcher } from '@lib/fetcher'
+
+import { weatherFetcher } from '@lib/fetcher'
 
 interface IFooterProps {
   page?: string
@@ -41,32 +42,7 @@ function subscribe(notify: () => void): () => void {
 const API = `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.NEXT_PUBLIC_LAT}&lon=${process.env.NEXT_PUBLIC_LON}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}&units=metric`
 
 export default function Footer({ page }: IFooterProps): JSX.Element {
-  const { data, error } = useSWR(API, weatherFetcher, { suspense: true })
-  // const [weather, setWeather] = useState('')
-
-  // useEffect(() => {
-  //   console.log('i effected')
-  //   fetch(
-  //     `https://api.openweathermap.org/data/2.5/weather?lat=${process.env.NEXT_PUBLIC_LAT}&lon=${process.env.NEXT_PUBLIC_LON}&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_KEY}&units=metric`
-  //   )
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log('i fetched')
-
-  //       setWeather(
-  //         Math.round(data.main.temp).toString() +
-  //           '°C • ' +
-  //           data.weather[0].main +
-  //           ' • ' +
-  //           data.wind.speed +
-  //           ' km/h'
-  //       )
-  //     })
-  //     .catch(err => {
-  //       // eslint-disable-next-line no-console
-  //       console.error(err)
-  //     })
-  // }, [])
+  const { data } = useSWR(API, weatherFetcher, { suspense: true })
 
   const store = useSyncExternalStore(
     subscribe,

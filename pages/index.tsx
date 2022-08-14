@@ -1,7 +1,8 @@
+import { Suspense } from 'react'
+
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
-import { Suspense } from 'react'
 
 const Home: NextPage = () => {
   return (
