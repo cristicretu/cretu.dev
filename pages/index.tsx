@@ -3,6 +3,8 @@ import { Suspense } from 'react'
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
+import Endeavors from '@components/Endeavors'
+import { endeavorsList } from '@data/endeavors/endeavorsItems'
 
 const Home: NextPage = () => {
   return (
@@ -14,7 +16,7 @@ const Home: NextPage = () => {
               Cristian Crețu
             </h1>
             <h2 className='font-black text-5xl leading-tight max-w-lg'>
-              Developer and Designer thinkering with fluid interfaces
+              Developer and Designer tinkering with fluid interfaces
             </h2>
           </div>
           <div className='flex flex-col gap-6 leading-7 text-secondary max-w-lg'>
@@ -35,6 +37,11 @@ const Home: NextPage = () => {
               learning. Currently interested in C and TypeScript. Curious about
               native apps with Swift.
             </p>
+          </div>
+          <div className='flex gap-6 overflow-x-scroll w-[100vw] relative left-1/2 right-1/2 -mx-[50vw] px-4'>
+            {endeavorsList.map((item, key) => (
+              <Endeavors key={key} endeavor={item} />
+            ))}
           </div>
         </header>
       </Container>
