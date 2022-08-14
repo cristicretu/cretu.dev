@@ -1,3 +1,5 @@
+import React from 'react'
+
 import Image from 'next/image'
 
 import type { Endeavor } from '@data/endeavors/endeavorsItems'
@@ -7,7 +9,7 @@ interface IEndeavorsProps {
   endeavor: Endeavor
 }
 
-export default function Endeavors({ endeavor }: IEndeavorsProps): JSX.Element {
+export function Endeavors({ endeavor }: IEndeavorsProps): JSX.Element {
   return (
     <a
       className={cn(
@@ -54,3 +56,5 @@ export default function Endeavors({ endeavor }: IEndeavorsProps): JSX.Element {
     </a>
   )
 }
+
+export const MemoizedEndeavors = React.memo(Endeavors)
