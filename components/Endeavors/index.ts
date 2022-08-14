@@ -1,1 +1,1 @@
-export { default } from './EndeavorsComp'
+export { Endeavors, MemoizedEndeavors } from './EndeavorsComp'

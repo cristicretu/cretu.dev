@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import { format, parseISO } from 'date-fns'
 import Image from 'next/image'
 
@@ -19,13 +21,14 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
       writingNav={post.slug}
       title={`${post.title} - Cristian Crețu`}
       description={post.summary}
-      image={`https://cretu.dev${post.image}`}
+      image={`https://cretu.dev/${post.image}`}
       date={new Date(post.publishedAt).toISOString()}
       type='article'
       back={{
         href: '/writing',
         label: 'Writing',
       }}
+      page='writing'
     >
       <article className='flex flex-col items-start justify-center w-full max-w-2xl mx-auto'>
         <h1 className='mb-4 text-3xl font-bold tracking-tight text-black md:text-5xl dark:text-white'>
@@ -53,14 +56,16 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
             ></Image>
           </div>
         )}
-        <div className='w-full my-4 prose dark:prose-dark max-w-2xl'>
-          {children}
-        </div>
-        <div className='button-primary-x'>
-          <ExternalLink arrow={true} href={editUrl(post.slug)}>
-            Edit source on GitHub.
-          </ExternalLink>
-        </div>
+        <Suspense fallback={null}>
+          <div className='w-full my-4 prose dark:prose-dark max-w-2xl'>
+            {children}
+          </div>
+          <div className='button-primary-x'>
+            <ExternalLink arrow={true} href={editUrl(post.slug)}>
+              Edit source on GitHub
+            </ExternalLink>
+          </div>
+        </Suspense>
       </article>
     </Container>
   )

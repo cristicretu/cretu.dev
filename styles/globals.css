@@ -6,10 +6,11 @@
   @font-face {
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 100 400 900;
-    font-display: swap;
-    src: url('https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2')
-      format('woff2');
+    font-weight: 100 900; 
+    font-display: optional;
+    src: url(/inter-var-latin.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC,
+      U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
   }
 
   .capsize::before {
@@ -81,7 +82,7 @@
     bottom: -50%;
     left: -50%;
     z-index: -1;
-    @apply bg-white dark:bg-black;
+    @apply bg-gray-50 dark:bg-gray-900;
   }
 }
 
@@ -126,16 +127,88 @@
   }
 
   .light .bg-dots {
-    background: linear-gradient(90deg, #f9fafb 15px, transparent 1%) center,
-      linear-gradient(#f9fafb 15px, transparent 1%) center, rgba(0, 0, 0, 0.24);
+    background: linear-gradient(90deg, #f9f9f9 15px, transparent 1%) center,
+      linear-gradient(#f9f9f9 15px, transparent 1%) center, rgba(0, 0, 0, 0.24);
     background-size: 16px 16px;
   }
 
   .dark .bg-dots {
-    background: linear-gradient(90deg, #050505 15px, transparent 1%) center,
-      linear-gradient(#050505 15px, transparent 1%) center,
+    background: linear-gradient(90deg, #171717 15px, transparent 1%) center,
+      linear-gradient(#171717 15px, transparent 1%) center,
       rgba(255, 255, 255, 0.12);
     background-size: 16px 16px;
+  }
+
+  .light .masked-overflow {
+    --mask-height: 32px;
+    overflow-x: auto;
+
+    padding-right: 20px;
+
+    --mask-image-content: linear-gradient(
+      to right,
+      transparent,
+      #fafafa 2rem,
+      #fafafa calc(100% - 40px),
+      transparent
+    );
+
+    /* Here we scale the content gradient to the width of the container 
+  minus the scrollbar width. The height is the full container height */
+    --mask-size-content: calc(100% - 2px) 100%;
+
+    --mask-image-scrollbar: linear-gradient(#fafafa, #fafafa);
+
+    --mask-size-scrollbar: 0px 100%;
+
+    mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+    mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+    mask-position: 0 0, 100% 0;
+
+    mask-repeat: no-repeat, no-repeat;
+  }
+
+  .dark .masked-overflow {
+    /* mask fade distance, for use in mask calculations */
+    --mask-height: 32px;
+    overflow-x: auto;
+
+    /* Keep some space between content and scrollbar */
+    padding-right: 20px;
+
+    /* The CSS mask */
+
+    /* The content mask is a linear gradient from top to bottom */
+    --mask-image-content: linear-gradient(
+      to right,
+      transparent,
+      #171717 2rem,
+      #171717 calc(100% - 2rem),
+      transparent
+    );
+
+    /* Here we scale the content gradient to the width of the container 
+  minus the scrollbar width. The height is the full container height */
+    --mask-size-content: calc(100% - 2px) 100%;
+
+    /* The scrollbar mask is a black pixel */
+    --mask-image-scrollbar: linear-gradient(#171717, #171717);
+
+    /* The width of our black pixel is the width of the scrollbar.
+  The height is the full container height */
+    --mask-size-scrollbar: 0px 100%;
+
+    /* Apply the mask image and mask size variables */
+    mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
+    mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
+
+    /* Position the content gradient in the top left, and the 
+  scroll gradient in the top right */
+    mask-position: 0 0, 100% 0;
+
+    /* We don't repeat our mask images */
+    mask-repeat: no-repeat, no-repeat;
   }
 }
 
@@ -160,6 +233,7 @@
   .bg-elevated {
     @apply bg-gray-400 bg-opacity-5 dark:bg-gray-50;
   }
+
   @supports (backdrop-filter: saturate(180%) blur(25px)) {
     .bg-primary {
       @apply bg-gray-100/60 dark:bg-gray-1000/70;
@@ -172,6 +246,10 @@
     .bg-primary {
       @apply bg-gray-100 dark:bg-gray-1000;
     }
+  }
+
+  .external-link {
+    @apply relative after:absolute after:bg-gray-200 after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-left after:scale-x-100 hover:after:origin-bottom-right hover:after:scale-x-0 after:transition-transform after:ease-in-out after:duration-300;
   }
 
   .highlight {
