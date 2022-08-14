@@ -61,10 +61,12 @@ export default function Footer({ page }: IFooterProps): JSX.Element {
           <div className='border border-gray-300 dark:border-gray-700 border-dashed'></div>
           <div className='py-4 flex justify-between'>
             <span>~ Prioritize yourself.</span>
-            <span className='w-16'>{store ? store : '00:00:00'}</span>
+            <span className='w-16'>{store ? store : '--------'}</span>
           </div>
           <div className='flex justify-end'>
-            <span>{data ? data : ''}</span>
+            <Suspense fallback={null}>
+              <span>{data}</span>
+            </Suspense>
           </div>
         </div>
         {page === 'index' && (

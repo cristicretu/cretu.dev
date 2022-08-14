@@ -60,3 +60,5 @@ export const endeavorsList = [
   //   timeline: 'January 2022',
   // },
 ]
+
+export type Endeavor = typeof endeavorsList[0]
