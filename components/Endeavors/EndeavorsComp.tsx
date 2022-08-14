@@ -19,7 +19,8 @@ export default function Endeavors({ endeavor }: IEndeavorsProps): JSX.Element {
         'group',
         'cursor-pointer',
         'shadow-md',
-        'rounded-xl'
+        'rounded-xl',
+        'snap-center'
       )}
       href={endeavor.link}
       target='_blank'

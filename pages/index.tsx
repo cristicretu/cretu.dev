@@ -38,7 +38,7 @@ const Home: NextPage = () => {
               native apps with Swift.
             </p>
           </div>
-          <div className='flex gap-6 overflow-x-scroll w-[100vw] relative left-1/2 right-1/2 -mx-[50vw] px-4'>
+          <div className='flex gap-6 overflow-x-scroll w-[100vw] relative left-1/2 right-1/2 -mx-[50vw] px-4 snap-x snap-mandatory'>
             {endeavorsList.map((item, key) => (
               <Endeavors key={key} endeavor={item} />
             ))}
