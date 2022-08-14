@@ -42,7 +42,7 @@ export default function Container({
   children,
   title = 'Cristian Crețu - Developer & Designer.',
   description = 'Full-stack developer and digital artist.',
-  image = 'https://cretu.dev/static/images/banner.png',
+  image = 'https://cretu.dev/static/images/og.png',
   date,
   page,
   ...props

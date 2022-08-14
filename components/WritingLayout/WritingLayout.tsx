@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Container from '@components/Container'
 import ExternalLink from '@components/ExternalLink'
 import { Writing } from 'contentlayer/generated'
+import { Suspense } from 'react'
 
 interface IWritingLayoutProps {
   children: React.ReactNode
@@ -19,7 +20,7 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
       writingNav={post.slug}
       title={`${post.title} - Cristian Crețu`}
       description={post.summary}
-      image={`https://cretu.dev${post.image}`}
+      image={`https://cretu.dev/${post.image}`}
       date={new Date(post.publishedAt).toISOString()}
       type='article'
       back={{
@@ -54,14 +55,16 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
             ></Image>
           </div>
         )}
-        <div className='w-full my-4 prose dark:prose-dark max-w-2xl'>
-          {children}
-        </div>
-        <div className='button-primary-x'>
-          <ExternalLink arrow={true} href={editUrl(post.slug)}>
-            Edit source on GitHub
-          </ExternalLink>
-        </div>
+        <Suspense fallback={null}>
+          <div className='w-full my-4 prose dark:prose-dark max-w-2xl'>
+            {children}
+          </div>
+          <div className='button-primary-x'>
+            <ExternalLink arrow={true} href={editUrl(post.slug)}>
+              Edit source on GitHub
+            </ExternalLink>
+          </div>
+        </Suspense>
       </article>
     </Container>
   )
