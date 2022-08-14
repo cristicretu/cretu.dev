@@ -48,7 +48,7 @@ export function Endeavors({ endeavor }: IEndeavorsProps): JSX.Element {
           )}
         >
           <h3 className='font-bold text-lg text-primary'>{endeavor.title} ↗</h3>
-          <p className='font-black text-xs leading-tight max-w-lg'>
+          <p className='font-medium text-xs leading-tight max-w-lg'>
             {endeavor.description}
           </p>
         </div>
