@@ -34,7 +34,7 @@ export default function Endeavors({ endeavor }: IEndeavorsProps): JSX.Element {
           layout='fill'
           className={cn(
             'rounded-xl',
-            'transition-opacity duration-200 group-hover:opacity-30'
+            'transition-opacity duration-200 opacity-50 lg:opacity-100 lg:group-hover:opacity-30'
           )}
         />
         <div
@@ -42,7 +42,7 @@ export default function Endeavors({ endeavor }: IEndeavorsProps): JSX.Element {
             'absolute bottom-0 left-0',
             'p-4',
             'transition duration-200',
-            'invisible group-hover:visible'
+            'lg:invisible lg:group-hover:visible'
           )}
         >
           <h3 className='font-bold text-lg text-primary'>{endeavor.title} ↗</h3>
