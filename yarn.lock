@@ -290,7 +290,7 @@
   resolved "https://registry.yarnpkg.com/@modulz/radix-icons/-/radix-icons-4.0.0.tgz#628a7826a4569dd2e3331e266d8d2e26c7d6753c"
   integrity sha512-d79T4cYvMGMocVC/q1WiMO578FPFfUoxmXIkduc8cUQAPDr7thuEV5HrCHhqqqkoVaYD0QPct180ilcNUyGPrg==
 
-"@motionone/animation@^10.12.0":
+"@motionone/animation@^10.13.1":
   version "10.13.2"
   resolved "https://registry.yarnpkg.com/@motionone/animation/-/animation-10.13.2.tgz#174a55a3bac1b6fb314cc1c3627093dc790ae081"
   integrity sha512-YGWss58IR2X4lOjW89rv1Q+/Nq/QhfltaggI7i8sZTpKC1yUvM+XYDdvlRpWc6dk8LviMBrddBJAlLdbaqeRmw==
@@ -300,15 +300,15 @@
     "@motionone/utils" "^10.13.2"
     tslib "^2.3.1"
 
-"@motionone/dom@10.12.0":
-  version "10.12.0"
-  resolved "https://registry.yarnpkg.com/@motionone/dom/-/dom-10.12.0.tgz#ae30827fd53219efca4e1150a5ff2165c28351ed"
-  integrity sha512-UdPTtLMAktHiqV0atOczNYyDd/d8Cf5fFsd1tua03PqTwwCe/6lwhLSQ8a7TbnQ5SN0gm44N1slBfj+ORIhrqw==
+"@motionone/dom@10.13.1":
+  version "10.13.1"
+  resolved "https://registry.yarnpkg.com/@motionone/dom/-/dom-10.13.1.tgz#fc29ea5d12538f21b211b3168e502cfc07a24882"
+  integrity sha512-zjfX+AGMIt/fIqd/SL1Lj93S6AiJsEA3oc5M9VkUr+Gz+juRmYN1vfvZd6MvEkSqEjwPQgcjN7rGZHrDB9APfQ==
   dependencies:
-    "@motionone/animation" "^10.12.0"
-    "@motionone/generators" "^10.12.0"
-    "@motionone/types" "^10.12.0"
-    "@motionone/utils" "^10.12.0"
+    "@motionone/animation" "^10.13.1"
+    "@motionone/generators" "^10.13.1"
+    "@motionone/types" "^10.13.0"
+    "@motionone/utils" "^10.13.1"
     hey-listen "^1.0.8"
     tslib "^2.3.1"
 
@@ -320,7 +320,7 @@
     "@motionone/utils" "^10.13.2"
     tslib "^2.3.1"
 
-"@motionone/generators@^10.12.0":
+"@motionone/generators@^10.13.1":
   version "10.13.2"
   resolved "https://registry.yarnpkg.com/@motionone/generators/-/generators-10.13.2.tgz#dd972195b899e7a556d65bd27fae2fd423055e10"
   integrity sha512-QMoXV1MXEEhR6D3dct/RMMS1FwJlAsW+kMPbFGzBA4NbweblgeYQCft9DcDAVpV9wIwD6qvlBG9u99sOXLfHiA==
@@ -329,12 +329,12 @@
     "@motionone/utils" "^10.13.2"
     tslib "^2.3.1"
 
-"@motionone/types@^10.12.0", "@motionone/types@^10.13.2":
+"@motionone/types@^10.13.0", "@motionone/types@^10.13.2":
   version "10.13.2"
   resolved "https://registry.yarnpkg.com/@motionone/types/-/types-10.13.2.tgz#c560090d81bd0149e7451aae23ab7af458570363"
   integrity sha512-yYV4q5v5F0iADhab4wHfqaRJnM/eVtQLjUPhyEcS72aUz/xyOzi09GzD/Gu+K506BDfqn5eULIilUI77QNaqhw==
 
-"@motionone/utils@^10.12.0", "@motionone/utils@^10.13.2":
+"@motionone/utils@^10.13.1", "@motionone/utils@^10.13.2":
   version "10.13.2"
   resolved "https://registry.yarnpkg.com/@motionone/utils/-/utils-10.13.2.tgz#ce79bfe1d133493c217cdc0584960434e065648d"
   integrity sha512-6Lw5bDA/w7lrPmT/jYWQ76lkHlHs9fl2NZpJ22cVy1kKDdEH+Cl1U6hMTpdphO6VQktQ6v2APngag91WBKLqlA==
@@ -2146,26 +2146,26 @@ fraction.js@^4.2.0:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.2.0.tgz#448e5109a313a3527f5a3ab2119ec4cf0e0e2950"
   integrity sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==
 
-framer-motion@^6.3.16:
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-6.5.1.tgz#802448a16a6eb764124bf36d8cbdfa6dd6b931a7"
-  integrity sha512-o1BGqqposwi7cgDrtg0dNONhkmPsUFDaLcKXigzuTFC5x58mE8iyTazxSudFzmT6MEyJKfjjU8ItoMe3W+3fiw==
+framer-motion@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-7.1.0.tgz#5fd9627ffd087e88b503766e468f7ce88b55a9ae"
+  integrity sha512-It0LIsooAr83kGwT55sRRo5pQ/chbvPKGeGmHCl1ARVeWGaeFFfNWSoSF1UgsjWtni/lsUxNsf2BCg1Hy7W3Ag==
   dependencies:
-    "@motionone/dom" "10.12.0"
-    framesync "6.0.1"
+    "@motionone/dom" "10.13.1"
+    framesync "6.1.1"
     hey-listen "^1.0.8"
-    popmotion "11.0.3"
-    style-value-types "5.0.0"
+    popmotion "11.0.4"
+    style-value-types "5.1.1"
     tslib "^2.1.0"
   optionalDependencies:
     "@emotion/is-prop-valid" "^0.8.2"
 
-framesync@6.0.1:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/framesync/-/framesync-6.0.1.tgz#5e32fc01f1c42b39c654c35b16440e07a25d6f20"
-  integrity sha512-fUY88kXvGiIItgNC7wcTOl0SNRCVXMKSWW2Yzfmn7EKNc+MpCzcz9DhdHcdjbrtN3c6R4H5dTY2jiCpPdysEjA==
+framesync@6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/framesync/-/framesync-6.1.1.tgz#8fc753f0719233c9211eb1dcc3f67027c3be336a"
+  integrity sha512-ApprAm7ey4LSp7BPucYz/JPMdRvL1VnBmQ64e61dkns/WPM4aCU8oSKiMRF/p4NtVEG9sZeVyHOBoVaA9+p3sA==
   dependencies:
-    tslib "^2.1.0"
+    tslib "^2.3.1"
 
 fs-constants@^1.0.0:
   version "1.0.0"
@@ -3794,14 +3794,14 @@ pify@^2.3.0:
   resolved "https://registry.yarnpkg.com/pify/-/pify-2.3.0.tgz#ed141a6ac043a849ea588498e7dca8b15330e90c"
   integrity sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==
 
-popmotion@11.0.3:
-  version "11.0.3"
-  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-11.0.3.tgz#565c5f6590bbcddab7a33a074bb2ba97e24b0cc9"
-  integrity sha512-Y55FLdj3UxkR7Vl3s7Qr4e9m0onSnP8W7d/xQLsoJM40vs6UKHFdygs6SWryasTZYqugMjm3BepCF4CWXDiHgA==
+popmotion@11.0.4:
+  version "11.0.4"
+  resolved "https://registry.yarnpkg.com/popmotion/-/popmotion-11.0.4.tgz#043ed8e40dd7bf29cd0acefa1b71e82810b73036"
+  integrity sha512-gY9zNSzpEaToyS5Nm+PpE9x6Vu5HhuRVbVER+haML+1OkO8B3yCp0rD5UKZUrt5fClX2r2DY7RtDjkp5bcwyPg==
   dependencies:
-    framesync "6.0.1"
+    framesync "6.1.1"
     hey-listen "^1.0.8"
-    style-value-types "5.0.0"
+    style-value-types "5.1.1"
     tslib "^2.1.0"
 
 postcss-import@^14.1.0:
@@ -4449,13 +4449,13 @@ style-to-object@^0.3.0:
   dependencies:
     inline-style-parser "0.1.1"
 
-style-value-types@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/style-value-types/-/style-value-types-5.0.0.tgz#76c35f0e579843d523187989da866729411fc8ad"
-  integrity sha512-08yq36Ikn4kx4YU6RD7jWEv27v4V+PUsOGa4n/as8Et3CuODMJQ00ENeAVXAeydX4Z2j1XHZF1K2sX4mGl18fA==
+style-value-types@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/style-value-types/-/style-value-types-5.1.1.tgz#31bfb3359687492df81b9db5272ff90bceb0dabd"
+  integrity sha512-s1p02MYD7E2f1b8lr6CjW8n6CEt+6PdK6QMuUfuTA3yqA6jYktZ1MOWpk7ZpaADl5WAkktBcJAOlDgYIg4yEsQ==
   dependencies:
     hey-listen "^1.0.8"
-    tslib "^2.1.0"
+    tslib "^2.3.1"
 
 styled-jsx@5.0.4:
   version "5.0.4"
