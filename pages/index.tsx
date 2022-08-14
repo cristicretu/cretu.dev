@@ -15,7 +15,7 @@ const Home: NextPage = () => {
             <h1 className='font-semibold text-lg text-secondary'>
               Cristian Crețu
             </h1>
-            <h2 className='font-black text-5xl leading-tight max-w-lg'>
+            <h2 className='font-extrabold text-5xl leading-tight max-w-lg'>
               Developer and Designer tinkering with fluid interfaces
             </h2>
           </div>
