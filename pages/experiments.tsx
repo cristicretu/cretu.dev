@@ -1,5 +1,6 @@
 import Container from '@components/Container'
 import ExperimentView from '@components/ExperimentView/ExperimentView'
+
 import { MemoizedTextToBionic } from './experiments/bionic-reading'
 
 const Experiments = () => {

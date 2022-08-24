@@ -1,6 +1,7 @@
+import { memo } from 'react'
+
 import Container from '@components/Container'
 import { cn } from '@lib/classNames'
-import { memo } from 'react'
 
 const Bionic = () => {
   return (
