@@ -16,7 +16,7 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
         label: 'Index',
       }}
     >
-      <h1 className='font-semibold text-xl'>Writing</h1>
+      <h1 className='mb-3 text-xl font-semibold'>Writing</h1>
       {posts.map((post, index) => (
         <Link key={post.slug} href={`/writing/${post.slug}`}>
           <a
@@ -26,13 +26,13 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
               'transition-all duration-200'
             )}
           >
-            <span className='text-quaternary pr-4 '>
+            <span className='pr-4 text-quaternary '>
               {posts.length - index > 10
                 ? posts.length - index
                 : `0${posts.length - index}`}
             </span>
-            <span className='flex-grow truncate mr-2'>{post.title}</span>
-            <span className='text-tertiary flex-shrink-0'>
+            <span className='flex-grow mr-2 truncate'>{post.title}</span>
+            <span className='flex-shrink-0 text-tertiary'>
               {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
             </span>
           </a>

@@ -28,6 +28,12 @@ export const Navigation: Action[] = [
     href: '/tools',
     section: 'Navigation',
   },
+  {
+    name: 'Experiments',
+    keywords: 'experiments',
+    href: '/experiments',
+    section: 'Navigation',
+  },
 ]
 
 export const Socials: Action[] = [

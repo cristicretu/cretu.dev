@@ -12,14 +12,14 @@ const Home: NextPage = () => {
       <Container page={'index'}>
         <header className='flex flex-col gap-16'>
           <div className='flex flex-col gap-4'>
-            <h1 className='font-semibold text-lg text-secondary'>
+            <h1 className='text-lg font-semibold text-secondary'>
               Cristian Crețu
             </h1>
-            <h2 className='font-extrabold text-5xl leading-tight max-w-lg'>
+            <h2 className='max-w-lg text-5xl font-bold leading-tight'>
               Developer and Designer tinkering with fluid interfaces
             </h2>
           </div>
-          <div className='flex flex-col gap-6 leading-7 text-secondary max-w-lg'>
+          <div className='flex flex-col max-w-lg gap-6 leading-7 text-secondary'>
             <p>
               I’m passionate about design and simplicity, with a strong
               attraction towards software, robotics, and engineering. Since the
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
             </p>
           </div>
           <div className='flex flex-col gap-4'>
-            <h3 className='font-semibold text-lg'>Recent endeavors</h3>
+            <h3 className='text-lg font-semibold'>Recent endeavors</h3>
             <Suspense fallback={null}>
               <div className='flex gap-6 overflow-x-scroll w-[100vw] relative left-1/2 right-1/2 -mx-[50vw] px-4 snap-x snap-mandatory masked-overflow'>
                 {endeavorsList.map((item, key) => (

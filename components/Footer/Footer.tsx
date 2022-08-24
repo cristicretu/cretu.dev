@@ -61,8 +61,8 @@ export default function Footer({ page }: IFooterProps): JSX.Element {
         }`}
       >
         <div className='flex flex-col'>
-          <div className='border border-gray-300 dark:border-gray-700 border-dashed'></div>
-          <div className='py-4 flex justify-between'>
+          <div className='border border-gray-300 border-dashed dark:border-gray-700'></div>
+          <div className='flex justify-between py-4'>
             <span>~ Prioritize yourself.</span>
             <span className='w-16'>{store ? store : '--------'}</span>
           </div>
