@@ -1,14 +1,6 @@
 const { spacing, fontFamily } = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
-const sans = [
-  'Inter',
-  '-apple-system',
-  'system-ui',
-  'Segoe UI',
-  'Roboto',
-  'Helvetica Neue',
-  'sans-serif',
-]
+
 module.exports = {
   mode: 'jit',
   content: [
@@ -17,29 +9,44 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    colors: {
+      white: '#fff',
+      gray: {
+        10: '#fafafa',
+        50: '#f2f2f7',
+        100: '#e5e5ea',
+        200: '#d1d1d6',
+        300: '#c7c7cc',
+        400: '#aeaeb2',
+        500: '#8e8e93',
+        600: '#636366',
+        700: '#48484a',
+        800: '#3a3a3c',
+        900: '#2c2c2e',
+        1000: '#1c1c1e',
+      },
+      red: {
+        light: '#ff3b30',
+        dark: '#ff453a',
+      },
+      yellow: {
+        light: '#ffcc00',
+        dark: '#ffd60a',
+      },
+      blue: {
+        light: '#007aff',
+        dark: '#0a84ff',
+      },
+      twitter: '#479BEA',
+      current: 'currentColor',
+      transparent: 'transparent',
+    },
     extend: {
       spacing: {
         128: '32rem',
       },
-      colors: {
-        white: '#fff',
-        green: colors.emerald,
-        yellow: colors.amber,
-        purple: colors.violet,
-        gray: colors.neutral,
-        'gray-150': '#EEEFF2',
-        'gray-1000': '#050505',
-        black: '#050505',
-        'design-details': '#458886',
-        'design-details-light': '#EEF3F3',
-        'design-details-dark': '#273F3F',
-        twitter: '#479BEA',
-        current: 'currentColor',
-        transparent: 'transparent',
-      },
       fontFamily: {
         sans: ['Inter', ...fontFamily.sans],
-        serif: ['Domine', ...fontFamily.serif],
       },
       keyframes: {
         'slide-in': {
