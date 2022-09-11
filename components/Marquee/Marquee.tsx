@@ -17,7 +17,7 @@ export default function Marquee(): JSX.Element {
   return (
     <div className='marquee'>
       <motion.div
-        className='absolute flex gap-4 whitespace-nowrap'
+        className='absolute flex gap-2 whitespace-nowrap'
         variants={marqueeVariants}
         animate='animate'
       >

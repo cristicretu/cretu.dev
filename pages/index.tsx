@@ -1,8 +1,8 @@
 import React from 'react'
 
+import { motion } from 'framer-motion'
 import type { NextPage } from 'next'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 
 import Container from '@components/Container'
 import Marquee from '@components/Marquee'
@@ -53,7 +53,7 @@ const Details = [
 const Home: NextPage = () => {
   return (
     <Container>
-      <header className='flex flex-col items-center space-y-8'>
+      <header className='flex flex-col items-center space-y-8 select-none '>
         <Marquee />
         <Card />
         <Footer />
@@ -86,10 +86,27 @@ function Card() {
       whileHover={{
         scale: 1.08,
       }}
-      whileTap={{ scale: 0.92 }}
+      whileTap={{
+        scale: 0.92,
+      }}
       className='flex flex-col items-center max-w-xs p-8 space-y-8 rounded-[29px] bg-gray-10 dark:bg-gray-900 w-fit border-dashed border border-gray-100 dark:border-gray-700'
     >
-      <div className='relative w-16 h-16'>
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.5,
+          delay: 0.2,
+        }}
+        whileHover={{
+          rotate: 360,
+          transition: {
+            type: 'spring',
+            duration: 1,
+          },
+        }}
+        className='relative w-16 h-16'
+      >
         <Image
           src='/static/images/logo.png'
           alt='logo'
@@ -97,7 +114,7 @@ function Card() {
           objectFit='cover'
           layout='fill'
         />
-      </div>
+      </motion.div>
 
       <div className='flex flex-col items-center space-y-2'>
         <h1 className='text-3xl font-bold text-gray-1000 dark:text-gray-10'>
@@ -211,7 +228,7 @@ function Location() {
     <motion.svg
       animate={{
         scale: [1, 2, 2, 1, 1],
-        rotate: [null, 0, 270, 270, 0, 0],
+        rotate: [null, 0, 315, 315, 0, 0],
       }}
       transition={{
         duration: 1.5,
@@ -219,7 +236,6 @@ function Location() {
         ease: 'easeInOut',
         times: [0, 0.2, 0.5, 0.8, 1],
       }}
-      whileHover={{ scale: 1.2 }}
       width='19'
       height='18'
       viewBox='0 0 19 18'
