@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 
 import { cn } from '@lib/classNames'
 import { baseUrl } from 'config/seo'
+import Marquee from '@components/Marquee'
 
 interface IContainerProps {
   children?: React.ReactNode
@@ -77,7 +78,7 @@ export default function Container({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 1, y: 100 }}
           >
-            <main className={cn('px-4 mt-20', 'max-w-3xl', 'mx-auto my-auto')}>
+            <main className={cn('px-4 mt-20', 'mx-auto my-auto')}>
               {children}
             </main>
           </m.div>

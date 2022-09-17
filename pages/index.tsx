@@ -53,10 +53,25 @@ const Details = [
 const Home: NextPage = () => {
   return (
     <Container>
-      <header className='flex flex-col items-center space-y-8 select-none '>
-        <Marquee />
-        <Card />
-        <Footer />
+      {/* <header className='flex flex-col items-center space-y-8 select-none '> */}
+      <header className='flex flex-col gap-4'>
+        <div className='flex gap-4'>
+          <div className='h-48 w-[65%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+          <div className='h-48 w-[15%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+          <div className='h-48 w-[20%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+        </div>
+        <div className='relative flex items-center gap-4'>
+          <div className='h-[29.75rem] w-[calc(50%-10rem)] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+          <Card />
+          <div className='h-[29.75rem] w-[calc(29%-10rem)] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+          <div className='h-[29.75rem] w-[calc(20%)] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+        </div>
+        <div className='flex gap-4'>
+          <div className='h-48 w-[20%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+          <div className='h-48 w-[50%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+          <div className='h-48 w-[30%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+        </div>
+        {/* <Footer /> */}
       </header>
     </Container>
   )
@@ -84,12 +99,12 @@ function Card() {
   return (
     <motion.div
       whileHover={{
-        scale: 1.08,
+        scale: 1.04,
       }}
       whileTap={{
-        scale: 0.92,
+        scale: 0.96,
       }}
-      className='flex flex-col items-center max-w-xs p-8 space-y-8 rounded-[29px] bg-gray-10 dark:bg-gray-900 w-fit border-dashed border border-gray-100 dark:border-gray-700'
+      className='flex flex-col items-center max-w-xs p-8 space-y-8 rounded-[29px] bg-gray-10 dark:bg-gray-900 w-fit border-dashed border border-gray-100 dark:border-gray-800 rounded-[29px] dark:border-gray-700 select-none'
     >
       <motion.div
         initial={{ opacity: 0, y: -20 }}
