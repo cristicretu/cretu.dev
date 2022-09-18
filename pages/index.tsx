@@ -54,24 +54,43 @@ const Home: NextPage = () => {
   return (
     <Container>
       {/* <header className='flex flex-col items-center space-y-8 select-none '> */}
-      <header className='flex flex-col gap-4'>
-        <div className='flex gap-4'>
-          <div className='h-48 w-[65%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-          <div className='h-48 w-[15%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-          <div className='h-48 w-[20%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
+      <header className='flex flex-col -mt-10'>
+        <div className='flex-col space-y-4'>
+          <div className='relative flex flex-col items-center gap-4 xl:flex-row'>
+            <div className='h-48 w-[60vw] xl:w-[65%] bg-gradient-to-b xl:bg-gradient-to-br from-white to-gray-10 xl:to-gray-100 dark:from-gray-1000 dark:to-gray-800 rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+            <div className='h-48 w-[60vw] xl:w-[15%] bg-gradient-to-b xl:bg-gradient-to-bl from-white to-gray-50/50 xl:to-gray-100 dark:from-gray-1000 dark:to-gray-800  rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+            <div className='h-48 w-[60vw] xl:w-[20%] bg-gradient-to-b xl:bg-gradient-to-bl from-white to-gray-100/50 dark:from-gray-1000 dark:to-gray-900 rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+          </div>
+          <div className='relative flex flex-col items-center gap-4 xl:flex-row'>
+            <div className='h-[29.75rem] w-[60vw] xl:w-[calc(50%-10rem)] bg-gradient-to-b xl:bg-gradient-to-r from-white to-gray-100 xl:to-gray-100 dark:from-gray-1000 dark:to-gray-800  rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+            <Card />
+            <div className='h-[29.75rem] w-[60vw] xl:w-[calc(29%-10rem)] bg-gradient-to-t xl:bg-gradient-to-l from-white to-gray-100 dark:from-gray-1000 dark:to-gray-800  rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+            <div className='h-[29.75rem] w-[60vw] xl:w-[calc(20%)] bg-gradient-to-t xl:bg-gradient-to-l from-white to-gray-100 dark:from-gray-1000 dark:to-gray-900 rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+          </div>
+          <div className='flex flex-col items-center gap-4 xl:flex-row'>
+            <div className='h-48 w-[60vw] xl:w-[20%] bg-gradient-to-t xl:bg-gradient-to-tr from-white to-gray-100 dark:from-gray-1000 dark:to-gray-900 rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+            <div className='h-48 w-[60vw] xl:w-[50%] bg-gradient-to-t xl:bg-gradient-to-t from-white to-gray-100 dark:from-gray-1000 dark:to-gray-800  rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+            <div className='h-48 w-[60vw] xl:w-[30%] bg-gradient-to-t xl:bg-gradient-to-tl from-white to-gray-100 dark:from-gray-1000 dark:to-gray-900 rounded-[29px] p-[2px]'>
+              <div className='h-full bg-white dark:bg-gray-1000 rounded-[27px]' />
+            </div>
+          </div>
         </div>
-        <div className='relative flex items-center gap-4'>
-          <div className='h-[29.75rem] w-[calc(50%-10rem)] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-          <Card />
-          <div className='h-[29.75rem] w-[calc(29%-10rem)] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-          <div className='h-[29.75rem] w-[calc(20%)] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-        </div>
-        <div className='flex gap-4'>
-          <div className='h-48 w-[20%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-          <div className='h-48 w-[50%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-          <div className='h-48 w-[30%] border border-gray-100 dark:border-gray-800 rounded-[29px]'></div>
-        </div>
-        {/* <Footer /> */}
       </header>
     </Container>
   )
