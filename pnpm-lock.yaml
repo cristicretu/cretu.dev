@@ -6,7 +6,7 @@ specifiers:
   '@radix-ui/react-tooltip': ^1.0.0
   '@splitbee/web': ^0.3.0
   '@tailwindcss/typography': 0.5.7
-  '@types/node': 18.7.16
+  '@types/node': 18.7.18
   '@types/react': 18.0.20
   '@types/react-dom': 18.0.6
   '@typescript-eslint/eslint-plugin': ^5.36.2
@@ -65,7 +65,7 @@ dependencies:
 
 devDependencies:
   '@tailwindcss/typography': 0.5.7_tailwindcss@3.1.8
-  '@types/node': 18.7.16
+  '@types/node': 18.7.18
   '@types/react': 18.0.20
   '@types/react-dom': 18.0.6
   '@typescript-eslint/eslint-plugin': 5.36.2_2l2r3i3lm6jysqd4ac3ql4n2mm
@@ -351,7 +351,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.2
-      '@types/node': 18.7.16
+      '@types/node': 18.7.18
     dev: false
 
   /@grpc/proto-loader/0.6.13:
@@ -1174,8 +1174,8 @@ packages:
   /@types/ms/0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
 
-  /@types/node/18.7.16:
-    resolution: {integrity: sha512-EQHhixfu+mkqHMZl1R2Ovuvn47PUw18azMJOTwSZr9/fhzHNGXAJ0ma0dayRVchprpCj0Kc1K1xKoWaATWF1qg==}
+  /@types/node/18.7.18:
+    resolution: {integrity: sha512-m+6nTEOadJZuTPkKR/SYK3A2d7FZrgElol9UP1Kae90VVU4a6mxnPuLiIW1m4Cq4gZ/nWb9GrdVXJCoCazDAbg==}
 
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -4294,7 +4294,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 18.7.16
+      '@types/node': 18.7.18
       long: 4.0.0
     dev: false
 
@@ -4313,7 +4313,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.7.16
+      '@types/node': 18.7.18
       long: 5.2.0
     dev: false
 
