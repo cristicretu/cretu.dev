@@ -5,7 +5,6 @@ import type { NextPage } from 'next'
 import Image from 'next/image'
 
 import Container from '@components/Container'
-import Marquee from '@components/Marquee'
 
 const Details = [
   {
@@ -54,11 +53,67 @@ const Home: NextPage = () => {
   return (
     <Container>
       <header className='flex flex-col items-center space-y-8 select-none '>
-        <Marquee />
-        <Card />
+        {/* <Card /> */}
+        <Hero />
         <Footer />
       </header>
     </Container>
+  )
+}
+
+function Hero() {
+  return (
+    <div className='flex flex-col max-w-md gap-8'>
+      <div>
+        <h1 className='text-2xl text-[#27272A] dark:text-[#D8D8D5] leading-tight font-semibold'>
+          Cristian Crețu
+        </h1>
+        <h2 className='text-lg text-[#A1A1AA] dark:text-[#5E5E55] leading-tight font-medium'>
+          Tinkering with fluid interfaces
+        </h2>
+      </div>
+
+      <div className='flex flex-col gap-4 text-[#71717A] dark:text-[#8E8E85] leading-normal'>
+        <p>
+          Hello! I’m a Design Engineer, striving towards unique experiences that
+          feel magical and that give a blissful feeling.
+        </p>
+        <p>
+          Unlimitedly obsessed with solving problems where design and
+          engineering intersect by creating pixel-perfect, polished interfaces.
+        </p>
+        <p>
+          I’m currently working on various projects and on design at{' '}
+          <a
+            href='https://deta.sh'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='relative inline-block before:absolute group before:bg-[#F016C0] before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0.10] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500'
+          >
+            <span className='relative group-hover:text-[#f3f3f4] transition-all duration-500'>
+              Deta
+            </span>
+          </a>
+          . I previously worked at{' '}
+          <a
+            href='https://landmarks.ro'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='relative inline-block before:absolute group before:bg-[#106BF2] before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0.10] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500'
+          >
+            <span className='relative group-hover:text-[#f3f3f4] transition-all duration-500'>
+              Landmarks
+            </span>
+          </a>
+          . Studying Computer Science.
+        </p>
+        <p>
+          Ardent in reading, writing, and improving consistently through
+          learning. Currently interested in C and TypeScript. Curious about
+          native apps with Swift.
+        </p>
+      </div>
+    </div>
   )
 }
 
