@@ -73,9 +73,12 @@ export default function Container({
 
         <LazyMotion features={domAnimation}>
           <m.div
-            initial={{ opacity: 0, scale: 1, y: -100 }}
+            initial={{ opacity: 0, scale: 0.8, y: -30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 1, y: 100 }}
+            exit={{ opacity: 0, scale: 0.8, y: 30 }}
+            transition={{
+              duration: 0.5,
+            }}
           >
             <main className={cn('px-4 mt-20', 'max-w-3xl', 'mx-auto my-auto')}>
               {children}
