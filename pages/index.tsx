@@ -87,16 +87,16 @@ function HappyIcon() {
     >
       <path
         stroke='currentColor'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='1.5'
         d='M8.75 4.75H15.25C17.4591 4.75 19.25 6.54086 19.25 8.75V15.25C19.25 17.4591 17.4591 19.25 15.25 19.25H8.75C6.54086 19.25 4.75 17.4591 4.75 15.25V8.75C4.75 6.54086 6.54086 4.75 8.75 4.75Z'
       ></path>
       <path
         stroke='currentColor'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='1.5'
         d='M7.75 12.75C7.75 12.75 9 15.25 12 15.25C15 15.25 16.25 12.75 16.25 12.75'
       ></path>
       <circle cx='14' cy='10' r='1' fill='currentColor'></circle>
@@ -120,16 +120,16 @@ function CodeIcon() {
         x='4.75'
         y='4.75'
         stroke='currentColor'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='1.5'
         rx='2'
       ></rect>
       <path
         stroke='currentColor'
-        stroke-linecap='round'
-        stroke-linejoin='round'
-        stroke-width='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        strokeWidth='1.5'
         d='M8.75 10.75L11.25 13L8.75 15.25'
       ></path>
     </svg>
@@ -149,16 +149,16 @@ function LayersIcon() {
       <path
         d='M12 4.75L19.25 9L12 13.25L4.75 9L12 4.75Z'
         stroke='currentColor'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
       <path
         d='M9.25 12L4.75 15L12 19.25L19.25 15L14.6722 12'
         stroke='currentColor'
-        stroke-width='1.5'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeWidth='1.5'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   )

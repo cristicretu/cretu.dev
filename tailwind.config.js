@@ -48,7 +48,7 @@ module.exports = {
         128: '32rem',
       },
       fontFamily: {
-        sans: ['Inter', ...fontFamily.sans],
+        sans: ['Switzer', ...fontFamily.sans],
       },
       keyframes: {
         'slide-in': {
