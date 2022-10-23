@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import splitbee from '@splitbee/web'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
@@ -45,7 +45,13 @@ export default function Container({
     date,
     props,
   }
-  splitbee.init()
+
+  useEffect(() => {
+    splitbee.init({
+      scriptUrl: '/bee.js',
+      apiUrl: '/_hive',
+    })
+  }, [])
 
   return (
     <>

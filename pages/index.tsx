@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 
 import Container from '@components/Container'
+import Footer from '@components/Footer'
 
 const Home: NextPage = () => {
   return (
@@ -31,7 +32,7 @@ function Hero() {
         </h2>
       </div>
 
-      <div className='flex flex-col gap-4 leading-normal text-gray-1000/90 dark:text-gray-100/90'>
+      <div className='flex flex-col gap-4 leading-normal text-gray-1000/90 dark:text-gray-200/90'>
         <p>
           Hello! I’m a Design Engineer, striving towards unique experiences that
           feel magical and that give a blissful feeling.
@@ -46,9 +47,9 @@ function Hero() {
             href='https://deta.sh'
             target='_blank'
             rel='noopener noreferrer'
-            className='relative inline-block before:absolute group before:bg-[#EA24BE] before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0.10] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500'
+            className='border-b-2 border-[#EA24BE] group hover:border-[#e6b5dc] dark:hover:border-[#713764]'
           >
-            <span className='relative group-hover:text-[#f3f3f4] transition-all duration-500'>
+            <span className='relative group-hover:text-[#EA24BE] transition-all duration-200'>
               Deta
             </span>
           </a>
@@ -57,9 +58,9 @@ function Hero() {
             href='https://landmarks.ro'
             target='_blank'
             rel='noopener noreferrer'
-            className='relative inline-block before:absolute group before:bg-[#248BEA] before:bottom-0 before:left-0 before:h-full before:w-full before:origin-bottom before:scale-y-[0.10] hover:before:scale-y-100 before:transition-transform before:ease-in-out before:duration-500'
+            className='border-b-2 border-[#248BEA] group hover:border-[#b3cbe0] dark:hover:border-[#304558]'
           >
-            <span className='relative group-hover:text-[#f3f3f4] transition-all duration-500'>
+            <span className='relative group-hover:text-[#248BEA] transition-all duration-200'>
               Landmarks
             </span>
           </a>
@@ -72,24 +73,6 @@ function Hero() {
         </p>
       </div>
     </div>
-  )
-}
-
-function Footer() {
-  return (
-    <footer className='px-8 py-4 text-xs border-t border-gray-200 border-dashed dark:border-gray-700'>
-      <p className='text-center text-gray-400 dark:text-gray-600'>
-        Visit{' '}
-        <a
-          href='https://old.cretu.dev'
-          target='_blank'
-          rel='noopener noreferrer'
-          className='relative after:absolute after:bg-gray-400 dark:after:bg-gray-600 after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300'
-        >
-          my old website ↗
-        </a>
-      </p>
-    </footer>
   )
 }
 
