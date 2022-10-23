@@ -21,6 +21,12 @@ interface IContainerProps {
   page?: string
 }
 
+const variants = {
+  hidden: { opacity: 0, scale: 0.8, y: -10 },
+  enter: { opacity: 1, scale: 1, y: 0 },
+  exit: { opacity: 0, scale: 0.8, y: 10 },
+}
+
 export default function Container({
   children,
   title = 'Cristian Crețu - Developer & Designer.',
@@ -72,18 +78,16 @@ export default function Container({
         </Head>
 
         <LazyMotion features={domAnimation}>
-          <m.div
-            initial={{ opacity: 0, scale: 0.8, y: -30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 30 }}
-            transition={{
-              duration: 0.5,
-            }}
+          <m.main
+            className={cn('px-4 mt-20', 'max-w-3xl', 'mx-auto my-auto')}
+            initial='hidden'
+            animate='enter'
+            exit='exit'
+            variants={variants}
+            transition={{ type: 'linear', duration: 0.4 }}
           >
-            <main className={cn('px-4 mt-20', 'max-w-3xl', 'mx-auto my-auto')}>
-              {children}
-            </main>
-          </m.div>
+            {children}
+          </m.main>
         </LazyMotion>
       </div>
     </>

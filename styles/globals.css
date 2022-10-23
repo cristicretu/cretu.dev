@@ -83,7 +83,7 @@
     bottom: -50%;
     left: -50%;
     z-index: -1;
-    @apply bg-white dark:bg-gray-1000;
+    @apply bg-gray-100 dark:bg-gray-1000;
   }
 }
 
@@ -146,78 +146,6 @@
       linear-gradient(#171717 15px, transparent 1%) center,
       rgba(255, 255, 255, 0.12);
     background-size: 16px 16px;
-  }
-
-  .light .masked-overflow {
-    --mask-height: 32px;
-    overflow-x: auto;
-
-    padding-right: 20px;
-
-    --mask-image-content: linear-gradient(
-      to right,
-      transparent,
-      #fafafa 2rem,
-      #fafafa calc(100% - 40px),
-      transparent
-    );
-
-    /* Here we scale the content gradient to the width of the container 
-  minus the scrollbar width. The height is the full container height */
-    --mask-size-content: calc(100% - 2px) 100%;
-
-    --mask-image-scrollbar: linear-gradient(#fafafa, #fafafa);
-
-    --mask-size-scrollbar: 0px 100%;
-
-    mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
-    mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
-
-    mask-position: 0 0, 100% 0;
-
-    mask-repeat: no-repeat, no-repeat;
-  }
-
-  .dark .masked-overflow {
-    /* mask fade distance, for use in mask calculations */
-    --mask-height: 32px;
-    overflow-x: auto;
-
-    /* Keep some space between content and scrollbar */
-    padding-right: 20px;
-
-    /* The CSS mask */
-
-    /* The content mask is a linear gradient from top to bottom */
-    --mask-image-content: linear-gradient(
-      to right,
-      transparent,
-      #171717 2rem,
-      #171717 calc(100% - 2rem),
-      transparent
-    );
-
-    /* Here we scale the content gradient to the width of the container 
-  minus the scrollbar width. The height is the full container height */
-    --mask-size-content: calc(100% - 2px) 100%;
-
-    /* The scrollbar mask is a black pixel */
-    --mask-image-scrollbar: linear-gradient(#171717, #171717);
-
-    /* The width of our black pixel is the width of the scrollbar.
-  The height is the full container height */
-    --mask-size-scrollbar: 0px 100%;
-
-    /* Apply the mask image and mask size variables */
-    mask-image: var(--mask-image-content), var(--mask-image-scrollbar);
-    mask-size: var(--mask-size-content), var(--mask-size-scrollbar);
-
-    /* Position the content gradient in the top left, and the 
-  scroll gradient in the top right */
-    mask-position: 0 0, 100% 0;
-
-    /* We don't repeat our mask images */
-    mask-repeat: no-repeat, no-repeat;
   }
 }
 
