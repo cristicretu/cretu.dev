@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 
-import splitbee from '@splitbee/web'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'
@@ -45,13 +44,6 @@ export default function Container({
     date,
     props,
   }
-
-  useEffect(() => {
-    splitbee.init({
-      scriptUrl: '/bee.js',
-      apiUrl: '/_hive',
-    })
-  }, [])
 
   return (
     <>

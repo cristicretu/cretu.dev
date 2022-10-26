@@ -10,8 +10,8 @@ const notFound = () => {
         Maybe you misspelled the link. Maybe something existed here, or it
         didn&apos;t exist in the first place...
       </p>
-      <Link href='/'>
-        <a className='button-primary-x mx-auto'>Home</a>
+      <Link href='/' className='mx-auto button-primary-x w-fit'>
+        Home
       </Link>
     </Container>
   )

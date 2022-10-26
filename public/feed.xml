@@ -4,35 +4,7 @@
         <description><![CDATA[Cristian Crețu]]></description>
         <link>https://cretu.dev</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sun, 14 Aug 2022 14:45:13 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 26 Oct 2022 09:30:13 GMT</lastBuildDate>
         <atom:link href="https://cretu.dev/feed.xml" rel="self" type="application/rss+xml"/>
-        <item>
-            <title><![CDATA[2021 in Review]]></title>
-            <description><![CDATA[Summary of a great year.]]></description>
-            <link>https://cretu.dev/writing/2021</link>
-            <guid isPermaLink="true">https://cretu.dev/writing/2021</guid>
-            <pubDate>Fri, 31 Dec 2021 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[You think you can build a button?]]></title>
-            <description><![CDATA[Deep dive into the process of building a complex button.]]></description>
-            <link>https://cretu.dev/writing/button</link>
-            <guid isPermaLink="true">https://cretu.dev/writing/button</guid>
-            <pubDate>Sun, 30 Jan 2022 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Creating gradients]]></title>
-            <description><![CDATA[A 2 minute way of designing a beautiful and creative gradient wallpaper]]></description>
-            <link>https://cretu.dev/writing/gradients</link>
-            <guid isPermaLink="true">https://cretu.dev/writing/gradients</guid>
-            <pubDate>Thu, 28 Oct 2021 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Learning Web Development in 2021]]></title>
-            <description><![CDATA[Some key tactics to learn web development in the shortest time, while bringing the most results]]></description>
-            <link>https://cretu.dev/writing/learn-web</link>
-            <guid isPermaLink="true">https://cretu.dev/writing/learn-web</guid>
-            <pubDate>Sat, 07 Aug 2021 00:00:00 GMT</pubDate>
-        </item>
     </channel>
 </rss>

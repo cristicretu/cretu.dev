@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import '../styles/prose.css'
 import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
+import { Analytics } from '@vercel/analytics/react'
 import { AnimatePresence } from 'framer-motion'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
@@ -22,6 +23,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           onExitComplete={() => window.scrollTo(0, 0)}
         >
           <Layout>{page}</Layout>
+          <Analytics />
         </AnimatePresence>
       </Providers>
     </ThemeProvider>
