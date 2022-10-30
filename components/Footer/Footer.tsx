@@ -2,26 +2,24 @@ export default function Footer() {
   return (
     <footer className='flex flex-col max-w-lg px-8 py-4 space-y-4 text-xs text-gray-400 border-t border-gray-200 border-dashed dark:border-gray-700 dark:text-gray-600'>
       <span className='text-sm'>
-        © Cristian Crețu 2022. Website built using Next.js & TailwindCSS (
+        © Cristian Crețu {new Date().getFullYear()}. Website built using Next.js
+        & TailwindCSS (
         <a
           href='https://github.com/cristicretu/cretu.dev'
           target='_blank'
           rel='noopener noreferrer'
-          className='text-gray-600 dark:text-gray-500'
+          className='text-gray-600 hover:text-gray-800 dark:text-gray-500 dark:hover:text-gray-300 transition-all duration-200'
         >
           view source
         </a>
-        ), deployed and hosted by{' '}
-        <a
-          href='https://vercel.com'
-          target='_blank'
-          rel='noopener noreferrer'
-          className='text-gray-600 dark:text-gray-500'
-        >
-          Vercel
-        </a>
-        .
+        ) .
       </span>
+      <p>
+        Reach out to me at{' '}
+        <span className='border-b-2 border-gray-200 dark:border-gray-800 hover:text-gray-800 dark:hover:text-gray-300 transition-all duration-200'>
+          hi[at]cretu(dot)dev
+        </span>
+      </p>
       <p>
         Visit{' '}
         <a

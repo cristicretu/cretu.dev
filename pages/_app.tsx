@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider disableTransitionOnChange attribute='class'>
       <Providers pageProps={pageProps as NextPageContext}>
         <AnimatePresence
-          exitBeforeEnter
+          mode="wait"
           initial={false}
           onExitComplete={() => window.scrollTo(0, 0)}
         >
