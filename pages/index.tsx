@@ -38,11 +38,12 @@ function Hero() {
           feel magical and that give a blissful feeling.
         </p>
         <p>
-          Unlimitedly obsessed with solving problems where design and
+          Unlimitedlt obsessed with solving problems where design and
           engineering intersect by creating pixel-perfect, polished interfaces.
         </p>
         <p>
-          I’m currently working on various projects and on design at{' '}
+          I’m currently working on various projects and apps. Previously worked at
+          {' '}
           <a
             href='https://deta.sh'
             target='_blank'
@@ -53,9 +54,11 @@ function Hero() {
               Deta
             </span>
           </a>
-          . I previously worked at{' '}
+          {' '}
+          and
+          {' '}
           <a
-            href='https://landmarks.ro'
+            href='https://github.com/Landmarks-Tech'
             target='_blank'
             rel='noopener noreferrer'
             className='border-b-2 border-[#248BEA] group hover:border-[#b3cbe0] dark:hover:border-[#304558]'
