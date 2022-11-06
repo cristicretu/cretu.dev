@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react'
-
 import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 import Head from 'next/head'

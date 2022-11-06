@@ -42,8 +42,8 @@ function Hero() {
           engineering intersect by creating pixel-perfect, polished interfaces.
         </p>
         <p>
-          I’m currently working on various projects and apps. Previously worked at
-          {' '}
+          I’m currently working on various projects and apps. Previously worked
+          at{' '}
           <a
             href='https://deta.sh'
             target='_blank'
@@ -53,10 +53,8 @@ function Hero() {
             <span className='relative group-hover:text-[#EA24BE] transition-all duration-200'>
               Deta
             </span>
-          </a>
-          {' '}
-          and
-          {' '}
+          </a>{' '}
+          and{' '}
           <a
             href='https://github.com/Landmarks-Tech'
             target='_blank'
