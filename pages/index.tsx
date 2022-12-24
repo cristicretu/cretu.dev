@@ -38,7 +38,7 @@ function Hero() {
           feel magical and that give a blissful feeling.
         </p>
         <p>
-          Unlimitedlt obsessed with solving problems where design and
+          Unlimitedly obsessed with solving problems where design and
           engineering intersect by creating pixel-perfect, polished interfaces.
         </p>
         <p>
