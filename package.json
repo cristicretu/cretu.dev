@@ -22,7 +22,7 @@
     "@vercel/analytics": "^0.1.1",
     "contentlayer": "^0.2.8",
     "date-fns": "^2.29.2",
-    "framer-motion": "^7.3.2",
+    "framer-motion": "^8.0.2",
     "match-sorter": "6.3.1",
     "next": "13.0.7",
     "next-contentlayer": "^0.2.8",
