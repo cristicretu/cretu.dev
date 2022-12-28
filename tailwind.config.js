@@ -9,46 +9,29 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
-    colors: {
-      white: '#fff',
-      gray: {
-        100: '#f9f6f3',
-        200: '#e4e2e0',
-        300: '#cbc5c2',
-        400: '#b2aaa3',
-        500: '#9b8e85',
-        600: '#81756c',
-        700: '#665d56',
-        800: '#4d4540',
-        900: '#342f2c',
-        1000: '#1e1b19',
-      },
-      brand: {
-        light: '#3824EA',
-        dark: '#24AFEA',
-      },
-      red: {
-        light: '#ff3b30',
-        dark: '#ff453a',
-      },
-      yellow: {
-        light: '#ffcc00',
-        dark: '#ffd60a',
-      },
-      blue: {
-        light: '#007aff',
-        dark: '#0a84ff',
-      },
-      twitter: '#479BEA',
-      current: 'currentColor',
-      transparent: 'transparent',
-    },
     extend: {
       spacing: {
         128: '32rem',
       },
+      colors: {
+        white: '#fff',
+        green: colors.emerald,
+        yellow: colors.amber,
+        purple: colors.violet,
+        gray: colors.neutral,
+        'gray-150': '#EEEFF2',
+        'gray-1000': '#050505',
+        black: '#050505',
+        'design-details': '#458886',
+        'design-details-light': '#EEF3F3',
+        'design-details-dark': '#273F3F',
+        twitter: '#479BEA',
+        current: 'currentColor',
+        transparent: 'transparent',
+      },
       fontFamily: {
-        sans: ['Switzer', ...fontFamily.sans],
+        sans: ['Inter', ...fontFamily.sans],
+        serif: ['Domine', ...fontFamily.serif],
       },
       keyframes: {
         'slide-in': {

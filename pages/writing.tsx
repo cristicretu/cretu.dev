@@ -52,8 +52,6 @@ export function getStaticProps() {
         Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
     )
 
-  console.log(allWritings)
-
   return {
     props: {
       posts,
