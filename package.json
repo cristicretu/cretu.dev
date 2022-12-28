@@ -10,9 +10,7 @@
     "lint": "npx eslint . --ext .ts,.tsx",
     "lint:fix": "npx eslint . --ext .ts,.tsx --fix",
     "check-format": "prettier --list-different \"./**/*.{ts,js,tsx,jsx}\"",
-    "postbuild": "NODE_OPTIONS='--experimental-json-modules' node ./scripts/generate-rss.mjs && node ./scripts/generate-sitemap.mjs",
-    "pre-commit": "yarn lint:fix",
-    "pre-push": "yarn check-format"
+    "postbuild": "NODE_OPTIONS='--experimental-json-modules' node ./scripts/generate-rss.mjs && node ./scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.0",
