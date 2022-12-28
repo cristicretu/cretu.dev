@@ -11,6 +11,7 @@ import { allWritings } from '.contentlayer/generated'
 const WritingPage = ({ posts }: { posts: Writing[] }) => {
   return (
     <Container
+      footer
       back={{
         href: '/',
         label: 'Index',

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className='flex flex-col max-w-lg px-8 py-4 space-y-4 text-xs text-gray-400 border-t border-gray-200 border-dashed dark:border-gray-700 dark:text-gray-600'>
+    <footer className='flex flex-col max-w-xl px-8 py-4 space-y-4 text-xs text-gray-400 border-t border-gray-200 border-dashed dark:border-gray-700 dark:text-gray-600'>
       <span className='text-sm'>
         © Cristian Crețu {new Date().getFullYear()}. Website built using Next.js
         & TailwindCSS (
@@ -12,7 +12,7 @@ export default function Footer() {
         >
           view source
         </a>
-        ) .
+        ).
       </span>
       <p>
         Reach out to me at{' '}

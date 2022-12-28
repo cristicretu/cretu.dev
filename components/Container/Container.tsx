@@ -101,16 +101,7 @@ export default function Container({
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
         >
-          <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-3xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
-            <Link href='/' className='relative h-10 w-10'>
-              <Image
-                src='/static/images/logo.png'
-                alt='logo'
-                className='absolute inset-0 object-cover rounded-full'
-                objectFit='cover'
-                layout='fill'
-              />
-            </Link>
+          <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
             {writingNav && (
               <div className='flex flex-row gap-1 text-tertiary bg-primary filter-blur p-3 rounded-full'>
                 <Link
@@ -152,7 +143,7 @@ export default function Container({
             <main
               className={cn(
                 'px-4 mt-20',
-                'max-w-3xl',
+                'max-w-xl',
                 'mx-auto my-auto',
                 'flex flex-col justify-center gap-12',
                 // 'divide-y divide-gray-300 dark:divide-gray-700',

@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
 function Hero() {
   return (
-    <div className='flex flex-col max-w-md gap-8'>
+    <div className='flex flex-col gap-8'>
       <div>
         <div className='flex flex-row gap-4'>
           <LayersIcon />
