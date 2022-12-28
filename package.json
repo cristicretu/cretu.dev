@@ -10,7 +10,6 @@
     "lint": "npx eslint . --ext .ts,.tsx",
     "lint:fix": "npx eslint . --ext .ts,.tsx --fix",
     "check-format": "prettier --list-different \"./**/*.{ts,js,tsx,jsx}\"",
-    "prepare": "husky install",
     "postbuild": "NODE_OPTIONS='--experimental-json-modules' node ./scripts/generate-rss.mjs && node ./scripts/generate-sitemap.mjs",
     "pre-commit": "yarn lint:fix",
     "pre-push": "yarn check-format"
@@ -49,7 +48,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
     "globby": "^13.1.2",
-    "husky": "8.0.2",
     "postcss": "^8.4.16",
     "prettier": "2.8.1",
     "reading-time": "1.5.0",
