@@ -53,7 +53,7 @@ function Hero() {
               Deta
             </span>
           </a>{' '}
-          and{' '}
+          ─ building the personal cloud and ─{' '}
           <a
             href='https://github.com/Landmarks-Tech'
             target='_blank'
@@ -63,8 +63,8 @@ function Hero() {
             <span className='relative group-hover:text-[#248BEA] transition-all duration-200'>
               Landmarks
             </span>
-          </a>
-          . Studying Computer Science.
+          </a>{' '}
+          ─ crafting beautiful web apps. Studying Computer Science.
         </p>
         <p>
           Ardent in reading, writing, and improving consistently through
