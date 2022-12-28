@@ -34,7 +34,7 @@ interface IContainerProps {
 }
 
 export default function Container({
-  footer = true,
+  footer = false,
   back,
   writingNav = '',
   showNav = true,

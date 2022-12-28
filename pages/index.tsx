@@ -21,13 +21,12 @@ function Hero() {
         <div className='flex flex-row gap-4'>
           <LayersIcon />
           <CodeIcon />
-          {/* <GlobeIcon /> */}
           <HappyIcon />
         </div>
-        <h1 className='text-2xl font-semibold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-brand-light dark:from-brand-dark to-pink-[#9016F0]'>
+        <h1 className='text-2xl font-semibold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-400'>
           Cristian Crețu
         </h1>
-        <h2 className='text-lg font-medium leading-tight text-gray-900/50 dark:text-gray-400/70'>
+        <h2 className='text-lg font-medium leading-tight text-gray-600/70 dark:text-gray-500/70'>
           Tinkering with fluid interfaces
         </h2>
       </div>
@@ -69,7 +68,7 @@ function Hero() {
         </p>
         <p>
           Ardent in reading, writing, and improving consistently through
-          learning. Currently interested in C and TypeScript. Curious about
+          learning. Currently interested in C and TypeScript. Experimenting
           native apps with Swift.
         </p>
       </div>
@@ -84,7 +83,7 @@ function HappyIcon() {
       height='24'
       fill='none'
       viewBox='0 0 24 24'
-      className='w-8 h-8 text-brand-light dark:text-brand-dark'
+      className='w-8 h-8 text-indigo-500'
     >
       <path
         stroke='currentColor'
@@ -113,7 +112,7 @@ function CodeIcon() {
       height='24'
       fill='none'
       viewBox='0 0 24 24'
-      className='w-8 h-8 text-brand-light dark:text-brand-dark'
+      className='w-8 h-8 text-indigo-500'
     >
       <rect
         width='14.5'
@@ -145,7 +144,7 @@ function LayersIcon() {
       viewBox='0 0 24 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
-      className='w-8 h-8 text-brand-light dark:text-brand-dark'
+      className='w-8 h-8 text-indigo-500'
     >
       <path
         d='M12 4.75L19.25 9L12 13.25L4.75 9L12 4.75Z'

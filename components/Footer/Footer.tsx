@@ -20,17 +20,7 @@ export default function Footer() {
           hi[at]cretu(dot)dev
         </span>
       </p>
-      <p>
-        Visit{' '}
-        <a
-          href='https://old.cretu.dev'
-          target='_blank'
-          rel='noopener noreferrer'
-          className='relative after:absolute after:bg-gray-400 dark:after:bg-gray-600 after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300'
-        >
-          my old website ↗
-        </a>
-      </p>
+      <p>Press ⌘ + K to launch the Command Menu.</p>
       <div className='flex flex-row items-center space-x-4'>
         <a
           href='https://twitter.com/cristicrtu'
