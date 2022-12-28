@@ -102,6 +102,12 @@ export default function Container({
           leaveTo='opacity-0 scale-95'
         >
           <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
+            <button
+              className='button-primary-y text-3xl'
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              ⌘
+            </button>
             {writingNav && (
               <div className='flex flex-row gap-1 text-tertiary bg-primary filter-blur p-3 rounded-full'>
                 <Link
@@ -126,12 +132,6 @@ export default function Container({
                 </Link>
               </div>
             )}
-            <button
-              className='button-primary-y text-3xl'
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              ⌘
-            </button>
           </nav>
         </Transition>
         <LazyMotion features={domAnimation}>
@@ -142,14 +142,16 @@ export default function Container({
           >
             <main
               className={cn(
-                'px-4 mt-20',
-                'max-w-xl',
+                'mt-20',
+                writingNav
+                  ? 'max-w-3xl px-4 md:px-12 lg:px-24'
+                  : 'max-w-xl px-4',
                 'mx-auto my-auto',
                 'flex flex-col justify-center gap-12',
-                // 'divide-y divide-gray-300 dark:divide-gray-700',
+                'divide-y divide-gray-300 dark:divide-gray-700',
                 'rounded-lg',
                 writingNav
-                  ? 'shadow-2xl dark:shadow-gray-800/90 pt-6 bg-primary'
+                  ? 'shadow-2xl dark:shadow-gray-800/90 py-12 bg-primary'
                   : ''
               )}
             >

@@ -18,6 +18,7 @@ const editUrl = (slug: string) =>
 export default function WritingLayout({ post, children }: IWritingLayoutProps) {
   return (
     <Container
+      footer
       writingNav={post.slug}
       title={`${post.title} - Cristian Crețu`}
       description={post.summary}
@@ -40,10 +41,10 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
             <p className='pl-2'>
               {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
             </p>
+            <p className='pl-2 text-sm text-tertiary min-w-32'>
+              {post.readingTime.text}
+            </p>
           </div>
-          <p className='mt-2 text-sm text-tertiary min-w-32 md:mt-0'>
-            {post.readingTime.text}
-          </p>
         </div>
         {post.image && (
           <div className='relative w-full h-96 mt-8'>
