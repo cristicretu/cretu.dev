@@ -31,7 +31,7 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
       }}
       page='writing'
     >
-      <article className='flex flex-col items-start justify-center w-full max-w-2xl mx-auto'>
+      <article className='flex flex-col items-start justify-center w-full max-w-2xl mx-auto sm:px-4'>
         <h1 className='mb-4 text-3xl font-bold tracking-tight text-black md:text-5xl dark:text-white'>
           {post.title}
         </h1>

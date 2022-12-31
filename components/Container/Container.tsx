@@ -143,9 +143,7 @@ export default function Container({
             <main
               className={cn(
                 'mt-20',
-                writingNav
-                  ? 'max-w-3xl px-4 md:px-12 lg:px-24'
-                  : 'max-w-xl px-4',
+                writingNav ? 'max-w-3xl px-4 sm:px-24' : 'max-w-xl px-4',
                 'mx-auto my-auto',
                 'flex flex-col justify-center gap-12',
                 'divide-y divide-gray-300 dark:divide-gray-700',

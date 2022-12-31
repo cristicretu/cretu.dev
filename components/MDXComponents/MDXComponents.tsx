@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import DownloadImage from '@components/DownloadImage'
+import Flashcard from '@components/Flashcard'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CustomLink = (props: any) => {
@@ -23,6 +24,7 @@ const MDXComponents = {
   Image,
   a: CustomLink,
   DownloadImage,
+  Flashcard,
 }
 
 export default MDXComponents
