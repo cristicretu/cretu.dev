@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Flashcard from '@components/Flashcard'
 
 import DownloadImage from '@components/DownloadImage'
 
@@ -23,6 +24,7 @@ const MDXComponents = {
   Image,
   a: CustomLink,
   DownloadImage,
+  Flashcard,
 }
 
 export default MDXComponents

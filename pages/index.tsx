@@ -33,7 +33,6 @@ function Hero() {
       </div>
 
       <div className='flex flex-col gap-4 leading-normal text-gray-1000/90 dark:text-gray-200/90'>
-        <Flashcard />
         <p>
           Hello! I’m a Design Engineer, striving towards unique experiences that
           feel magical and that give a blissful feeling.
