@@ -22,11 +22,11 @@ export default function Flashcard({
   }
   return (
     <div
-      className={`flip-card ${width} cursor-pointer select-none ${height}`}
+      className={`flip-card ${width} cursor-pointer select-none ${height} `}
       onClick={() => handleClick()}
     >
       <div
-        className={`flip-card-inner  h-full font-semibold text-2xl text-primary text-center ${
+        className={`flip-card-inner  h-full font-semibold text-2xl text-gray-100 text-center ${
           isFlipped ? 'rotate-y-180' : ''
         }`}
       >
