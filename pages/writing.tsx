@@ -2,11 +2,10 @@ import { pick } from 'contentlayer/client'
 import { format, parseISO } from 'date-fns'
 import Link from 'next/link'
 
+import { allWritings } from '.contentlayer/generated'
 import Container from '@components/Container'
 import { cn } from '@lib/classNames'
 import type { Writing } from 'contentlayer/generated'
-
-import { allWritings } from '.contentlayer/generated'
 
 const WritingPage = ({ posts }: { posts: Writing[] }) => {
   return (
