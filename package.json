@@ -47,7 +47,7 @@
     "eslint-plugin-react": "^7.31.11",
     "globby": "^13.1.3",
     "postcss": "^8.4.20",
-    "prettier": "2.8.2",
+    "prettier": "2.8.3",
     "reading-time": "1.5.0",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-slug": "^5.1.0",
