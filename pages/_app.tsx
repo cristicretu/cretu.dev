@@ -4,9 +4,9 @@ import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
 import { AnimatePresence } from 'framer-motion'
-import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import { NextPageContext } from 'next/types'
+import { ThemeProvider } from 'next-themes'
 
 import Layout from '@components/Layout'
 import { Providers } from '@components/Providers'

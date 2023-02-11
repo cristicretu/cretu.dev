@@ -3,11 +3,11 @@ import { useState } from 'react'
 
 import { Transition } from '@headlessui/react'
 import { LazyMotion, domAnimation, m } from 'framer-motion'
-import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
 
 import CommandMenu from '@components/CommandMenu'
 import Footer from '@components/Footer'

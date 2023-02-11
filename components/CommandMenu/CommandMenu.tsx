@@ -16,8 +16,8 @@ import {
   SunIcon,
   TwitterLogoIcon,
 } from '@modulz/radix-icons'
-import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
+import { useTheme } from 'next-themes'
 
 import { Navigation, Socials, Themes } from '@data/commands/cmd'
 import { cn } from '@lib/classNames'
