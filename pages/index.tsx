@@ -2,6 +2,8 @@ import type { NextPage } from 'next'
 
 import Container from '@components/Container'
 import Footer from '@components/Footer'
+import ImagePreview from '@components/ImagePreview'
+import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
@@ -71,6 +73,14 @@ function Hero() {
           learning. Currently interested in C and TypeScript. Experimenting
           native apps with Swift.
         </p>
+
+        <ImagePreview
+          src='/static/images/icons/figma.png'
+          title='Figma'
+          link='https://cretu.lemonsqueezy.com/checkout/buy/5ecc4bf8-ea1b-47a4-aaaf-12f871188660'
+        />
+
+        <Link href='/resources'>Explore more resources →</Link>
       </div>
     </div>
   )

@@ -21,7 +21,6 @@ interface IContainerProps {
   }
   footer?: boolean
   showNav?: boolean
-  writingNav?: string
   children?: React.ReactNode
   title?: string
   description?: string
@@ -30,20 +29,19 @@ interface IContainerProps {
   [key: string]: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   date?: any
-  page?: string
+  className?: string
 }
 
 export default function Container({
   footer = false,
   back,
   writingNav = '',
-  showNav = true,
   children,
   title = 'Cristian Crețu - Developer & Designer.',
   description = 'Full-stack developer and digital artist.',
   image = 'https://cretu.dev/static/images/og.png',
   date,
-  page,
+  className,
   ...props
 }: IContainerProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
@@ -56,6 +54,7 @@ export default function Container({
     type: 'website',
     date,
     props,
+    className,
   }
 
   return (
@@ -91,54 +90,44 @@ export default function Container({
           )}
         </Head>
 
-        <Transition
-          as={React.Fragment}
-          show={showNav}
-          enter='transition duration-100 ease-in-out'
-          enterFrom='opacity-0 scale-90'
-          enterTo='opacity-100 scale-100'
-          leave='transition ease-in-out'
-          leaveFrom='opacity-100 scale-100'
-          leaveTo='opacity-0 scale-95'
-        >
-          <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
-            <button
-              className='button-primary-y text-3xl'
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              ⌘
-            </button>
-            {writingNav && (
-              <div className='flex flex-row gap-1 text-tertiary bg-primary filter-blur p-3 rounded-full'>
-                <Link
-                  href='/'
-                  className='hover:text-primary transition-all cursor-pointer'
-                >
-                  index
-                </Link>
-                <span>/</span>
-                <Link
-                  href='/writing'
-                  className='hover:text-primary transition-all cursor-pointer'
-                >
-                  writing
-                </Link>
-                <span>/</span>
-                <Link
-                  href={`/writing/${writingNav}`}
-                  className='hover:text-primary transition-all cursor-pointer'
-                >
-                  {writingNav}
-                </Link>
-              </div>
-            )}
-          </nav>
-        </Transition>
+        <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
+          <button
+            className='button-primary-y text-3xl'
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            ⌘
+          </button>
+          {writingNav && (
+            <div className='flex flex-row gap-1 text-tertiary bg-primary filter-blur p-3 rounded-full'>
+              <Link
+                href='/'
+                className='hover:text-primary transition-all cursor-pointer'
+              >
+                index
+              </Link>
+              <span>/</span>
+              <Link
+                href='/writing'
+                className='hover:text-primary transition-all cursor-pointer'
+              >
+                writing
+              </Link>
+              <span>/</span>
+              <Link
+                href={`/writing/${writingNav}`}
+                className='hover:text-primary transition-all cursor-pointer'
+              >
+                {writingNav}
+              </Link>
+            </div>
+          )}
+        </nav>
         <LazyMotion features={domAnimation}>
           <m.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
             <main
               className={cn(
@@ -150,7 +139,9 @@ export default function Container({
                 'rounded-lg',
                 writingNav
                   ? 'shadow-2xl dark:shadow-gray-800/90 py-12 bg-primary'
-                  : ''
+                  : '',
+                'motion-reduce:transition-none motion-reduce:transform-none',
+                className ? className : ''
               )}
             >
               <div className='flex flex-col gap-2'>
