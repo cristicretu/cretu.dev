@@ -90,7 +90,7 @@ export default function Container({
           )}
         </Head>
 
-        <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-xl px-4 py-2 gap-4 mx-auto flex justify-between items-center'>
+        <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-xl px-4 py-2 gap-4 mx-auto flex rounded-full justify-between items-center bg-primary border-b border-black/0 dark:border-white/30 bg-opacity-30 backdrop-filter backdrop-blur-lg firefox:bg-opacity-90'>
           <button
             className='button-primary-y text-3xl'
             onClick={() => setIsOpen(!isOpen)}
@@ -140,7 +140,6 @@ export default function Container({
                 writingNav
                   ? 'shadow-2xl dark:shadow-gray-800/90 py-12 bg-primary'
                   : '',
-                'motion-reduce:transition-none motion-reduce:transform-none',
                 className ? className : ''
               )}
             >

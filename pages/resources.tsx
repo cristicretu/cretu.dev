@@ -2,7 +2,7 @@ import Container from '@components/Container'
 
 const Resources = () => {
   return (
-    <Container className='max-w-full'>
+    <Container className='!max-w-full'>
       <div className='columns-1 gap-5 sm:columns-2 sm:gap-8 md:columns-3 lg:columns-4 [&>img:not(:first-child)]:mt-8'>
         <img src='https://source.unsplash.com/bYuI23mnmDQ' alt='' />
         <img src='https://source.unsplash.com/Nllx4R-2c3o' alt='' />
