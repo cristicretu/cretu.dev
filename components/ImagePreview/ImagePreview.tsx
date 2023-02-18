@@ -5,7 +5,7 @@ interface IImagePreviewProps {
   title: string
   subtitle: string
   link?: string
-  height?: number
+  height?: string
 }
 
 export default function ImagePreview({
@@ -25,16 +25,26 @@ export default function ImagePreview({
           <span className='text-[5px]'>●</span>
           <p className='text-tertiary text-sm'>{subtitle}</p>
         </div>
-        {link && (
-          <a href={link} target='_blank' rel='noopener noreferrer'>
+        {link?.startsWith('https:/') && (
+          <a
+            href={link}
+            target='_blank'
+            rel='noopener noreferrer'
+            className='py-0.5 px-1.5 rounded-full hover:bg-opacity-50 bg-black dark:bg-white text-white dark:text-black'
+          >
+            →
+          </a>
+        )}
+        {link?.startsWith('/static') && (
+          <a href={link} download>
             ↓
           </a>
         )}
       </div>
       <div
-        className={`relative w-full h-${
-          height ?? 48
+        className={`relative w-full 
         } group-hover:scale-105 group-hover:saturate-[1.3] transition-all group-hover:rotate-2`}
+        style={{ height: height || '192px' }}
       >
         <Image
           src={src}

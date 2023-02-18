@@ -12,11 +12,11 @@ const Resources = () => {
   }, [])
 
   return (
-    <Container className='!max-w-full'>
+    <Container className='!max-w-full mb-12'>
       <div className='columns-1 sm:columns-2 sm:gap-8 md:columns-3 lg:columns-4 space-y-8'>
-        {memoizedResources.map(resource => (
+        {memoizedResources.map((resource, index) => (
           <ImagePreview
-            key={resource.title}
+            key={index}
             src={resource.image}
             title={resource.title}
             subtitle={resource.subtitle}

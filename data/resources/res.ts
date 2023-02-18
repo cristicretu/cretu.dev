@@ -3,7 +3,7 @@ interface IResouce {
   subtitle: string
   url: string
   image: string
-  height?: number
+  height?: string
 }
 
 export const resources: IResouce[] = [
@@ -17,20 +17,20 @@ export const resources: IResouce[] = [
     title: 'Gradient',
     subtitle: 'Wallpapers',
     image: '/static/images/resources/mesh.png',
-    url: 'https://cristicrtu.gumroad.com/l/wallpaper',
-    height: 64,
+    url: 'https://cristicrtu.gumroad.com/l/wallpapers',
+    height: '256px',
   },
   {
     title: 'Ghibli',
     subtitle: 'Drawing',
     image: '/static/images/resources/ghibli.png',
-    url: 'https://cristicrtu.gumroad.com/l/ghibli',
+    url: '/static/images/resources/ghibli.png',
   },
   {
     title: 'Sunset',
     subtitle: 'Drawing',
     image: '/static/images/resources/sunset.png',
-    url: 'https://cristicrtu.gumroad.com/l/sunset',
-    height: 96,
+    url: '/static/images/resources/sunset.png',
+    height: '384px',
   },
 ]

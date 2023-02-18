@@ -73,15 +73,26 @@ function Hero() {
           learning. Currently interested in C and TypeScript. Experimenting
           native apps with Swift.
         </p>
-
         <ImagePreview
-          src='/static/images/icons/figma.png'
-          title='Figma Icon'
-          date='Feb 2022'
-          link='https://cretu.lemonsqueezy.com/checkout/buy/5ecc4bf8-ea1b-47a4-aaaf-12f871188660'
+          src='/static/images/resources/figma.png'
+          title='Figma'
+          subtitle='Icon'
+          link='https://cristicrtu.gumroad.com/l/figma'
+          height='192px'
         />
 
-        <Link href='/resources'>Explore more resources →</Link>
+        <Link
+          href='/resources'
+          className='text-sm text-quaternary hover:text-secondary group transition ease-in-out duration-200 border-none focus-within:outline-none'
+        >
+          Explore more resources{' '}
+          <span
+            aria-hidden='true'
+            className='inline-block translate-x-0 group-hover:translate-x-1 transition-transform ease-in-out duration-200'
+          >
+            →
+          </span>
+        </Link>
       </div>
     </div>
   )

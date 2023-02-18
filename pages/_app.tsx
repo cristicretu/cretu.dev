@@ -3,7 +3,6 @@ import '../styles/prose.css'
 import { ReactChild, ReactFragment, ReactPortal } from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
-import { AnimatePresence } from 'framer-motion'
 import type { AppProps } from 'next/app'
 import { NextPageContext } from 'next/types'
 import { ThemeProvider } from 'next-themes'
@@ -17,14 +16,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   ) => (
     <ThemeProvider disableTransitionOnChange attribute='class'>
       <Providers pageProps={pageProps as NextPageContext}>
-        <AnimatePresence
-          mode='wait'
-          initial={false}
-          onExitComplete={() => window.scrollTo(0, 0)}
-        >
-          <Layout>{page}</Layout>
-          <Analytics />
-        </AnimatePresence>
+        <Layout>{page}</Layout>
+        <Analytics />
       </Providers>
     </ThemeProvider>
   )
