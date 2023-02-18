@@ -1,7 +1,9 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 
 import Container from '@components/Container'
 import Footer from '@components/Footer'
+import ImagePreview from '@components/ImagePreview'
 
 const Home: NextPage = () => {
   return (
@@ -71,6 +73,26 @@ function Hero() {
           learning. Currently interested in C and TypeScript. Experimenting
           native apps with Swift.
         </p>
+        <ImagePreview
+          src='/static/images/resources/figma.png'
+          title='Figma'
+          subtitle='Icon'
+          link='https://cristicrtu.gumroad.com/l/figma'
+          height='192px'
+        />
+
+        <Link
+          href='/resources'
+          className='text-sm text-quaternary hover:text-secondary group transition ease-in-out duration-200 border-none focus-within:outline-none'
+        >
+          Explore more resources{' '}
+          <span
+            aria-hidden='true'
+            className='inline-block translate-x-0 group-hover:translate-x-1 transition-transform ease-in-out duration-200'
+          >
+            →
+          </span>
+        </Link>
       </div>
     </div>
   )
