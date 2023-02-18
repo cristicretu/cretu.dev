@@ -1,9 +1,9 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 
 import Container from '@components/Container'
 import Footer from '@components/Footer'
 import ImagePreview from '@components/ImagePreview'
-import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
@@ -76,7 +76,8 @@ function Hero() {
 
         <ImagePreview
           src='/static/images/icons/figma.png'
-          title='Figma'
+          title='Figma Icon'
+          date='Feb 2022'
           link='https://cretu.lemonsqueezy.com/checkout/buy/5ecc4bf8-ea1b-47a4-aaaf-12f871188660'
         />
 

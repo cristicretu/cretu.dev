@@ -181,7 +181,7 @@
   }
 
   .bg-elevated {
-    @apply bg-gray-400 bg-opacity-5 dark:bg-gray-50;
+    @apply bg-gray-400 bg-opacity-5 dark:bg-gray-800;
   }
 
   @supports (backdrop-filter: saturate(180%) blur(25px)) {
