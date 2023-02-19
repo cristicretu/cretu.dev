@@ -33,4 +33,17 @@ export const resources: IResouce[] = [
     url: '/static/images/resources/sunset.png',
     height: '384px',
   },
+  {
+    title: 'Front-end',
+    subtitle: 'Template',
+    image: '/static/images/resources/frontend.png',
+    url: 'https://template.cretu.dev',
+  },
+  {
+    title: 'Meshgrad',
+    subtitle: 'npm package',
+    image: '/static/images/resources/meshgrad.png',
+    url: 'https://meshgrad.cretu.dev',
+    height: '256px',
+  },
 ]
