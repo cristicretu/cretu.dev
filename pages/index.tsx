@@ -33,7 +33,7 @@ function Hero() {
         </h2>
       </div>
 
-      <div className='flex flex-col gap-4 leading-normal text-gray-1000/90 dark:text-gray-200/90'>
+      <div className='flex flex-col gap-4 leading-normal h-[40vh] text-gray-1000/90 dark:text-gray-200/90'>
         <p>
           Hello! I’m a Design Engineer, striving towards unique experiences that
           feel magical and that give a blissful feeling.
@@ -73,26 +73,24 @@ function Hero() {
           learning. Currently interested in C and TypeScript. Experimenting
           native apps with Swift.
         </p>
+      </div>
+      <span className='border w-full mt-8 border-black/10 dark:border-white/10 rounded-full' />
+
+      <div className='flex flex-col gap-16 mt-8'>
         <ImagePreview
           src='/static/images/resources/figma.png'
           title='Figma'
           subtitle='Icon'
           link='https://cristicrtu.gumroad.com/l/figma'
-          height='192px'
         />
 
-        <Link
-          href='/resources'
-          className='text-sm text-quaternary hover:text-secondary group transition ease-in-out duration-200 border-none focus-within:outline-none'
-        >
-          Explore more resources{' '}
-          <span
-            aria-hidden='true'
-            className='inline-block translate-x-0 group-hover:translate-x-1 transition-transform ease-in-out duration-200'
-          >
-            →
-          </span>
-        </Link>
+        <ImagePreview
+          src='/static/images/resources/mesh.png'
+          title='Gradient'
+          subtitle='Wallpapers'
+          link='https://cristicrtu.gumroad.com/l/wallpapers'
+          height='212px'
+        />
       </div>
     </div>
   )
