@@ -263,4 +263,7 @@
   .flip-card-back {
     transform: rotateY(180deg);
   }
+  .fix-safari {
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    }
 }

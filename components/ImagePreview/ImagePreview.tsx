@@ -22,7 +22,7 @@ export default function ImagePreview({
           window.open(link, '_blank')
         }
       }}
-      className='flex cursor-pointer flex-col group bg-elevated relative overflow-hidden rounded-xl hover:bg-opacity-20'
+      className='flex cursor-pointer flex-col group bg-elevated relative rounded-xl overflow-hidden hover:bg-opacity-20 fix-safari'
     >
       <span className='absolute top-5 right-5 z-0 h-8 w-8 rounded-full bg-gray-800 dark:bg-gray-200 transition-all duration-300 group-hover:scale-[36]'></span>
 
