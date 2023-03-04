@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 
 import { GitHub, Twitter } from '@components/Footer/Footer'
+// import { Peel } from '@lib/peel'
 
 const Details = [
   {
@@ -32,7 +33,7 @@ const Details = [
           href='https://twitter.com/cristicrtu'
           target='_blank'
           rel='noopener noreferrer'
-          className='relative after:absolute after:bg-gray-200 dark:after:bg-gray-500 after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300'
+          className='relative text-secondary after:absolute after:bg-gray-200 dark:after:bg-gray-500 after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:ease-in-out after:duration-300'
         >
           Twitter ↗
         </a>
@@ -59,11 +60,12 @@ const PeelCard = (): JSX.Element => {
         delay: 0.2,
       }}
       layout
-      className='bg-[#FDFDFD] border border-black/[0.06] rounded-[14px] px-10 py-11  shadow-sm w-[300px]'
+      className='bg-[#FDFDFD] dark:bg-[#131313] border border-black/[0.06] dark:border-white/[0.1] rounded-[14px] px-10 py-11  shadow-sm w-[300px]'
+      id='fade'
     >
       <div className='flex gap-4 flex-row-reverse'>
-        <Twitter />
         <GitHub />
+        <Twitter />
       </div>
 
       <div className='flex flex-col gap-2 mt-20'>
