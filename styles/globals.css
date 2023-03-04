@@ -157,19 +157,19 @@
 /* Your own custom utilities */
 @layer utilities {
   .text-primary {
-    @apply text-gray-1000 dark:text-gray-100;
+    @apply text-black dark:text-white;
   }
 
   .text-secondary {
-    @apply text-gray-700 dark:text-gray-300;
+    @apply text-black/80 dark:text-white/80;
   }
 
   .text-tertiary {
-    @apply text-gray-500 dark:text-gray-400;
+    @apply text-black/60 dark:text-white/60;
   }
 
   .text-quaternary {
-    @apply text-gray-400 dark:text-gray-500;
+    @apply text-black/40 dark:text-white/40;
   }
 
   .bg-elevated {

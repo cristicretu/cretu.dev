@@ -22,26 +22,38 @@ export default function Footer() {
       </p>
       <p>Press ⌘ + K to launch the Command Menu.</p>
       <div className='flex flex-row items-center space-x-4'>
-        <a
-          href='https://twitter.com/cristicrtu'
-          className='visible'
-          target='_blank'
-          rel='noreferrer'
-          aria-label='Twitter'
-        >
-          <TwitterLogo />
-        </a>
-        <a
-          href='https://github.com/cristicretu/'
-          className='visible'
-          target='_blank'
-          rel='noreferrer'
-          aria-label='GitHub'
-        >
-          <GitHubLogo />
-        </a>
+        <Twitter />
+        <GitHub />
       </div>
     </footer>
+  )
+}
+
+export function Twitter() {
+  return (
+    <a
+      href='https://twitter.com/cristicrtu'
+      className='visible'
+      target='_blank'
+      rel='noreferrer'
+      aria-label='Twitter'
+    >
+      <TwitterLogo />
+    </a>
+  )
+}
+
+export function GitHub() {
+  return (
+    <a
+      href='https://github.com/cristicretu/'
+      className='visible'
+      target='_blank'
+      rel='noreferrer'
+      aria-label='GitHub'
+    >
+      <GitHubLogo />
+    </a>
   )
 }
 

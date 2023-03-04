@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@headlessui/react': ^1.7.10
   '@modulz/radix-icons': ^4.0.0
+  '@next/font': ^13.2.3
   '@radix-ui/react-tooltip': ^1.0.3
   '@tailwindcss/typography': 0.5.9
   '@types/node': 18.13.0
@@ -45,6 +46,7 @@ specifiers:
 dependencies:
   '@headlessui/react': 1.7.10_biqbaboplfbrettd7655fr4n2y
   '@modulz/radix-icons': 4.0.0_react@18.2.0
+  '@next/font': 13.2.3
   '@radix-ui/react-tooltip': 1.0.3_5ndqzdd6t4rivxsukjv3i3ak2q
   '@vercel/analytics': 0.1.8_react@18.2.0
   contentlayer: 0.3.0
@@ -710,6 +712,10 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
+
+  /@next/font/13.2.3:
+    resolution: {integrity: sha512-7EHzk0f7FVYICLUZTpyPk93IfcTUao++Xt1Sgb+Zk5dVOCYHabqLtlF5ywSoXIqyFlo0qlshEBxsrzHAGTWkDw==}
+    dev: false
 
   /@next/swc-android-arm-eabi/13.1.6:
     resolution: {integrity: sha512-F3/6Z8LH/pGlPzR1AcjPFxx35mPqjE5xZcf+IL+KgbW9tMkp7CYi1y7qKrEWU7W4AumxX/8OINnDQWLiwLasLQ==}

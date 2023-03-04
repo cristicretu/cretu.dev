@@ -4,13 +4,17 @@ import Link from 'next/link'
 import Container from '@components/Container'
 import Footer from '@components/Footer'
 import ImagePreview from '@components/ImagePreview'
+import { PeelCard } from '@components/PeelCard'
 
 const Home: NextPage = () => {
   return (
     <Container>
-      <main className='flex flex-col items-center space-y-8'>
-        <Hero />
-        <Footer />
+      <main className=' flex flex-col items-center space-y-8 relative'>
+        <div className='absolute !bg-white p-64'>
+          <PeelCard></PeelCard>
+        </div>
+        {/* <Hero /> */}
+        {/* <Footer /> */}
       </main>
     </Container>
   )
