@@ -51,14 +51,38 @@ const Details = [
 
 const PeelCard = (): JSX.Element => {
   return (
-    <div className='bg-[#FDFDFD] border border-black/[0.06] rounded-[14px] px-10 py-11 w-[300px] shadow-sm'>
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.5,
+        delay: 0.2,
+      }}
+      layout
+      className='bg-[#FDFDFD] border border-black/[0.06] rounded-[14px] px-10 py-11  shadow-sm w-[300px]'
+    >
       <div className='flex gap-4 flex-row-reverse'>
         <Twitter />
         <GitHub />
       </div>
 
       <div className='flex flex-col gap-2 mt-20'>
-        <div className='relative w-12 h-12'>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+          }}
+          whileHover={{
+            rotate: 180,
+            transition: {
+              type: 'spring',
+              duration: 1,
+            },
+          }}
+          className='relative w-12 h-12'
+        >
           <Image
             src='/static/images/logo.png'
             alt='Cristian Crețu'
@@ -66,7 +90,7 @@ const PeelCard = (): JSX.Element => {
             className='object-cover rounded-[10px] shadow-md select-none'
             quality={95}
           />
-        </div>
+        </motion.div>
         <div className='-space-y-1'>
           <h1 className='text-[21px] font-bold tracking-tight'>
             Cristian Crețu
@@ -80,7 +104,7 @@ const PeelCard = (): JSX.Element => {
           ))}
         </motion.ul>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
