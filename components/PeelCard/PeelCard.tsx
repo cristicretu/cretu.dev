@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { useTheme } from 'next-themes'
 
 import { GitHub, Twitter } from '@components/Footer/Footer'
-// import { Peel } from '@lib/peel'
 
 const Details = [
   {
@@ -51,6 +51,7 @@ const Details = [
 ]
 
 const PeelCard = (): JSX.Element => {
+  const { resolvedTheme } = useTheme()
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -105,6 +106,10 @@ const PeelCard = (): JSX.Element => {
             <Stat key={index} {...detail} index={index} />
           ))}
         </motion.ul>
+
+        <div className='absolute bottom-0 right-0'>
+          <Peel variant={resolvedTheme ?? 'light'} />
+        </div>
       </div>
     </motion.div>
   )
@@ -222,6 +227,203 @@ function Location() {
         fill='#0064FF'
       />
     </motion.svg>
+  )
+}
+
+const Peel = ({ variant }: { variant: string }): JSX.Element => {
+  return (
+    <>
+      {variant === 'dark' ? (
+        <svg
+          width='130'
+          height='84'
+          viewBox='0 0 130 84'
+          fill='none'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <g filter='url(#filter0_dd_18_6)'>
+            <path
+              d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
+              fill='url(#paint0_radial_18_6)'
+              fill-opacity='0.6'
+              shape-rendering='crispEdges'
+            />
+            <path
+              d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
+              fill='#131313'
+              shape-rendering='crispEdges'
+            />
+            <path
+              d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
+              stroke='white'
+              stroke-opacity='0.06'
+              shape-rendering='crispEdges'
+            />
+          </g>
+          <defs>
+            <filter
+              id='filter0_dd_18_6'
+              x='0.966278'
+              y='0.9646'
+              width='153.538'
+              height='111.42'
+              filterUnits='userSpaceOnUse'
+              color-interpolation-filters='sRGB'
+            >
+              <feFlood flood-opacity='0' result='BackgroundImageFix' />
+              <feColorMatrix
+                in='SourceAlpha'
+                type='matrix'
+                values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+                result='hardAlpha'
+              />
+              <feOffset dx='16' dy='-2' />
+              <feGaussianBlur stdDeviation='4' />
+              <feComposite in2='hardAlpha' operator='out' />
+              <feColorMatrix
+                type='matrix'
+                values='0 0 0 0 0.304167 0 0 0 0 0.277552 0 0 0 0 0.277552 0 0 0 0.25 0'
+              />
+              <feBlend
+                mode='normal'
+                in2='BackgroundImageFix'
+                result='effect1_dropShadow_18_6'
+              />
+              <feColorMatrix
+                in='SourceAlpha'
+                type='matrix'
+                values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+                result='hardAlpha'
+              />
+              <feOffset dx='-16' dy='4' />
+              <feGaussianBlur stdDeviation='12' />
+              <feComposite in2='hardAlpha' operator='out' />
+              <feColorMatrix
+                type='matrix'
+                values='0 0 0 0 0.2 0 0 0 0 0.180833 0 0 0 0 0.180833 0 0 0 0.6 0'
+              />
+              <feBlend
+                mode='normal'
+                in2='effect1_dropShadow_18_6'
+                result='effect2_dropShadow_18_6'
+              />
+              <feBlend
+                mode='normal'
+                in='SourceGraphic'
+                in2='effect2_dropShadow_18_6'
+                result='shape'
+              />
+            </filter>
+            <radialGradient
+              id='paint0_radial_18_6'
+              cx='0'
+              cy='0'
+              r='1'
+              gradientUnits='userSpaceOnUse'
+              gradientTransform='translate(109.137 42.1833) rotate(83.1241) scale(44.9195 112.879)'
+            >
+              <stop offset='0.00865845' stop-color='#FBF0DF' />
+              <stop offset='1' stop-color='#977441' stop-opacity='0.2' />
+            </radialGradient>
+          </defs>
+        </svg>
+      ) : (
+        <svg
+          width='130'
+          height='84'
+          viewBox='0 0 130 84'
+          fill='none'
+          className='absolute bottom-0 right-0'
+          xmlns='http://www.w3.org/2000/svg'
+        >
+          <g filter='url(#filter0_dd_4_47)'>
+            <path
+              d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
+              fill='url(#paint0_radial_4_47)'
+              fill-opacity='0.6'
+              shape-rendering='crispEdges'
+            />
+            <path
+              d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
+              fill='#FDFDFD'
+              shape-rendering='crispEdges'
+            />
+            <path
+              d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
+              stroke='black'
+              stroke-opacity='0.06'
+              shape-rendering='crispEdges'
+            />
+          </g>
+          <defs>
+            <filter
+              id='filter0_dd_4_47'
+              x='0.966293'
+              y='0.9646'
+              width='153.538'
+              height='111.42'
+              filterUnits='userSpaceOnUse'
+              color-interpolation-filters='sRGB'
+            >
+              <feFlood flood-opacity='0' result='BackgroundImageFix' />
+              <feColorMatrix
+                in='SourceAlpha'
+                type='matrix'
+                values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+                result='hardAlpha'
+              />
+              <feOffset dx='16' dy='-2' />
+              <feGaussianBlur stdDeviation='4' />
+              <feComposite in2='hardAlpha' operator='out' />
+              <feColorMatrix
+                type='matrix'
+                values='0 0 0 0 0.796078 0 0 0 0 0.760784 0 0 0 0 0.760784 0 0 0 0.25 0'
+              />
+              <feBlend
+                mode='normal'
+                in2='BackgroundImageFix'
+                result='effect1_dropShadow_4_47'
+              />
+              <feColorMatrix
+                in='SourceAlpha'
+                type='matrix'
+                values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
+                result='hardAlpha'
+              />
+              <feOffset dx='-16' dy='4' />
+              <feGaussianBlur stdDeviation='12' />
+              <feComposite in2='hardAlpha' operator='out' />
+              <feColorMatrix
+                type='matrix'
+                values='0 0 0 0 0.795833 0 0 0 0 0.759358 0 0 0 0 0.759358 0 0 0 0.6 0'
+              />
+              <feBlend
+                mode='normal'
+                in2='effect1_dropShadow_4_47'
+                result='effect2_dropShadow_4_47'
+              />
+              <feBlend
+                mode='normal'
+                in='SourceGraphic'
+                in2='effect2_dropShadow_4_47'
+                result='shape'
+              />
+            </filter>
+            <radialGradient
+              id='paint0_radial_4_47'
+              cx='0'
+              cy='0'
+              r='1'
+              gradientUnits='userSpaceOnUse'
+              gradientTransform='translate(109.137 42.1833) rotate(83.1241) scale(44.9195 112.879)'
+            >
+              <stop offset='0.00865845' stop-color='#FBF0DF' />
+              <stop offset='1' stop-color='#977441' stop-opacity='0.2' />
+            </radialGradient>
+          </defs>
+        </svg>
+      )}
+    </>
   )
 }
 

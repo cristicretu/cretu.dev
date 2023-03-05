@@ -266,4 +266,73 @@
   .fix-safari {
     -webkit-mask-image: -webkit-radial-gradient(white, black);
     }
+
+    .foldable-card {
+      perspective: 800px; /* Set the perspective for the 3D space */
+      cursor: pointer;
+    }
+    
+    .foldable-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d; /* Use 3D transforms for child elements */
+    }
+    
+    .foldable-card-front,
+    .foldable-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden; /* Hide the back faces of the card */
+    }
+    
+    .foldable-card-back {
+      transform: rotateY(180deg); /* Flip the back face of the card */
+    }
+    
+    .foldable-card-peel {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+    }
+    
+    /* Set up the diagonal fold effect */
+    .foldable-card-inner::before,
+.foldable-card-inner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  z-index: -1;
+  transform-origin: right center; /* Set the origin point for the transform */
+}
+
+.foldable-card-inner::before {
+  transform: skewY(15deg) rotateY(0deg); /* Set the initial fold angle */
+}
+
+.foldable-card-inner::after {
+  transform: skewY(-15deg) rotateY(0deg); /* Set the initial fold angle */
+}
+
+/* Animate the folding motion */
+.foldable-card-inner.folded::before {
+  transform: skewY(15deg) rotateY(-180deg);
+}
+
+.foldable-card-inner.folded::after {
+  transform: skewY(-15deg) rotateY(-180deg);
+}
+
+/* Animate the reveal motion */
+.foldable-card-peel.hidden {
+  transform: translateY(100%);
+}
 }
