@@ -1,187 +1,153 @@
-import type { NextPage } from 'next'
+import { useEffect, useMemo, useState } from 'react'
+
+import { pick } from 'contentlayer/client'
+import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 
+import { allWritings, Writing } from '.contentlayer/generated'
 import Container from '@components/Container'
 import Footer from '@components/Footer'
-import ImagePreview from '@components/ImagePreview'
+import { PeelCard } from '@components/PeelCard'
+import { cn } from '@lib/classNames'
 
-const Home: NextPage = () => {
+const Home = ({ posts }: { posts: Writing[] }) => {
+  const [cardPeeled, setCardPeeled] = useState(true)
+
+  const memoizedPosts = useMemo(() => {
+    return posts
+      .slice(0, 4)
+      .map(post => pick(post, ['slug', 'title', 'summary', 'publishedAt']))
+      .sort(
+        (a, b) =>
+          Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
+      )
+  }, [posts])
+
+  const clickHandler = () => {
+    setCardPeeled(false)
+  }
+
   return (
     <Container>
-      <main className='flex flex-col items-center space-y-8'>
-        <Hero />
-        <Footer />
-      </main>
+      <div className=' flex flex-col items-center space-y-8  relative'>
+        <div
+          className={cn(
+            'my-12 md:my-24 flex flex-col items-center text-4xl gap-8',
+            cardPeeled ? 'blur-md' : ''
+          )}
+        >
+          <>
+            <h3 className='text-5xl font-serif md:text-9xl font-bold '>
+              Sculpting fluid interfaces.
+            </h3>
+            <h3 className='text-5xl md:text-9xl font-serif absolute font-bold clip-text'>
+              Sculpting fluid interfaces.
+            </h3>
+          </>
+
+          <p>
+            Unlimitedly obsessed with solving problems where design and
+            engineering intersect by creating pixel-perfect, polished
+            interfaces.
+          </p>
+          <p>
+            I’m currently working on various projects and apps. Previously
+            worked at{' '}
+            <a
+              href='https://deta.space'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='border-b-2 border-[#EA24BE] group hover:border-[#e6b5dc] dark:hover:border-[#713764]'
+            >
+              <span className='relative group-hover:text-[#EA24BE] transition-all duration-200'>
+                Deta
+              </span>
+            </a>{' '}
+            ─ building the personal cloud and ─{' '}
+            <a
+              href='https://github.com/Landmarks-Tech'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='border-b-2 border-[#248BEA] group hover:border-[#b3cbe0] dark:hover:border-[#304558]'
+            >
+              <span className='relative group-hover:text-[#248BEA] transition-all duration-200'>
+                Landmarks
+              </span>
+            </a>{' '}
+            ─ crafting beautiful web apps. Studying Computer Science.
+          </p>
+          <p>
+            Ardent in reading, writing, and improving consistently through
+            learning. Currently interested in C and TypeScript. Experimenting
+            native apps with Swift.
+          </p>
+        </div>
+        <AnimatePresence>
+          {cardPeeled && (
+            <motion.div
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, x: -500, y: -100 }}
+              transition={{ duration: 0.5, easings: 'easeInOut' }}
+              className='absolute'
+            >
+              <div
+                className='z-10 absolute cursor-pointer'
+                onClick={clickHandler}
+              >
+                <PeelCard />
+              </div>
+              <div className='w-[300px] h-[400px] bg-white dark:bg-black blur-md'></div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {!cardPeeled && (
+          <>
+            <div className='max-w-2xl pb-24'>
+              <h1 className='font-bold text-3xl font-serif tracking-tight'>
+                Recent writing
+              </h1>
+              <div className='columns-1 md:columns-2 gap-8'>
+                {memoizedPosts.map((post, index) => (
+                  <Link
+                    key={index}
+                    href={`/writing/${post.slug}`}
+                    className={cn(
+                      'flex flex-col py-2 px-2 -mx-2 rounded-md my-2',
+                      'hover:bg-gray-200 dark:hover:bg-gray-800',
+                      'transition-all duration-200'
+                    )}
+                  >
+                    <span className='flex-grow truncate mr-2'>
+                      {post.title}
+                    </span>
+                    <span className='text-tertiary flex-shrink-0'>
+                      {post.summary}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <Footer />
+          </>
+        )}
+      </div>
     </Container>
   )
 }
 
-function Hero() {
-  return (
-    <div className='flex flex-col gap-8'>
-      <div>
-        <div className='flex flex-row gap-4'>
-          <LayersIcon />
-          <CodeIcon />
-          <HappyIcon />
-        </div>
-        <h1 className='text-2xl font-semibold leading-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-pink-400'>
-          Cristian Crețu
-        </h1>
-        <h2 className='text-lg font-medium leading-tight text-gray-600/70 dark:text-gray-500/70'>
-          Tinkering with fluid interfaces
-        </h2>
-      </div>
+export function getStaticProps() {
+  const posts = allWritings
+    .map(post => pick(post, ['slug', 'title', 'summary', 'publishedAt']))
+    .sort(
+      (a, b) =>
+        Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
+    )
 
-      <div className='flex flex-col gap-4 leading-normal h-[40vh] text-gray-1000/90 dark:text-gray-200/90'>
-        <p>
-          Hello! I’m a Design Engineer, striving towards unique experiences that
-          feel magical and that give a blissful feeling.
-        </p>
-        <p>
-          Unlimitedly obsessed with solving problems where design and
-          engineering intersect by creating pixel-perfect, polished interfaces.
-        </p>
-        <p>
-          I’m currently working on various projects and apps. Previously worked
-          at{' '}
-          <a
-            href='https://deta.sh'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='border-b-2 border-[#EA24BE] group hover:border-[#e6b5dc] dark:hover:border-[#713764]'
-          >
-            <span className='relative group-hover:text-[#EA24BE] transition-all duration-200'>
-              Deta
-            </span>
-          </a>{' '}
-          ─ building the personal cloud and ─{' '}
-          <a
-            href='https://github.com/Landmarks-Tech'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='border-b-2 border-[#248BEA] group hover:border-[#b3cbe0] dark:hover:border-[#304558]'
-          >
-            <span className='relative group-hover:text-[#248BEA] transition-all duration-200'>
-              Landmarks
-            </span>
-          </a>{' '}
-          ─ crafting beautiful web apps. Studying Computer Science.
-        </p>
-        <p>
-          Ardent in reading, writing, and improving consistently through
-          learning. Currently interested in C and TypeScript. Experimenting
-          native apps with Swift.
-        </p>
-      </div>
-      <span className='border w-full mt-8 border-black/10 dark:border-white/10 rounded-full' />
-
-      <div className='flex flex-col gap-16 mt-8'>
-        <ImagePreview
-          src='/static/images/resources/figma.png'
-          title='Figma'
-          subtitle='Icon'
-          link='https://cristicrtu.gumroad.com/l/figma'
-        />
-
-        <ImagePreview
-          src='/static/images/resources/mesh.png'
-          title='Gradient'
-          subtitle='Wallpapers'
-          link='https://cristicrtu.gumroad.com/l/wallpapers'
-          height='212px'
-        />
-      </div>
-    </div>
-  )
-}
-
-function HappyIcon() {
-  return (
-    <svg
-      width='24'
-      height='24'
-      fill='none'
-      viewBox='0 0 24 24'
-      className='w-8 h-8 text-indigo-500'
-    >
-      <path
-        stroke='currentColor'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        strokeWidth='1.5'
-        d='M8.75 4.75H15.25C17.4591 4.75 19.25 6.54086 19.25 8.75V15.25C19.25 17.4591 17.4591 19.25 15.25 19.25H8.75C6.54086 19.25 4.75 17.4591 4.75 15.25V8.75C4.75 6.54086 6.54086 4.75 8.75 4.75Z'
-      ></path>
-      <path
-        stroke='currentColor'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        strokeWidth='1.5'
-        d='M7.75 12.75C7.75 12.75 9 15.25 12 15.25C15 15.25 16.25 12.75 16.25 12.75'
-      ></path>
-      <circle cx='14' cy='10' r='1' fill='currentColor'></circle>
-      <circle cx='10' cy='10' r='1' fill='currentColor'></circle>
-    </svg>
-  )
-}
-
-function CodeIcon() {
-  return (
-    <svg
-      width='24'
-      height='24'
-      fill='none'
-      viewBox='0 0 24 24'
-      className='w-8 h-8 text-indigo-500'
-    >
-      <rect
-        width='14.5'
-        height='14.5'
-        x='4.75'
-        y='4.75'
-        stroke='currentColor'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        strokeWidth='1.5'
-        rx='2'
-      ></rect>
-      <path
-        stroke='currentColor'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-        strokeWidth='1.5'
-        d='M8.75 10.75L11.25 13L8.75 15.25'
-      ></path>
-    </svg>
-  )
-}
-
-function LayersIcon() {
-  return (
-    <svg
-      width='24'
-      height='24'
-      viewBox='0 0 24 24'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'
-      className='w-8 h-8 text-indigo-500'
-    >
-      <path
-        d='M12 4.75L19.25 9L12 13.25L4.75 9L12 4.75Z'
-        stroke='currentColor'
-        strokeWidth='1.5'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-      <path
-        d='M9.25 12L4.75 15L12 19.25L19.25 15L14.6722 12'
-        stroke='currentColor'
-        strokeWidth='1.5'
-        strokeLinecap='round'
-        strokeLinejoin='round'
-      />
-    </svg>
-  )
+  return {
+    props: {
+      posts,
+    },
+  }
 }
 
 export default Home

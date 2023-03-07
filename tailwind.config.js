@@ -2,6 +2,7 @@ const { spacing, fontFamily } = require('tailwindcss/defaultTheme')
 const colors = require('tailwindcss/colors')
 const plugin = require("tailwindcss/plugin");
 
+/** @type {import('tailwindcss').Config} \*/
 module.exports = {
   mode: 'jit',
   content: [
@@ -31,8 +32,8 @@ module.exports = {
         transparent: 'transparent',
       },
       fontFamily: {
-        sans: ['Inter', ...fontFamily.sans],
-        serif: ['Domine', ...fontFamily.serif],
+        sans: ['Helvetica', ...fontFamily.sans],
+        serif: ['EB Garamond SC'],
       },
       keyframes: {
         'slide-in': {

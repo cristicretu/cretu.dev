@@ -90,37 +90,14 @@ export default function Container({
           )}
         </Head>
 
-        <nav className='sticky w-full z-[1] top-2 md:top-4 max-w-xl px-4 py-2 gap-4 mx-auto flex rounded-full justify-between items-center bg-primary border-b border-black/0 dark:border-white/30 bg-opacity-30 backdrop-filter backdrop-blur-lg firefox:bg-opacity-90'>
+        <nav className='sticky    py-2 z-[1] top-2 md:top-4  mx-auto flex rounded-full justify-center items-center '>
+          <div className='bg-white dark:bg-black w-full h-full absolute -z-10 rounded-full blur-md' />
           <button
             className='button-primary-y text-3xl'
             onClick={() => setIsOpen(!isOpen)}
           >
             ⌘
           </button>
-          {writingNav && (
-            <div className='flex flex-row gap-1 text-tertiary bg-primary filter-blur p-3 rounded-full'>
-              <Link
-                href='/'
-                className='hover:text-primary transition-all cursor-pointer'
-              >
-                index
-              </Link>
-              <span>/</span>
-              <Link
-                href='/writing'
-                className='hover:text-primary transition-all cursor-pointer'
-              >
-                writing
-              </Link>
-              <span>/</span>
-              <Link
-                href={`/writing/${writingNav}`}
-                className='hover:text-primary transition-all cursor-pointer'
-              >
-                {writingNav}
-              </Link>
-            </div>
-          )}
         </nav>
         <LazyMotion features={domAnimation}>
           <m.div
@@ -132,14 +109,11 @@ export default function Container({
             <main
               className={cn(
                 'mt-20',
-                writingNav ? 'max-w-3xl px-4 sm:px-24' : 'max-w-xl px-4',
+                writingNav ? 'max-w-3xl px-4 sm:px-24' : 'max-w-4xl px-4',
                 'mx-auto my-auto',
                 'flex flex-col justify-center gap-12',
                 'divide-y divide-gray-300 dark:divide-gray-700',
                 'rounded-lg',
-                writingNav
-                  ? 'shadow-2xl dark:shadow-gray-800/90 py-12 bg-primary'
-                  : '',
                 className ? className : ''
               )}
             >
