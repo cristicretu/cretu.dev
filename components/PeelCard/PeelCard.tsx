@@ -251,19 +251,19 @@ const Peel = ({ variant }: { variant: string }): JSX.Element => {
             <path
               d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
               fill='url(#paint0_radial_18_6)'
-              fill-opacity='0.6'
-              shape-rendering='crispEdges'
+              fillOpacity='0.6'
+              shapeRendering='crispEdges'
             />
             <path
               d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
               fill='#131313'
-              shape-rendering='crispEdges'
+              shapeRendering='crispEdges'
             />
             <path
               d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
               stroke='white'
-              stroke-opacity='0.06'
-              shape-rendering='crispEdges'
+              strokeOpacity='0.06'
+              shapeRendering='crispEdges'
             />
           </g>
           <defs>
@@ -274,9 +274,9 @@ const Peel = ({ variant }: { variant: string }): JSX.Element => {
               width='153.538'
               height='111.42'
               filterUnits='userSpaceOnUse'
-              color-interpolation-filters='sRGB'
+              colorInterpolationFilters='sRGB'
             >
-              <feFlood flood-opacity='0' result='BackgroundImageFix' />
+              <feFlood floodOpacity='0' result='BackgroundImageFix' />
               <feColorMatrix
                 in='SourceAlpha'
                 type='matrix'
@@ -328,8 +328,8 @@ const Peel = ({ variant }: { variant: string }): JSX.Element => {
               gradientUnits='userSpaceOnUse'
               gradientTransform='translate(109.137 42.1833) rotate(83.1241) scale(44.9195 112.879)'
             >
-              <stop offset='0.00865845' stop-color='#FBF0DF' />
-              <stop offset='1' stop-color='#977441' stop-opacity='0.2' />
+              <stop offset='0.00865845' stopColor='#FBF0DF' />
+              <stop offset='1' stopColor='#977441' stopOpacity='0.2' />
             </radialGradient>
           </defs>
         </svg>
@@ -346,19 +346,19 @@ const Peel = ({ variant }: { variant: string }): JSX.Element => {
             <path
               d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
               fill='url(#paint0_radial_4_47)'
-              fill-opacity='0.6'
-              shape-rendering='crispEdges'
+              fillOpacity='0.6'
+              shapeRendering='crispEdges'
             />
             <path
               d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
               fill='#FDFDFD'
-              shape-rendering='crispEdges'
+              shapeRendering='crispEdges'
             />
             <path
               d='M105.226 65.9358C78.6357 85.0369 41 83.8713 41 83.8713C41 83.8713 72.7479 81.7257 86.4394 69.6278C102.957 56.8937 99.3316 46.5473 104.972 41.772C110.612 36.9967 113.301 42.1472 121.359 39.7596C129.417 37.372 129.978 21 129.978 21C129.978 21 131.816 46.8346 105.226 65.9358Z'
               stroke='black'
-              stroke-opacity='0.06'
-              shape-rendering='crispEdges'
+              strokeOpacity='0.06'
+              shapeRendering='crispEdges'
             />
           </g>
           <defs>
@@ -369,9 +369,9 @@ const Peel = ({ variant }: { variant: string }): JSX.Element => {
               width='153.538'
               height='111.42'
               filterUnits='userSpaceOnUse'
-              color-interpolation-filters='sRGB'
+              colorInterpolationFilters='sRGB'
             >
-              <feFlood flood-opacity='0' result='BackgroundImageFix' />
+              <feFlood floodOpacity='0' result='BackgroundImageFix' />
               <feColorMatrix
                 in='SourceAlpha'
                 type='matrix'
@@ -423,8 +423,8 @@ const Peel = ({ variant }: { variant: string }): JSX.Element => {
               gradientUnits='userSpaceOnUse'
               gradientTransform='translate(109.137 42.1833) rotate(83.1241) scale(44.9195 112.879)'
             >
-              <stop offset='0.00865845' stop-color='#FBF0DF' />
-              <stop offset='1' stop-color='#977441' stop-opacity='0.2' />
+              <stop offset='0.00865845' stopColor='#FBF0DF' />
+              <stop offset='1' stopColor='#977441' stopOpacity='0.2' />
             </radialGradient>
           </defs>
         </svg>

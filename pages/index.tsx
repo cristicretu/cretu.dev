@@ -37,10 +37,10 @@ const Home = ({ posts }: { posts: Writing[] }) => {
           )}
         >
           <>
-            <h3 className='text-5xl  md:text-8xl font-bold '>
+            <h3 className='text-5xl font-serif md:text-9xl font-bold '>
               Sculpting fluid interfaces.
             </h3>
-            <h3 className='text-5xl md:text-8xl absolute font-bold clip-text'>
+            <h3 className='text-5xl md:text-9xl font-serif absolute font-bold clip-text'>
               Sculpting fluid interfaces.
             </h3>
           </>

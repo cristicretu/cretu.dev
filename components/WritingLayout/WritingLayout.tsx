@@ -42,10 +42,10 @@ export default function WritingLayout({ post, children }: IWritingLayoutProps) {
               {post.readingTime.text}
             </p>
           </div>
-          <h1 className='mb-4 text-3xl font-bold font-serif tracking-tight text-black md:text-5xl dark:text-white'>
+          <h1 className='mb-4 text-3xl font-bold font-serif tracking-tight text-center text-black md:text-5xl dark:text-white'>
             {post.title}
           </h1>
-          <p className='text-secondary'>{post.summary}</p>
+          <p className='text-secondary text-center'>{post.summary}</p>
         </div>
         {post.image && (
           <div className='relative w-full h-96 mt-36'>

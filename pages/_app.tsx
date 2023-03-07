@@ -26,13 +26,27 @@ const helvetica = localFont({
   ],
 })
 
+const garamont = localFont({
+  src: [
+    {
+      path: '../public/fonts/EBGaramond12-Regular.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+  ],
+})
+
 function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = (
     page: boolean | ReactChild | ReactFragment | ReactPortal | null | undefined
   ) => (
     <ThemeProvider disableTransitionOnChange attribute='class'>
       <Providers pageProps={pageProps as NextPageContext}>
-        <Layout className={`${helvetica.className} font-sans`}>{page}</Layout>
+        <Layout
+          className={`${helvetica.className} ${garamont.className} font-sans`}
+        >
+          {page}
+        </Layout>
         <Analytics />
       </Providers>
     </ThemeProvider>

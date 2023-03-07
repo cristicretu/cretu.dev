@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <link
           rel='preload'
-          href='fonts/switzer-variable.woff2'
+          href='fonts/helveticaneue-medium.woff2'
           as='font'
           type='font/woff2'
           crossOrigin='anonymous'
