@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useTheme } from 'next-themes'
@@ -52,10 +54,14 @@ const Details = [
 
 const PeelCard = (): JSX.Element => {
   const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
       transition={{
         duration: 0.5,
         delay: 0.2,
@@ -108,7 +114,7 @@ const PeelCard = (): JSX.Element => {
         </motion.ul>
 
         <div className='absolute bottom-0 right-0'>
-          <Peel variant={resolvedTheme ?? 'light'} />
+          <Peel variant={resolvedTheme && mounted ? resolvedTheme : 'dark'} />
         </div>
       </div>
     </motion.div>

@@ -15,9 +15,9 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
         href: '/',
         label: 'Index',
       }}
-      writingNav
+      className='max-w-xl'
     >
-      <h1 className='font-semibold text-xl'>Writing</h1>
+      <h1 className='font-bold text-3xl font-serif'>Writing</h1>
       {posts.map((post, index) => (
         <Link
           key={post.slug}
