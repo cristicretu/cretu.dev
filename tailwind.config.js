@@ -33,7 +33,6 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Helvetica', ...fontFamily.sans],
-        serif: ['EB Garamond SC'],
       },
       keyframes: {
         'slide-in': {
