@@ -15,6 +15,7 @@ const WritingPage = ({ posts }: { posts: Writing[] }) => {
         href: '/',
         label: 'Index',
       }}
+      writingNav
     >
       <h1 className='font-semibold text-xl'>Writing</h1>
       {posts.map((post, index) => (
