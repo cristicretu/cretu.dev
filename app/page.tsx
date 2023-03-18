@@ -1,3 +1,5 @@
+import ExternalLink from "@/ui/ExternalLink";
+import Footer from "@/ui/Footer";
 import Image from "next/image";
 
 export default function Home() {
@@ -6,6 +8,7 @@ export default function Home() {
       <Header />
       <Contact />
       <AboutMe />
+      {/* <Footer /> */}
     </div>
   );
 }
@@ -45,14 +48,19 @@ function AboutMe() {
         </p>
         <p>
           Currently tinkering with various projects and apps. Previously worked
-          at Deta, streamlining a new platform, for the future cloud computer ↗
-          and Landmarks - building beautiful web apps.
+          at <ExternalLink href="https://deta.space">Deta</ExternalLink>,
+          streamlining a new platform,{" "}
+          <ExternalLink href="https://deta.space/docs/en/introduction/personal-cloud">
+            for the future cloud computer
+          </ExternalLink>{" "}
+          and <ExternalLink href="https://landmarks.ro">Landmarks</ExternalLink>{" "}
+          - building beautiful web apps.
         </p>
         <p>
           Studying Computer Science. Ardent in reading, writing, and improving
           consistently through learning. Currently interested in TypeScript and
           C. Experimenting native apps with Swift. Generating new experiences
-          with Figma.{" "}
+          with Figma.
         </p>
       </div>
     </div>
@@ -67,12 +75,12 @@ function ContactLink({
 }: {
   href?: string;
   title: string;
-  website: string;
+  website?: string;
   email?: string;
 }) {
   return (
-    <div className="flex flex-row items-center gap-4">
-      <p className="text-quaternary">{website}</p>
+    <span className="block items-center gap-4">
+      {website && <p className="text-quaternary">{website}</p>}
       {href && (
         <a
           href={href}
@@ -88,7 +96,7 @@ function ContactLink({
           {title}
         </p>
       )}
-    </div>
+    </span>
   );
 }
 
@@ -122,6 +130,7 @@ function Contact() {
           title="hi[at]cretu(dot)dev"
           website="Email"
         />
+        <ContactLink href="https://read.cv/cretu" title="cretu" website="CV" />
       </div>
     </div>
   );
