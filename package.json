@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "concurrently \"next dev\" \"tailwindcss --input ./styles/globals.css --output ./styles/output.css --watch\"",
+  "build": "tailwindcss ./styles/globals.css --output ./styles/output.css && next build",
     "start": "next start",
     "lint": "next lint"
+    
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.16",
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "10.4.14",
+    "concurrently": "^7.6.0",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "framer-motion": "^10.6.0",

@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply max-h-screen antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply p-0 m-0 font-sans;
+  }
+
+  pre::-webkit-scrollbar {
+    display: none;
+  }
+
+  pre {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .capsize::before {
+    content: '';
+    margin-bottom: -0.098em;
+    display: table;
+  }
+
+  .capsize::after {
+    content: '';
+    margin-top: -0.219em;
+    display: table;
+  }
+
+}
+
+@layer components {
+
+}
+
+@layer utilities {
+  .text-primary {
+    @apply text-black dark:text-white;
+  }
+
+  .text-secondary {
+    @apply text-black/80 dark:text-white/80;
+  }
+
+  .text-tertiary {
+    @apply text-black/60 dark:text-white/60;
+  }
+
+  .text-quaternary {
+    @apply text-black/40 dark:text-white/40;
+  }
+
+}
+
