@@ -38,6 +38,7 @@ export default function Swatch() {
         x: mounted ? 0 : -100,
         scale: mounted ? 1 : 0.9,
       }}
+      exit={{ opacity: 0, x: -100, scale: 0.9 }}
       transition={{ duration: 0.2 }}
       onHoverStart={() => setAnimate(true)}
       onHoverEnd={() => setAnimate(false)}
@@ -70,14 +71,15 @@ export default function Swatch() {
       <AnimatePresence>
         (animate && (
         <motion.div
-          initial={{ opacity: 0, scale: 0, rotate: 0 }}
+          initial={{ opacity: 0, scale: 0, rotate: 0, x: 0, y: 0 }}
           animate={{
             opacity: animate ? 1 : 0,
-            scale: animate ? 1 : 0.5,
-            rotate: animate ? 45 : 22,
-            x: animate ? 65 : 30,
-            y: animate ? 5 : 15,
+            scale: animate ? 1 : 0,
+            rotate: animate ? 45 : 0,
+            x: animate ? 65 : 0,
+            y: animate ? 5 : 0,
           }}
+          exit={{ opacity: 0, scale: 0, rotate: 0, x: 0, y: 0 }}
           transition={{ type: "spring", stiffness: 400, damping: 18 }}
           className="absolute top-0 left-0 right-0 flex flex-col items-center bg-gray-200 dark:bg-gray-800 w-fit space-y-2 rounded-t-2xl rounded-xl p-1.5"
         >
@@ -107,13 +109,20 @@ export default function Swatch() {
       <AnimatePresence>
         (animate && mounted && (
         <motion.div
-          initial={{ opacity: 0, scale: 0 }}
+          initial={{ opacity: 0, scale: 0, rotate: 0, x: 0, y: 0 }}
           animate={{
             opacity: animate ? 1 : 0,
-            scale: animate ? 1 : 0.5,
-            rotate: animate ? 90 : 42,
-            x: animate ? 70 : 35,
-            y: animate ? 69 : 33,
+            scale: animate ? 1 : 0,
+            rotate: animate ? 90 : 0,
+            x: animate ? 70 : 0,
+            y: animate ? 69 : 0,
+          }}
+          exit={{
+            opacity: 0,
+            scale: 0,
+            rotate: 0,
+            x: 0,
+            y: 0,
           }}
           transition={{ type: "spring", stiffness: 400, damping: 18 }}
           className="absolte top-0 left-0 right-0 flex flex-col items-center bg-gray-200 dark:bg-gray-800 w-fit space-y-2 rounded-t-2xl rounded-xl p-1.5"
