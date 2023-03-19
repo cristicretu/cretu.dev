@@ -1,11 +1,12 @@
 import { cn } from "@/lib/className";
-import { Inter } from "next/font/google";
+// import { Inter } from "@next/font/google";
 
 import "../styles/globals.css";
 import Providers from "./providers";
 import Footer from "../ui/Footer";
+import Navigation from "@/ui/Navigation";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Cristian Crețu",
@@ -21,13 +22,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          `${inter.className}`,
+          // `${inter.className}`,
           "relative h-full, min-h-screen, w-full",
           "my-24 bg-white dark:bg-gray-900",
           "motion-reduce:transition-none motion-reduce:transform-none"
         )}
       >
         <Providers>
+          <header>
+            <Navigation />
+          </header>
           <main className="max-w-2xl mx-auto p-4">{children}</main>
           <Footer />
         </Providers>
