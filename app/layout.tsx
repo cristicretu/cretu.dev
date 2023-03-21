@@ -36,7 +36,8 @@ export default function RootLayout({
         <div className="bg-[#BC7BFD] bg-[#D5ACFF] font-semibold" /> */}
         {/* <div className="sticky    py-2 z-[1] bottom-2 top-2 md:top-4  mx-auto flex rounded-full justify-center items-center " /> */}
         {/* <div className="px-2 mt-24 pb-24 pt-4"></div> */}
-        <div className="select-none"></div>
+        {/* <article className="prose prose-quoteless prose-neutral dark:prose-invert"></article> */}
+        <div className="pl-2 select-none"></div>
         <Providers>
           <nav className="fixed z-50 bottom-4 left-4">
             <Swatch />

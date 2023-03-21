@@ -3,6 +3,8 @@ import { Mdx } from "@/ui/MDXComponents";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../../../styles/prose.css";
+import { format, parseISO } from "date-fns";
+import Image from "next/image";
 
 export async function generateStaticParams() {
   return allWritings.map((post) => ({
@@ -55,7 +57,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function WritingPost({ params }) {
+export default async function WritingPost({ params }: { params: any }) {
   const post = allWritings.find((post) => post.slug === params.slug);
 
   if (!post) {
@@ -63,7 +65,24 @@ export default async function WritingPost({ params }) {
   }
 
   return (
-    <div>
+    <div className="text-secondary">
+      <h1 className="text-primary">{post.title}</h1>
+      <div className="flex flex-row divide-x-2 divide-gray-500 gap-4 items-center">
+        <span> Cristian Crețu</span>
+        <span className="pl-2">
+          {format(parseISO(post.publishedAt), "MMMM dd, yyyy")}
+        </span>
+        <span className="pl-2">{post.readingTime.text}</span>
+      </div>
+      <div className="relative h-64">
+        <Image
+          src={post.image}
+          alt={post.title}
+          layout="fill"
+          objectFit="cover"
+          className="rounded-lg"
+        />
+      </div>
       <Mdx code={post.body.code} />
     </div>
   );
