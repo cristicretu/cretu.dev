@@ -2,9 +2,12 @@
 const { withContentlayer } = require('next-contentlayer');
 
 const nextConfig = {
-  experimental: {
+   experimental: { 
     appDir: true,
-  },
+    concurrentFeatures: true, 
+    reactRoot: true, 
+    runtime: "nodejs", 
+  }
 };
 
 module.exports = withContentlayer(nextConfig);
