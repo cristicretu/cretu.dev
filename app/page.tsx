@@ -1,6 +1,5 @@
-import ExternalLink from "@/ui/ExternalLink";
-import Footer from "@/ui/Footer";
-import Image from "next/image";
+import ExternalLink from '@/ui/ExternalLink';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -8,7 +7,6 @@ export default function Home() {
       <Header />
       <Contact />
       <AboutMe />
-      {/* <Footer /> */}
     </div>
   );
 }
@@ -16,15 +14,15 @@ export default function Home() {
 function Header() {
   return (
     <div className="flex flex-row items-center gap-4">
-      <div className="w-12 h-12 relative">
+      <div className="relative h-12 w-12">
         <Image
-          src="/static/images/logo.png"
-          layout="fill"
-          objectFit="contain"
           alt="Logo"
           className="rounded-full"
+          layout="fill"
+          objectFit="contain"
+          src="/static/images/logo.png"
         />
-        <div className="absolute -bottom-2 -right-2 bg-white dark:bg-gray-900 rounded-full px-1 py-0.5 text-sm">
+        <div className="absolute -bottom-2 -right-2 rounded-full bg-white px-1 py-0.5 text-sm dark:bg-gray-900">
           ✨
         </div>
       </div>
@@ -40,7 +38,7 @@ function AboutMe() {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-tertiary">About me</p>
-      <div className="flex flex-col gap-4 text-secondary">
+      <div className="text-secondary flex flex-col gap-4">
         <p>
           Exploring ways to create unique, fluid experiences. Unlimitedly
           obsessed with solving problems where design and engineering intersect,
@@ -49,11 +47,11 @@ function AboutMe() {
         <p>
           Currently tinkering with various projects and apps. Previously worked
           at <ExternalLink href="https://deta.space">Deta</ExternalLink>,
-          streamlining a new platform,{" "}
+          streamlining a new platform,{' '}
           <ExternalLink href="https://deta.space/docs/en/introduction/personal-cloud">
             for the future cloud computer
-          </ExternalLink>{" "}
-          and <ExternalLink href="https://landmarks.ro">Landmarks</ExternalLink>{" "}
+          </ExternalLink>{' '}
+          and <ExternalLink href="https://landmarks.ro">Landmarks</ExternalLink>{' '}
           - building beautiful web apps.
         </p>
         <p>
@@ -73,20 +71,20 @@ function ContactLink({
   website,
   email,
 }: {
+  email?: string;
   href?: string;
   title: string;
   website?: string;
-  email?: string;
 }) {
   return (
     <span className="block items-center gap-4">
       {website && <p className="text-quaternary">{website}</p>}
       {href && (
         <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
           className="text-secondary hover:text-primary transition-opacity duration-150"
+          href={href}
+          rel="noopener noreferrer"
+          target="_blank"
         >
           {title} ↗
         </a>

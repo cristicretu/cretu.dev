@@ -7,8 +7,8 @@ import { cn } from "@/lib/className";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Writing",
   description: "A place where I share ideas about design and code.",
+  title: "Writing",
 };
 
 async function getData() {
@@ -32,15 +32,15 @@ export default async function Writing() {
     <div className="space-y-16">
       <h1>Writing</h1>
       <div className="space-y-2">
-        {posts.map((post, index) => (
+        {posts.map((post) => (
           <Link
-            key={post.slug}
-            href={`/writing/${post.slug}`}
             className={cn(
               "flex flex-row justify-between py-2 px-2 -mx-2 rounded-md",
               "hover:bg-gray-200 dark:hover:bg-gray-800",
               "transition-all duration-200"
             )}
+            href={`/writing/${post.slug}`}
+            key={post.slug}
           >
             <span className="flex-grow truncate text-secondary mr-2">
               {post.title} →

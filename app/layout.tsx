@@ -1,63 +1,62 @@
-import { cn } from "@/lib/className";
-import { Inter } from "next/font/google";
+import Footer from '../ui/Footer';
+import './globals.css';
+import Providers from './providers';
+import { cn } from '@/lib/className';
+import AnimateEnter from '@/ui/AnimateEnter';
+import Swatch from '@/ui/Swatch';
+import { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
-// import "../styles/output.css";
-import "./globals.css";
-import Providers from "./providers";
-import Footer from "../ui/Footer";
-import Swatch from "@/ui/Swatch";
-import { Metadata } from "next";
-
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: {
-    default: "Cristian Crețu",
-    template: "%s | Cristian Crețu",
-  },
-  description: "Design Engineer.",
-  manifest: "/static/favicons/site.webmanifest",
-  category: "design",
+  category: 'design',
+  description: 'Design Engineer.',
   icons: {
-    icon: "/static/favicons/favicon-196x196.png",
-    shortcut: "/favicon.ico",
-    apple: "/static/favicons/apple-touch-icon-180x180.png",
+    apple: '/static/favicons/apple-touch-icon-180x180.png',
+    icon: '/static/favicons/favicon-196x196.png',
+    shortcut: '/favicon.ico',
   },
+  manifest: '/static/favicons/site.webmanifest',
   openGraph: {
-    title: "Cristian Crețu",
-    description: "Design Engineer.",
-    url: "https://cretu.dev",
-    siteName: "Cristian Crețu",
+    description: 'Design Engineer.',
     images: [
       {
-        url: "https://leerob.io/static/images/og.png",
-        alt: "Cristian Crețu",
-        width: 1920,
+        alt: 'Cristian Crețu',
         height: 1080,
+        url: 'https://leerob.io/static/images/og.png',
+        width: 1920,
       },
     ],
-    locale: "en-US",
-    type: "website",
+    locale: 'en-US',
+    siteName: 'Cristian Crețu',
+    title: 'Cristian Crețu',
+    type: 'website',
+    url: 'https://cretu.dev',
   },
   robots: {
-    index: true,
     follow: true,
     googleBot: {
-      index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      index: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
     },
+    index: true,
+  },
+  title: {
+    default: 'Cristian Crețu',
+    template: '%s | Cristian Crețu',
   },
   twitter: {
-    title: "Cristian Crețu",
-    site: "@cristicrtu",
-    card: "summary_large_image",
+    card: 'summary_large_image',
+    site: '@cristicrtu',
+    title: 'Cristian Crețu',
   },
 
   verification: {
-    google: "fK4YqLAHjoaynXLF1e5gaPzDNOircgiYSgAwSXqr61o",
+    google: 'fK4YqLAHjoaynXLF1e5gaPzDNOircgiYSgAwSXqr61o',
   },
 };
 
@@ -71,9 +70,9 @@ export default function RootLayout({
       <body
         className={cn(
           `${inter.className}`,
-          "relative h-full, min-h-screen, w-full",
-          "my-24 bg-white dark:bg-gray-900",
-          "motion-reduce:transition-none motion-reduce:transform-none"
+          'h-full, min-h-screen, relative w-full',
+          'my-24 bg-white dark:bg-gray-900',
+          'motion-reduce:transform-none motion-reduce:transition-none',
         )}
       >
         {/* <div className="absolute z-10 flex flex-col items-center bg-gray-200 dark:bg-gray-800 w-fit space-y-2 rounded-t-2xl rounded-xl p-1.5"></div>
@@ -87,11 +86,15 @@ export default function RootLayout({
         {/* <div className="pl-2 select-none pt-4 underline underline-offset-[3px] hover:no-underline hover:bg-[url('/static/squiggle.svg')]"></div> */}
         {/* <div className="flip-card-inner bg-[#1DB954] text-lg opacity-70 bg-[#C4150C] w-1/2 bg-[#214D72] w-1/2 bg-[#171515] bg-indigo-400 bg-orange-500 cursor-pointer  rotate-y-180 select-none flip-card bg-[#00acee] rotate-180 h-full font-semibold flip-card  rounded-lg flex items-center rounded-lg h-96 bg-green-500 flex flex-col gap-0 p-6 items-center justify-center p-6 flip-card-back justify-center gap-2 flip-card-front  text-2xl text-gray-100 text-center"></div> */}
         <Providers>
-          <nav className="fixed z-50 bottom-4 left-4">
+          <nav className="fixed bottom-4 left-4 z-50">
             <Swatch />
           </nav>
-          <main className="max-w-2xl mx-auto p-4">{children}</main>
-          <Footer />
+          <AnimateEnter>
+            <>
+              {children}
+              <Footer />
+            </>
+          </AnimateEnter>
         </Providers>
       </body>
     </html>

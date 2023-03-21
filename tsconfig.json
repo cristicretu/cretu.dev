@@ -23,15 +23,9 @@
     "paths": {
       "@/*": ["./*"],
       "@ui/*": ["ui/*"],
-      "@data/*": [
-        "data/*"
-      ],
-      "@lib/*": [
-        "lib/*"
-      ],
-      "contentlayer/generated": [
-        ".contentlayer/generated"
-      ],
+      "@data/*": ["data/*"],
+      "@lib/*": ["lib/*"],
+      "contentlayer/generated": [".contentlayer/generated"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,12 +1,12 @@
-import { Writing, allWritings } from "@/.contentlayer/generated";
-import { Mdx } from "@/ui/MDXComponents";
-import { Metadata } from "next";
-import { notFound } from "next/navigation";
-import "../../../styles/prose.css";
-import { format, parseISO } from "date-fns";
-import Image from "next/image";
-import ExternalLink from "@/ui/ExternalLink";
-import Link from "next/link";
+import '../../../styles/prose.css';
+import { Writing, allWritings } from '@/.contentlayer/generated';
+import ExternalLink from '@/ui/ExternalLink';
+import { Mdx } from '@/ui/MDXComponents';
+import { format, parseISO } from 'date-fns';
+import { Metadata } from 'next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   return allWritings.map((post) => ({
@@ -36,25 +36,25 @@ export async function generateMetadata({
     : `https://cretu.dev/api/og?title=${title}`;
 
   return {
-    title,
     description,
     openGraph: {
-      title,
       description,
-      type: "article",
-      publishedTime,
-      url: `https://cretu.dev/blog/${slug}`,
       images: [
         {
           url: ogImage,
         },
       ],
-    },
-    twitter: {
-      card: "summary_large_image",
+      publishedTime,
       title,
+      type: 'article',
+      url: `https://cretu.dev/blog/${slug}`,
+    },
+    title,
+    twitter: {
+      card: 'summary_large_image',
       description,
       images: [ogImage],
+      title,
     },
   };
 }
@@ -71,25 +71,25 @@ export default async function WritingPost({ params }: { params: any }) {
 
   return (
     <div className="text-secondary">
-      <Link href="/writing" className="no-underline text-sm text-secondary">
+      <Link className="text-secondary text-sm no-underline" href="/writing">
         ← Back to all posts
       </Link>
       <h1 className="text-primary text-2xl font-medium">{post.title}</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 divide-gray-500 w-fit text-sm -mt-3">
-        <span>{format(parseISO(post.publishedAt), "MMMM dd, yyyy")}</span>
+      <div className="-mt-3 grid w-fit grid-cols-1 gap-2 divide-gray-500 text-sm sm:grid-cols-2">
+        <span>{format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}</span>
         <span>{post.readingTime.text}</span>
       </div>
-      <div className="relative h-[400px] mt-8">
+      <div className="relative mt-8 h-[400px]">
         <Image
-          src={post.image}
           alt={post.title}
+          className="rounded-lg"
           layout="fill"
           objectFit="cover"
-          className="rounded-lg"
+          src={post.image}
         />
       </div>
       <Mdx code={post.body.code} />
-      <ExternalLink href={editUrl(post.slug)} className="text-sm">
+      <ExternalLink className="text-sm" href={editUrl(post.slug)}>
         Edit source on GitHub
       </ExternalLink>
     </div>

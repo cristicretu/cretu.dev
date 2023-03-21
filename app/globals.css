@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply p-0 m-0 font-sans;
+    @apply m-0 p-0 font-sans;
   }
 
   pre::-webkit-scrollbar {
@@ -35,14 +35,13 @@
     margin-top: -0.219em;
     display: table;
   }
-
 }
 
 @layer components {
   button {
     user-select: none;
   }
-  
+
   button {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -52,7 +51,6 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
-  
 }
 
 @layer utilities {
@@ -71,7 +69,6 @@
   .text-quaternary {
     @apply text-black/40 dark:text-white/40;
   }
-
 
   .flip-card {
     background-color: transparent;
@@ -106,4 +103,3 @@
     transform: rotateY(180deg);
   }
 }
-

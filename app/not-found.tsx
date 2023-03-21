@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 export default function NotFound() {
   return (
@@ -9,7 +9,7 @@ export default function NotFound() {
         didn&apos;t exist in the first place...
       </p>
       <p>Maybe I should&apos;ve used a debugger instead of just logging...</p>
-      <Link href="/" className="text-blue-500">
+      <Link className="text-blue-500" href="/">
         Home
       </Link>
     </div>

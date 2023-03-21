@@ -1,11 +1,11 @@
-import { cn } from "@/lib/className";
+import { cn } from '@/lib/className';
 
 interface Props {
-  href: string;
-  children: React.ReactNode;
   arrow?: boolean;
-  underline?: boolean;
+  children: React.ReactNode;
   className?: string;
+  href: string;
+  underline?: boolean;
 }
 
 export default function ExternalLink({
@@ -18,20 +18,20 @@ export default function ExternalLink({
   return (
     <>
       <a
+        className={cn(
+          underline
+            ? "underline underline-offset-[3px] hover:bg-[url('/static/squiggle.svg')] hover:no-underline"
+            : '',
+          'text-secondary',
+          className ? className : '',
+        )}
         href={href}
         rel="noopener noreferrer"
         target="_blank"
-        className={cn(
-          underline
-            ? "underline underline-offset-[3px] hover:no-underline hover:bg-[url('/static/squiggle.svg')]"
-            : "",
-          "text-secondary",
-          className ? className : ""
-        )}
       >
         {children}
       </a>
-      <span>{arrow && "↗"}</span>
+      <span>{arrow && '↗'}</span>
     </>
   );
 }

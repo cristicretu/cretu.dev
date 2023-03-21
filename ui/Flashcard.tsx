@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 interface FlashcardProps {
-  front: React.ReactNode;
   children: React.ReactNode;
   color?: string;
+  front: React.ReactNode;
   height?: string;
   width?: string;
 }
@@ -13,9 +13,9 @@ interface FlashcardProps {
 export default function Flashcard({
   front,
   children,
-  color = "bg-green-500",
-  height = "h-96",
-  width = "w-full",
+  color = 'bg-green-500',
+  height = 'h-96',
+  width = 'w-full',
 }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -28,17 +28,17 @@ export default function Flashcard({
       onClick={() => handleClick()}
     >
       <div
-        className={`flip-card-inner  h-full font-semibold text-2xl text-gray-100 text-center ${
-          isFlipped ? "rotate-y-180" : ""
+        className={`flip-card-inner  h-full text-center text-2xl font-semibold text-gray-100 ${
+          isFlipped ? 'rotate-y-180' : ''
         }`}
       >
         <div
-          className={`flip-card-front ${color} rounded-lg flex items-center p-6 justify-center gap-2`}
+          className={`flip-card-front ${color} flex items-center justify-center gap-2 rounded-lg p-6`}
         >
           {front}
         </div>
         <div
-          className={`flip-card-back ${color} rounded-lg flex flex-col gap-0 p-6 items-center justify-center`}
+          className={`flip-card-back ${color} flex flex-col items-center justify-center gap-0 rounded-lg p-6`}
         >
           {children}
         </div>

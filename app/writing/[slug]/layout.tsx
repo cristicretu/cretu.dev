@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { Suspense } from 'react';
 
 export default function WritingLayout({
   children,
@@ -6,9 +6,9 @@ export default function WritingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <article className="flex flex-col items-start justify-center w-full max-w-2xl mx-auto sm:px-4">
+    <article className="mx-auto flex w-full max-w-2xl flex-col items-start justify-center sm:px-4">
       <Suspense fallback={null}>
-        <div className="w-full my-4 prose dark:prose-dark max-w-2xl">
+        <div className="dark:prose-dark prose my-4 w-full max-w-2xl">
           {children}
         </div>
       </Suspense>

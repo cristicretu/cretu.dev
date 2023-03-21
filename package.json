@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"tailwindcss --input ./styles/globals.css --output ./styles/output.css --watch\"",
-    "build": "tailwindcss ./styles/globals.css --output ./styles/output.css && next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev",
+    "build": "next build",
+    "format": "prettier --write .",
+    "lint:format": "prettier --cache --check .",
+    "lint:fix": "eslint --cache --fix .",
+    "lint": "eslint --cache .",
+    "start": "next start"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
@@ -17,7 +20,6 @@
     "concurrently": "^7.6.0",
     "contentlayer": "^0.3.0",
     "date-fns": "^2.29.3",
-    "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "framer-motion": "^10.6.0",
     "next": "13.2.4",
@@ -31,11 +33,48 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "8.36.0",
+    "eslint-import-resolver-typescript": "^3.5.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-typescript-sort-keys": "^2.3.0",
+    "eslint-plugin-unicorn": "^46.0.0",
+    "prettier": "^2.8.6",
+    "prettier-plugin-tailwindcss": "^0.2.5",
     "reading-time": "^1.5.0",
     "rehype-autolink-headings": "^6.1.1",
     "rehype-pretty-code": "^0.9.4",
     "rehype-slug": "^5.1.0",
     "remark-gfm": "^3.0.1",
     "shiki": "^0.14.1"
-  }
+  },
+  "license": "MIT",
+  "author": {
+    "email": "crisemcr@gmail.com",
+    "name": "Cristian Crețu",
+    "url": "https://cretu.dev"
+  },
+  "homepage": "https://cretu.dev",
+  "bugs": {
+    "url": "https://github.com/cristicretu/cretu.dev/issues"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "keywords": [
+    "tailwindcss",
+    "template",
+    "radix",
+    "react",
+    "nextjs",
+    "portfolio",
+    "personal-site"
+  ]
 }

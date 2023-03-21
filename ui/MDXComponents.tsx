@@ -1,12 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
-import ExternalLink from "./ExternalLink";
-import Flashcard from "./Flashcard";
-import { useMDXComponent } from "next-contentlayer/hooks";
+import ExternalLink from './ExternalLink';
+import Flashcard from './Flashcard';
+import { useMDXComponent } from 'next-contentlayer/hooks';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const CustomLink = (props: any) => {
   const href = props.href;
-  const isInternalLink = href && href.startsWith("/");
+  const isInternalLink = href && href.startsWith('/');
 
   if (isInternalLink) {
     return (
@@ -16,7 +16,7 @@ const CustomLink = (props: any) => {
     );
   }
 
-  if (href.startsWith("#")) {
+  if (href.startsWith('#')) {
     return <a {...props} />;
   }
 
@@ -24,9 +24,9 @@ const CustomLink = (props: any) => {
 };
 
 const MDXComponents = {
+  Flashcard,
   Image,
   a: CustomLink,
-  Flashcard,
 };
 
 interface MdxProps {
@@ -37,7 +37,7 @@ export function Mdx({ code }: MdxProps) {
   const Component = useMDXComponent(code);
 
   return (
-    <article className="prose prose-quoteless prose-neutral dark:prose-invert">
+    <article className="prose-quoteless prose prose-neutral dark:prose-invert">
       <Component components={{ ...MDXComponents }} />
     </article>
   );

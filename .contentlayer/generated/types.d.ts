@@ -13,15 +13,15 @@ export type Writing = {
   _id: string
   _raw: Local.RawDocumentData
   type: 'Writing'
-  title: string
+  image: string
   publishedAt: string
   summary: string
-  image: string
+  title: string
   /** MDX file body */
   body: MDX
   readingTime: json
-  wordCount: number
   slug: string
+  wordCount: number
 }  
 
 /** Nested types */
