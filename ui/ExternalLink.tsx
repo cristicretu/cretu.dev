@@ -5,6 +5,7 @@ interface Props {
   children: React.ReactNode;
   arrow?: boolean;
   underline?: boolean;
+  className?: string;
 }
 
 export default function ExternalLink({
@@ -12,6 +13,7 @@ export default function ExternalLink({
   children,
   arrow = true,
   underline = true,
+  className,
 }: Props) {
   return (
     <>
@@ -21,8 +23,10 @@ export default function ExternalLink({
         target="_blank"
         className={cn(
           underline
-            ? "underline underline-offset-[3px] hover:no-underline hover:bg-[url('https://snippets.alexandru.so/squiggle.svg')]"
-            : ""
+            ? "underline underline-offset-[3px] hover:no-underline hover:bg-[url('/static/squiggle.svg')]"
+            : "",
+          "text-secondary",
+          className ? className : ""
         )}
       >
         {children}

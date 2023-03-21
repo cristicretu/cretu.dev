@@ -1113,12 +1113,20 @@ pre {
   margin-bottom: 1rem;
 }
 
+.-mt-3 {
+  margin-top: -0.75rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
 
 .mt-24 {
   margin-top: 6rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .block {
@@ -1141,8 +1149,20 @@ pre {
   height: 3.5rem;
 }
 
-.h-64 {
-  height: 16rem;
+.h-96 {
+  height: 24rem;
+}
+
+.h-\[400px\] {
+  height: 400px;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-12 {
@@ -1168,6 +1188,11 @@ pre {
 
 .flex-grow {
   flex-grow: 1;
+}
+
+.rotate-180 {
+  --tw-rotate: 180deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .cursor-crosshair {
@@ -1212,8 +1237,16 @@ pre {
   justify-content: space-between;
 }
 
+.gap-0 {
+  gap: 0px;
+}
+
 .gap-16 {
   gap: 4rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .gap-4 {
@@ -1226,34 +1259,16 @@ pre {
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
 }
 
-.space-y-12 > :not([hidden]) ~ :not([hidden]) {
+.space-y-16 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
-  margin-top: calc(3rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(3rem * var(--tw-space-y-reverse));
+  margin-top: calc(4rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(4rem * var(--tw-space-y-reverse));
 }
 
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
-}
-
-.space-x-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.divide-y-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-y-reverse: 0;
-  border-top-width: calc(2px * calc(1 - var(--tw-divide-y-reverse)));
-  border-bottom-width: calc(2px * var(--tw-divide-y-reverse));
-}
-
-.divide-x-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-x-reverse: 0;
-  border-right-width: calc(2px * var(--tw-divide-x-reverse));
-  border-left-width: calc(2px * calc(1 - var(--tw-divide-x-reverse)));
 }
 
 .divide-gray-500 > :not([hidden]) ~ :not([hidden]) {
@@ -1308,6 +1323,26 @@ pre {
   border-top-right-radius: 0.75rem;
 }
 
+.bg-\[\#00acee\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 172 238 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#171515\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(23 21 21 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#1DB954\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 185 84 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#214D72\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(33 77 114 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#7786FE\] {
   --tw-bg-opacity: 1;
   background-color: rgb(119 134 254 / var(--tw-bg-opacity));
@@ -1326,6 +1361,11 @@ pre {
 .bg-\[\#BC7BFD\] {
   --tw-bg-opacity: 1;
   background-color: rgb(188 123 253 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#C4150C\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(196 21 12 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#CC697D\] {
@@ -1348,6 +1388,21 @@ pre {
   background-color: rgb(229 229 229 / var(--tw-bg-opacity));
 }
 
+.bg-green-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+}
+
+.bg-indigo-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(129 140 248 / var(--tw-bg-opacity));
+}
+
+.bg-orange-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 115 22 / var(--tw-bg-opacity));
+}
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -1367,6 +1422,10 @@ pre {
 
 .p-4 {
   padding: 1rem;
+}
+
+.p-6 {
+  padding: 1.5rem;
 }
 
 .px-1 {
@@ -1398,12 +1457,31 @@ pre {
   padding-bottom: 6rem;
 }
 
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .pt-4 {
   padding-top: 1rem;
 }
 
-.pl-2 {
-  padding-left: 0.5rem;
+.text-center {
+  text-align: center;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .text-sm {
@@ -1416,22 +1494,47 @@ pre {
   line-height: 1rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+.font-bold {
+  font-weight: 700;
+}
+
+.font-medium {
+  font-weight: 500;
 }
 
 .font-semibold {
   font-weight: 600;
 }
 
-.font-bold {
-  font-weight: 700;
+.text-gray-100 {
+  --tw-text-opacity: 1;
+  color: rgb(245 245 245 / var(--tw-text-opacity));
 }
 
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
+
+.underline {
+  text-decoration-line: underline;
+}
+
+.no-underline {
+  text-decoration-line: none;
+}
+
+.underline-offset-\[3px\] {
+  text-underline-offset: 3px;
+}
+
+.opacity-70 {
+  opacity: 0.7;
 }
 
 .transition-all {
@@ -1488,6 +1591,42 @@ pre {
   color: rgb(255 255 255 / 0.4);
 }
 
+.flip-card {
+  background-color: transparent;
+  perspective: 1000px;
+  /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+
+.flip-card-inner {
+  position: relative;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  } */
+
+.flip-card-front,
+  .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  /* Safari */
+  backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
 .dark .dark\:prose-invert {
   --tw-prose-body: var(--tw-prose-invert-body);
   --tw-prose-headings: var(--tw-prose-invert-headings);
@@ -1515,6 +1654,14 @@ pre {
 
   .hover\:bg-opacity-80:hover {
     --tw-bg-opacity: 0.8;
+  }
+
+  .hover\:bg-\[url\(\'\/static\/squiggle\.svg\'\)\]:hover {
+    background-image: url('/static/squiggle.svg');
+  }
+
+  .hover\:no-underline:hover {
+    text-decoration-line: none;
   }
 
   .hover\:text-primary:hover {
@@ -1556,6 +1703,10 @@ pre {
 }
 
 @media (min-width: 640px) {
+  .sm\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .sm\:px-4 {
     padding-left: 1rem;
     padding-right: 1rem;

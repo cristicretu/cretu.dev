@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import "../../../styles/prose.css";
 import { format, parseISO } from "date-fns";
 import Image from "next/image";
+import ExternalLink from "@/ui/ExternalLink";
+import Link from "next/link";
 
 export async function generateStaticParams() {
   return allWritings.map((post) => ({
@@ -57,6 +59,9 @@ export async function generateMetadata({
   };
 }
 
+const editUrl = (slug: string) =>
+  `https://github.com/cristicretu/cretu.dev/edit/main/data/writing/${slug}.mdx`;
+
 export default async function WritingPost({ params }: { params: any }) {
   const post = allWritings.find((post) => post.slug === params.slug);
 
@@ -66,15 +71,15 @@ export default async function WritingPost({ params }: { params: any }) {
 
   return (
     <div className="text-secondary">
-      <h1 className="text-primary">{post.title}</h1>
-      <div className="flex flex-row divide-x-2 divide-gray-500 gap-4 items-center">
-        <span> Cristian Crețu</span>
-        <span className="pl-2">
-          {format(parseISO(post.publishedAt), "MMMM dd, yyyy")}
-        </span>
-        <span className="pl-2">{post.readingTime.text}</span>
+      <Link href="/writing" className="no-underline text-sm text-secondary">
+        ← Back to all posts
+      </Link>
+      <h1 className="text-primary text-2xl font-medium">{post.title}</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 divide-gray-500 w-fit text-sm -mt-3">
+        <span>{format(parseISO(post.publishedAt), "MMMM dd, yyyy")}</span>
+        <span>{post.readingTime.text}</span>
       </div>
-      <div className="relative h-64">
+      <div className="relative h-[400px] mt-8">
         <Image
           src={post.image}
           alt={post.title}
@@ -84,6 +89,9 @@ export default async function WritingPost({ params }: { params: any }) {
         />
       </div>
       <Mdx code={post.body.code} />
+      <ExternalLink href={editUrl(post.slug)} className="text-sm">
+        Edit source on GitHub
+      </ExternalLink>
     </div>
   );
 }

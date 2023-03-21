@@ -29,7 +29,7 @@ async function getData() {
 export default async function Writing() {
   const { posts } = (await getData()).props;
   return (
-    <div className="space-y-12">
+    <div className="space-y-16">
       <h1>Writing</h1>
       <div className="space-y-2">
         {posts.map((post, index) => (
