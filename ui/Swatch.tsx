@@ -13,13 +13,14 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 export default function Swatch() {
   const [animate, setAnimate] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+  const ref = useRef(null);
 
   const handleDrag = (
     event: { stopPropagation: () => void },
@@ -51,9 +52,19 @@ export default function Swatch() {
       setIsFocused(false);
     };
 
+    const handleClick = () => {
+      console.log('click');
+      if (!ref.current) return;
+      if ((ref.current as any).contains(event!.target)) return;
+
+      setIsFocused(false);
+    };
+
+    window.addEventListener('touchstart', handleClick);
     window.addEventListener('scroll', handleScroll);
 
     return () => {
+      window.removeEventListener('touchstart', handleClick);
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isFocused]);
@@ -95,6 +106,7 @@ export default function Swatch() {
         setIsFocused(true);
         setAnimate(true);
       }}
+      ref={ref}
       transition={{ duration: 0.2 }}
       whileTap={{ cursor: 'grabbing' }}
     >
