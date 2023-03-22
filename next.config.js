@@ -4,9 +4,6 @@ const { withContentlayer } = require('next-contentlayer');
 const nextConfig = {
    experimental: { 
     appDir: true,
-    concurrentFeatures: true, 
-    reactRoot: true, 
-    runtime: "nodejs", 
   }
 };
 

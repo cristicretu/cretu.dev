@@ -30,129 +30,131 @@ export default function Swatch() {
 
   useEffect(() => setMounted(true), []);
   return (
-    <motion.div
-      animate={{
-        opacity: mounted ? 1 : 0.9,
-        scale: mounted ? 1 : 0.9,
-        x: mounted ? 0 : -100,
-      }}
-      className=" w-fit font-semibold tracking-tight  text-white"
-      exit={{ opacity: 0, scale: 0.9, x: -100 }}
-      initial={{ opacity: 0, scale: 0.9, x: -100 }}
-      onHoverEnd={() => setAnimate(false)}
-      onHoverStart={() => setAnimate(true)}
-      transition={{ duration: 0.2 }}
-    >
-      <motion.div className="absolute z-10 flex w-fit flex-col items-center space-y-2 rounded-xl rounded-t-2xl bg-gray-200 p-1.5 dark:bg-gray-800">
-        {Navigation.map((item, index) => (
-          <Link
-            className={cn(
-              'flex h-14 w-12 cursor-pointer flex-col items-center space-y-1 p-2 transition-all duration-200',
-              index === 0 ? 'rounded-t-xl rounded-b-lg' : 'rounded-lg',
-              index === 0 ? 'bg-[#7786FE]' : 'bg-[#9CB7FF]',
-              'transition-all duration-200 hover:bg-opacity-80',
-            )}
-            href={item.href!}
-            key={index}
-          >
-            {item.keywords === 'home' && <HomeIcon className="h-6 w-6" />}
-            {item.keywords === 'writing' && (
-              <BookOpenIcon className="h-6 w-6" />
-            )}
-            <span className="select-none text-xs">{item.name}</span>
-          </Link>
-        ))}
-        <div className="flex h-14 w-12 cursor-crosshair flex-col items-center justify-center rounded-b-xl rounded-t-lg bg-[#ADC9FA] p-2">
-          ⌘
-        </div>
-      </motion.div>
-
-      <AnimatePresence>
-        (animate && (
-        <motion.div
-          animate={{
-            opacity: animate ? 1 : 0,
-            rotate: animate ? 45 : 0,
-            scale: animate ? 1 : 0,
-            x: animate ? 65 : 0,
-            y: animate ? 5 : 0,
-          }}
-          className="absolute top-0 left-0 right-0 flex w-fit flex-col items-center space-y-2 rounded-xl rounded-t-2xl bg-gray-200 p-1.5 dark:bg-gray-800"
-          exit={{ opacity: 0, rotate: 0, scale: 0, x: 0, y: 0 }}
-          initial={{ opacity: 0, rotate: 0, scale: 0, x: 0, y: 0 }}
-          transition={{ damping: 18, stiffness: 400, type: 'spring' }}
-        >
-          {Socials.map((item, index) => (
-            <div
+    <nav className="fixed bottom-4 left-4 z-50">
+      <motion.div
+        animate={{
+          opacity: mounted ? 1 : 0.9,
+          scale: mounted ? 1 : 0.9,
+          x: mounted ? 0 : -100,
+        }}
+        className=" w-fit font-semibold tracking-tight  text-white"
+        exit={{ opacity: 0, scale: 0.9, x: -100 }}
+        initial={{ opacity: 0, scale: 0.9, x: -100 }}
+        onHoverEnd={() => setAnimate(false)}
+        onHoverStart={() => setAnimate(true)}
+        transition={{ duration: 0.2 }}
+      >
+        <motion.div className="absolute z-10 flex w-fit flex-col items-center space-y-2 rounded-xl rounded-t-2xl bg-gray-200 p-1.5 dark:bg-gray-800">
+          {Navigation.map((item, index) => (
+            <Link
               className={cn(
                 'flex h-14 w-12 cursor-pointer flex-col items-center space-y-1 p-2 transition-all duration-200',
                 index === 0 ? 'rounded-t-xl rounded-b-lg' : 'rounded-lg',
-                index === 0 ? 'bg-[#CC697D]' : 'bg-[#E19DC2]',
+                index === 0 ? 'bg-[#7786FE]' : 'bg-[#9CB7FF]',
                 'transition-all duration-200 hover:bg-opacity-80',
               )}
+              href={item.href!}
               key={index}
-              onClick={() => {
-                item.perform?.();
-              }}
             >
-              {item.keywords === 'github' && <GitHubLogo />}
-              {item.keywords === 'twitter' && <TwitterLogo />}{' '}
+              {item.keywords === 'home' && <HomeIcon className="h-6 w-6" />}
+              {item.keywords === 'writing' && (
+                <BookOpenIcon className="h-6 w-6" />
+              )}
               <span className="select-none text-xs">{item.name}</span>
-            </div>
+            </Link>
           ))}
-          <div className="h-14 w-12 "></div>
+          <div className="flex h-14 w-12 cursor-crosshair flex-col items-center justify-center rounded-b-xl rounded-t-lg bg-[#ADC9FA] p-2">
+            ⌘
+          </div>
         </motion.div>
-        ))
-      </AnimatePresence>
 
-      <AnimatePresence>
-        (animate && mounted && (
-        <motion.div
-          animate={{
-            opacity: animate ? 1 : 0,
-            rotate: animate ? 90 : 0,
-            scale: animate ? 1 : 0,
-            x: animate ? 70 : 0,
-            y: animate ? 69 : 0,
-          }}
-          className="absolte top-0 left-0 right-0 flex w-fit flex-col items-center space-y-2 rounded-xl rounded-t-2xl bg-gray-200 p-1.5 dark:bg-gray-800"
-          exit={{
-            opacity: 0,
-            rotate: 0,
-            scale: 0,
-            x: 0,
-            y: 0,
-          }}
-          initial={{ opacity: 0, rotate: 0, scale: 0, x: 0, y: 0 }}
-          transition={{ damping: 18, stiffness: 400, type: 'spring' }}
-        >
-          {filteredThemeArray.map((item, index) => {
-            return (
+        <AnimatePresence>
+          (animate && (
+          <motion.div
+            animate={{
+              opacity: animate ? 1 : 0,
+              rotate: animate ? 45 : 0,
+              scale: animate ? 1 : 0,
+              x: animate ? 65 : 0,
+              y: animate ? 5 : 0,
+            }}
+            className="absolute top-0 left-0 right-0 flex w-fit flex-col items-center space-y-2 rounded-xl rounded-t-2xl bg-gray-200 p-1.5 dark:bg-gray-800"
+            exit={{ opacity: 0, rotate: 0, scale: 0, x: 0, y: 0 }}
+            initial={{ opacity: 0, rotate: 0, scale: 0, x: 0, y: 0 }}
+            transition={{ damping: 18, stiffness: 400, type: 'spring' }}
+          >
+            {Socials.map((item, index) => (
               <div
                 className={cn(
                   'flex h-14 w-12 cursor-pointer flex-col items-center space-y-1 p-2 transition-all duration-200',
                   index === 0 ? 'rounded-t-xl rounded-b-lg' : 'rounded-lg',
-                  index === 0 ? 'bg-[#BC7BFD]' : 'bg-[#D5ACFF]',
+                  index === 0 ? 'bg-[#CC697D]' : 'bg-[#E19DC2]',
                   'transition-all duration-200 hover:bg-opacity-80',
                 )}
                 key={index}
-                onClick={() => setTheme(item.keywords!)}
+                onClick={() => {
+                  item.perform?.();
+                }}
               >
-                {item.keywords === 'light' && <SunIcon className="h-6 w-6" />}
-                {item.keywords === 'dark' && <MoonIcon className="h-6 w-6" />}
-                {item.keywords === 'system' && (
-                  <ComputerDesktopIcon className="h-6 w-6" />
-                )}
-                <span className="touch-none select-none text-xs">
-                  {item.name}
-                </span>
+                {item.keywords === 'github' && <GitHubLogo />}
+                {item.keywords === 'twitter' && <TwitterLogo />}{' '}
+                <span className="select-none text-xs">{item.name}</span>
               </div>
-            );
-          })}
-          <div className="h-14 w-12"></div>
-        </motion.div>
-        )
-      </AnimatePresence>
-    </motion.div>
+            ))}
+            <div className="h-14 w-12 "></div>
+          </motion.div>
+          ))
+        </AnimatePresence>
+
+        <AnimatePresence>
+          (animate && mounted && (
+          <motion.div
+            animate={{
+              opacity: animate ? 1 : 0,
+              rotate: animate ? 90 : 0,
+              scale: animate ? 1 : 0,
+              x: animate ? 70 : 0,
+              y: animate ? 69 : 0,
+            }}
+            className="absolte top-0 left-0 right-0 flex w-fit flex-col items-center space-y-2 rounded-xl rounded-t-2xl bg-gray-200 p-1.5 dark:bg-gray-800"
+            exit={{
+              opacity: 0,
+              rotate: 0,
+              scale: 0,
+              x: 0,
+              y: 0,
+            }}
+            initial={{ opacity: 0, rotate: 0, scale: 0, x: 0, y: 0 }}
+            transition={{ damping: 18, stiffness: 400, type: 'spring' }}
+          >
+            {filteredThemeArray.map((item, index) => {
+              return (
+                <div
+                  className={cn(
+                    'flex h-14 w-12 cursor-pointer flex-col items-center space-y-1 p-2 transition-all duration-200',
+                    index === 0 ? 'rounded-t-xl rounded-b-lg' : 'rounded-lg',
+                    index === 0 ? 'bg-[#BC7BFD]' : 'bg-[#D5ACFF]',
+                    'transition-all duration-200 hover:bg-opacity-80',
+                  )}
+                  key={index}
+                  onClick={() => setTheme(item.keywords!)}
+                >
+                  {item.keywords === 'light' && <SunIcon className="h-6 w-6" />}
+                  {item.keywords === 'dark' && <MoonIcon className="h-6 w-6" />}
+                  {item.keywords === 'system' && (
+                    <ComputerDesktopIcon className="h-6 w-6" />
+                  )}
+                  <span className="touch-none select-none text-xs">
+                    {item.name}
+                  </span>
+                </div>
+              );
+            })}
+            <div className="h-14 w-12"></div>
+          </motion.div>
+          )
+        </AnimatePresence>
+      </motion.div>
+    </nav>
   );
 }
