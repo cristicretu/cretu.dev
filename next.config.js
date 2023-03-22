@@ -1,13 +1,10 @@
-/** @type {import('next').NextConfig} */
 const { withContentlayer } = require('next-contentlayer');
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-   experimental: { 
+  experimental: {
     appDir: true,
-    concurrentFeatures: true, 
-    reactRoot: true, 
-    runtime: "nodejs", 
-  }
+  },
 };
 
 module.exports = withContentlayer(nextConfig);
