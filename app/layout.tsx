@@ -87,7 +87,9 @@ export default function RootLayout({
         {/* <div className="flip-card-inner bg-[#1DB954] text-lg opacity-70 bg-[#C4150C] w-1/2 bg-[#214D72] w-1/2 bg-[#171515] bg-indigo-400 bg-orange-500 cursor-pointer  rotate-y-180 select-none flip-card bg-[#00acee] rotate-180 h-full font-semibold flip-card  rounded-lg flex items-center rounded-lg h-96 bg-green-500 flex flex-col gap-0 p-6 items-center justify-center p-6 flip-card-back justify-center gap-2 flip-card-front  text-2xl text-gray-100 text-center"></div> */}
         <div className="p-4"></div>
         <Providers>
-          <Swatch />
+          <nav className="fixed bottom-4 left-4 z-50">
+            <Swatch />
+          </nav>
           <AnimateEnter>
             <>
               {children}
