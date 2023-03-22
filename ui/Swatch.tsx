@@ -71,14 +71,19 @@ export default function Swatch() {
       animate={{
         opacity: isFocused ? 1 : 0.5,
         scale: 1,
+        x: isFocused ? -10 : -50,
       }}
       className=" w-fit  font-semibold  tracking-tight text-white"
+      drag="x"
+      dragConstraints={{ left: -50, right: 12 }}
+      dragElastic={0.5}
+      dragTransition={{ bounceDamping: 20, bounceStiffness: 600 }}
       exit={{ opacity: 0, scale: 0.9 }}
       id="swatch"
       initial={{ opacity: 0, scale: 0.9 }}
+      onDrag={handleDrag}
       onHoverEnd={() => {
         const isMobile = window.innerWidth < 768; //Add the width you want to check for here (now 768px)
-
         if (isMobile) return;
         setIsFocused(false);
         setAnimate(false);
@@ -91,18 +96,11 @@ export default function Swatch() {
         setAnimate(true);
       }}
       transition={{ duration: 0.2 }}
+      whileTap={{ cursor: 'grabbing' }}
     >
       <motion.div
-        animate={{
-          x: isFocused ? 0 : -45,
-        }}
+        animate={{}}
         className="absolute z-10 flex w-fit flex-col items-center space-y-2 rounded-xl rounded-t-2xl bg-gray-200 p-1.5 dark:bg-gray-800"
-        drag="x"
-        dragConstraints={{ left: -45, right: 12 }}
-        dragElastic={0.5}
-        dragTransition={{ bounceDamping: 20, bounceStiffness: 600 }}
-        onDrag={handleDrag}
-        whileTap={{ cursor: 'grabbing' }}
       >
         {Navigation.map((item, index) => (
           <Link
