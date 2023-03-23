@@ -1,7 +1,17 @@
-export function GitHubLogo() {
+import { cn } from '@/lib/className';
+
+interface IconProps {
+  className?: string;
+}
+
+export function GitHubLogo({ className }: IconProps) {
   return (
     <svg
-      className="h-auto w-6 fill-current text-gray-900 text-opacity-60 transition-all duration-200 hover:text-opacity-100 dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100"
+      className={cn(
+        className
+          ? className
+          : 'h-auto w-6 fill-current text-gray-900 text-opacity-60 transition-all duration-200 hover:text-opacity-100 dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100',
+      )}
       fill="none"
       height="15"
       viewBox="0 0 15 15"
@@ -18,10 +28,14 @@ export function GitHubLogo() {
   );
 }
 
-export function TwitterLogo() {
+export function TwitterLogo({ className }: IconProps) {
   return (
     <svg
-      className="h-auto w-6 fill-current text-gray-900 text-opacity-60 transition-all duration-200 hover:text-opacity-100 dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100"
+      className={cn(
+        className
+          ? className
+          : 'h-auto w-6 fill-current text-gray-900 text-opacity-60 transition-all duration-200 hover:text-opacity-100 dark:text-white dark:text-opacity-60 dark:hover:text-opacity-100',
+      )}
       fill="none"
       height="16"
       viewBox="0 0 15 15"
