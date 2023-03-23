@@ -71,7 +71,7 @@ export default function RootLayout({
         className={cn(
           `${inter.className}`,
           'h-full, min-h-screen, relative w-full',
-          'my-24 bg-white dark:bg-gray-900',
+          'my-4 bg-white dark:bg-gray-900 sm:my-24',
           'motion-reduce:transform-none motion-reduce:transition-none',
         )}
       >
@@ -85,6 +85,7 @@ export default function RootLayout({
         {/* <article className="prose prose-quoteless prose-neutral dark:prose-invert"></article> */}
         {/* <div className="pl-2 select-none pt-4 underline underline-offset-[3px] hover:no-underline hover:bg-[url('/static/squiggle.svg')]"></div> */}
         {/* <div className="flip-card-inner bg-[#1DB954] text-lg opacity-70 bg-[#C4150C] w-1/2 bg-[#214D72] w-1/2 bg-[#171515] bg-indigo-400 bg-orange-500 cursor-pointer  rotate-y-180 select-none flip-card bg-[#00acee] rotate-180 h-full font-semibold flip-card  rounded-lg flex items-center rounded-lg h-96 bg-green-500 flex flex-col gap-0 p-6 items-center justify-center p-6 flip-card-back justify-center gap-2 flip-card-front  text-2xl text-gray-100 text-center"></div> */}
+        <div className="p-4"></div>
         <Providers>
           <nav className="fixed bottom-4 left-4 z-50">
             <Swatch />
