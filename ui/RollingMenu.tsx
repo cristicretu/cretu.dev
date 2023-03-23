@@ -69,12 +69,6 @@ export default function RollingMenu() {
   useEffect(() => {
     if (!expanded) return;
 
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setExpanded(false);
-      }
-    };
-
     const handleOutsideClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if ((ref.current as any)?.contains(target)) return;
@@ -86,16 +80,41 @@ export default function RollingMenu() {
       setExpanded(false);
     };
 
-    window.addEventListener('keydown', handleEscape);
     window.addEventListener('click', handleOutsideClick);
     window.addEventListener('scroll', scrolled);
 
     return () => {
-      window.removeEventListener('keydown', handleEscape);
       window.removeEventListener('click', handleOutsideClick);
       window.removeEventListener('scroll', scrolled);
     };
   }, [expanded]);
+
+  useEffect(() => {
+    const handler = (event: {
+      key: string;
+      metaKey: boolean;
+      preventDefault: () => void;
+    }) => {
+      if (event.key === 'ArrowLeft' && expanded) {
+        event.preventDefault();
+      } else if (event.key === 'ArrowDown' && expanded) {
+        event.preventDefault();
+      } else if (event.key === 'Enter' && expanded) {
+        // highlightedTab?.click();
+      } else if (event.key === 'k' && event.metaKey) {
+        event.preventDefault();
+        setExpanded(!expanded);
+      } else if (event.key === 'Escape') {
+        setExpanded(false);
+      }
+    };
+
+    window.addEventListener('keydown', handler);
+
+    return () => {
+      window.removeEventListener('keydown', handler);
+    };
+  });
 
   return (
     <div className="flex items-center" ref={ref as any}>
@@ -118,10 +137,20 @@ export default function RollingMenu() {
                 exit="hidden"
                 initial="hidden"
                 key={i}
+                style={{
+                  WebkitTapHighlightColor: 'transparent',
+                }}
                 tabIndex={-1}
                 transition={{ bounce: 0.5, damping: 10, type: 'spring' }}
                 variants={itemVariants}
-                whileTap={{ scale: 1.1 }}
+                whileTap={{
+                  scale: 1.1,
+                  transition: {
+                    duration: 0.4,
+                    ease: [0.25, 1, 0.5, 1],
+                    type: 'tween',
+                  },
+                }}
               >
                 <Comp
                   as={
