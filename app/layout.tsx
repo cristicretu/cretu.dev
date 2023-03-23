@@ -24,7 +24,7 @@ export const metadata: Metadata = {
       {
         alt: 'Cristian Crețu',
         height: 1080,
-        url: 'https://leerob.io/static/images/og.png',
+        url: 'https://cretu.dev/static/images/og.png',
         width: 1920,
       },
     ],
