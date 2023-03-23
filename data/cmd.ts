@@ -66,8 +66,8 @@ export const actions: Action[] = [
     name: "System",
     keywords: "system",
     section: "Themes",
-    color: "#EC79F9",
-    iconColor: "#5C0E63",
+    color: "#FF7F50",
+    iconColor: "#9f3e1b",
   },
 ];
 

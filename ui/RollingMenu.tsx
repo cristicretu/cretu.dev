@@ -8,10 +8,10 @@ import {
   MoonIcon,
   PencilIcon,
   PlusIcon,
-  ScaleIcon,
+  ComputerDesktopIcon,
   SunIcon,
 } from '@heroicons/react/24/solid';
-import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 import Link from 'next/link';
 import {
@@ -26,7 +26,6 @@ export default function RollingMenu() {
   const [expanded, setExpanded] = useState(false);
   const ref =
     useRef<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>>();
-  const scale = useMotionValue(1);
   const { resolvedTheme, setTheme } = useTheme();
 
   const memoizedActions = actions.filter((action) => {
@@ -51,7 +50,7 @@ export default function RollingMenu() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, rotate: -360, scale: 0.5, x: -50 },
+    hidden: { opacity: 0, rotate: -360, scale: 0, x: -50 },
     visible: (i: number) => ({
       opacity: 1,
       rotate: 0,
@@ -119,7 +118,7 @@ export default function RollingMenu() {
   return (
     <div className="flex items-center" ref={ref as any}>
       <motion.button
-        animate={{ rotate: expanded ? 45 : 0, scale: scale.get() }}
+        animate={{ rotate: expanded ? 45 : 0 }}
         className="h-10 w-10 select-none items-center rounded-full bg-black p-3 dark:bg-white"
         onClick={handleClick}
         whileTap={{ scale: 1.1 }}
@@ -128,7 +127,7 @@ export default function RollingMenu() {
       </motion.button>
       <AnimatePresence>
         {expanded && (
-          <motion.div className="flex space-x-2" layout>
+          <motion.div className="flex space-x-2">
             {memoizedActions.map((action, i) => (
               <motion.div
                 animate="visible"
@@ -203,7 +202,7 @@ export default function RollingMenu() {
                     />
                   )}
                   {action.keywords === 'system' && (
-                    <ScaleIcon
+                    <ComputerDesktopIcon
                       className={`h-6 w-6 text-[${action.iconColor}]`}
                     />
                   )}
