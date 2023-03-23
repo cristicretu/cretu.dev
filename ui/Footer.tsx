@@ -37,7 +37,7 @@ function PixelatedSphere() {
   return (
     <points ref={sphereRef as any}>
       <icosahedronGeometry args={[1, 4]} />
-      <meshBasicMaterial color="gray" />
+      <pointsMaterial color="gray" size={0.05} />
     </points>
   );
 }
