@@ -39,6 +39,25 @@ const computedFields: ComputedFields = {
     resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
     type: 'string',
   },
+  structuredData: {
+    resolve: (doc) => ({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      author: {
+        '@type': 'Person',
+        name: 'Cristian Crețu',
+      },
+      dateModified: doc.publishedAt,
+      datePublished: doc.publishedAt,
+      description: doc.summary,
+      headline: doc.title,
+      image: doc.image
+        ? `https://cretu.dev${doc.image}`
+        : `https://cretu.dev/static/images/og.png`,
+      url: `https://cretu.dev/writing/${doc._raw.flattenedPath}`,
+    }),
+    type: 'json',
+  },
   wordCount: {
     resolve: (doc) => doc.body.raw.split(/\s+/gu).length,
     type: 'number',

@@ -71,6 +71,9 @@ export default async function WritingPost({ params }: { params: any }) {
 
   return (
     <div className="text-secondary">
+      <script type="application/ld+json">
+        {JSON.stringify(post.structuredData)}
+      </script>
       <Link className="text-secondary text-sm no-underline" href="/writing">
         ← Back to all posts
       </Link>

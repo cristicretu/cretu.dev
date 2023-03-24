@@ -68,7 +68,7 @@ function Birds() {
     const size = i % 2 === 0 ? 0.03 : 0.05;
     return (
       <mesh key={i} position={[1, 0, 0]}>
-        <planeBufferGeometry args={[size, size]} />
+        <planeGeometry args={[size, size]} />
         <meshBasicMaterial color="gray" />
       </mesh>
     );
@@ -82,7 +82,7 @@ function FooterGraphic() {
     <Canvas camera={{ fov: 40, position: [0, 0, 5] }} gl={{ antialias: false }}>
       <PixelatedSphere />
       <Birds />
-      <OrbitControls />
+      <OrbitControls enableZoom={false} />
     </Canvas>
   );
 }

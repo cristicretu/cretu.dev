@@ -21,6 +21,7 @@ export type Writing = {
   body: MDX
   readingTime: json
   slug: string
+  structuredData: json
   wordCount: number
 }  
 

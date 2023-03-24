@@ -10,13 +10,32 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  archives: ['https://old.crtu.dev'],
+  authors: [{ name: 'Cristian Crețu', url: 'https://cretu.dev' }],
   category: 'design',
+  creator: 'Cristian Crețu',
   description: 'Design Engineer.',
   icons: {
     apple: '/static/favicons/apple-touch-icon-180x180.png',
     icon: '/static/favicons/favicon-196x196.png',
     shortcut: '/favicon.ico',
   },
+  keywords: [
+    'Next.js',
+    'React',
+    'JavaScript',
+    'TypeScript',
+    'TailwindCSS',
+    'Design',
+    'Engineering',
+    'Frontend',
+    'Developer',
+    'Software',
+    'Cristian Crețu',
+    'Cristicrtu',
+    'cretu.dev',
+    'romania',
+  ],
   manifest: '/static/favicons/site.webmanifest',
   openGraph: {
     description: 'Design Engineer.',
@@ -34,6 +53,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://cretu.dev',
   },
+  publisher: 'Cristian Crețu',
   robots: {
     follow: true,
     googleBot: {
@@ -45,6 +65,10 @@ export const metadata: Metadata = {
     },
     index: true,
   },
+  themeColor: [
+    { color: 'white', media: '(prefers-color-scheme: light)' },
+    { color: '#171717', media: '(prefers-color-scheme: dark)' },
+  ],
   title: {
     default: 'Cristian Crețu',
     template: '%s | Cristian Crețu',
@@ -54,7 +78,6 @@ export const metadata: Metadata = {
     site: '@cristicrtu',
     title: 'Cristian Crețu',
   },
-
   verification: {
     google: 'fK4YqLAHjoaynXLF1e5gaPzDNOircgiYSgAwSXqr61o',
   },
@@ -87,7 +110,7 @@ export default function RootLayout({
         {/* <div className="flip-card-inner bg-[#1DB954] text-lg opacity-70 bg-[#C4150C] w-1/2 bg-[#214D72] w-1/2 bg-[#171515] bg-indigo-400 bg-orange-500 cursor-pointer  rotate-y-180 select-none flip-card bg-[#00acee] rotate-180 h-full font-semibold flip-card  rounded-lg flex items-center rounded-lg h-96 bg-green-500 flex flex-col gap-0 p-6 items-center justify-center p-6 flip-card-back justify-center gap-2 flip-card-front  text-2xl text-gray-100 text-center"></div> */}
         {/* <div className="bg-blue-500 p-4"></div> */}
         {/* <div className="mx-0.5 h-8 w-8 items-center rounded-full bg-black p-3 text-white dark:bg-white dark:text-black"></div> */}
-        <div className="bg-[#228B22]  bg-[#EC605A] bg-[#EC605A] bg-[#5D0F07] bg-[#F7D358] bg-[#673D13] bg-[#61C167] bg-[#0D2805] bg-[#63C7FA] bg-[#63C7FA] bg-[#102E62] bg-[#EC79F9] bg-[#EC79F9] bg-[#5C0E63] bg-[#9f3e1b] bg-[#FF7F50] text-[#9f3e1b] text-[#5D0F07] text-[#673D13] text-[#102E62] text-[#5C0E63] text-[#0D2805]"></div>
+        {/* <div className=" ml-0.5 w-3 bg-[#228B22]  bg-[#EC605A] bg-[#EC605A] bg-[#5D0F07] bg-[#F7D358] bg-[#673D13] bg-[#61C167] bg-[#0D2805] bg-[#63C7FA] bg-[#63C7FA] bg-[#102E62] bg-[#EC79F9] bg-[#EC79F9] bg-[#5C0E63] bg-[#9f3e1b] bg-[#FF7F50] text-[#9f3e1b] text-[#5D0F07] text-[#673D13] text-[#102E62] text-[#5C0E63] text-[#0D2805]"></div> */}
         <Providers>
           <nav className="fixed bottom-4 left-2 z-50 sm:left-4 md:left-6">
             {/* <button className="rounded-full bg-blue-500 p-3">

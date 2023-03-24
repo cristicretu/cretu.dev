@@ -79,8 +79,8 @@ export default function RollingMenu() {
       setExpanded(false);
     };
 
-    window.addEventListener('click', handleOutsideClick);
-    window.addEventListener('scroll', scrolled);
+    window.addEventListener('click', handleOutsideClick, { passive: true });
+    window.addEventListener('scroll', scrolled, { passive: true });
 
     return () => {
       window.removeEventListener('click', handleOutsideClick);
@@ -119,6 +119,7 @@ export default function RollingMenu() {
     <div className="flex items-center" ref={ref as any}>
       <motion.button
         animate={{ rotate: expanded ? 45 : 0 }}
+        aria-label="Navigation Menu"
         className="h-10 w-10 select-none items-center rounded-full bg-black p-3 dark:bg-white"
         onClick={handleClick}
         whileTap={{ scale: 1.1 }}
@@ -171,7 +172,7 @@ export default function RollingMenu() {
                       ? () => changeTheme(action.keywords!)
                       : undefined
                   }
-                  tabindex={0}
+                  tabIndex={0}
                 >
                   {action.keywords === 'home' && (
                     <HomeIcon
