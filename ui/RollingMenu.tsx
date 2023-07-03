@@ -168,11 +168,17 @@ export default function RollingMenu() {
                   href={action.href ?? undefined}
                   key={i}
                   onClick={
-                    action.perform ?? action.section === 'Themes'
+                    action.section === 'Themes'
                       ? () => changeTheme(action.keywords!)
                       : undefined
                   }
+                  rel={
+                    action.section === 'Socials'
+                      ? 'noopener noreferrer'
+                      : undefined
+                  }
                   tabIndex={0}
+                  target={action.section === 'Socials' ? '_blank' : undefined}
                 >
                   {action.keywords === 'home' && (
                     <HomeIcon
