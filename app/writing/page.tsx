@@ -31,6 +31,7 @@ export default async function Writing() {
   return (
     <div className="space-y-16">
       <h1>Writing</h1>
+      <p className="text-tertiary">If you&apos;re interested in exploring the articles that inspire me and shape my thinking, check out <Link className="underline " href={"/resources"}>Resources ¬</Link>.</p>
       <div className="space-y-2">
         {posts.map((post) => (
           <Link
