@@ -45,14 +45,15 @@ function AboutMe() {
           by creating pixel-perfect, polished interfaces.
         </p>
         <p>
-          Currently tinkering with various projects and apps. Previously worked
-          at <ExternalLink href="https://deta.space">Deta</ExternalLink>,
-          streamlining a new platform,{' '}
-          <ExternalLink href="https://deta.space/docs/en/introduction/personal-cloud">
-            for the future cloud computer
+          Currently tinkering with various projects and apps. Streamlining a new
+          platform, for the next era of{' '}
+          <ExternalLink href="https://deta.space/docs/en/learn/what-is-pc#content">
+            personal computing
           </ExternalLink>{' '}
-          and <ExternalLink href="https://landmarks.ro">Landmarks</ExternalLink>{' '}
-          - building beautiful web apps.
+          at <ExternalLink href="https://deta.space">Deta</ExternalLink>.
+          Previously worked at{' '}
+          <ExternalLink href="https://landmarks.ro">Landmarks</ExternalLink> -
+          building beautiful web apps.
         </p>
         <p>
           Studying Computer Science. Ardent in reading, writing, and improving
