@@ -69,5 +69,10 @@ export const resources: Resource[] = [
     title: "Science Daily",
     description: "A series of articles about science.",
     link: "https://www.sciencedaily.com/"
-  }
+  },
+  {
+    title: "Learn how computers add numbers",
+    description: "A 4 bit adder circuit example and explanation.",
+    link: "https://www.youtube.com/watch?v=wvJc9CZcvBc",
+  },
 ]
