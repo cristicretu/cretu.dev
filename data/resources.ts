@@ -75,4 +75,9 @@ export const resources: Resource[] = [
     description: "A 4 bit adder circuit example and explanation.",
     link: "https://www.youtube.com/watch?v=wvJc9CZcvBc",
   },
+  {
+    title: "Exploring how computers work",
+    description: "Sebastian Lague ELIM5-like about computers.",
+    link: "https://www.youtube.com/watch?v=QZwneRb-zqA",
+  }
 ]
