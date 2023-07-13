@@ -79,5 +79,10 @@ export const resources: Resource[] = [
     title: "Exploring how computers work",
     description: "Sebastian Lague ELIM5-like about computers.",
     link: "https://www.youtube.com/watch?v=QZwneRb-zqA",
+  },
+  {
+    title: "How computers remember",
+    description: "Latches, flip flops, and registers!",
+    link: "https://www.youtube.com/watch?v=I0-izyq6q5s",
   }
 ]
