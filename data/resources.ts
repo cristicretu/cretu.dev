@@ -90,4 +90,9 @@ export const resources: Resource[] = [
     description: "An essay by Paul Graham.",
     link: "http://paulgraham.com/greatwork.html",
   },
+  {
+    title: "Once you Stop Caring, Results Come",
+    description: "The harder we try with the conscious will to do something, the less we shall succeed.",
+    link: "https://www.youtube.com/watch?v=VpcQVjSVqOM",
+  },
 ]
