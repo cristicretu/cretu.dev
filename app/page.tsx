@@ -116,7 +116,7 @@ function ContactLink({
 function Contact() {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-tertiary">Contact</p>
+      <p className="text-tertiary">Connect</p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <ContactLink
           href="https://twitter.com/cristicrtu"
