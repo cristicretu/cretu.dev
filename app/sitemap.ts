@@ -1,7 +1,7 @@
 import { allWritings } from "@/.contentlayer/generated";
 import { MetadataRoute } from "next";
 
-const sitemap = () => {
+export default function sitemap() {
   const postRoutes = allWritings.map((post) => ({
     lastModified: post.publishedAt,
     // REFACTOR: extract url to a constant or use public env variable
@@ -14,6 +14,4 @@ const sitemap = () => {
   }));
 
   return [...routes, ...postRoutes] as MetadataRoute.Sitemap;
-};
-
-export default sitemap;
+}
