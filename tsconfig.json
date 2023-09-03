@@ -22,7 +22,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@ui/*": ["ui/*"],
+      "@ui/*": ["components/*"],
       "@data/*": ["data/*"],
       "@lib/*": ["lib/*"],
       "contentlayer/generated": [".contentlayer/generated"]

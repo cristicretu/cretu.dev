@@ -1,12 +1,13 @@
+import { SITE_URL } from '@/lib/constants';
+
 export default function robots() {
   return {
-    host: 'https://cretu.dev',
+    host: SITE_URL,
     rules: [
       {
         userAgent: '*',
       },
     ],
-    sitemap: 'https://cretu.dev/sitemap.xml',
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }
-

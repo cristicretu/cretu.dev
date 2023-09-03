@@ -1,7 +1,7 @@
 import '../../../styles/prose.css';
 import { Writing, allWritings } from '@/.contentlayer/generated';
-import ExternalLink from '@/ui/ExternalLink';
-import { Mdx } from '@/ui/MDXComponents';
+import ExternalLink from '@/components/ExternalLink';
+import { Mdx } from '@/components/MDXComponents';
 import { format, parseISO } from 'date-fns';
 import { Metadata } from 'next';
 import Image from 'next/image';
