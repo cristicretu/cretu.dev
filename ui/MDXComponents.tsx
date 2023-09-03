@@ -23,24 +23,25 @@ const CustomLink = (props: any) => {
   return <ExternalLink href={href} {...props} />;
 };
 
-const MDXComponents = {
+function RoundedImage(props: any) {
+  return <Image alt={props.alt} className="rounded-lg" {...props} />;
+}
+
+const components = {
   Flashcard,
-  Image,
+  Image: RoundedImage,
   a: CustomLink,
 };
 
-interface MdxProps {
-  code: string;
-}
 
-export function Mdx({ code }: MdxProps) {
+export function Mdx({ code }: { code: string }) {
   const Component = useMDXComponent(code);
 
   return (
     <article className="prose-quoteless prose prose-neutral dark:prose-invert">
-      <Component components={{ ...MDXComponents } as any} />
+      <Component components={components} />
     </article>
   );
 }
 
-export default MDXComponents;
+export default components;

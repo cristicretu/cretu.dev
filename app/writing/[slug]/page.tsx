@@ -71,9 +71,13 @@ export default async function WritingPost({ params }: { params: any }) {
 
   return (
     <div className="text-secondary">
-      <script type="application/ld+json">
-        {JSON.stringify(post.structuredData)}
-      </script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(post.structuredData),
+        }}
+        suppressHydrationWarning
+        type="application/ld+json"
+      ></script>
       <Link className="text-secondary text-sm no-underline" href="/writing">
         ← Back to all posts
       </Link>
@@ -92,9 +96,12 @@ export default async function WritingPost({ params }: { params: any }) {
         />
       </div>
       <Mdx code={post.body.code} />
-      <ExternalLink className="text-sm" href={editUrl(post.slug)}>
-        Edit source on GitHub
-      </ExternalLink>
+      <div className='mt-4'>
+        You can follow me on <ExternalLink href="https://twitter.com/cristicrtu">Twitter</ExternalLink>, where I document my journey :)
+        <ExternalLink className="text-sm" href={editUrl(post.slug)}>
+          Edit source on GitHub
+        </ExternalLink>
+      </div>
     </div>
   );
 }
