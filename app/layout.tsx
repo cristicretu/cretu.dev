@@ -65,10 +65,6 @@ export const metadata: Metadata = {
     },
     index: true,
   },
-  themeColor: [
-    { color: 'white', media: '(prefers-color-scheme: light)' },
-    { color: '#171717', media: '(prefers-color-scheme: dark)' },
-  ],
   title: {
     default: 'Cristian Crețu',
     template: '%s | Cristian Crețu',
