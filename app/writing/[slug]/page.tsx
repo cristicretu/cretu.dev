@@ -2,10 +2,9 @@ import '../../../styles/prose.css';
 import { Writing, allWritings } from '@/.contentlayer/generated';
 import ExternalLink from '@/ui/ExternalLink';
 import { Mdx } from '@/ui/MDXComponents';
-import { format, parseISO } from 'date-fns';
+import { getRelativeTimeString } from '@/lib/relativeDate';
 import { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
@@ -62,6 +61,7 @@ export async function generateMetadata({
 const editUrl = (slug: string) =>
   `https://github.com/cristicretu/cretu.dev/edit/main/data/writing/${slug}.mdx`;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async function WritingPost({ params }: { params: any }) {
   const post = allWritings.find((post) => post.slug === params.slug);
 
@@ -78,14 +78,8 @@ export default async function WritingPost({ params }: { params: any }) {
         suppressHydrationWarning
         type="application/ld+json"
       ></script>
-      <Link className="text-secondary text-sm no-underline" href="/writing">
-        ← Back to all posts
-      </Link>
-      <h1 className="text-primary text-2xl font-medium">{post.title}</h1>
-      <div className="-mt-3 grid w-fit grid-cols-1 gap-2 divide-gray-500 text-sm sm:grid-cols-2">
-        <span>{format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}</span>
-        <span>{post.readingTime.text}</span>
-      </div>
+      <p className='mb-2 text-sm text-tertiary font-mono'>{getRelativeTimeString(new Date(post.publishedAt)).toUpperCase()}</p>
+      <h1 className="text-primary text-3xl font-semibold">{post.title}</h1>
       <div className="relative mt-8 h-[400px]">
         <Image
           alt={post.title}

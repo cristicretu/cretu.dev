@@ -1,10 +1,10 @@
 import { pick } from "contentlayer/client";
 import { allWritings } from ".contentlayer/generated";
 import type { Writing } from "contentlayer/generated";
-import { format, parseISO } from "date-fns";
 import Link from "next/link";
 import { cn } from "@/lib/className";
 import { Metadata } from "next";
+import { getRelativeTimeString } from "@/lib/relativeDate";
 
 export const metadata: Metadata = {
   description: "A place where I share ideas about design and code.",
@@ -31,7 +31,7 @@ export default async function Writing() {
   return (
     <div className="space-y-16">
       <h1>Writing</h1>
-      <p className="text-tertiary">If you&apos;re interested in exploring the articles that inspire me and shape my thinking, check out <Link className="underline " href={"/resources"}>Resources ¬</Link>.</p>
+      <p className="text-tertiary">If you&apos;re interested in exploring the articles that inspire me and shape my thinking, check out <Link className="underline " href={"/resources"}>Resources</Link>.</p>
       <div className="space-y-2">
         {posts.map((post) => (
           <Link
@@ -44,10 +44,10 @@ export default async function Writing() {
             key={post.slug}
           >
             <span className="flex-grow truncate text-secondary mr-2">
-              {post.title} →
+              {post.title}
             </span>
             <span className="text-tertiary flex-shrink-0">
-              {format(parseISO(post.publishedAt), "MMMM yyyy")}
+              {getRelativeTimeString(new Date(post.publishedAt))} 
             </span>
           </Link>
         ))}

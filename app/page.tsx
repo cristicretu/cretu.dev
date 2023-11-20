@@ -1,5 +1,27 @@
+import { allWritings } from '.contentlayer/generated';
+import { cn } from '@/lib/className';
+import { getRelativeTimeString } from '@/lib/relativeDate';
 import ExternalLink from '@/ui/ExternalLink';
+import { pick } from 'contentlayer/client';
 import Image from 'next/image';
+import Link from 'next/link';
+import { Suspense } from 'react';
+
+async function getData() {
+  const posts = allWritings
+    .map((post) => pick(post, ['slug', 'title', 'summary', 'publishedAt']))
+    .sort(
+      (a, b) =>
+        Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt)),
+    )
+    .slice(0, 3);
+
+  return {
+    props: {
+      posts,
+    },
+  };
+}
 
 export default function Home() {
   return (
@@ -7,6 +29,9 @@ export default function Home() {
       <Header />
       <Contact />
       <AboutMe />
+      <Suspense>
+        <RecentWritings />
+      </Suspense>
     </div>
   );
 }
@@ -145,6 +170,36 @@ function Contact() {
           website="Email"
         />
         <ContactLink href="https://read.cv/cretu" title="cretu" website="CV" />
+      </div>
+    </div>
+  );
+}
+
+async function RecentWritings() {
+  const { posts } = (await getData()).props;
+
+  return (
+    <div className="flex flex-col gap-4">
+      <p className="text-tertiary">Recent writing</p>
+      <div className="space-y-2">
+        {posts.map((post) => (
+          <Link
+            className={cn(
+              '-mx-2 flex flex-row justify-between rounded-md px-2 py-2',
+              'hover:bg-gray-200 dark:hover:bg-gray-800',
+              'transition-all duration-200',
+            )}
+            href={`/writing/${post.slug}`}
+            key={post.slug}
+          >
+            <span className="text-secondary mr-2 flex-grow truncate">
+              {post.title}
+            </span>
+            <span className="text-tertiary flex-shrink-0">
+              {getRelativeTimeString(new Date(post.publishedAt))}
+            </span>
+          </Link>
+        ))}
       </div>
     </div>
   );

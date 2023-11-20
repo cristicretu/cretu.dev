@@ -6,10 +6,13 @@ import { useRef } from 'react';
 
 export default function Footer() {
   return (
-    <footer className="text-quaternary border-gray-200pb-24 mx-auto max-w-2xl border-t border-dashed py-12 pt-4 text-sm dark:border-gray-700 dark:text-gray-600">
+    <footer className="text-quaternary border-gray-200 pb-24 mx-auto max-w-2xl border-t border-dashed py-12 pt-4 text-sm dark:border-gray-200 dark:text-gray-600">
       <FooterGraphic />
-      <span>
-        © Cristian Crețu {new Date().getFullYear()}. Website built using Next.js
+      <p className='flex flex-col gap-4'>
+        © 2021 - {new Date().getFullYear()} Cristian Crețu.  All Rights Reserved.
+        <span>www.cretu.dev v.2023.11</span>
+
+        <span>Website built using Next.js
         & TailwindCSS (
         <a
           href="https://github.com/cristicretu/cretu.dev"
@@ -18,8 +21,8 @@ export default function Footer() {
         >
           view source
         </a>
-        ).
-      </span>
+        ).</span>
+      </p>
     </footer>
   );
 }
