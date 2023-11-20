@@ -28,7 +28,7 @@ function Header() {
       </div>
       <div className="flex flex-col">
         <h1>Cristian Crețu</h1>
-        <p className="text-quaternary">Design Engineer in Europe</p>
+        <p className="text-quaternary">Design Engineer</p>
       </div>
     </div>
   );
@@ -40,26 +40,27 @@ function AboutMe() {
       <p className="text-tertiary">About me</p>
       <div className="text-secondary flex flex-col gap-4">
         <p>
-          Exploring ways to create unique, fluid experiences. Unlimitedly
-          obsessed with solving problems where design and engineering intersect,
-          by creating pixel-perfect, polished interfaces.
+          Passionate about crafting seamless, polished interfaces where design
+          meets engineering.
         </p>
         <p>
-          Currently tinkering with various projects and apps. Streamlining a new
-          platform, for the next era of{' '}
-          <ExternalLink href="https://deta.space/docs/en/learn/what-is-pc#content">
-            personal computing
+          Working on multiple projects and apps; formerly at{' '}
+          <ExternalLink arrow={false} href="https://deta.space">
+            Deta
           </ExternalLink>{' '}
-          at <ExternalLink href="https://deta.space">Deta</ExternalLink>.
-          Previously worked at{' '}
-          <ExternalLink href="https://landmarks.ro">Landmarks</ExternalLink> -
-          building beautiful web apps.
+          developing the{' '}
+          <ExternalLink href="https://deta.space/docs/en/learn/what-is-pc#content">
+            OS for the web
+          </ExternalLink>{' '}
+          , and at{' '}
+          <ExternalLink arrow={false} href="https://github.com/Landmarks-Tech">
+            Landmarks
+          </ExternalLink>{' '}
+          creating stunning web applications.
         </p>
         <p>
-          Studying Computer Science. Ardent in reading, writing, and improving
-          consistently through learning. Currently interested in TypeScript and
-          C. Experimenting native apps with Swift. Generating new experiences
-          with Figma.
+          Currently studying Computer Science at BBU. Ardent in reading,
+          writing, and improving consistently through learning.
         </p>
       </div>
     </div>
@@ -116,12 +117,12 @@ function ContactLink({
 function Contact() {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-tertiary">Connect</p>
+      <p className="text-tertiary">Links</p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <ContactLink
-          href="https://twitter.com/cristicrtu"
+          href="https://X.com/cristicrtu"
           title="cristicrtu"
-          website="Twitter"
+          website="X"
         />
         <ContactLink
           href="https://github.com/cristicretu"
