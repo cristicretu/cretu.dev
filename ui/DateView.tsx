@@ -10,7 +10,11 @@ const DateViewer = ({ date }: { date: string }) => {
     setMounted(true);
   }, []);
 
-  return <span>{mounted && getRelativeTimeString(new Date(date))}</span>;
+  return (
+    <span className="font-mono text-sm uppercase">
+      {mounted && getRelativeTimeString(new Date(date))}
+    </span>
+  );
 };
 
 export default DateViewer;
