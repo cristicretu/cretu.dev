@@ -1,8 +1,8 @@
 import '../../../styles/prose.css';
 import { Writing, allWritings } from '@/.contentlayer/generated';
+import DateViewer from '@/ui/DateView';
 import ExternalLink from '@/ui/ExternalLink';
 import { Mdx } from '@/ui/MDXComponents';
-import { getRelativeTimeString } from '@/lib/relativeDate';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -78,7 +78,9 @@ export default async function WritingPost({ params }: { params: any }) {
         suppressHydrationWarning
         type="application/ld+json"
       ></script>
-      <p className='mb-2 text-sm text-tertiary font-mono'>{getRelativeTimeString(new Date(post.publishedAt)).toUpperCase()}</p>
+      <p className="text-tertiary mb-2 font-mono text-sm">
+        <DateViewer date={post.publishedAt} />
+      </p>
       <h1 className="text-primary text-3xl font-semibold">{post.title}</h1>
       <div className="relative mt-8 h-[400px]">
         <Image
@@ -90,8 +92,7 @@ export default async function WritingPost({ params }: { params: any }) {
         />
       </div>
       <Mdx code={post.body.code} />
-      <div className='mt-4'>
-        You can follow me on <ExternalLink href="https://twitter.com/cristicrtu">Twitter</ExternalLink>, where I document my journey :)
+      <div className="mt-8">
         <ExternalLink className="text-sm" href={editUrl(post.slug)}>
           Edit source on GitHub
         </ExternalLink>

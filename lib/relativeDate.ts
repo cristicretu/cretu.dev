@@ -1,6 +1,6 @@
 export function getRelativeTimeString(
   date: Date | number,
-  lang = 'en-us',
+  lang = navigator.language,
 ): string {
   // Allow dates or times to be passed
   const timeMs = typeof date === 'number' ? date : date.getTime();

@@ -1,6 +1,6 @@
 import { allWritings } from '.contentlayer/generated';
 import { cn } from '@/lib/className';
-import { getRelativeTimeString } from '@/lib/relativeDate';
+import DateViewer from '@/ui/DateView';
 import ExternalLink from '@/ui/ExternalLink';
 import { pick } from 'contentlayer/client';
 import Image from 'next/image';
@@ -196,7 +196,7 @@ async function RecentWritings() {
               {post.title}
             </span>
             <span className="text-tertiary flex-shrink-0">
-              {getRelativeTimeString(new Date(post.publishedAt))}
+              <DateViewer date={post.publishedAt} />{' '}
             </span>
           </Link>
         ))}
