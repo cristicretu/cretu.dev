@@ -109,7 +109,8 @@ export default function RootLayout({
         {/* <div className=" ml-0.5 w-3 bg-[#228B22]  bg-[#EC605A] bg-[#EC605A] bg-[#5D0F07] bg-[#F7D358] bg-[#673D13] bg-[#61C167] bg-[#0D2805] bg-[#63C7FA] bg-[#63C7FA] bg-[#102E62] bg-[#EC79F9] bg-[#EC79F9] bg-[#5C0E63] bg-[#9f3e1b] bg-[#FF7F50] text-[#9f3e1b] text-[#5D0F07] text-[#673D13] text-[#102E62] text-[#5C0E63] text-[#0D2805]"></div> */}
         {/* <div className="bg-red-500 font-mono text-sm uppercase">hey</div> */}
         {/* <div className="max-w-2xl">aaa</div> */}
-        <div className="h-42 absolute flex h-32 h-36 h-[520px] flex-col"></div>
+        {/* <div className="h-42 absolute flex h-32 h-36 h-[520px] flex-col"></div> */}
+        {/* <div className="h-32 h-48 h-64 h-72 h-96 h-[420px] h-[520px]"></div> */}
         <Providers>
           <nav className="fixed bottom-4 left-2 z-50 sm:left-4 md:left-6">
             {/* <button className="rounded-full bg-blue-500 p-3">

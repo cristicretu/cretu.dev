@@ -7,7 +7,7 @@ import { ReactElement } from 'react';
 export default function Work() {
   return (
     <div className="columns-1 gap-2 sm:columns-2 md:columns-3  [&>div:not(:first-child)]:mt-2">
-      {works.reverse().map((work) => (
+      {works.map((work) => (
         <Card
           authors={work.authors}
           company={work.company}
@@ -48,7 +48,6 @@ function Card({
           alt={title}
           className="absolute h-full w-full rounded-lg object-cover transition-all duration-200 group-hover:blur-xl"
           src={img}
-          style={{ objectFit: 'cover' }}
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-transparent to-gray-800 opacity-60 transition-opacity duration-200 group-hover:opacity-90"></div>
