@@ -25,7 +25,7 @@ async function getData() {
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="mx-auto flex max-w-2xl flex-col gap-16">
       <Header />
       <Contact />
       <AboutMe />

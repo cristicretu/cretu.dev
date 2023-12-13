@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default async function Resources() {
   return (
-    <div className="space-y-16">
+    <div className="mx-auto max-w-2xl space-y-16">
       <h1>Resources</h1>
       <p className="text-secondary">
         A curated collection of captivating articles, thought-provoking essays,

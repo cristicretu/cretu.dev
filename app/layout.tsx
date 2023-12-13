@@ -10,7 +10,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  archives: ['https://old.crtu.dev'],
+  archives: ['https://old.cretu.dev'],
   authors: [{ name: 'Cristian Crețu', url: 'https://cretu.dev' }],
   category: 'design',
   creator: 'Cristian Crețu',
@@ -108,6 +108,7 @@ export default function RootLayout({
         {/* <div className="mx-0.5 h-8 w-8 items-center rounded-full bg-black p-3 text-white dark:bg-white dark:text-black"></div> */}
         {/* <div className=" ml-0.5 w-3 bg-[#228B22]  bg-[#EC605A] bg-[#EC605A] bg-[#5D0F07] bg-[#F7D358] bg-[#673D13] bg-[#61C167] bg-[#0D2805] bg-[#63C7FA] bg-[#63C7FA] bg-[#102E62] bg-[#EC79F9] bg-[#EC79F9] bg-[#5C0E63] bg-[#9f3e1b] bg-[#FF7F50] text-[#9f3e1b] text-[#5D0F07] text-[#673D13] text-[#102E62] text-[#5C0E63] text-[#0D2805]"></div> */}
         {/* <div className="bg-red-500 font-mono text-sm uppercase">hey</div> */}
+        {/* <div className="max-w-2xl">aaa</div> */}
         <Providers>
           <nav className="fixed bottom-4 left-2 z-50 sm:left-4 md:left-6">
             {/* <button className="rounded-full bg-blue-500 p-3">

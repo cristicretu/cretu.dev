@@ -70,7 +70,7 @@ export default async function WritingPost({ params }: { params: any }) {
   }
 
   return (
-    <div className="text-secondary">
+    <div className="text-secondary mx-auto max-w-2xl">
       <script
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(post.structuredData),
