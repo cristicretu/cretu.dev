@@ -40,7 +40,7 @@ function Card({
   return (
     <div
       className={cn(
-        'group relative flex break-inside-avoid flex-col space-y-4 rounded-lg bg-gray-100 px-2 py-2.5 dark:bg-gray-800',
+        'group relative flex break-inside-avoid flex-col space-y-4 rounded-lg bg-gray-100 px-2 py-2.5 text-gray-200 dark:bg-gray-800',
       )}
     >
       <div className={cn('relative rounded-lg', h, 'overflow-hidden')}>
@@ -48,15 +48,18 @@ function Card({
           alt={title}
           className="absolute h-full w-full rounded-lg object-cover transition-all duration-200 group-hover:blur-xl"
           src={img}
+          style={{ objectFit: 'cover' }}
         />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-gray-800 opacity-60 transition-opacity duration-200 group-hover:opacity-90"></div>
       </div>
 
       <div className="absolute flex w-full flex-row justify-between pl-4 pr-8 transition-all duration-200  group-hover:opacity-0">
         <span>{title}</span>
-        <span>{description}</span>
+        <span className="font-mono">{description}</span>
       </div>
 
-      <div className="absolute inset-0 z-50 flex flex-col items-center justify-center space-y-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center space-y-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
         <div className="flex flex-col">
           <span className=" font-bold">{title}</span>
           <span>{description}</span>
