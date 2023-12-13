@@ -1,92 +1,75 @@
+/* eslint-disable @next/next/no-img-element */
 import WorkLayout from './layout';
+import { works } from '@/data/work';
 import { cn } from '@/lib/className';
 import { ReactElement } from 'react';
 
 export default function Work() {
   return (
     <div className="columns-1 gap-2 sm:columns-2 md:columns-3  [&>div:not(:first-child)]:mt-2">
-      <Card
-        authors="Cristi, Alex"
-        img="/images/deta.png"
-        order={1}
-        title="Deta"
-        year="2021"
-      />
-      <Card
-        authors="David, Alex"
-        img="/images/deta.png"
-        order={2}
-        title="Something else"
-        year="2023"
-      />
-
-      <Card
-        authors="Cristi, Alex"
-        img="/images/deta.png"
-        order={3}
-        title="Seggg"
-        year="2025"
-      />
-
-      <Card
-        authors="Cristi, Alex"
-        img="/images/deta.png"
-        order={4}
-        title="Deta"
-        year="2021"
-      />
-      <Card
-        authors="David, Alex"
-        img="/images/deta.png"
-        order={5}
-        title="Something else"
-        year="2023"
-      />
-
-      <Card
-        authors="Cristi, Alex"
-        img="/images/deta.png"
-        order={6}
-        title="Seggg"
-        year="2025"
-      />
+      {works.reverse().map((work) => (
+        <Card
+          authors={work.authors}
+          company={work.company}
+          description={work.description}
+          h={work.h}
+          img={work.img}
+          key={work.title}
+          title={work.title}
+        />
+      ))}
     </div>
   );
 }
 
 function Card({
-  year = '2021',
+  description = '2021',
   title = 'Deta',
-  img = '/images/deta.png',
-  authors = 'Cristi, Alex',
-  order = 0,
+  img,
+  authors,
+  h = 'h-48',
+  company,
 }: {
-  authors?: string;
+  authors?: string[];
+  company?: string;
+  description?: string;
+  h?: string;
   img?: string;
-  order?: number;
   title?: string;
-  year?: string;
 }) {
-  const heigts = ['h-64', 'h-72', 'h-80', 'h-96'];
   return (
     <div
       className={cn(
-        'relative flex break-inside-avoid flex-col space-y-4 rounded-lg bg-gray-100 px-2 py-2.5 dark:bg-gray-800',
-        `!order-${order}`,
+        'group relative flex break-inside-avoid flex-col space-y-4 rounded-lg bg-gray-100 px-2 py-2.5 dark:bg-gray-800',
       )}
     >
-      <div
-        className={
-          (cn('relative h-64 w-full rounded-lg'),
-          heigts[Number.parseInt(year) % 4])
-        }
-      >
-        <div className="h-full w-full rounded-md bg-red-500" />
+      <div className={cn('relative rounded-lg', h, 'overflow-hidden')}>
+        <img
+          alt={title}
+          className="absolute h-full w-full rounded-lg object-cover transition-all duration-200 group-hover:blur-xl"
+          src={img}
+        />
       </div>
 
-      <div className="absolute flex w-full flex-row justify-between pl-4 pr-12">
+      <div className="absolute flex w-full flex-row justify-between pl-4 pr-8 transition-all duration-200  group-hover:opacity-0">
         <span>{title}</span>
-        <span>{year}</span>
+        <span>{description}</span>
+      </div>
+
+      <div className="absolute inset-0 z-50 flex flex-col items-center justify-center space-y-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <div className="flex flex-col">
+          <span className=" font-bold">{title}</span>
+          <span>{description}</span>
+          {company && <span>{company}</span>}
+
+          <div className="mt-4">
+            {authors?.map((author) => (
+              <span className="block" key={author}>
+                {author}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
