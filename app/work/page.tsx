@@ -58,13 +58,13 @@ function Card({
         <span className="font-mono">{description}</span>
       </div>
 
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center space-y-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-        <div className="flex flex-col">
+      <div className="absolute inset-0 z-20 flex select-none flex-col items-center justify-center space-y-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <div className="flex select-none flex-col">
           <span className=" font-bold">{title}</span>
           <span>{description}</span>
           {company && <span>{company}</span>}
 
-          <div className="mt-4">
+          <div className="mt-4 select-none">
             {authors?.map((author) => (
               <span className="block" key={author}>
                 {author}
