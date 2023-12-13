@@ -29,6 +29,14 @@ export const actions: Action[] = [
     iconColor: "#673D13",
   },
   {
+    name: "Highlights",
+    keywords: "highlights",
+    href: "/work",
+    section: "Navigation",
+    color: "#FF7F50",
+    iconColor: "#673D13",
+  },
+  {
     name: "GitHub",
     keywords: "github",
     href: "https://github.com/cristicretu",
@@ -39,7 +47,7 @@ export const actions: Action[] = [
   {
     name: "Twitter",
     keywords: "twitter",
-    href: "https://twitter.com/cristicrtu",
+    href: "https://x.com/cristicrtu",
     section: "Socials",
     color: "#63C7FA",
     iconColor: "#102E62",
@@ -58,13 +66,13 @@ export const actions: Action[] = [
     color: "#EC79F9",
     iconColor: "#5C0E63",
   },
-  {
-    name: "System",
-    keywords: "system",
-    section: "Themes",
-    color: "#FF7F50",
-    iconColor: "#9f3e1b",
-  },
+  // {
+  //   name: "System",
+  //   keywords: "system",
+  //   section: "Themes",
+  //   color: "#FF7F50",
+  //   iconColor: "#9f3e1b",
+  // },
 ];
 
 
@@ -79,6 +87,12 @@ export const Navigation: Action[] = [
     name: "Writing",
     keywords: "writing",
     href: "/writing",
+    section: "Navigation",
+  },
+  {
+    name: "Highlights",
+    keywords: "highlights",
+    href: "/work",
     section: "Navigation",
   },
 ];
@@ -113,9 +127,9 @@ export const Themes: Action[] = [
     keywords: "dark",
     section: "Themes",
   },
-  {
-    name: "System",
-    keywords: "system",
-    section: "Themes",
-  },
+  // {
+  //   name: "System",
+  //   keywords: "system",
+  //   section: "Themes",
+  // },
 ];

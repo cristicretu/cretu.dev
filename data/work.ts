@@ -138,6 +138,13 @@ export const works: WorkCardType[] = [
     h: "h-64"
   },
   {
+    title: "Bento Map Card",
+    description: "2023",
+    authors: ["Cristian Crețu"],
+    img: "/static/images/work/bento.webp",
+    h: "h-96"
+  },
+  {
     title: "Builder",
     description: "2022",
     authors: ["Mustafa Abdelhai", "Max Eusterbrock",  "Maximilian Schiller", "Aavash Shrestha", "Rohan Shiva", "Cristian Crețu"],
