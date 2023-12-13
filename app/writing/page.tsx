@@ -29,7 +29,7 @@ async function getData() {
 export default async function Writing() {
   const { posts } = (await getData()).props;
   return (
-    <div className="space-y-16">
+    <div className="mx-auto max-w-2xl space-y-16">
       <h1>Writing</h1>
       <p className="text-tertiary">
         If you&apos;re interested in exploring the articles that inspire me and

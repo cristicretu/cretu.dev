@@ -25,7 +25,7 @@ async function getData() {
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-16">
+    <div className="mx-auto flex max-w-2xl flex-col gap-16 px-8">
       <Header />
       <Contact />
       <AboutMe />
@@ -86,6 +86,13 @@ function AboutMe() {
         <p>
           Currently studying Computer Science at BBU. Ardent in reading,
           writing, and improving consistently through learning.
+        </p>
+        <p>
+          Check out my{' '}
+          <Link className="underline" href={'/work'}>
+            highlights and projects
+          </Link>{' '}
+          if you want to learn more about me.
         </p>
       </div>
     </div>

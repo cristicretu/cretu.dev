@@ -90,3 +90,11 @@
     transform: rotateY(180deg);
   }
 }
+
+.container {
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20%;
+  grid-template-rows: masonry;
+  align-tracks: start; 
+  justify-tracks: start;
+}
