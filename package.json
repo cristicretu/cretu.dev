@@ -46,7 +46,7 @@
     "eslint-plugin-typescript-sort-keys": "^2.3.0",
     "eslint-plugin-unicorn": "^47.0.0",
     "fiber": "link:@types/@react-three/fiber",
-    "postcss": "8.4.24",
+    "postcss": "8.4.31",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "reading-time": "^1.5.0",
