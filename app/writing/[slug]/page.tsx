@@ -82,15 +82,17 @@ export default async function WritingPost({ params }: { params: any }) {
         <DateViewer date={post.publishedAt} />
       </p>
       <h1 className="text-primary text-3xl font-semibold">{post.title}</h1>
-      <div className="relative mt-8 h-[400px]">
-        <Image
-          alt={post.title}
-          className="rounded-lg"
-          layout="fill"
-          objectFit="cover"
-          src={post.image}
-        />
-      </div>
+      {post.image && (
+        <div className="relative mt-8 h-[400px]">
+          <Image
+            alt={post.title}
+            className="rounded-lg"
+            layout="fill"
+            objectFit="cover"
+            src={post.image}
+          />
+        </div>
+      )}
       <Mdx code={post.body.code} />
       <div className="mt-8">
         <ExternalLink className="text-sm" href={editUrl(post.slug)}>
