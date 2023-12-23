@@ -10,7 +10,7 @@ export default function Footer() {
       <FooterGraphic />
       <p className='flex flex-col gap-4'>
         © 2021 - {new Date().getFullYear()} Cristian Crețu.  All Rights Reserved.
-        <span>www.cretu.dev v.2023.11</span>
+        <span>www.cretu.dev v.2023.12</span>
 
         <span>Website built using Next.js
         & TailwindCSS (
