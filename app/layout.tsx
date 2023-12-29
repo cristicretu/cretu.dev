@@ -112,7 +112,7 @@ export default function RootLayout({
         {/* <div className="h-42 absolute flex h-32 h-36 h-[520px] flex-col"></div> */}
         {/* <div className="h-32 h-48 h-64 h-72 h-96 h-[420px] h-[520px]"></div> */}
         {/* <div className="max-w-xl px-8 underline"></div> */}
-        <div className='px-8'></div>
+        <div className='px-8 bg-green-500 w-1/3 w-2/3'></div>
         <Providers>
           <nav className="fixed bottom-4 left-2 z-50 sm:left-4 md:left-6">
             {/* <button className="rounded-full bg-blue-500 p-3">
