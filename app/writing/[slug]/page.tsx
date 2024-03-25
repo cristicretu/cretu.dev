@@ -78,7 +78,7 @@ export default async function WritingPost({ params }: { params: any }) {
         suppressHydrationWarning
         type="application/ld+json"
       ></script>
-      <p className="text-tertiary mb-2 font-mono text-sm bg-gray-800 w-fit px-1.5 py-0.5 rounded-md -ml-1">
+      <p className="text-tertiary mb-2 font-mono text-sm bg-gray-200 dark:bg-gray-800 w-fit px-1.5 py-0.5 rounded-md -ml-1">
         <DateViewer date={post.publishedAt} />
       </p>
       <h1 className="text-primary text-3xl font-semibold">{post.title}</h1>
