@@ -11,12 +11,12 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const viewport: Viewport = {
+  initialScale: 1,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: '#171717' },
+    { color: 'white', media: '(prefers-color-scheme: light)' },
+    { color: '#171717', media: '(prefers-color-scheme: dark)' },
   ],
   width: 'device-width',
-  initialScale: 1,
 };
 
 export const metadata: Metadata = {
