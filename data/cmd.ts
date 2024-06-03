@@ -36,22 +36,22 @@ export const actions: Action[] = [
     color: "#FF7F50",
     iconColor: "#673D13",
   },
-  {
-    name: "GitHub",
-    keywords: "github",
-    href: "https://github.com/cristicretu",
-    section: "Socials",
-    color: "#61C167",
-    iconColor: "#0D2805",
-  },
-  {
-    name: "Twitter",
-    keywords: "twitter",
-    href: "https://x.com/cristicrtu",
-    section: "Socials",
-    color: "#63C7FA",
-    iconColor: "#102E62",
-  },
+  // {
+  //   name: "GitHub",
+  //   keywords: "github",
+  //   href: "https://github.com/cristicretu",
+  //   section: "Socials",
+  //   color: "#61C167",
+  //   iconColor: "#0D2805",
+  // },
+  // {
+  //   name: "Twitter",
+  //   keywords: "twitter",
+  //   href: "https://x.com/cristicrtu",
+  //   section: "Socials",
+  //   color: "#63C7FA",
+  //   iconColor: "#102E62",
+  // },
   {
     name: "Light",
     keywords: "light",
@@ -66,13 +66,13 @@ export const actions: Action[] = [
     color: "#EC79F9",
     iconColor: "#5C0E63",
   },
-  // {
-  //   name: "System",
-  //   keywords: "system",
-  //   section: "Themes",
-  //   color: "#FF7F50",
-  //   iconColor: "#9f3e1b",
-  // },
+  {
+    name: "System",
+    keywords: "system",
+    section: "Themes",
+    color: "#FF7F50",
+    iconColor: "#9f3e1b",
+  },
 ];
 
 

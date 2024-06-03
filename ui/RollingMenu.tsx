@@ -10,6 +10,7 @@ import {
   PlusIcon,
   SunIcon,
   SparklesIcon,
+  ComputerDesktopIcon,
 } from '@heroicons/react/24/solid';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
@@ -195,7 +196,7 @@ export default function RollingMenu() {
                       className={`h-6 w-6 text-[${action.iconColor}]`}
                     />
                   )}
-                  {action.keywords === 'github' && (
+                  {/* {action.keywords === 'github' && (
                     <GitHubLogo
                       className={`h-6 w-6 text-[${action.iconColor}]`}
                     />
@@ -204,7 +205,7 @@ export default function RollingMenu() {
                     <TwitterLogo
                       className={`h-6 w-6 text-[${action.iconColor}]`}
                     />
-                  )}
+                  )} */}
                   {action.keywords === 'light' && (
                     <SunIcon className={`h-6 w-6 text-[${action.iconColor}]`} />
                   )}
@@ -213,11 +214,11 @@ export default function RollingMenu() {
                       className={`h-6 w-6 text-[${action.iconColor}]`}
                     />
                   )}
-                  {/* {action.keywords === 'system' && (
+                  {action.keywords === 'system' && (
                     <ComputerDesktopIcon
                       className={`h-6 w-6 text-[${action.iconColor}]`}
                     />
-                  )} */}
+                  )}
                 </Comp>
               </motion.div>
             ))}
