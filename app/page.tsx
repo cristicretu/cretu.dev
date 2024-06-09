@@ -69,7 +69,7 @@ function AboutMe() {
           meets engineering.
         </p>
         <p>
-          Working on multiple projects and apps; formerly at{' '}
+          Playing with prototypes, exploring charmful apps, now at{' '}
           <ExternalLink arrow={false} href="https://deta.space">
             Deta
           </ExternalLink>{' '}
@@ -77,7 +77,7 @@ function AboutMe() {
           <ExternalLink href="https://deta.space/docs/en/learn/what-is-pc#content">
             OS for the web
           </ExternalLink>{' '}
-          , and at{' '}
+          , formerly at{' '}
           <ExternalLink arrow={false} href="https://github.com/Landmarks-Tech">
             Landmarks
           </ExternalLink>{' '}
