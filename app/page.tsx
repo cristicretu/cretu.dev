@@ -65,27 +65,27 @@ function AboutMe() {
       <p className="text-tertiary">About me</p>
       <div className="text-secondary flex flex-col gap-4">
         <p>
-          Passionate about crafting seamless, polished interfaces where design
-          meets engineering.
+          I&apos;m obsessed with creating digital interfaces that just{' '}
+          <i>work</i> - where design and code come together seamlessly.
+          You&apos;ll often find me tinkering with prototypes or exploring apps
+          that have that special charm.
         </p>
         <p>
           Playing with prototypes, exploring charmful apps, now at{' '}
           <ExternalLink arrow={false} href="https://deta.space">
             Deta
           </ExternalLink>{' '}
-          developing the{' '}
-          <ExternalLink href="https://deta.space/docs/en/learn/what-is-pc#content">
-            OS for the web
-          </ExternalLink>{' '}
-          , formerly at{' '}
+          reimagining what an operating system can be for the web. Formerly at{' '}
           <ExternalLink arrow={false} href="https://github.com/Landmarks-Tech">
             Landmarks
           </ExternalLink>{' '}
-          creating stunning web applications.
+          , crafting web applications that aimed to be both beautiful and
+          functional.
         </p>
         <p>
-          Currently studying Computer Science at BBU. Ardent in reading,
-          writing, and improving consistently through learning.
+          Currently studying Computer Science at BBU. I&apos;m a firm believer
+          in always learning, whether it&apos;s through reading, writing, or
+          diving into new projects.
         </p>
         <p>
           Check out my{' '}
