@@ -1,6 +1,64 @@
+/* geohot-style typography - minimal, clean, no BS */
+
+.prose h1 {
+  @apply text-xl font-medium text-neutral-900 dark:text-neutral-100 mt-12 mb-4;
+}
+
+.prose h2 {
+  @apply text-lg font-medium text-neutral-900 dark:text-neutral-100 mt-10 mb-3;
+}
+
+.prose h3 {
+  @apply text-base font-medium text-neutral-900 dark:text-neutral-100 mt-8 mb-2;
+}
+
+.prose h4, .prose h5, .prose h6 {
+  @apply text-sm font-medium text-neutral-700 dark:text-neutral-300 mt-6 mb-2;
+}
+
+.prose p {
+  @apply text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4;
+}
+
+.prose strong {
+  @apply font-medium text-neutral-900 dark:text-neutral-100;
+}
+
+.prose em {
+  @apply italic;
+}
+
+.prose ul {
+  @apply list-none pl-0 mb-4;
+}
+
+.prose ul li {
+  @apply relative pl-4 mb-1 text-neutral-700 dark:text-neutral-300;
+}
+
+.prose ul li::before {
+  content: '-';
+  @apply absolute left-0 text-neutral-400 dark:text-neutral-600;
+}
+
+.prose ol {
+  @apply list-decimal pl-4 mb-4;
+}
+
+.prose ol li {
+  @apply mb-1 text-neutral-700 dark:text-neutral-300;
+}
+
+.prose blockquote {
+  @apply border-l-2 border-neutral-300 dark:border-neutral-700 pl-4 italic text-neutral-600 dark:text-neutral-400 my-4;
+}
+
+.prose hr {
+  @apply border-neutral-200 dark:border-neutral-800 my-8;
+}
+
 .prose .anchor {
   @apply invisible absolute no-underline;
-
   margin-left: -1em;
   padding-right: 0.5em;
   width: 80%;
@@ -13,7 +71,7 @@
 }
 
 .prose a {
-  @apply decoration-neutral-400 decoration-[0.1em] underline-offset-2 transition-all dark:decoration-neutral-600;
+  @apply text-neutral-900 dark:text-neutral-100 underline decoration-neutral-400 dark:decoration-neutral-600 decoration-[0.1em] underline-offset-2 transition-all hover:decoration-neutral-600 dark:hover:decoration-neutral-400;
 }
 
 .prose .anchor:after {
@@ -26,20 +84,19 @@
 }
 
 .prose pre {
-  @apply border border-neutral-800 bg-neutral-900;
+  @apply border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 rounded-lg my-4 p-4 overflow-x-auto;
 }
 
 .prose code {
-  @apply rounded-lg border border-neutral-100 bg-neutral-100 px-1 py-0.5 text-neutral-800 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-200;
+  @apply font-mono text-sm rounded border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-1.5 py-0.5 text-neutral-800 dark:text-neutral-200;
 }
 
 .prose pre code {
-  @apply p-0 text-neutral-800 dark:text-neutral-200;
-  border: initial;
+  @apply p-0 border-0 bg-transparent;
 }
 
 .prose img {
-  @apply m-0;
+  @apply rounded-lg my-4;
 }
 
 .prose > :first-child {
