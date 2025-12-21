@@ -2,6 +2,7 @@
 import Footer from '@/components/Footer';
 import AnimateEnter from '@/components/AnimateEnter';
 import Nav from '@/components/Nav';
+import NoiseBackground from '@/components/NoiseBackground';
 import '@/styles/globals.css';
 
 interface Props {
@@ -83,10 +84,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </script>
   </head>
   <body class="h-full min-h-screen relative w-full py-12 sm:py-24 bg-white dark:bg-neutral-950 motion-reduce:transform-none motion-reduce:transition-none font-sans">
+    <NoiseBackground client:load />
     <Nav client:load />
     <AnimateEnter client:load>
-      <slot />
-      <Footer client:load />
+      <div class="relative z-10">
+        <slot />
+        <Footer client:load />
+      </div>
     </AnimateEnter>
   </body>
 </html>
