@@ -1,6 +1,13 @@
-## cretu.dev
+# cretu.dev
 
-Personal corner of the internet. Minimal design, quirky interactions. Representative of me 💫.
+my corner of the internet. built with astro, ships fast.
 
-![CleanShot 2023-03-23 at 8 51 55@2x](https://user-images.githubusercontent.com/45521157/227318643-3776fb8c-5c84-41f4-bc0f-5b7ed2e50d03.png)
+press 1-4 to navigate. try the konami code.
 
+<img width="3394" height="2452" alt="CleanShot 2025-12-21 at 5  00 47@2x" src="https://github.com/user-attachments/assets/935f30cb-1177-443b-ba76-5d748e58be92" />
+
+```
+pnpm i && pnpm dev
+```
+
+mit. do whatever.
