@@ -1,0 +1,94 @@
+---
+import Footer from '@/components/Footer';
+import AnimateEnter from '@/components/AnimateEnter';
+import RollingMenu from '@/components/RollingMenu';
+import '@/styles/globals.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'Cristian Crețu',
+  description = 'Design Engineer.',
+  image = 'https://cretu.dev/static/images/og.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-196x196.png" />
+    <link rel="apple-touch-icon" href="/static/favicons/apple-touch-icon-180x180.png" />
+    <link rel="manifest" href="/static/favicons/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title === 'Cristian Crețu' ? title : `${title} | Cristian Crețu`}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="Cristian Crețu" />
+    <meta property="og:locale" content="en-US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
+    <meta property="twitter:site" content="@cristicrtu" />
+    
+    <!-- Keywords -->
+    <meta name="keywords" content="Next.js, React, JavaScript, TypeScript, TailwindCSS, Design, Engineering, Frontend, Developer, Software, Cristian Crețu, Cristicrtu, cretu.dev, romania" />
+    
+    <!-- Author -->
+    <meta name="author" content="Cristian Crețu" />
+    
+    <!-- Robots -->
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Google Verification -->
+    <meta name="google-site-verification" content="fK4YqLAHjoaynXLF1e5gaPzDNOircgiYSgAwSXqr61o" />
+    
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Theme Script (prevents flash) -->
+    <script is:inline>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </head>
+  <body class="h-full min-h-screen relative w-full my-4 bg-white dark:bg-gray-900 sm:my-24 motion-reduce:transform-none motion-reduce:transition-none font-sans">
+    <nav class="fixed bottom-4 left-2 z-50 sm:left-4 md:left-6">
+      <RollingMenu client:load />
+    </nav>
+    <AnimateEnter client:load>
+      <slot />
+      <Footer client:load />
+    </AnimateEnter>
+  </body>
+</html>

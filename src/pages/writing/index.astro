@@ -1,0 +1,32 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('writing');
+const posts = allPosts
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+---
+
+<Layout title="Writing" description="thoughts on design, code, and life.">
+  <div class="mx-auto max-w-2xl space-y-8 px-8">
+    <h1 class="text-primary">writing</h1>
+    <p class="text-tertiary">
+      brain dumps. check{' '}
+      <a class="underline" href="/resources">
+        /resources
+      </a>{' '}
+      for stuff that shaped my thinking.
+    </p>
+    <div class="flex flex-col">
+      {posts.map((post) => (
+        <a
+          class="text-secondary hover:text-primary py-1.5 transition-colors duration-150"
+          href={`/writing/${post.slug}`}
+        >
+          <span class="text-quaternary font-mono text-sm mr-3">{post.data.publishedAt.slice(0, 4)}</span>
+          {post.data.title.toLowerCase()}
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

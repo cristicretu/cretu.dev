@@ -1,0 +1,42 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { resources } from '@/data/resources';
+---
+
+<Layout title="Resources" description="A curated collection of articles, essays, and videos.">
+  <div class="mx-auto max-w-2xl space-y-16 px-8">
+    <h1>Resources</h1>
+    <p class="text-secondary">
+      A curated collection of captivating articles, thought-provoking essays,
+      and enlightening videos to broaden and elevate your intellectual
+      horizons.
+    </p>
+    <div class="flex flex-col space-y-2">
+      {resources.map((resource) => {
+        const faviconUrl = `https://www.google.com/s2/favicons?domain=${resource.link}&sz=${64}`;
+        return (
+          <a
+            class="-mx-2 flex cursor-ne-resize flex-row justify-between rounded-md px-2 py-2 transition-all duration-200 hover:bg-gray-500/10"
+            href={resource.link}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <div class="h-8 w-8 flex-shrink-0">
+              <img
+                alt={`${resource.title} favicon`}
+                class="h-full w-full rounded-md bg-gray-500/20 object-contain px-0.5 py-0.5"
+                src={faviconUrl}
+              />
+            </div>
+            <div class="ml-2 flex flex-grow flex-col">
+              <span class="text-secondary mr-2 flex-grow truncate">
+                {resource.title} ¬
+              </span>
+              <span class="text-tertiary flex-shrink">{resource.description}</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </div>
+</Layout>

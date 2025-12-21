@@ -1,0 +1,23 @@
+
+export default new Map([
+["src/content/writing/2021.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2F2021.mdx&astroContentModuleFlag=true")],
+["src/content/writing/2022.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2F2022.mdx&astroContentModuleFlag=true")],
+["src/content/writing/2023.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2F2023.mdx&astroContentModuleFlag=true")],
+["src/content/writing/accelerating.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Faccelerating.mdx&astroContentModuleFlag=true")],
+["src/content/writing/agi.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fagi.mdx&astroContentModuleFlag=true")],
+["src/content/writing/2024.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2F2024.mdx&astroContentModuleFlag=true")],
+["src/content/writing/ask-why.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fask-why.mdx&astroContentModuleFlag=true")],
+["src/content/writing/be-hacker.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fbe-hacker.mdx&astroContentModuleFlag=true")],
+["src/content/writing/button.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fbutton.mdx&astroContentModuleFlag=true")],
+["src/content/writing/companies.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fcompanies.mdx&astroContentModuleFlag=true")],
+["src/content/writing/cracked.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fcracked.mdx&astroContentModuleFlag=true")],
+["src/content/writing/free-ideas.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Ffree-ideas.mdx&astroContentModuleFlag=true")],
+["src/content/writing/games-to-programming.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fgames-to-programming.mdx&astroContentModuleFlag=true")],
+["src/content/writing/git.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fgit.mdx&astroContentModuleFlag=true")],
+["src/content/writing/gradients.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fgradients.mdx&astroContentModuleFlag=true")],
+["src/content/writing/learn-web.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Flearn-web.mdx&astroContentModuleFlag=true")],
+["src/content/writing/look-where-you-aim.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Flook-where-you-aim.mdx&astroContentModuleFlag=true")],
+["src/content/writing/luck.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fluck.mdx&astroContentModuleFlag=true")],
+["src/content/writing/performance.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fperformance.mdx&astroContentModuleFlag=true")],
+["src/content/writing/sam-altman.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fwriting%2Fsam-altman.mdx&astroContentModuleFlag=true")]]);
+		
