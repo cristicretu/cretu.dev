@@ -1,55 +1,55 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import { works } from '@/data/work';
-import { cn } from '@/lib/className';
 ---
 
-<Layout title="Highlights" description="A showcase of my work, projects, and contributions.">
-  <div class="-mt-16 flex flex-col space-y-16 px-8">
-    <div class="flex flex-col space-y-16">
-      <h1>Highlights</h1>
-      <p class="text-tertiary max-w-2xl">
-        Here's a list of some of the things I've worked on,
-        including personal projects, open source contributions, and
-        professional work.
+<Layout title="work" description="stuff i built.">
+  <div class="flex flex-col gap-8 px-8">
+    <div class="flex flex-col gap-2 max-w-2xl mx-auto w-full">
+      <h1 class="text-primary">work</h1>
+      <p class="text-tertiary">
+        things i shipped. hover for credits.
       </p>
     </div>
-    <div class="columns-1 gap-2 sm:columns-2 md:columns-3 [&>div:not(:first-child)]:mt-2">
-      {works.map((work) => (
-        <div
-          class={cn(
-            'group relative flex break-inside-avoid flex-col space-y-4 rounded-lg bg-gray-100 px-2 py-2.5 text-gray-200 dark:bg-gray-800',
-          )}
-        >
-          <div class={cn('relative rounded-lg', work.h || 'h-48', 'overflow-hidden')}>
-            <img
-              alt={work.title}
-              class="absolute h-full w-full rounded-lg object-cover transition-all duration-200 group-hover:blur-xl"
-              src={work.img}
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-transparent to-gray-800 opacity-60 transition-opacity duration-200 group-hover:opacity-90"></div>
-          </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-w-6xl mx-auto w-full">
+      {works.map((work) => {
+        const height = work.h || 'h-48';
+        return (
+          <div class="group relative overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+            <div class:list={['relative', height]}>
+              <img
+                alt={work.title}
+                class="absolute inset-0 h-full w-full object-cover transition-all duration-300 group-hover:scale-105 group-hover:blur-sm"
+                src={work.img}
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            </div>
 
-          <div class="absolute flex w-full flex-row justify-between pl-4 pr-8 transition-all duration-200 group-hover:opacity-0">
-            <span>{work.title}</span>
-            <span class="font-mono">{work.description}</span>
-          </div>
-
-          <div class="absolute inset-0 z-20 flex select-none flex-col items-center justify-center space-y-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-            <div class="flex select-none flex-col">
-              <span class="font-bold">{work.title}</span>
-              <span>{work.description}</span>
-              {work.company && <span>{work.company}</span>}
-
-              <div class="mt-4 select-none">
-                {work.authors?.map((author) => (
-                  <span class="block">{author}</span>
-                ))}
+            <div class="absolute bottom-0 left-0 right-0 p-3 text-white">
+              <div class="flex items-baseline justify-between">
+                <span class="text-sm font-medium">{work.title}</span>
+                <span class="text-xs font-mono opacity-60">{work.description}</span>
               </div>
             </div>
+
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <span class="font-medium">{work.title}</span>
+              <span class="text-sm opacity-80">{work.description}</span>
+              {work.company && <span class="text-xs opacity-60 mt-1">@{work.company}</span>}
+              
+              {work.authors && work.authors.length > 0 && (
+                <div class="mt-3 text-xs opacity-60 text-center">
+                  {work.authors.map((author) => (
+                    <span class="block">{author}</span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   </div>
 </Layout>

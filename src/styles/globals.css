@@ -70,31 +70,50 @@
     @apply text-black/40 dark:text-white/40;
   }
 
-  .flip-card {
-    background-color: transparent;
+  /* Flashcard component styles */
+  .flashcard-container {
     perspective: 1000px;
+    cursor: pointer;
   }
 
-  .flip-card-inner {
+  .flashcard-inner {
     position: relative;
-    transition: transform 0.8s;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
     transform-style: preserve-3d;
   }
 
-  .rotate-y-180 {
+  .flashcard-container:hover .flashcard-inner {
     transform: rotateY(180deg);
   }
 
-  .flip-card-front,
-  .flip-card-back {
+  .flashcard-front,
+  .flashcard-back {
     position: absolute;
     width: 100%;
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgb(243 244 246);
   }
 
-  .flip-card-back {
+  .flashcard-front {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .flashcard-back {
     transform: rotateY(180deg);
+    flex-direction: column;
+    gap: 0;
   }
 }

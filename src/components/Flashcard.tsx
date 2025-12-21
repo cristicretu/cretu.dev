@@ -1,6 +1,3 @@
-'use client';
-
-import { useState } from 'react';
 import type { ReactNode } from 'react';
 
 interface FlashcardProps {
@@ -11,6 +8,7 @@ interface FlashcardProps {
   width?: string;
 }
 
+// CSS-only flip card - hover to flip, no JS needed
 export default function Flashcard({
   front,
   children,
@@ -18,29 +16,13 @@ export default function Flashcard({
   height = 'h-96',
   width = 'w-full',
 }: FlashcardProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  const handleClick = () => {
-    setIsFlipped(!isFlipped);
-  };
   return (
-    <div
-      className={`flip-card ${width} cursor-pointer select-none ${height} `}
-      onClick={() => handleClick()}
-    >
-      <div
-        className={`flip-card-inner  h-full text-center text-2xl font-semibold text-gray-100 ${
-          isFlipped ? 'rotate-y-180' : ''
-        }`}
-      >
-        <div
-          className={`flip-card-front ${color} flex items-center justify-center gap-2 rounded-lg p-6`}
-        >
+    <div className={`flashcard-container ${width} ${height}`}>
+      <div className="flashcard-inner">
+        <div className={`flashcard-front ${color}`}>
           {front}
         </div>
-        <div
-          className={`flip-card-back ${color} flex flex-col items-center justify-center gap-0 rounded-lg p-6`}
-        >
+        <div className={`flashcard-back ${color}`}>
           {children}
         </div>
       </div>

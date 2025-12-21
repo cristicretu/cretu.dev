@@ -1,0 +1,20 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  className?: string;
+}
+
+const { src, alt, width, height, className = '' } = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  class:list={['rounded-lg', className]}
+  loading="lazy"
+/>

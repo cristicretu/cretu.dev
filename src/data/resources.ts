@@ -27,7 +27,7 @@ export const resources: Resource[] = [
   },
   {
     title: "How to learn hacking",
-    description: "If you think "hacking" has anything to do with computer crime or security breaking and came here to learn that, you can go away now. There's nothing for you here.",
+    description: "If you think hacking has anything to do with computer crime or security breaking and came here to learn that, you can go away now.",
     link: "https://www.catb.org/esr/faqs/hacker-howto.html"
   },
   {
