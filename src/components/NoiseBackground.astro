@@ -2,7 +2,7 @@
 // Vanilla Three.js - no React, persists with View Transitions
 ---
 
-<canvas id="noise-canvas" class="fixed inset-0 -z-10 pointer-events-none opacity-[15%]"></canvas>
+<canvas id="noise-canvas" class="fixed inset-0 -z-10 pointer-events-none"></canvas>
 
 <script>
   import * as THREE from 'three';
@@ -12,6 +12,8 @@
     uniform vec2 resolution;
     uniform float time;
     uniform float isDark;
+    uniform float partyMode;
+    uniform float speedMultiplier;
 
     vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
     vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
@@ -50,8 +52,8 @@
     }
 
     float pattern(vec2 p, float t) {
-      vec2 q = p + t * 0.04;
-      vec2 r = p + sin(t * 0.02) * 0.3;
+      vec2 q = p + t * 0.04 * speedMultiplier;
+      vec2 r = p + sin(t * 0.02 * speedMultiplier) * 0.3;
       return fbm(p + fbm(q + fbm(r)));
     }
 
@@ -84,6 +86,13 @@
       return val > t ? 1.0 : 0.0;
     }
 
+    // HSV to RGB conversion
+    vec3 hsv2rgb(vec3 c) {
+      vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+      vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+      return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+    }
+
     void main() {
       vec2 uv = gl_FragCoord.xy / resolution.xy;
       vec2 pos = uv - 0.5;
@@ -91,8 +100,14 @@
       float n = pattern(pos * 2.0, time);
       vec2 pixelPos = floor(gl_FragCoord.xy / 2.0) * 2.0;
       float dithered = dither8x8(pixelPos, n);
+      
       vec3 col;
-      if (isDark > 0.5) {
+      if (partyMode > 0.5) {
+        // Rainbow mode - cycle through hues based on position and time
+        float hue = fract(time * 0.3 + uv.x * 0.5 + uv.y * 0.3 + n * 0.2);
+        vec3 rainbow = hsv2rgb(vec3(hue, 0.8, 0.9));
+        col = mix(rainbow * 0.3, rainbow, dithered);
+      } else if (isDark > 0.5) {
         col = mix(vec3(0.035), vec3(0.1), dithered);
       } else {
         col = mix(vec3(0.98), vec3(0.86), dithered);
@@ -110,6 +125,21 @@
   let material: THREE.ShaderMaterial | null = null;
   let animationId: number | null = null;
   let startTime = parseFloat(sessionStorage.getItem('noise-time') || '0');
+  
+  // Party mode state
+  let partyMode = false;
+  let speedMultiplier = 1.0;
+
+  // Expose for konami code
+  (window as any).activatePartyMode = () => {
+    partyMode = true;
+    speedMultiplier = 8.0;
+  };
+  
+  (window as any).deactivatePartyMode = () => {
+    partyMode = false;
+    speedMultiplier = 1.0;
+  };
 
   function init() {
     const canvas = document.getElementById('noise-canvas') as HTMLCanvasElement;
@@ -141,6 +171,8 @@
         time: { value: startTime },
         resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
         isDark: { value: document.documentElement.classList.contains('dark') ? 1.0 : 0.0 },
+        partyMode: { value: 0.0 },
+        speedMultiplier: { value: 1.0 },
       },
     });
 
@@ -157,6 +189,8 @@
     const currentTime = startTime + performance.now() / 1000;
     material.uniforms.time.value = currentTime;
     material.uniforms.isDark.value = document.documentElement.classList.contains('dark') ? 1.0 : 0.0;
+    material.uniforms.partyMode.value = partyMode ? 1.0 : 0.0;
+    material.uniforms.speedMultiplier.value = speedMultiplier;
 
     // Save time periodically
     if (Math.floor(currentTime) !== Math.floor(currentTime - 0.016)) {

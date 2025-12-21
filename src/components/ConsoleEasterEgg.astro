@@ -1,0 +1,22 @@
+---
+// Console easter egg - shows when someone opens dev tools
+---
+
+<script is:inline>
+console.log(`
+%c
+   ██████╗██████╗ ███████╗████████╗██╗   ██╗
+  ██╔════╝██╔══██╗██╔════╝╚══██╔══╝██║   ██║
+  ██║     ██████╔╝█████╗     ██║   ██║   ██║
+  ██║     ██╔══██╗██╔══╝     ██║   ██║   ██║
+  ╚██████╗██║  ██║███████╗   ██║   ╚██████╔╝
+   ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝
+
+`, 'font-family: monospace; color: #888;');
+
+console.log('%c👋 hey, you found the console.', 'font-size: 14px; font-weight: bold;');
+console.log('%c   if you\'re poking around, you might like the source:', 'font-size: 12px; color: #666;');
+console.log('%c   https://github.com/cristicretu/cretu.dev', 'font-size: 12px; color: #0066cc;');
+console.log('');
+console.log('%c   try the konami code btw ↑↑↓↓←→←→BA', 'font-size: 11px; color: #444; font-style: italic;');
+</script>

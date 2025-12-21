@@ -2,6 +2,8 @@
 import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
 import NoiseBackground from '@/components/NoiseBackground.astro';
+import ConsoleEasterEgg from '@/components/ConsoleEasterEgg.astro';
+import KonamiCode from '@/components/KonamiCode.astro';
 import { ViewTransitions } from 'astro:transitions';
 import '@/styles/globals.css';
 
@@ -87,6 +89,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   <body class="h-full min-h-screen relative w-full py-12 sm:py-24 bg-[#fafafa] dark:bg-[#090909] motion-reduce:transform-none motion-reduce:transition-none font-sans">
     <NoiseBackground transition:persist />
     <Nav client:load transition:persist />
+    <ConsoleEasterEgg />
+    <KonamiCode />
     <main transition:animate="fade">
       <slot />
       <Footer client:load />

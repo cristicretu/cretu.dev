@@ -1,0 +1,29 @@
+---
+// Konami code easter egg: ↑↑↓↓←→←→BA
+// Party mode stays until page refresh
+---
+
+<script>
+  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  let konamiIndex = 0;
+  let partyActive = false;
+
+  document.addEventListener('keydown', (e) => {
+    if (partyActive) return;
+    
+    const key = e.key;
+    const expected = konamiCode[konamiIndex];
+    
+    if (key === expected || key.toLowerCase() === expected) {
+      konamiIndex++;
+      
+      if (konamiIndex === konamiCode.length) {
+        partyActive = true;
+        (window as any).activatePartyMode?.();
+        console.log('%c🎮 PARTY MODE ACTIVATED', 'font-size: 20px; color: #ff00ff;');
+      }
+    } else {
+      konamiIndex = 0;
+    }
+  });
+</script>
