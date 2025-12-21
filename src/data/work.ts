@@ -44,6 +44,15 @@ export const works: WorkCardType[] = [
     img: "/static/images/work/notes.webp",
   },
   {
+    title: "SCRIB",
+    description: "hr & payroll landing",
+    year: 2025,
+    authors: ["Alexandru Apăvăloaiei", "Cristian Apăvăloaiei", "Cristian Crețu"],
+    company: "Robite",
+    link: "https://www.scrib.ro/",
+    img: "/static/images/work/scrib.webp",
+  },
+  {
     title: "Anara Agents",
     description: "ai for scientific research",
     year: 2025,
