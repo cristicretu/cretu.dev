@@ -73,11 +73,32 @@ input[type='email'] {
   font-weight: inherit;
 }
 
-table {
-  display: block;
-  max-width: fit-content;
-  overflow-x: auto;
-  white-space: nowrap;
+.prose table {
+  @apply w-full border-collapse text-sm;
+}
+
+.prose table thead {
+  @apply border-b border-neutral-200 dark:border-neutral-800;
+}
+
+.prose table th {
+  @apply py-3 pr-8 text-left font-mono text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400;
+}
+
+.prose table td {
+  @apply py-3 pr-8 text-neutral-700 dark:text-neutral-300;
+}
+
+.prose table tbody tr {
+  @apply border-b border-neutral-100 dark:border-neutral-800/50;
+}
+
+.prose table tbody tr:last-child {
+  @apply border-b-0;
+}
+
+.prose table tbody tr:hover {
+  @apply bg-neutral-50 dark:bg-neutral-900/50;
 }
 
 .prose .callout > p {
