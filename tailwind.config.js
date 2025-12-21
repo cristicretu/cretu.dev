@@ -13,6 +13,10 @@ module.exports = {
       colors: {
         gray: colors.neutral,
       },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'monospace'],
+      },
     },
   },
 };
