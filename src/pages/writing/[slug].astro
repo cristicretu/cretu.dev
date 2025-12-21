@@ -15,63 +15,39 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 
 const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/writing/${post.slug}.mdx`;
-
-const ogImage = post.data.image
-  ? `https://cretu.dev${post.data.image}`
-  : `https://cretu.dev/static/images/og.png`;
-
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  author: {
-    '@type': 'Person',
-    name: 'Cristian Crețu',
-  },
-  dateModified: post.data.publishedAt,
-  datePublished: post.data.publishedAt,
-  description: post.data.summary,
-  headline: post.data.title,
-  image: ogImage,
-  url: `https://cretu.dev/writing/${post.slug}`,
-};
 ---
 
 <Layout 
   title={post.data.title} 
   description={post.data.summary}
-  image={ogImage}
 >
-  <article class="mx-auto flex w-full max-w-2xl flex-col items-start justify-center px-8 sm:px-4">
-    <div class="dark:prose-dark prose my-4 w-full max-w-2xl">
-      <div class="text-secondary mx-auto max-w-2xl">
-        <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-        <p class="text-quaternary mb-2 font-mono text-sm">
-          {post.data.publishedAt}
-        </p>
-        <h1 class="text-primary text-3xl font-semibold">{post.data.title}</h1>
-        {post.data.image && (
-          <div class="relative mt-8 h-[400px]">
-            <img
-              alt={post.data.title}
-              class="rounded-lg w-full h-full object-cover"
-              src={post.data.image}
-            />
-          </div>
-        )}
-        <article class="prose-quoteless prose prose-neutral dark:prose-invert">
-          <Content />
-        </article>
-        <div class="mt-8">
-          <a 
-            href={editUrl}
-            class="text-tertiary text-sm hover:text-secondary transition-colors font-mono"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            edit on github →
-          </a>
-        </div>
-      </div>
+  <article class="mx-auto max-w-2xl px-8">
+    <header class="mb-8">
+      <p class="text-quaternary font-mono text-sm mb-2">{post.data.publishedAt}</p>
+      <h1 class="text-primary text-2xl font-medium">{post.data.title}</h1>
+    </header>
+
+    {post.data.image && (
+      <img
+        alt={post.data.title}
+        class="rounded-lg w-full mb-8"
+        src={post.data.image}
+      />
+    )}
+
+    <div class="prose-quoteless prose prose-neutral dark:prose-invert max-w-none">
+      <Content />
     </div>
+
+    <footer class="mt-12 pt-4 border-t border-gray-200 dark:border-gray-800">
+      <a 
+        href={editUrl}
+        class="text-quaternary text-sm hover:text-tertiary transition-colors font-mono"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        edit →
+      </a>
+    </footer>
   </article>
 </Layout>
