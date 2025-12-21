@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply max-h-screen antialiased;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply m-0 p-0 font-sans;
+  }
+
+  pre::-webkit-scrollbar {
+    display: none;
+  }
+
+  pre {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .capsize::before {
+    content: '';
+    margin-bottom: -0.098em;
+    display: table;
+  }
+
+  .capsize::after {
+    content: '';
+    margin-top: -0.219em;
+    display: table;
+  }
+}
+
+@layer components {
+  button {
+    user-select: none;
+  }
+
+  button {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  .text-primary {
+    @apply text-black dark:text-white;
+  }
+
+  .text-secondary {
+    @apply text-black/80 dark:text-white/80;
+  }
+
+  .text-tertiary {
+    @apply text-black/60 dark:text-white/60;
+  }
+
+  .text-quaternary {
+    @apply text-black/40 dark:text-white/40;
+  }
+
+  /* Flip card styles for MDX */
+  .flip-card {
+    perspective: 1000px;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+}

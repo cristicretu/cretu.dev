@@ -1,0 +1,22 @@
+---
+import Flashcard from './Flashcard';
+
+interface Props {
+  front: any;
+  color?: string;
+  height?: string;
+  width?: string;
+}
+
+const { front, color, height, width } = Astro.props;
+---
+
+<Flashcard 
+  client:load
+  front={front}
+  color={color}
+  height={height}
+  width={width}
+>
+  <slot />
+</Flashcard>

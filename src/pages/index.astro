@@ -1,0 +1,108 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import ExternalLink from '@/components/ExternalLink';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('writing');
+const posts = allPosts
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
+  .slice(0, 3);
+---
+
+<Layout>
+  <div class="mx-auto flex max-w-2xl flex-col gap-16 px-8">
+    <!-- Header -->
+    <div class="flex flex-row items-center gap-4">
+      <div class="relative h-12 w-12">
+        <img
+          alt="Logo"
+          class="rounded-full h-full w-full object-contain"
+          src="/static/images/logo.png"
+        />
+        <div class="absolute -bottom-2 -right-2 rounded-full bg-white px-1 py-0.5 text-sm dark:bg-gray-900">
+          ✨
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <h1 class="text-primary">Cristian Crețu</h1>
+        <p class="text-quaternary">Design Engineer</p>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="flex flex-row gap-4 text-secondary">
+      <a
+        class="hover:text-primary transition-opacity duration-150"
+        href="https://x.com/cristicrtu"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        x
+      </a>
+      <span class="text-quaternary">/</span>
+      <a
+        class="hover:text-primary transition-opacity duration-150"
+        href="https://github.com/cristicretu"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        github
+      </a>
+      <span class="text-quaternary">/</span>
+      <span>hi[at]cretu(dot)dev</span>
+    </div>
+
+    <!-- About Me -->
+    <div class="flex flex-col gap-4">
+      <div class="text-secondary flex flex-col gap-4">
+        <p>
+          design engineer at{' '}
+          <ExternalLink arrow={false} href="https://anara.com">
+            anara
+          </ExternalLink>
+          . we're cooking.
+        </p>
+        <p>
+          obsessed with pixels. mass-produce prototypes until something clicks.
+        </p>
+        <p>
+          previously built stuff at{' '}
+          <ExternalLink arrow={false} href="https://deta.space">
+            deta
+          </ExternalLink>{' '}
+          and{' '}
+          <ExternalLink arrow={false} href="https://github.com/Landmarks-Tech">
+            landmarks
+          </ExternalLink>
+          . studying cs at bbu but let's be real, 
+          you learn more by building things that break.
+        </p>
+        <p>
+          <a class="underline" href="/work">
+            /work
+          </a>{' '}
+          if you want proof.
+        </p>
+      </div>
+    </div>
+
+    <!-- Recent Writings -->
+    <div class="flex flex-col gap-2">
+      <p class="text-tertiary text-sm font-mono">recent posts</p>
+      <div class="flex flex-col">
+        {posts.map((post) => (
+          <a
+            class="text-secondary hover:text-primary py-1 transition-colors duration-150"
+            href={`/writing/${post.slug}`}
+          >
+            <span class="text-quaternary font-mono text-sm mr-2">{post.data.publishedAt.slice(0, 4)}</span>
+            {post.data.title.toLowerCase()}
+          </a>
+        ))}
+      </div>
+      <a href="/writing" class="text-tertiary text-sm hover:text-secondary mt-2">
+        all posts →
+      </a>
+    </div>
+  </div>
+</Layout>

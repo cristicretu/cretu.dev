@@ -1,0 +1,26 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { resources } from '@/data/resources';
+---
+
+<Layout title="resources" description="stuff that shaped my thinking.">
+  <div class="mx-auto max-w-2xl space-y-8 px-8">
+    <h1 class="text-primary">resources</h1>
+    <p class="text-tertiary">
+      stuff that shaped my thinking. essays, videos, rabbit holes.
+    </p>
+    <div class="flex flex-col">
+      {resources.map((resource) => (
+        <a
+          class="text-secondary hover:text-primary py-1.5 transition-colors duration-150 flex items-baseline gap-2"
+          href={resource.link}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <span class="text-quaternary">→</span>
+          <span>{resource.title.toLowerCase()}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Layout>

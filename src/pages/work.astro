@@ -1,0 +1,103 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { works } from '@/data/work';
+
+// Calculate stats
+const totalProjects = works.length;
+const yearCounts = works.reduce((acc, work) => {
+  acc[work.year] = (acc[work.year] || 0) + 1;
+  return acc;
+}, {} as Record<number, number>);
+
+const years = Object.keys(yearCounts).map(Number).sort((a, b) => b - a);
+const soloProjects = works.filter(w => w.authors?.length === 1).length;
+const collabProjects = totalProjects - soloProjects;
+---
+
+<Layout title="work" description="stuff i built.">
+  <div class="mx-auto max-w-2xl px-8">
+    <h1 class="text-primary font-medium">work</h1>
+    <p class="text-tertiary mt-2 font-mono text-sm">
+      things i shipped. {totalProjects} projects and counting.
+    </p>
+    
+    {/* Stats */}
+    <div class="mt-6 mb-8 font-mono text-xs text-neutral-500 dark:text-neutral-500">
+      <div class="flex flex-wrap gap-x-6 gap-y-1">
+        {years.map((year) => (
+          <span>
+            <span class="text-neutral-400 dark:text-neutral-600">{year}:</span> {yearCounts[year]}
+          </span>
+        ))}
+      </div>
+      <div class="mt-2 text-neutral-400 dark:text-neutral-600">
+        {soloProjects} solo · {collabProjects} collabs
+      </div>
+    </div>
+    
+    {/* Projects grouped by year */}
+    {years.map((year) => {
+      const yearWorks = works.filter(w => w.year === year);
+      return (
+        <div class="mb-8">
+          <div class="font-mono text-xs text-neutral-400 dark:text-neutral-600 mb-3 border-b border-neutral-200 dark:border-neutral-800 pb-2">
+            {year}
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            {yearWorks.map((work) => {
+              const hasImage = work.img && !work.img.includes('placeholder');
+              const Tag = work.link ? 'a' : 'div';
+              return (
+                <Tag
+                  href={work.link || undefined}
+                  target={work.link ? '_blank' : undefined}
+                  rel={work.link ? 'noopener noreferrer' : undefined}
+                  class:list={[
+                    "group relative aspect-square overflow-hidden rounded bg-neutral-100 dark:bg-neutral-900",
+                    work.link && "cursor-pointer"
+                  ]}
+                >
+                  {hasImage ? (
+                    <img
+                      alt={work.title}
+                      class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                      src={work.img}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <span class="font-mono text-2xl text-neutral-300 dark:text-neutral-700">?</span>
+                    </div>
+                  )}
+                  
+                  {/* Overlay on hover */}
+                  <div class="absolute inset-0 bg-black/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col items-center justify-center p-3 text-center overflow-y-auto">
+                    <span class="text-white font-mono text-sm">{work.title.toLowerCase()}</span>
+                    <span class="text-white/60 font-mono text-xs mt-1">{work.description.toLowerCase()}</span>
+                    {work.company && (
+                      <span class="text-white/40 font-mono text-xs mt-2">@{work.company.toLowerCase()}</span>
+                    )}
+                    {work.authors && work.authors.length > 0 && (
+                      <div class="text-white/40 font-mono text-[10px] mt-3 leading-relaxed">
+                        {work.authors.map((author, i) => (
+                          <span>
+                            {author.toLowerCase().split(' ')[0]}{i < work.authors!.length - 1 ? ', ' : ''}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Title always visible at bottom */}
+                  <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/60 to-transparent">
+                    <span class="text-white font-mono text-xs">{work.title.toLowerCase()}</span>
+                  </div>
+                </Tag>
+              );
+            })}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</Layout>

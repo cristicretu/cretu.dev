@@ -1,0 +1,53 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import '@/styles/prose.css';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/writing/${post.slug}.mdx`;
+---
+
+<Layout 
+  title={post.data.title} 
+  description={post.data.summary}
+>
+  <article class="mx-auto max-w-2xl px-8">
+    <header class="mb-8">
+      <p class="text-quaternary font-mono text-sm mb-2">{post.data.publishedAt}</p>
+      <h1 class="text-primary text-2xl font-medium">{post.data.title}</h1>
+    </header>
+
+    {post.data.image && (
+      <img
+        alt={post.data.title}
+        class="rounded-lg w-full mb-8"
+        src={post.data.image}
+      />
+    )}
+
+    <div class="prose-quoteless prose prose-neutral dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    <footer class="mt-12 pt-4 border-t border-gray-200 dark:border-gray-800">
+      <a 
+        href={editUrl}
+        class="text-quaternary text-sm hover:text-tertiary transition-colors font-mono"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        edit →
+      </a>
+    </footer>
+  </article>
+</Layout>
