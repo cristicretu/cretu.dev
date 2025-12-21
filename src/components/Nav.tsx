@@ -34,7 +34,10 @@ export default function Nav() {
       if (active?.tagName === 'INPUT' || active?.tagName === 'TEXTAREA') return;
 
       // Navigate with keyboard
-      if (e.key === '1' && !e.metaKey && !e.ctrlKey) {
+      if (e.key === '0' && !e.metaKey && !e.ctrlKey) {
+        dismissHint();
+        history.back();
+      } else if (e.key === '1' && !e.metaKey && !e.ctrlKey) {
         dismissHint();
         window.location.href = '/';
       } else if (e.key === '2' && !e.metaKey && !e.ctrlKey) {
@@ -78,6 +81,12 @@ export default function Nav() {
           </div>
         )}
         <div className="flex flex-col gap-1 text-neutral-400 dark:text-neutral-600">
+          <button
+            onClick={() => history.back()}
+            className="text-left hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          >
+            <span className="text-neutral-300 dark:text-neutral-700">[0]</span> back
+          </button>
           <a href="/" className="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">
             <span className="text-neutral-300 dark:text-neutral-700">[1]</span> home
           </a>
@@ -105,6 +114,12 @@ export default function Nav() {
         {mobileOpen && (
           <div className="bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm border-t border-neutral-200 dark:border-neutral-800 px-6 py-4">
             <div className="flex flex-col gap-3 font-mono text-sm text-neutral-600 dark:text-neutral-400">
+              <button
+                onClick={() => history.back()}
+                className="text-left active:text-neutral-900 dark:active:text-neutral-100"
+              >
+                ← back
+              </button>
               <a href="/" className="active:text-neutral-900 dark:active:text-neutral-100">
                 → home
               </a>

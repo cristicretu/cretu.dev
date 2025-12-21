@@ -80,10 +80,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     
     <!-- Theme Script (prevents flash) -->
     <script is:inline>
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
+      function applyTheme() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
       }
+      applyTheme();
+      // Re-apply on View Transitions
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
   </head>
   <body class="h-full min-h-screen relative w-full py-12 sm:py-24 bg-[#fafafa] dark:bg-[#090909] motion-reduce:transform-none motion-reduce:transition-none font-sans">
