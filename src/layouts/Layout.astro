@@ -1,8 +1,8 @@
 ---
 import Footer from '@/components/Footer';
-import AnimateEnter from '@/components/AnimateEnter';
 import Nav from '@/components/Nav';
-import NoiseBackground from '@/components/NoiseBackground';
+import NoiseBackground from '@/components/NoiseBackground.astro';
+import { ViewTransitions } from 'astro:transitions';
 import '@/styles/globals.css';
 
 interface Props {
@@ -23,6 +23,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 <!doctype html>
 <html lang="en">
   <head>
+    <ViewTransitions />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/static/favicons/favicon-196x196.png" />
@@ -83,14 +84,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     </script>
   </head>
-  <body class="h-full min-h-screen relative w-full py-12 sm:py-24 bg-white dark:bg-neutral-950 motion-reduce:transform-none motion-reduce:transition-none font-sans">
-    <NoiseBackground client:load />
-    <Nav client:load />
-    <AnimateEnter client:load>
-      <div class="relative z-10">
-        <slot />
-        <Footer client:load />
-      </div>
-    </AnimateEnter>
+  <body class="h-full min-h-screen relative w-full py-12 sm:py-24 bg-[#fafafa] dark:bg-[#090909] motion-reduce:transform-none motion-reduce:transition-none font-sans">
+    <NoiseBackground transition:persist />
+    <Nav client:load transition:persist />
+    <main transition:animate="fade">
+      <slot />
+      <Footer client:load />
+    </main>
   </body>
 </html>

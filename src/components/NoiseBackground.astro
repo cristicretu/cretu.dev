@@ -1,0 +1,195 @@
+---
+// Vanilla Three.js - no React, persists with View Transitions
+---
+
+<canvas id="noise-canvas" class="fixed inset-0 -z-10 pointer-events-none"></canvas>
+
+<script>
+  import * as THREE from 'three';
+
+  const fragmentShader = `
+    precision highp float;
+    uniform vec2 resolution;
+    uniform float time;
+    uniform float isDark;
+
+    vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
+    vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+    vec2 fade(vec2 t) { return t * t * t * (t * (t * 6.0 - 15.0) + 10.0); }
+
+    float cnoise(vec2 P) {
+      vec4 Pi = floor(P.xyxy) + vec4(0.0, 0.0, 1.0, 1.0);
+      vec4 Pf = fract(P.xyxy) - vec4(0.0, 0.0, 1.0, 1.0);
+      Pi = mod289(Pi);
+      vec4 ix = Pi.xzxz, iy = Pi.yyww, fx = Pf.xzxz, fy = Pf.yyww;
+      vec4 i = permute(permute(ix) + iy);
+      vec4 gx = fract(i * (1.0 / 41.0)) * 2.0 - 1.0;
+      vec4 gy = abs(gx) - 0.5;
+      vec4 tx = floor(gx + 0.5);
+      gx = gx - tx;
+      vec2 g00 = vec2(gx.x, gy.x), g10 = vec2(gx.y, gy.y);
+      vec2 g01 = vec2(gx.z, gy.z), g11 = vec2(gx.w, gy.w);
+      vec4 norm = taylorInvSqrt(vec4(dot(g00,g00), dot(g01,g01), dot(g10,g10), dot(g11,g11)));
+      g00 *= norm.x; g01 *= norm.y; g10 *= norm.z; g11 *= norm.w;
+      float n00 = dot(g00, vec2(fx.x, fy.x)), n10 = dot(g10, vec2(fx.y, fy.y));
+      float n01 = dot(g01, vec2(fx.z, fy.z)), n11 = dot(g11, vec2(fx.w, fy.w));
+      vec2 fade_xy = fade(Pf.xy);
+      vec2 n_x = mix(vec2(n00, n01), vec2(n10, n11), fade_xy.x);
+      return 2.3 * mix(n_x.x, n_x.y, fade_xy.y);
+    }
+
+    float fbm(vec2 p) {
+      float value = -0.2, amplitude = 1.0, frequency = 2.0;
+      for (int i = 0; i < 6; i++) {
+        value += amplitude * abs(cnoise(p));
+        p *= frequency;
+        amplitude *= 0.4;
+      }
+      return value;
+    }
+
+    float pattern(vec2 p, float t) {
+      vec2 q = p + t * 0.04;
+      vec2 r = p + sin(t * 0.02) * 0.3;
+      return fbm(p + fbm(q + fbm(r)));
+    }
+
+    float dither8x8(vec2 pos, float val) {
+      int x = int(mod(pos.x, 8.0)), y = int(mod(pos.y, 8.0));
+      int idx = x + y * 8;
+      float t = 0.0;
+      if (idx==0) t=0.015625; else if (idx==1) t=0.515625; else if (idx==2) t=0.140625;
+      else if (idx==3) t=0.640625; else if (idx==4) t=0.046875; else if (idx==5) t=0.546875;
+      else if (idx==6) t=0.171875; else if (idx==7) t=0.671875; else if (idx==8) t=0.765625;
+      else if (idx==9) t=0.265625; else if (idx==10) t=0.890625; else if (idx==11) t=0.390625;
+      else if (idx==12) t=0.796875; else if (idx==13) t=0.296875; else if (idx==14) t=0.921875;
+      else if (idx==15) t=0.421875; else if (idx==16) t=0.203125; else if (idx==17) t=0.703125;
+      else if (idx==18) t=0.078125; else if (idx==19) t=0.578125; else if (idx==20) t=0.234375;
+      else if (idx==21) t=0.734375; else if (idx==22) t=0.109375; else if (idx==23) t=0.609375;
+      else if (idx==24) t=0.953125; else if (idx==25) t=0.453125; else if (idx==26) t=0.828125;
+      else if (idx==27) t=0.328125; else if (idx==28) t=0.984375; else if (idx==29) t=0.484375;
+      else if (idx==30) t=0.859375; else if (idx==31) t=0.359375; else if (idx==32) t=0.0625;
+      else if (idx==33) t=0.5625; else if (idx==34) t=0.1875; else if (idx==35) t=0.6875;
+      else if (idx==36) t=0.03125; else if (idx==37) t=0.53125; else if (idx==38) t=0.15625;
+      else if (idx==39) t=0.65625; else if (idx==40) t=0.8125; else if (idx==41) t=0.3125;
+      else if (idx==42) t=0.9375; else if (idx==43) t=0.4375; else if (idx==44) t=0.78125;
+      else if (idx==45) t=0.28125; else if (idx==46) t=0.90625; else if (idx==47) t=0.40625;
+      else if (idx==48) t=0.25; else if (idx==49) t=0.75; else if (idx==50) t=0.125;
+      else if (idx==51) t=0.625; else if (idx==52) t=0.21875; else if (idx==53) t=0.71875;
+      else if (idx==54) t=0.09375; else if (idx==55) t=0.59375; else if (idx==56) t=1.0;
+      else if (idx==57) t=0.5; else if (idx==58) t=0.875; else if (idx==59) t=0.375;
+      else if (idx==60) t=0.96875; else if (idx==61) t=0.46875; else if (idx==62) t=0.84375;
+      else if (idx==63) t=0.34375;
+      return val > t ? 1.0 : 0.0;
+    }
+
+    void main() {
+      vec2 uv = gl_FragCoord.xy / resolution.xy;
+      vec2 pos = uv - 0.5;
+      pos.x *= resolution.x / resolution.y;
+      float n = pattern(pos * 2.0, time);
+      vec2 pixelPos = floor(gl_FragCoord.xy / 2.0) * 2.0;
+      float dithered = dither8x8(pixelPos, n);
+      vec3 col;
+      if (isDark > 0.5) {
+        col = mix(vec3(0.035), vec3(0.1), dithered);
+      } else {
+        col = mix(vec3(0.98), vec3(0.86), dithered);
+      }
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+
+  const vertexShader = `void main() { gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+
+  // Global state - survives navigation
+  let renderer: THREE.WebGLRenderer | null = null;
+  let scene: THREE.Scene | null = null;
+  let camera: THREE.OrthographicCamera | null = null;
+  let material: THREE.ShaderMaterial | null = null;
+  let animationId: number | null = null;
+  let startTime = parseFloat(sessionStorage.getItem('noise-time') || '0');
+
+  function init() {
+    const canvas = document.getElementById('noise-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    // If already initialized, just resume
+    if (renderer && renderer.domElement === canvas) {
+      if (!animationId) animate();
+      return;
+    }
+
+    // Clean up old renderer if canvas changed
+    if (renderer) {
+      renderer.dispose();
+    }
+
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(1);
+
+    scene = new THREE.Scene();
+    camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+    camera.position.z = 1;
+
+    material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        time: { value: startTime },
+        resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        isDark: { value: document.documentElement.classList.contains('dark') ? 1.0 : 0.0 },
+      },
+    });
+
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    animate();
+  }
+
+  function animate() {
+    if (!renderer || !scene || !camera || !material) return;
+
+    const currentTime = startTime + performance.now() / 1000;
+    material.uniforms.time.value = currentTime;
+    material.uniforms.isDark.value = document.documentElement.classList.contains('dark') ? 1.0 : 0.0;
+
+    // Save time periodically
+    if (Math.floor(currentTime) !== Math.floor(currentTime - 0.016)) {
+      sessionStorage.setItem('noise-time', currentTime.toString());
+    }
+
+    renderer.render(scene, camera);
+    animationId = requestAnimationFrame(animate);
+  }
+
+  function handleResize() {
+    if (!renderer || !material) return;
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
+  }
+
+  // Initialize
+  init();
+  window.addEventListener('resize', handleResize);
+
+  // Re-init on View Transition navigation
+  document.addEventListener('astro:page-load', init);
+
+  // Cleanup on page hide
+  document.addEventListener('astro:before-swap', () => {
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+      animationId = null;
+    }
+    // Save time before navigation
+    if (material) {
+      sessionStorage.setItem('noise-time', material.uniforms.time.value.toString());
+      startTime = material.uniforms.time.value;
+    }
+  });
+</script>

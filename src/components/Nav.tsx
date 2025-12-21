@@ -71,7 +71,7 @@ export default function Nav() {
   return (
     <>
       {/* Desktop nav - bottom left */}
-      <nav className="fixed bottom-6 left-6 z-50 font-mono text-xs hidden sm:block">
+      <nav className="fixed bottom-6 left-6 z-50 font-mono text-xs hidden lg:block">
         {showHint && (
           <div className="mb-3 text-neutral-300 dark:text-neutral-700 animate-pulse">
             press keys to navigate
@@ -100,7 +100,7 @@ export default function Nav() {
       </nav>
 
       {/* Mobile nav - bottom bar */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 sm:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
         {/* Expanded menu */}
         {mobileOpen && (
           <div className="bg-white/90 dark:bg-neutral-950/90 backdrop-blur-sm border-t border-neutral-200 dark:border-neutral-800 px-6 py-4">
