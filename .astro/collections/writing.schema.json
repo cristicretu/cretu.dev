@@ -23,8 +23,7 @@
       "required": [
         "title",
         "publishedAt",
-        "summary",
-        "image"
+        "summary"
       ],
       "additionalProperties": false
     }

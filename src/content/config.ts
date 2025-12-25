@@ -6,7 +6,7 @@ const writingCollection = defineCollection({
     title: z.string(),
     publishedAt: z.string(),
     summary: z.string(),
-    image: z.string(),
+    image: z.string().optional(),
   }),
 });
 
