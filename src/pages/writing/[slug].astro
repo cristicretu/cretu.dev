@@ -34,18 +34,20 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
   description={post.data.summary}
   image={post.data.image}
 >
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+
   <article class="post">
     <header class="post-head">
       <p class="post-date">
-        {dateFmt}
-        <span class="post-meta">· {mins} min · {words.toLocaleString()} words</span>
+        <time datetime={post.data.publishedAt}>{dateFmt}</time>
+        <span class="post-meta">· <time datetime={`PT${mins}M`}>{mins} min</time> · {words.toLocaleString()} words</span>
       </p>
       <a class="post-breadcrumb" href="/writing">← writing</a>
       <h1 class="post-title" tabindex="0">{post.data.title.toLowerCase()}</h1>
     </header>
 
     {post.data.image && (
-      <img class="post-cover" alt={post.data.title} src={post.data.image} />
+      <img class="post-cover" alt={post.data.title} src={post.data.image} loading="lazy" decoding="async" />
     )}
 
     <div class="prose" data-prose>
@@ -67,11 +69,27 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
         edit on github
       </a>
     </footer>
+
+    <div class="toast" id="post-toast" role="status" aria-live="polite" hidden></div>
   </article>
 </NotionLayout>
 
 <script is:inline>
   (function () {
+    var toastTimer;
+    function showToast(text) {
+      var toast = document.getElementById('post-toast');
+      if (!toast) return;
+      toast.textContent = text;
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('show'); });
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        toast.classList.remove('show');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 1500);
+    }
+
     function wire() {
       /* Make headings focusable so the keyboard accent-bar can show */
       var proseHeadings = document.querySelectorAll('.prose h1, .prose h2, .prose h3');
@@ -97,6 +115,7 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
             navigator.clipboard.writeText(url).then(function () {
               a.classList.add('copied');
               setTimeout(function () { a.classList.remove('copied'); }, 1200);
+              showToast('Copied link to section');
             }).catch(function () {});
           }
         });
@@ -127,6 +146,18 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
         li.appendChild(a);
         ul.appendChild(li);
       });
+      /* Prepend "↑ Top" link */
+      var top = document.createElement('li');
+      top.className = 'post-toc-top';
+      var topLink = document.createElement('a');
+      topLink.href = '#';
+      topLink.textContent = '↑ Top';
+      topLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      top.appendChild(topLink);
+      ul.insertBefore(top, ul.firstChild);
       toc.appendChild(ul);
       /* highlight current */
       var links = toc.querySelectorAll('a');
@@ -147,5 +178,23 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
 
     wire();
     document.addEventListener('astro:after-swap', wire);
+  })();
+
+  (function progress() {
+    function init() {
+      var bar = document.querySelector('.reading-progress span');
+      if (!bar) return;
+      function update() {
+        var h = document.documentElement;
+        var scroll = h.scrollTop;
+        var max = h.scrollHeight - h.clientHeight;
+        var pct = max > 0 ? (scroll / max) * 100 : 0;
+        bar.style.width = pct + '%';
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }
+    init();
+    document.addEventListener('astro:after-swap', init);
   })();
 </script>

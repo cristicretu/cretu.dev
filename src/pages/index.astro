@@ -57,7 +57,7 @@ const latestPosts = allPosts
           </svg>
         </span>
       </span>
-      <span class="label">selected work<span class="count">4</span></span>
+      <span class="label">selected work<span class="count">3</span></span>
     </div>
     <div class="children">
       <div class="node" data-node>
@@ -85,7 +85,7 @@ const latestPosts = allPosts
           </svg>
         </span>
       </span>
-      <span class="label">writing<span class="count">{latestPosts.length + 1}</span></span>
+      <span class="label">writing<span class="count">{latestPosts.length}</span></span>
     </div>
     <div class="children">
       {latestPosts.map((post) => (
@@ -175,6 +175,9 @@ const latestPosts = allPosts
     50%  { transform: scale(2.4); opacity: 0.4; }
     100% { transform: scale(1); }
   }
+  .node > .row > .label {
+    transition: color var(--dur-normal, 220ms) var(--ease-out-soft, ease), text-decoration-color var(--dur-normal, 220ms) var(--ease-out-soft, ease);
+  }
   .node.done > .row > .label {
     text-decoration: line-through;
     text-decoration-color: var(--notion-faint);
@@ -183,6 +186,7 @@ const latestPosts = allPosts
   .node.done > .row > .bullet-cell > .bullet::before {
     background: var(--notion-faint);
     transform: scale(0.85);
+    transition: background var(--dur-normal, 220ms) var(--ease-out-soft, ease), transform var(--dur-normal, 220ms) var(--ease-spring, ease);
   }
 
   .node {
@@ -200,7 +204,7 @@ const latestPosts = allPosts
     cursor: text;
     font-size: 15px;
     line-height: 1.7;
-    transition: background 140ms ease;
+    transition: background var(--dur-quick, 140ms) ease;
   }
   .row:hover { background: var(--notion-row-hover); }
 
@@ -231,7 +235,7 @@ const latestPosts = allPosts
     inset: 0;
     display: grid;
     place-items: center;
-    transition: opacity 160ms ease;
+    transition: opacity var(--dur-quick, 140ms) ease;
   }
   .bullet::before {
     content: '';
@@ -239,7 +243,7 @@ const latestPosts = allPosts
     height: 6px;
     border-radius: 50%;
     background: var(--notion-ink);
-    transition: transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition: transform var(--dur-quick, 180ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
     box-sizing: border-box;
   }
   .row:hover .bullet::before { transform: scale(1.4); }
@@ -258,14 +262,14 @@ const latestPosts = allPosts
     place-items: center;
     opacity: 0;
     color: var(--notion-faint);
-    transition: opacity 160ms ease;
+    transition: opacity var(--dur-quick, 140ms) ease;
     pointer-events: none;
   }
   .caret svg {
     width: 8px;
     height: 8px;
     display: block;
-    transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition: transform var(--dur-normal, 220ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
   }
   .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
   .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
@@ -291,7 +295,7 @@ const latestPosts = allPosts
     font-variant-numeric: tabular-nums;
     opacity: 0;
     transform: translateX(-2px);
-    transition: opacity 200ms ease 60ms, transform 200ms ease 60ms;
+    transition: opacity var(--dur-normal, 200ms) ease 60ms, transform var(--dur-normal, 200ms) ease 60ms;
   }
   .label .count::before {
     content: '· ';
@@ -308,8 +312,8 @@ const latestPosts = allPosts
     padding-left: 0;
     overflow: hidden;
     transition:
-      max-height 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
-      opacity 220ms ease;
+      max-height var(--dur-slow, 320ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)),
+      opacity var(--dur-normal, 220ms) ease;
   }
   .children::before {
     content: '';
@@ -344,7 +348,7 @@ const latestPosts = allPosts
     padding: 4px 8px 4px 0;
     border-radius: 4px;
     opacity: 0.7;
-    transition: opacity 200ms ease, background 140ms ease;
+    transition: opacity var(--dur-normal, 200ms) ease, background var(--dur-quick, 140ms) ease;
   }
   .write-row:hover {
     background: var(--notion-row-hover);

@@ -19,7 +19,7 @@
   width: 1px;
   background: var(--notion-rule, rgba(24, 24, 27, 0.08));
   border-radius: 1px;
-  transition: width 200ms ease, background 200ms ease;
+  transition: width var(--dur-normal, 200ms) ease, background var(--dur-normal, 200ms) ease;
   pointer-events: none;
 }
 
@@ -54,7 +54,7 @@
   color: var(--notion-faint, #9b9ba1);
   text-decoration: none;
   margin: 0 0 12px;
-  transition: color 160ms ease;
+  transition: color var(--dur-quick, 160ms) ease;
 }
 
 .post-breadcrumb:hover {
@@ -81,7 +81,7 @@
   padding: 2px 8px;
   margin-left: -8px;
   margin-right: -8px;
-  transition: background 140ms ease;
+  transition: background var(--dur-quick, 140ms) ease;
   font-feature-settings: 'kern' 1, 'cv11', 'ss01';
   font-kerning: normal;
 }
@@ -98,6 +98,7 @@
   border-radius: 6px;
   border: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
   margin: 24px 0 8px;
+  box-shadow: var(--notion-shadow, 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06));
 }
 
 @media (max-width: 720px) {
@@ -132,7 +133,7 @@
   margin-right: -8px;
   padding: 2px 8px;
   border-radius: 4px;
-  transition: background 140ms ease;
+  transition: background var(--dur-quick, 140ms) ease;
 }
 
 .prose > * + * {
@@ -161,7 +162,7 @@
           mask-position: center;
   opacity: 0;
   cursor: pointer;
-  transition: opacity 140ms ease 60ms;
+  transition: opacity var(--dur-quick, 140ms) ease 60ms;
 }
 
 /* "+" add-block icon — further left */
@@ -188,7 +189,7 @@
           mask-size: contain;
   opacity: 0;
   cursor: pointer;
-  transition: opacity 140ms ease 60ms;
+  transition: opacity var(--dur-quick, 140ms) ease 60ms;
 }
 
 .prose > *:hover::after { opacity: 0.35; }
@@ -324,7 +325,7 @@
   border-radius: 4px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  transition: background 140ms ease, color 140ms ease;
+  transition: background var(--dur-quick, 140ms) ease, color var(--dur-quick, 140ms) ease;
 }
 
 .prose a:hover {
@@ -475,7 +476,7 @@
   bottom: 0.2em;
   width: 1px;
   background: var(--notion-rule, rgba(24, 24, 27, 0.08));
-  transition: background 200ms ease;
+  transition: background var(--dur-normal, 200ms) ease;
 }
 
 .prose li:hover > ul::before,
@@ -576,7 +577,7 @@
   color: var(--notion-faint, #9b9ba1);
   opacity: 0;
   cursor: pointer;
-  transition: opacity 160ms ease, color 160ms ease, background 140ms ease;
+  transition: opacity var(--dur-quick, 160ms) ease, color var(--dur-quick, 160ms) ease, background var(--dur-quick, 140ms) ease;
 }
 
 .prose .anchor::after {
@@ -647,7 +648,7 @@
   color: var(--notion-faint, #9b9ba1);
   text-decoration: none;
   text-transform: lowercase;
-  transition: color 140ms ease;
+  transition: color var(--dur-quick, 140ms) ease;
 }
 
 .post-footer a:hover {
@@ -734,7 +735,7 @@
   border-radius: 4px;
   cursor: text;
   opacity: 0.85;
-  transition: background 140ms ease, opacity 200ms ease;
+  transition: background var(--dur-quick, 140ms) ease, opacity var(--dur-normal, 200ms) ease;
 }
 
 .post-caret-area {
@@ -748,7 +749,7 @@
   font-size: 14.5px;
   color: var(--notion-faint, #9b9ba1);
   opacity: 0.18;
-  transition: opacity 200ms ease;
+  transition: opacity var(--dur-normal, 200ms) ease;
   pointer-events: none;
   user-select: none;
 }
@@ -802,9 +803,11 @@
     list-style: none;
     padding: 0;
     margin: 0;
+    position: relative;
     border-left: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
   }
   .post-toc li {
+    position: relative;
     padding: 2px 0 2px 12px;
   }
   .post-toc li.post-toc-h3 {
@@ -813,11 +816,14 @@
   .post-toc a {
     color: var(--notion-faint, #9b9ba1);
     text-decoration: none;
-    transition: color 160ms ease;
+    transition: color var(--dur-quick, 140ms) ease;
     display: block;
     background: transparent;
     padding: 0;
     border-radius: 0;
+  }
+  .post-toc a::after {
+    content: none !important;
   }
   .post-toc a:hover {
     color: var(--notion-ink, #18181b);
@@ -825,11 +831,76 @@
   }
   .post-toc a.current {
     color: var(--notion-ink, #18181b);
-    font-weight: 500;
+    /* removed font-weight to avoid layout shift */
   }
-  .post-toc a::after {
-    content: none !important;
+  .post-toc a.current::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--notion-ink, #18181b);
+    border-radius: 1px;
   }
+  .post-toc-top { padding-left: 0; }
+  .post-toc-top a {
+    color: var(--notion-faint, #9b9ba1);
+    font-size: 11.5px;
+    padding-bottom: 8px;
+  }
+  .post-toc-top a:hover { color: var(--notion-ink, #18181b); }
+}
+
+/* ---------- Toast (anchor copy feedback) ---------- */
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 16px);
+  z-index: 80;
+  padding: 8px 14px;
+  background: var(--notion-ink, #18181b);
+  color: var(--notion-bg, #ffffff);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  box-shadow: var(--notion-shadow, 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06));
+  opacity: 0;
+  transition:
+    opacity var(--dur-normal, 220ms) var(--ease-out-soft, ease),
+    transform var(--dur-normal, 220ms) var(--ease-out-soft, ease);
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.toast[hidden] { display: none; }
+
+/* ---------- Reading progress bar ---------- */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.reading-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--notion-ink, #18181b);
+  transform-origin: left;
+  transition: width 80ms linear;
 }
 
 /* ---------- Print stylesheet ---------- */
@@ -840,6 +911,8 @@
   .post-breadcrumb,
   .post-footer,
   .post-toc,
+  .reading-progress,
+  .toast,
   .cmdk {
     display: none !important;
   }
