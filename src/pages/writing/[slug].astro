@@ -33,6 +33,7 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
   <article class="post">
     <header class="post-head">
       <p class="post-date">{dateFmt}</p>
+      <a class="post-breadcrumb" href="/writing">← writing</a>
       <h1 class="post-title" tabindex="0">{post.data.title}</h1>
     </header>
 
@@ -50,8 +51,8 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
     </div>
 
     <footer class="post-footer">
-      <a href={editUrl} rel="noopener noreferrer" target="_blank" data-no-arrow>
-        edit on github →
+      <a href={editUrl} rel="noopener noreferrer" target="_blank">
+        edit on github
       </a>
     </footer>
   </article>

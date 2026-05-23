@@ -1,122 +1,304 @@
 ---
 import NotionLayout from '@/layouts/NotionLayout.astro';
+import Mention from '@/components/Mention.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('writing');
-const posts = allPosts.sort(
+const sorted = allPosts.sort(
   (a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
 );
+const groups = sorted.reduce((acc, p) => {
+  const year = String(new Date(p.data.publishedAt).getFullYear());
+  (acc[year] ||= []).push(p);
+  return acc;
+}, {} as Record<string, typeof sorted>);
+const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
 ---
 
 <NotionLayout title="Writing" description="thoughts on design, code, and life.">
-  <article class="writing-index">
-    <h1 class="index-title">writing</h1>
-    <p class="index-sub">brain dumps. shaped by what I'm building, reading, or annoyed by.</p>
+  <div class="doc-title">writing<span class="age">, {sorted.length} essays</span></div>
+  <p class="index-sub">brain dumps. shaped by what I'm building, reading, or annoyed by.</p>
 
-    <ul class="post-list">
-      {posts.map((post) => (
-        <li class="post-row">
-          <a class="post-link" href={`/writing/${post.slug}`}>
-            <span class="post-title">{post.data.title.toLowerCase()}</span>
-            <span class="post-year">{post.data.publishedAt.slice(0, 4)}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  </article>
+  {years.map((year, idx) => (
+    <div class={`node has-children ${idx === 0 ? 'open' : ''}`} data-node>
+      <div class="row has-children" tabindex="0">
+        <span class="bullet-cell">
+          <span class="bullet"></span>
+          <span class="caret" aria-hidden>
+            <svg viewBox="0 0 8 8" fill="none">
+              <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+        <span class="label">{year}<span class="count">{groups[year].length}</span></span>
+      </div>
+      <div class="children">
+        {groups[year].map((post) => {
+          const dateFmt = new Date(post.data.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toLowerCase();
+          return (
+            <div class="node" data-node>
+              <div class="row">
+                <span class="bullet-cell"><span class="bullet"></span></span>
+                <span class="label"><Mention href={`/writing/${post.slug}`}>{post.data.title.toLowerCase()}</Mention><span class="meta">{dateFmt}</span></span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  ))}
+
+  <div class="write-row" aria-hidden>
+    <span class="ghost-bullet"></span>
+    <span><span class="caret-blink"></span></span>
+  </div>
 </NotionLayout>
 
-<style>
-  .writing-index {
-    width: 100%;
-  }
-
-  .index-title {
-    font-family: 'Inter', sans-serif;
+<style is:global>
+  /* Outliner-specific styles, copied verbatim from src/pages/index.astro */
+  .doc-title {
     font-size: 24px;
     font-weight: 500;
-    line-height: 1.3;
     letter-spacing: -0.022em;
-    color: var(--notion-ink, #18181b);
-    margin: 0 0 8px;
+    line-height: 1.3;
+    padding: 0 0 14px;
+    color: var(--notion-ink);
+    cursor: text;
+  }
+  .doc-title .age {
+    color: var(--notion-faint);
+    font-weight: 400;
   }
 
   .index-sub {
+    color: var(--notion-muted);
+    max-width: 540px;
     font-size: 15px;
-    line-height: 1.6;
-    color: var(--notion-muted, #52525b);
-    margin: 0 0 36px;
+    line-height: 1.65;
+    margin: 0 0 32px;
+  }
+
+  .node {
+    position: relative;
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: flex-start;
+    padding: 2px 8px 2px 0;
+    border-radius: 4px;
+    cursor: text;
+    font-size: 15px;
+    line-height: 1.7;
+    transition: background 140ms ease;
     max-width: 540px;
   }
+  .row:hover { background: var(--notion-row-hover); }
 
-  .post-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .row.has-children { cursor: pointer; }
+  .row:focus-visible {
+    outline: none;
+    background: var(--notion-row-focus);
   }
-
-  .post-row {
-    position: relative;
-    margin-left: -8px;
-    margin-right: -8px;
-  }
-
-  .post-link {
-    position: relative;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 6px 8px;
-    border-radius: 4px;
-    color: var(--notion-ink, #18181b);
-    text-decoration: none;
-    transition: background 140ms ease;
-    font-size: 15px;
-    line-height: 1.5;
-  }
-
-  .post-link:hover {
-    background: rgba(24, 24, 27, 0.04);
-  }
-
-  .post-title {
-    color: var(--notion-ink, #18181b);
-    font-weight: 400;
-    transition: color 140ms ease;
-  }
-
-  .post-year {
-    color: var(--notion-faint, #9b9ba1);
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 12px;
-    font-variant-numeric: tabular-nums;
-    flex: 0 0 auto;
-  }
-
-  /* Notion-style drag-handle on hover, sits in left gutter */
-  .post-row::before {
+  .row:focus-visible::before {
     content: '';
     position: absolute;
-    left: -22px;
-    top: 10px;
-    width: 12px;
-    height: 16px;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14' fill='%2318181b'><circle cx='2.5' cy='2.5' r='1'/><circle cx='7.5' cy='2.5' r='1'/><circle cx='2.5' cy='7' r='1'/><circle cx='7.5' cy='7' r='1'/><circle cx='2.5' cy='11.5' r='1'/><circle cx='7.5' cy='11.5' r='1'/></svg>");
-    background-repeat: no-repeat;
-    background-position: center;
+    left: -14px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--notion-ink);
+    border-radius: 1px;
+  }
+
+  .bullet-cell {
+    position: relative;
+    width: 18px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .bullet {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transition: opacity 160ms ease;
+  }
+  .bullet::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--notion-ink);
+    transition: transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    box-sizing: border-box;
+  }
+  .row:hover .bullet::before { transform: scale(1.4); }
+
+  .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
+    background: transparent;
+    border: 1.5px solid var(--notion-ink);
+    width: 9px;
+    height: 9px;
+  }
+
+  .caret {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
     opacity: 0;
-    transition: opacity 140ms ease;
+    color: var(--notion-faint);
+    transition: opacity 160ms ease;
     pointer-events: none;
   }
+  .caret svg {
+    width: 8px;
+    height: 8px;
+    display: block;
+    transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
+  .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
+  .node.open > .row > .bullet-cell > .caret svg { transform: rotate(90deg); }
 
-  .post-row:hover::before {
-    opacity: 0.4;
+  .label {
+    min-width: 0;
+    color: var(--notion-ink);
+  }
+  .label .meta {
+    color: var(--notion-faint);
+    font-weight: 400;
+    padding-left: 8px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  .label .count {
+    display: inline-block;
+    padding-left: 10px;
+    font-size: 12px;
+    color: var(--notion-faint);
+    font-variant-numeric: tabular-nums;
+    opacity: 0;
+    transform: translateX(-2px);
+    transition: opacity 200ms ease 60ms, transform 200ms ease 60ms;
+  }
+  .label .count::before {
+    content: '· ';
+    color: var(--notion-faint);
+  }
+  .node.has-children:not(.open) > .row > .label > .count {
+    opacity: 1;
+    transform: translateX(0);
   }
 
-  @media (max-width: 720px) {
-    .index-title { font-size: 20px; }
-    .index-sub { font-size: 14.5px; margin-bottom: 24px; }
-    .post-link { font-size: 14.5px; }
+  .children {
+    position: relative;
+    margin-left: 26px;
+    padding-left: 0;
+    overflow: hidden;
+    transition:
+      max-height 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      opacity 220ms ease;
+  }
+  .children::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--notion-rule);
+    transition: background 200ms ease;
+  }
+  .node.has-children:hover > .children::before {
+    background: var(--notion-dim);
+  }
+
+  .node:not(.open) > .children {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .node.open > .children {
+    max-height: 2400px;
+    opacity: 1;
+  }
+
+  .write-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: center;
+    padding: 4px 8px 4px 0;
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: opacity 200ms ease, background 140ms ease;
+  }
+  .write-row:hover {
+    background: var(--notion-row-hover);
+    opacity: 1;
+  }
+  .ghost-bullet {
+    width: 18px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+  }
+  .ghost-bullet::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px dashed var(--notion-dim);
+    box-sizing: border-box;
+  }
+  .caret-blink {
+    display: inline-block;
+    width: 1.5px;
+    height: 16px;
+    background: var(--notion-ink);
+    vertical-align: -3px;
+    animation: caret-blink 1.05s steps(1, end) infinite;
+  }
+  @keyframes caret-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .caret-blink { animation: none; opacity: 1; }
   }
 </style>
+
+<script is:inline>
+  (function init() {
+    function wire() {
+      /* fold / unfold for outliner parents */
+      const parents = document.querySelectorAll('.node.has-children');
+      parents.forEach(function (node) {
+        if (node.dataset.wired) return;
+        node.dataset.wired = '1';
+        const row = node.querySelector(':scope > .row');
+        if (!row) return;
+        row.addEventListener('click', function (e) {
+          if (e.target && e.target.closest && e.target.closest('a')) return;
+          node.classList.toggle('open');
+        });
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            node.classList.toggle('open');
+          }
+        });
+      });
+    }
+
+    wire();
+    document.addEventListener('astro:after-swap', wire);
+  })();
+</script>

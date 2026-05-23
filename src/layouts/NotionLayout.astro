@@ -204,20 +204,63 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         color: var(--notion-ink);
       }
       .theme-toggle {
-        margin-top: 2px;
+        margin-top: 6px;
+        padding: 4px;
+        margin-right: -4px;
+        margin-left: -4px;
+        margin-bottom: -4px;
         display: inline-flex;
         align-items: center;
         gap: 6px;
         color: var(--notion-faint);
+        opacity: 0.85;
+        transition: color 160ms ease, opacity 160ms ease;
+      }
+      .page-nav .links button.theme-toggle:hover {
+        color: var(--notion-ink);
+        opacity: 1;
       }
       .theme-toggle svg {
-        width: 12px;
-        height: 12px;
+        width: 15px;
+        height: 15px;
         display: block;
-        transition: transform 240ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 200ms ease;
+        transition: transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 200ms ease;
+      }
+      .theme-toggle.rotating svg {
+        transform: rotate(180deg);
       }
       html[data-theme='dark'] .theme-toggle .sun { display: none; }
       html[data-theme='light'] .theme-toggle .moon { display: none; }
+
+      /* Meta link — for "all essays", "all work", "view more" rows
+         Renders as italic muted with subtle chevron, never as a Mention pill */
+      .meta-link {
+        font-style: italic;
+        color: var(--notion-faint);
+        text-decoration: none;
+        transition: color 160ms ease;
+      }
+      .meta-link:hover { color: var(--notion-ink); }
+      .meta-link::after {
+        content: '';
+        display: inline-block;
+        width: 0.6em;
+        height: 0.6em;
+        margin-left: 4px;
+        vertical-align: 0em;
+        background-color: currentColor;
+        opacity: 0.55;
+        -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M2.5 5h5M5 2.5L7.5 5 5 7.5' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+                mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M2.5 5h5M5 2.5L7.5 5 5 7.5' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+        -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+        -webkit-mask-position: center; mask-position: center;
+        -webkit-mask-size: contain; mask-size: contain;
+        transition: transform 160ms ease, opacity 160ms ease;
+      }
+      .meta-link:hover::after {
+        opacity: 0.85;
+        transform: translateX(1px);
+      }
 
       /* --- Page body --- */
       .page-body {
@@ -329,12 +372,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <script is:inline>
       (function () {
-        /* cascade-in for top-level children of .page-body */
+        /* cascade-in for top-level children of .page-body
+           Total cascade is capped at ~600ms so long lists feel snappy. */
         function arm(body) {
           if (!body) return;
           const kids = body.children;
+          const total = 600;
+          const base = 40;
+          const step = Math.min(35, (total - base) / Math.max(kids.length - 1, 1));
           for (let i = 0; i < kids.length; i++) {
-            kids[i].style.transitionDelay = 40 + i * 35 + 'ms';
+            kids[i].style.transitionDelay = (base + i * step) + 'ms';
           }
           requestAnimationFrame(function () {
             requestAnimationFrame(function () {
@@ -358,6 +405,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           const btn = e.target && e.target.closest && e.target.closest('[data-theme-toggle]');
           if (!btn) return;
           const cur = document.documentElement.dataset.theme || 'light';
+          btn.classList.add('rotating');
+          setTimeout(function () { btn.classList.remove('rotating'); }, 320);
           setTheme(cur === 'dark' ? 'light' : 'dark');
         });
       })();

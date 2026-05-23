@@ -73,6 +73,7 @@ const years = Object.keys(yearMap)
     line-height: 1.3;
     padding: 0 0 14px;
     color: var(--notion-ink);
+    cursor: text;
   }
   .doc-title .age {
     color: var(--notion-faint);
@@ -180,20 +181,25 @@ const years = Object.keys(yearMap)
   .label .meta {
     color: var(--notion-faint);
     font-weight: 400;
-    padding-left: 8px;
+    padding-left: 10px;
     font-size: 12px;
     font-variant-numeric: tabular-nums;
     font-family: 'JetBrains Mono', ui-monospace, monospace;
+    white-space: nowrap;
   }
   .label .count {
     display: inline-block;
-    padding-left: 8px;
+    padding-left: 10px;
     font-size: 12px;
     color: var(--notion-faint);
     font-variant-numeric: tabular-nums;
     opacity: 0;
     transform: translateX(-2px);
     transition: opacity 200ms ease 60ms, transform 200ms ease 60ms;
+  }
+  .label .count::before {
+    content: '· ';
+    color: var(--notion-faint);
   }
   .node.has-children:not(.open) > .row > .label > .count {
     opacity: 1;
@@ -234,13 +240,25 @@ const years = Object.keys(yearMap)
   }
 
   /* Work-row description: muted, sits after title */
+  .work-line {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
   .work-line .work-desc {
     color: var(--notion-muted);
-    padding-left: 10px;
     font-size: 14.5px;
+    white-space: nowrap;
   }
   .work-line .work-title {
     color: var(--notion-ink);
+  }
+  .work-line .meta,
+  .work-line code,
+  .work-line .badge {
+    white-space: nowrap;
+    padding-left: 0;
   }
 
   .write-row {
