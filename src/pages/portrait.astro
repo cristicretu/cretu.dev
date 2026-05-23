@@ -1,0 +1,383 @@
+---
+const fonts =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cristian Crețu</title>
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-196x196.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={fonts} rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #fafafa;
+        --ink: #18181b;
+        --muted: #9b9ba1;
+        --dim: #c8c8cd;
+        --rule: #ececef;
+        --row-hover: rgba(24, 24, 27, 0.035);
+        --bullet: #18181b;
+      }
+      html, body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: 'Inter', system-ui, sans-serif;
+        font-feature-settings: 'cv11', 'ss01';
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      a { color: inherit; text-decoration: none; }
+
+      /* corner nav — kept */
+      .nav {
+        position: fixed;
+        top: 28px;
+        left: 32px;
+        right: 32px;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-size: 13px;
+        line-height: 1.5;
+        pointer-events: none;
+      }
+      .nav > * { pointer-events: auto; }
+      .nav .name { color: var(--ink); font-weight: 500; }
+      .nav .name .yr { color: var(--muted); font-weight: 400; }
+      .nav .links {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        color: var(--muted);
+        gap: 2px;
+      }
+      .nav .links a { transition: color 160ms ease; }
+      .nav .links a:hover { color: var(--ink); }
+
+      /* document */
+      .doc {
+        max-width: 720px;
+        margin: 0;
+        padding: 132px 32px 200px 96px;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      /* node = one row */
+      .node { position: relative; }
+      .row {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 2px 8px 2px 0;
+        border-radius: 4px;
+        cursor: default;
+        transition: background 120ms ease;
+      }
+      .row.has-children { cursor: pointer; }
+      .row:hover { background: var(--row-hover); }
+
+      /* disclosure caret — visible only on hover for parents */
+      .caret {
+        flex: 0 0 12px;
+        height: 24px;
+        display: grid;
+        place-items: center;
+        margin-left: -22px;
+        opacity: 0;
+        transition: opacity 140ms ease, transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+        color: var(--muted);
+      }
+      .row.has-children:hover .caret { opacity: 1; }
+      .node.open > .row > .caret { transform: rotate(90deg); }
+      .caret svg { width: 8px; height: 8px; display: block; }
+
+      /* bullet */
+      .bullet {
+        flex: 0 0 18px;
+        height: 24px;
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+      .bullet::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--bullet);
+        transition: transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1), background 140ms ease;
+      }
+      .row:hover .bullet::before { transform: scale(1.4); }
+
+      /* parent bullet shows a faint halo when collapsed */
+      .node.has-children:not(.open) > .row > .bullet::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--ink);
+        opacity: 0.08;
+      }
+
+      /* text */
+      .label {
+        flex: 1;
+        min-width: 0;
+        color: var(--ink);
+      }
+      .label .meta { color: var(--muted); font-weight: 400; }
+      .label a {
+        border-bottom: 1px solid var(--dim);
+        padding-bottom: 1px;
+        transition: border-color 140ms ease, color 140ms ease;
+      }
+      .label a:hover { border-color: var(--ink); }
+      .label code {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 12.5px;
+        color: var(--muted);
+        padding-left: 6px;
+      }
+
+      /* root node — larger */
+      .doc > .node > .row > .label {
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: -0.018em;
+        line-height: 1.35;
+        padding: 4px 0 12px;
+      }
+      .doc > .node > .row > .bullet { height: 36px; }
+      .doc > .node > .row > .bullet::before {
+        width: 8px;
+        height: 8px;
+      }
+      .doc > .node > .row > .caret { height: 36px; }
+
+      /* children list with indent guide */
+      .children {
+        position: relative;
+        margin-left: 26px;
+        padding-left: 0;
+        overflow: hidden;
+        transition: max-height 280ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                    opacity 200ms ease;
+      }
+      .children::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 4px;
+        bottom: 4px;
+        width: 1px;
+        background: var(--rule);
+        transition: background 160ms ease;
+      }
+      .node.has-children:hover > .children::before { background: var(--dim); }
+
+      .node:not(.open) > .children {
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .node.open > .children {
+        max-height: 1200px;
+        opacity: 1;
+      }
+
+      /* writing caret at the bottom of the document */
+      .write-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0 2px 26px;
+        color: var(--muted);
+        font-size: 14px;
+        position: relative;
+      }
+      .write-row::before {
+        content: '';
+        position: absolute;
+        left: 34px;
+        top: 8px;
+        bottom: 2px;
+        width: 1px;
+        background: var(--rule);
+      }
+      .write-row .ghost-bullet {
+        flex: 0 0 18px;
+        height: 24px;
+        display: grid;
+        place-items: center;
+      }
+      .write-row .ghost-bullet::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        border: 1px dashed var(--dim);
+      }
+      .caret-blink {
+        display: inline-block;
+        width: 1.5px;
+        height: 16px;
+        background: var(--ink);
+        margin-left: 1px;
+        vertical-align: -3px;
+        animation: blink 1.05s steps(1, end) infinite;
+      }
+      @keyframes blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+      }
+
+      /* focus state when keyboard-navigating */
+      .row:focus-visible {
+        outline: none;
+        background: var(--row-hover);
+        box-shadow: 0 0 0 1px var(--dim) inset;
+      }
+
+      ::selection { background: rgba(24, 24, 27, 0.12); }
+
+      @media (max-width: 720px) {
+        .nav { top: 20px; left: 20px; right: 20px; font-size: 12px; }
+        .doc { padding: 108px 24px 160px 60px; font-size: 14.5px; }
+        .doc > .node > .row > .label { font-size: 19px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="name">Cristian Crețu<br /><span class="yr">2026</span></div>
+      <nav class="links">
+        <a href="/work">Work</a>
+        <a href="/writing">Writing</a>
+        <a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="mailto:hi@cretu.dev">Email</a>
+      </nav>
+    </header>
+
+    <main class="doc" id="doc">
+      <div class="node has-children open" data-node>
+        <div class="row has-children" tabindex="0">
+          <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="bullet" aria-hidden></span>
+          <span class="label">Cristian Crețu</span>
+        </div>
+
+        <div class="children">
+
+          <div class="node" data-node>
+            <div class="row"><span class="caret" aria-hidden></span><span class="bullet"></span><span class="label">twenty-two <span class="meta">— design engineer at <a href="https://anara.com" target="_blank" rel="noopener noreferrer">Anara</a></span></span></div>
+          </div>
+
+          <div class="node has-children open" data-node>
+            <div class="row has-children" tabindex="0">
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="bullet"></span>
+              <span class="label">now</span>
+            </div>
+            <div class="children">
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label">drawing more, shipping less</span></div>
+              </div>
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label">obsessed with the half-second before you understand a screen</span></div>
+              </div>
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label">redrawing my own site for the nth time</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="node has-children" data-node>
+            <div class="row has-children" tabindex="0">
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="bullet"></span>
+              <span class="label">selected work</span>
+            </div>
+            <div class="children">
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label"><a href="https://anara.com" target="_blank" rel="noopener noreferrer">Anara</a> <span class="meta">— design engineer, 2024 →</span></span></div>
+              </div>
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label"><a href="/work">earlier projects</a> <span class="meta">— a full index</span></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="node has-children" data-node>
+            <div class="row has-children" tabindex="0">
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="bullet"></span>
+              <span class="label">writing</span>
+            </div>
+            <div class="children">
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label"><a href="/writing/games-to-programming">games to programming</a></span></div>
+              </div>
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label"><a href="/writing">all essays</a></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="node has-children open" data-node>
+            <div class="row has-children" tabindex="0">
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="bullet"></span>
+              <span class="label">elsewhere</span>
+            </div>
+            <div class="children">
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label"><a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer">x.com/cristicrtu</a></span></div>
+              </div>
+              <div class="node" data-node>
+                <div class="row"><span class="caret"></span><span class="bullet"></span><span class="label"><a href="mailto:hi@cretu.dev">hi@cretu.dev</a></span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="write-row" aria-hidden>
+        <span class="ghost-bullet"></span>
+        <span><span class="caret-blink"></span></span>
+      </div>
+    </main>
+
+    <script is:inline>
+      (function () {
+        const nodes = document.querySelectorAll('.node.has-children');
+        nodes.forEach(function (node) {
+          const row = node.querySelector(':scope > .row');
+          if (!row) return;
+          row.addEventListener('click', function (e) {
+            if (e.target && e.target.tagName === 'A') return;
+            node.classList.toggle('open');
+          });
+          row.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              node.classList.toggle('open');
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>
