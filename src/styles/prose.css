@@ -6,16 +6,11 @@
 
 .post {
   width: 100%;
-}
-
-.post-head {
   position: relative;
-  margin-bottom: 32px;
 }
 
-/* "First block in doc" subtle accent — Notion's start-of-doc cue.
- * Runs faintly along the entire post-head (date + breadcrumb + title). */
-.post-head::before {
+/* "You are here" full-document accent rail — extends entire post height */
+.post::before {
   content: '';
   position: absolute;
   top: 0;
@@ -28,19 +23,28 @@
   pointer-events: none;
 }
 
-.post-head:focus-within::before {
+.post:focus-within::before {
   width: 2px;
   background: var(--notion-ink, #18181b);
+}
+
+.post-head {
+  margin-bottom: 32px;
 }
 
 .post-date {
   font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 12px;
   line-height: 1;
-  color: var(--notion-faint, #9b9ba1);
+  color: var(--notion-muted, #52525b);
   text-transform: lowercase;
   letter-spacing: 0;
   margin: 0 0 8px;
+}
+
+.post-meta {
+  color: var(--notion-faint, #9b9ba1);
+  margin-left: 4px;
 }
 
 .post-breadcrumb {
@@ -78,6 +82,8 @@
   margin-left: -8px;
   margin-right: -8px;
   transition: background 140ms ease;
+  font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+  font-kerning: normal;
 }
 
 .post-title:focus-visible {
@@ -90,7 +96,7 @@
   max-height: 280px;
   object-fit: cover;
   border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
   margin: 24px 0 8px;
 }
 
@@ -155,7 +161,7 @@
           mask-position: center;
   opacity: 0;
   cursor: pointer;
-  transition: opacity 140ms ease;
+  transition: opacity 140ms ease 60ms;
 }
 
 /* "+" add-block icon — further left */
@@ -182,7 +188,7 @@
           mask-size: contain;
   opacity: 0;
   cursor: pointer;
-  transition: opacity 140ms ease;
+  transition: opacity 140ms ease 60ms;
 }
 
 .prose > *:hover::after { opacity: 0.35; }
@@ -731,32 +737,29 @@
   transition: background 140ms ease, opacity 200ms ease;
 }
 
-.post-write-row .slash-hint {
+.post-caret-area {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-slash-hint {
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 14.5px;
   color: var(--notion-faint, #9b9ba1);
-  opacity: 0.12;
+  opacity: 0.18;
   transition: opacity 200ms ease;
   pointer-events: none;
   user-select: none;
 }
 
-.post-write-row .slash-hint code {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
-  background: var(--notion-tint, rgba(24, 24, 27, 0.05));
-  padding: 1px 5px;
-  border-radius: 3px;
-  color: var(--notion-muted, #52525b);
+.post-write-row:hover .post-slash-hint {
+  opacity: 0.55;
 }
 
 .post-write-row:hover {
   background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
   opacity: 1;
-}
-
-.post-write-row:hover .slash-hint {
-  opacity: 0.45;
 }
 
 .post-caret-blink {
@@ -765,14 +768,108 @@
   height: 18px;
   background: var(--notion-ink, #18181b);
   vertical-align: -3px;
-  animation: post-caret-blink 1.05s steps(1, end) infinite;
+  animation: post-caret-blink 1.05s ease-in-out infinite;
 }
 
 @keyframes post-caret-blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .post-caret-blink { animation: none; opacity: 1; }
+}
+
+/* ---------- Right-side TOC (≥1280px viewports, posts with ≥3 H2) ---------- */
+
+.post-toc {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .post-toc {
+    display: block;
+    position: fixed;
+    top: 132px;
+    right: 24px;
+    width: 180px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--notion-faint, #9b9ba1);
+  }
+  .post-toc[hidden] { display: none; }
+  .post-toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
+  }
+  .post-toc li {
+    padding: 2px 0 2px 12px;
+  }
+  .post-toc li.post-toc-h3 {
+    padding-left: 24px;
+  }
+  .post-toc a {
+    color: var(--notion-faint, #9b9ba1);
+    text-decoration: none;
+    transition: color 160ms ease;
+    display: block;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+  .post-toc a:hover {
+    color: var(--notion-ink, #18181b);
+    background: transparent;
+  }
+  .post-toc a.current {
+    color: var(--notion-ink, #18181b);
+    font-weight: 500;
+  }
+  .post-toc a::after {
+    content: none !important;
+  }
+}
+
+/* ---------- Print stylesheet ---------- */
+
+@media print {
+  .page-nav,
+  .post-write-row,
+  .post-breadcrumb,
+  .post-footer,
+  .post-toc,
+  .cmdk {
+    display: none !important;
+  }
+  .page-body {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .post-cover {
+    max-height: 360px;
+  }
+  .prose > *::before,
+  .prose > *::after {
+    display: none !important;
+  }
+  .post::before {
+    display: none !important;
+  }
+  .prose a {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #888;
+  }
+  .prose a::after {
+    content: ' (' attr(href) ')' !important;
+    font-size: 0.9em;
+    color: #555;
+    opacity: 1;
+  }
 }

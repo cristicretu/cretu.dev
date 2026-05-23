@@ -22,6 +22,10 @@ const dateFmt = new Date(post.data.publishedAt)
   })
   .toLowerCase();
 
+const raw = (post.body || '').replace(/[^\w\s]/g, '');
+const words = raw.split(/\s+/).filter(Boolean).length;
+const mins = Math.max(1, Math.round(words / 200));
+
 const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/writing/${post.slug}.mdx`;
 ---
 
@@ -32,9 +36,12 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
 >
   <article class="post">
     <header class="post-head">
-      <p class="post-date">{dateFmt}</p>
+      <p class="post-date">
+        {dateFmt}
+        <span class="post-meta">· {mins} min · {words.toLocaleString()} words</span>
+      </p>
       <a class="post-breadcrumb" href="/writing">← writing</a>
-      <h1 class="post-title" tabindex="0">{post.data.title}</h1>
+      <h1 class="post-title" tabindex="0">{post.data.title.toLowerCase()}</h1>
     </header>
 
     {post.data.image && (
@@ -45,9 +52,14 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
       <Content />
     </div>
 
+    <aside class="post-toc" aria-label="On this page" id="post-toc"></aside>
+
     <div class="post-write-row" aria-hidden="true">
-      <span class="post-caret-blink"></span>
-      <span class="slash-hint">Type <code>/</code> for commands</span>
+      <span class="ghost-bullet"></span>
+      <span class="post-caret-area">
+        <span class="post-caret-blink"></span>
+        <span class="post-slash-hint">Type "/" for commands</span>
+      </span>
     </div>
 
     <footer class="post-footer">
@@ -89,6 +101,48 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
           }
         });
       });
+
+      /* Build right-side TOC if there are >= 3 H2 headings */
+      buildToc();
+    }
+
+    function buildToc() {
+      var prose = document.querySelector('.prose');
+      var toc = document.getElementById('post-toc');
+      if (!prose || !toc) return;
+      /* Clear any prior content (after-swap) */
+      toc.innerHTML = '';
+      toc.hidden = false;
+      var heads = prose.querySelectorAll('h2, h3');
+      var h2count = prose.querySelectorAll('h2').length;
+      if (h2count < 3) { toc.hidden = true; return; }
+      var ul = document.createElement('ul');
+      heads.forEach(function (h, i) {
+        if (!h.id) h.id = 'h-' + i;
+        var li = document.createElement('li');
+        li.className = 'post-toc-' + h.tagName.toLowerCase();
+        var a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      toc.appendChild(ul);
+      /* highlight current */
+      var links = toc.querySelectorAll('a');
+      if (!('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var id = e.target.id;
+          var link = toc.querySelector('a[href="#' + id + '"]');
+          if (!link) return;
+          if (e.isIntersecting) {
+            links.forEach(function (l) { l.classList.remove('current'); });
+            link.classList.add('current');
+          }
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      heads.forEach(function (h) { io.observe(h); });
     }
 
     wire();

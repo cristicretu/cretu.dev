@@ -67,6 +67,7 @@ function sourceFrom(url: string) {
 ---
 
 <NotionLayout title="resources" description="stuff that shaped my thinking — books, posts, talks, tools.">
+  <main class="resources-page">
   <div class="doc-title">resources<span class="age">, {totalCount} items</span></div>
 
   <p class="index-sub">stuff that shaped my thinking — books, posts, talks, tools.</p>
@@ -104,6 +105,7 @@ function sourceFrom(url: string) {
     <span class="ghost-bullet"></span>
     <span><span class="caret-blink"></span></span>
   </div>
+  </main>
 </NotionLayout>
 
 <style is:global>
@@ -116,10 +118,19 @@ function sourceFrom(url: string) {
     padding: 0 0 14px;
     color: var(--notion-ink);
     cursor: text;
+    font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+    font-kerning: normal;
   }
   .doc-title .age {
     color: var(--notion-faint);
     font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* Scoped to resources page: mention pills inside row labels don't render
+     their ↗ arrow since each item already has a source badge implying external. */
+  .resources-page .mention .mention-arrow {
+    display: none;
   }
 
   .index-sub {
@@ -235,9 +246,10 @@ function sourceFrom(url: string) {
   .label .count {
     display: inline-block;
     padding-left: 10px;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--notion-faint);
     font-variant-numeric: tabular-nums;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
     opacity: 0;
     transform: translateX(-2px);
     transition: opacity 200ms ease 60ms, transform 200ms ease 60ms;
@@ -245,6 +257,7 @@ function sourceFrom(url: string) {
   .label .count::before {
     content: '· ';
     color: var(--notion-faint);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
   }
   .node.has-children:not(.open) > .row > .label > .count {
     opacity: 1;
@@ -319,11 +332,11 @@ function sourceFrom(url: string) {
     height: 16px;
     background: var(--notion-ink);
     vertical-align: -3px;
-    animation: caret-blink 1.05s steps(1, end) infinite;
+    animation: caret-blink 1.1s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
   }
   @keyframes caret-blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .caret-blink { animation: none; opacity: 1; }

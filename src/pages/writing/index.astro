@@ -16,7 +16,7 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
 ---
 
 <NotionLayout title="Writing" description="thoughts on design, code, and life.">
-  <div class="doc-title">writing<span class="age">, {sorted.length} essays</span></div>
+  <div class="doc-title">writing<span class="age">, {sorted.length} {sorted.length === 1 ? 'essay' : 'essays'}</span></div>
   <p class="index-sub">brain dumps. shaped by what I'm building, reading, or annoyed by.</p>
 
   {years.map((year, idx) => (
@@ -64,10 +64,13 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
     padding: 0 0 14px;
     color: var(--notion-ink);
     cursor: text;
+    font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+    font-kerning: normal;
   }
   .doc-title .age {
     color: var(--notion-faint);
     font-weight: 400;
+    line-height: 1.4;
   }
 
   .index-sub {
@@ -94,7 +97,7 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
     font-size: 15px;
     line-height: 1.7;
     transition: background 140ms ease;
-    max-width: 540px;
+    max-width: 580px;
   }
   .row:hover { background: var(--notion-row-hover); }
 
@@ -215,7 +218,8 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
     background: var(--notion-rule);
     transition: background 200ms ease;
   }
-  .node.has-children:hover > .children::before {
+  .node.has-children:hover > .children::before,
+  .row.has-children:hover + .children::before {
     background: var(--notion-dim);
   }
 
@@ -264,11 +268,11 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
     height: 16px;
     background: var(--notion-ink);
     vertical-align: -3px;
-    animation: caret-blink 1.05s steps(1, end) infinite;
+    animation: caret-blink 1.1s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
   }
   @keyframes caret-blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
+    0%   { opacity: 1; }
+    100% { opacity: 0; }
   }
   @media (prefers-reduced-motion: reduce) {
     .caret-blink { animation: none; opacity: 1; }
