@@ -16,7 +16,7 @@ const isExternal =
   {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
 >
   <slot />
-  {isExternal && <span class="mention-arrow" aria-hidden="true">↗</span>}
+  {isExternal && <span class="mention-arrow" aria-hidden="true"></span>}
 </a>
 
 <style>
@@ -26,20 +26,31 @@ const isExternal =
     text-decoration: none;
     padding: 0 4px;
     border-radius: 4px;
-    background: rgba(24, 24, 27, 0.05);
-    box-shadow: inset 0 -1px 0 rgba(24, 24, 27, 0.06);
+    background: var(--notion-tint, rgba(24, 24, 27, 0.05));
+    box-shadow: inset 0 -1px 0 var(--notion-tint-strong, rgba(24, 24, 27, 0.06));
     transition: background 140ms ease;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
   .mention:hover {
-    background: rgba(24, 24, 27, 0.09);
+    background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
   }
+  /* Use the same chunky SVG arrow as the global rule, sized to inline with text */
   .mention-arrow {
-    font-size: 0.75em;
-    margin-left: 1px;
-    opacity: 0.5;
-    vertical-align: 0.05em;
-    display: inline;
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-left: 2px;
+    vertical-align: 0em;
+    background-color: currentColor;
+    opacity: 0.55;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-size: contain;
+            mask-size: contain;
   }
 </style>

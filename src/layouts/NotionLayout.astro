@@ -27,16 +27,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="manifest" href="/static/favicons/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Primary Meta Tags -->
     <title>{title === 'Cristian Crețu' ? title : `${title} | Cristian Crețu`}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#fafafa" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f10" media="(prefers-color-scheme: dark)" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
@@ -45,7 +43,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:site_name" content="Cristian Crețu" />
     <meta property="og:locale" content="en-US" />
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
     <meta property="twitter:title" content={title} />
@@ -53,32 +50,73 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:image" content={image} />
     <meta property="twitter:site" content="@cristicrtu" />
 
-    <!-- Author -->
     <meta name="author" content="Cristian Crețu" />
-
-    <!-- Robots -->
     <meta name="robots" content="index, follow" />
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-    <!-- Google Verification -->
-    <meta name="google-site-verification" content="fK4YqLAHjoaynXLF1e5gaPzDNOircgiYSgAwSXqr61o" />
-
-    <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline>
+      /* Apply theme before paint to avoid flash. Re-apply on view transitions. */
+      (function applyTheme() {
+        try {
+          const saved = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = saved === 'dark' || (!saved && prefersDark);
+          document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        } catch (_) {
+          /* SSR / blocked storage fallback */
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+      document.addEventListener('astro:after-swap', () => {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = saved === 'dark' || (!saved && prefersDark);
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+      });
+    </script>
 
     <style is:global>
-      :root {
+      :root,
+      html[data-theme='light'] {
         --notion-bg: #fafafa;
+        --notion-surface: #ffffff;
         --notion-ink: #18181b;
         --notion-muted: #52525b;
         --notion-faint: #9b9ba1;
+        --notion-dim: #c8c8cd;
         --notion-rule: rgba(24, 24, 27, 0.08);
         --notion-tint: rgba(24, 24, 27, 0.05);
         --notion-tint-strong: rgba(24, 24, 27, 0.06);
+        --notion-tint-hover: rgba(24, 24, 27, 0.09);
+        --notion-row-hover: rgba(24, 24, 27, 0.03);
+        --notion-row-focus: rgba(24, 24, 27, 0.06);
         --notion-code-bg: #f5f5f7;
         --notion-selection: rgba(24, 24, 27, 0.12);
+        --notion-shadow: 0 1px 2px rgba(24, 24, 27, 0.06), 0 4px 12px rgba(24, 24, 27, 0.06);
+      }
+
+      html[data-theme='dark'] {
+        --notion-bg: #0f0f10;
+        --notion-surface: #18181b;
+        --notion-ink: #ececef;
+        --notion-muted: #a1a1aa;
+        --notion-faint: #71717a;
+        --notion-dim: #3f3f46;
+        --notion-rule: rgba(255, 255, 255, 0.08);
+        --notion-tint: rgba(255, 255, 255, 0.05);
+        --notion-tint-strong: rgba(255, 255, 255, 0.07);
+        --notion-tint-hover: rgba(255, 255, 255, 0.10);
+        --notion-row-hover: rgba(255, 255, 255, 0.04);
+        --notion-row-focus: rgba(255, 255, 255, 0.07);
+        --notion-code-bg: #1c1c1f;
+        --notion-selection: rgba(255, 255, 255, 0.14);
+        --notion-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
       }
 
       *,
@@ -86,19 +124,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       *::after {
         box-sizing: border-box;
       }
-
       html,
       body {
         margin: 0;
         padding: 0;
       }
-
       html {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
+        background: var(--notion-bg);
+        transition: background 220ms ease, color 220ms ease;
       }
-
       body {
         background: var(--notion-bg);
         color: var(--notion-ink);
@@ -106,13 +143,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         font-feature-settings: 'cv11', 'ss01';
         font-variant-ligatures: contextual;
         min-height: 100vh;
+        transition: background 220ms ease, color 220ms ease;
       }
-
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
       ::selection {
         background: var(--notion-selection);
         color: var(--notion-ink);
       }
 
+      /* --- Corner nav --- */
       .page-nav {
         position: fixed;
         top: 22px;
@@ -128,52 +170,102 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         z-index: 50;
         pointer-events: none;
       }
-
       .page-nav .name {
         color: var(--notion-ink);
         font-weight: 500;
         pointer-events: auto;
+        transition: color 160ms ease;
       }
-
       .page-nav .name .yr {
         color: var(--notion-faint);
         font-weight: 400;
       }
-
       .page-nav .links {
         display: flex;
         flex-direction: column;
         text-align: right;
         color: var(--notion-faint);
         gap: 2px;
+        align-items: flex-end;
       }
-
-      .page-nav .links a {
+      .page-nav .links a,
+      .page-nav .links button {
         pointer-events: auto;
         color: var(--notion-faint);
-        text-decoration: none;
+        background: none;
+        border: 0;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
         transition: color 160ms ease;
       }
-
-      .page-nav .links a:hover {
+      .page-nav .links a:hover,
+      .page-nav .links button:hover {
         color: var(--notion-ink);
       }
+      .theme-toggle {
+        margin-top: 2px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--notion-faint);
+      }
+      .theme-toggle svg {
+        width: 12px;
+        height: 12px;
+        display: block;
+        transition: transform 240ms cubic-bezier(0.2, 0.7, 0.2, 1), opacity 200ms ease;
+      }
+      html[data-theme='dark'] .theme-toggle .sun { display: none; }
+      html[data-theme='light'] .theme-toggle .moon { display: none; }
 
+      /* --- Page body --- */
       .page-body {
         max-width: 720px;
         margin: 0;
         padding: 132px 32px 200px 96px;
       }
 
-      /* External link ↗ arrow — mirrors globals.css since NotionLayout is standalone */
+      /* --- Universal cascade for direct children of .page-body --- */
+      .page-body > * {
+        opacity: 0;
+        transform: translateY(3px);
+        transition:
+          opacity 360ms ease,
+          transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .page-body.entered > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .page-body > * {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        html, body { transition: none; }
+      }
+
+      /* --- External link ↗ arrow (SVG-based: shorter, thicker) --- */
       a[href^="http"]:not([href*="cretu.dev"])::after {
-        content: '↗';
+        content: '';
         display: inline-block;
-        font-size: 0.78em;
+        width: 0.62em;
+        height: 0.62em;
         margin-left: 2px;
-        vertical-align: 0.05em;
-        opacity: 0.45;
-        font-feature-settings: normal;
+        vertical-align: 0em;
+        background-color: currentColor;
+        opacity: 0.5;
+        -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+                mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+        -webkit-mask-repeat: no-repeat;
+                mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+                mask-position: center;
+        -webkit-mask-size: contain;
+                mask-size: contain;
         transition: opacity 160ms ease, transform 160ms ease;
       }
       a[href^="http"]:not([href*="cretu.dev"]):hover::after {
@@ -182,7 +274,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
       a[data-mention]::after,
       a[data-no-arrow]::after,
-      .page-nav .links a::after {
+      .page-nav .links a::after,
+      .page-nav .name::after {
         content: none !important;
       }
 
@@ -201,16 +294,73 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <header class="page-nav">
-      <a class="name" href="/">Cristian Crețu<br /><span class="yr">2026</span></a>
+      <a class="name" href="/">
+        Cristian Crețu<br /><span class="yr">2026</span>
+      </a>
       <nav class="links">
         <a href="/work">Work</a>
         <a href="/writing">Writing</a>
         <a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer" data-no-arrow>X</a>
         <a href="mailto:hi@cretu.dev" data-no-arrow>Email</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle>
+          <svg class="sun" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="3.2" fill="currentColor"/>
+            <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="8" y1="1.6" x2="8" y2="3"/>
+              <line x1="8" y1="13" x2="8" y2="14.4"/>
+              <line x1="1.6" y1="8" x2="3" y2="8"/>
+              <line x1="13" y1="8" x2="14.4" y2="8"/>
+              <line x1="3.5" y1="3.5" x2="4.5" y2="4.5"/>
+              <line x1="11.5" y1="11.5" x2="12.5" y2="12.5"/>
+              <line x1="3.5" y1="12.5" x2="4.5" y2="11.5"/>
+              <line x1="11.5" y1="4.5" x2="12.5" y2="3.5"/>
+            </g>
+          </svg>
+          <svg class="moon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13 9.2A5.5 5.5 0 0 1 6.8 3a5.5 5.5 0 1 0 6.2 6.2Z" fill="currentColor"/>
+          </svg>
+        </button>
       </nav>
     </header>
-    <main class="page-body" transition:animate="fade">
+
+    <main class="page-body" id="page-body" transition:animate="fade">
       <slot />
     </main>
+
+    <script is:inline>
+      (function () {
+        /* cascade-in for top-level children of .page-body */
+        function arm(body) {
+          if (!body) return;
+          const kids = body.children;
+          for (let i = 0; i < kids.length; i++) {
+            kids[i].style.transitionDelay = 40 + i * 35 + 'ms';
+          }
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              body.classList.add('entered');
+            });
+          });
+        }
+        arm(document.getElementById('page-body'));
+        document.addEventListener('astro:after-swap', function () {
+          const b = document.getElementById('page-body');
+          if (b) b.classList.remove('entered');
+          arm(b);
+        });
+
+        /* theme toggle */
+        function setTheme(t) {
+          document.documentElement.dataset.theme = t;
+          try { localStorage.setItem('theme', t); } catch (_) {}
+        }
+        document.addEventListener('click', function (e) {
+          const btn = e.target && e.target.closest && e.target.closest('[data-theme-toggle]');
+          if (!btn) return;
+          const cur = document.documentElement.dataset.theme || 'light';
+          setTheme(cur === 'dark' ? 'light' : 'dark');
+        });
+      })();
+    </script>
   </body>
 </html>
