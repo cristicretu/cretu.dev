@@ -23,6 +23,7 @@
 }
 
 .post-title {
+  position: relative;
   font-family: 'Inter', sans-serif;
   font-size: 24px;
   font-weight: 500;
@@ -30,6 +31,37 @@
   letter-spacing: -0.022em;
   color: var(--notion-ink, #18181b);
   margin: 0;
+  cursor: text;
+  outline: none;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-left: -8px;
+  margin-right: -8px;
+  transition: background 140ms ease;
+}
+
+/* "First block in doc" subtle accent — Notion's start-of-doc cue */
+.post-title::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--notion-faint, #9b9ba1);
+  opacity: 0.35;
+  border-radius: 1px;
+  transition: opacity 200ms ease, width 200ms ease, background 200ms ease;
+  pointer-events: none;
+}
+
+.post-title:focus-visible {
+  background: var(--notion-row-focus, rgba(24, 24, 27, 0.06));
+}
+.post-title:focus-visible::before {
+  width: 2px;
+  opacity: 1;
+  background: var(--notion-ink, #18181b);
 }
 
 .post-cover {
@@ -45,6 +77,7 @@
 @media (max-width: 720px) {
   .post-title {
     font-size: 20px;
+    font-weight: 500;
   }
   .post-head {
     margin-bottom: 24px;
@@ -62,6 +95,7 @@
   line-height: 1.65;
   color: var(--notion-ink, #18181b);
   max-width: 100%;
+  cursor: text;
 }
 
 .prose > * {
@@ -79,43 +113,107 @@
   margin-top: 1em;
 }
 
-/* Notion block hover state — subtle tint on row, drag handle in left gutter */
+/* Notion block hover state — subtle tint on row */
 .prose > *:not(pre):hover {
-  background: rgba(24, 24, 27, 0.03);
+  background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
 }
 
-.prose > *::before {
+/* Drag handle (⋮⋮) — sits closer to the block */
+.prose > *::after {
   content: '';
   position: absolute;
   left: -22px;
   top: 10px;
   width: 12px;
   height: 16px;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14' fill='%2318181b'><circle cx='2.5' cy='2.5' r='1'/><circle cx='7.5' cy='2.5' r='1'/><circle cx='2.5' cy='7' r='1'/><circle cx='7.5' cy='7' r='1'/><circle cx='2.5' cy='11.5' r='1'/><circle cx='7.5' cy='11.5' r='1'/></svg>");
-  background-repeat: no-repeat;
-  background-position: center;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'><circle cx='2.5' cy='2.5' r='1'/><circle cx='7.5' cy='2.5' r='1'/><circle cx='2.5' cy='7' r='1'/><circle cx='7.5' cy='7' r='1'/><circle cx='2.5' cy='11.5' r='1'/><circle cx='7.5' cy='11.5' r='1'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'><circle cx='2.5' cy='2.5' r='1'/><circle cx='7.5' cy='2.5' r='1'/><circle cx='2.5' cy='7' r='1'/><circle cx='7.5' cy='7' r='1'/><circle cx='2.5' cy='11.5' r='1'/><circle cx='7.5' cy='11.5' r='1'/></svg>");
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+          mask-position: center;
   opacity: 0;
+  cursor: pointer;
   transition: opacity 140ms ease;
-  pointer-events: none;
 }
 
-.prose > *:hover::before {
-  opacity: 0.4;
+/* "+" add-block icon — further left */
+.prose > *:not(hr) > .block-plus,
+.prose > *::before {
+  /* keep selector compact — actual styling below uses ::before only */
 }
 
-.prose > *::before:hover,
-.prose > *:hover::before:hover {
-  opacity: 0.85;
+.prose > *:not(pre):not(hr)::before {
+  content: '';
+  position: absolute;
+  left: -40px;
+  top: 10px;
+  width: 14px;
+  height: 16px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M6 1.5v9M1.5 6h9' stroke='black' stroke-width='1.4' stroke-linecap='round'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M6 1.5v9M1.5 6h9' stroke='black' stroke-width='1.4' stroke-linecap='round'/></svg>");
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+          mask-position: center;
+  -webkit-mask-size: contain;
+          mask-size: contain;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 140ms ease;
 }
 
-/* Headings sit a touch higher to align handle with first line */
+.prose > *:hover::after { opacity: 0.35; }
+.prose > *:hover::before { opacity: 0.35; }
+.prose > *::after:hover { opacity: 0.8; }
+.prose > *::before:hover { opacity: 0.8; }
+
+/* Headings sit a touch higher to align icons with first line */
 .prose > h1::before,
+.prose > h1::after,
 .prose > h2::before,
-.prose > h3::before { top: 14px; }
+.prose > h2::after,
+.prose > h3::before,
+.prose > h3::after { top: 14px; }
 
-/* hr block treatment off — handle would overlap the line */
-.prose > hr::before { display: none; }
+/* hr block treatment off — icons would overlap the line */
+.prose > hr::before,
+.prose > hr::after { display: none; }
 .prose > hr:hover { background: transparent; }
+
+/* pre uses ::before for code styling — don't conflict */
+.prose > pre::before,
+.prose > pre::after { display: none; }
+
+/* Keyboard focus-visible state for focusable blocks (matches homepage row) */
+.prose > *:focus-visible {
+  outline: none;
+  background: var(--notion-row-focus, rgba(24, 24, 27, 0.06));
+}
+.prose > *:focus-visible > .block-focus-bar,
+.prose > h1:focus-visible,
+.prose > h2:focus-visible,
+.prose > h3:focus-visible {
+  position: relative;
+}
+.prose > h1:focus-visible::before,
+.prose > h2:focus-visible::before,
+.prose > h3:focus-visible::before {
+  /* override the "+" icon with a focus bar when focused */
+  content: '';
+  left: -14px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  height: auto;
+  background-color: var(--notion-ink, #18181b);
+  -webkit-mask-image: none;
+          mask-image: none;
+  border-radius: 1px;
+  opacity: 1;
+}
 
 .prose p {
   font-size: 16px;
@@ -331,8 +429,27 @@
 
 .prose li > ul,
 .prose li > ol {
+  position: relative;
   margin-top: 8px;
   margin-bottom: 0;
+}
+
+/* Notion-style indent guide for nested lists */
+.prose li > ul::before,
+.prose li > ol::before {
+  content: '';
+  position: absolute;
+  left: 0.55em;
+  top: 0;
+  bottom: 0.2em;
+  width: 1px;
+  background: var(--notion-rule, rgba(24, 24, 27, 0.08));
+  transition: background 200ms ease;
+}
+
+.prose li:hover > ul::before,
+.prose li:hover > ol::before {
+  background: var(--notion-dim, #c8c8cd);
 }
 
 /* ---------- Images ---------- */
@@ -401,26 +518,61 @@
   border-bottom: 0;
 }
 
-/* ---------- Anchor (heading hash) ---------- */
+/* ---------- Anchor (heading hash) — Notion's link-to-block ---------- */
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  position: relative;
+}
 
 .prose .anchor {
-  visibility: hidden;
   position: absolute;
+  left: -0.85em;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 1.4em;
+  width: 0.85em;
+  justify-content: flex-start;
   text-decoration: none;
-  margin-left: -1em;
-  padding-right: 0.5em;
   background: transparent;
   padding: 0;
-  border-radius: 0;
+  border-radius: 3px;
+  color: var(--notion-faint, #9b9ba1);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 160ms ease, color 160ms ease, background 140ms ease;
 }
 
 .prose .anchor::after {
   content: '#';
-  color: var(--notion-faint, #9b9ba1);
+  font-weight: 500;
+  font-size: 0.85em;
 }
 
-.prose *:hover > .anchor {
-  visibility: visible;
+.prose h1:hover > .anchor,
+.prose h2:hover > .anchor,
+.prose h3:hover > .anchor,
+.prose h4:hover > .anchor,
+.prose h5:hover > .anchor,
+.prose h6:hover > .anchor,
+.prose .anchor:focus-visible {
+  opacity: 0.6;
+  outline: none;
+}
+
+.prose .anchor:hover {
+  opacity: 1;
+  color: var(--notion-ink, #18181b);
+}
+
+.prose .anchor.copied::after {
+  content: '✓';
+  color: var(--notion-ink, #18181b);
 }
 
 /* ---------- Callout (.callout used by some MDX) ---------- */
@@ -536,4 +688,66 @@
 [data-rehype-pretty-code-title] + [data-rehype-pretty-code-fragment] pre {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+/* ---------- Bottom write-row (editor "open for editing" cue) ---------- */
+
+.post-write-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  margin-left: -8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: text;
+  opacity: 0.85;
+  transition: background 140ms ease, opacity 200ms ease;
+}
+
+.post-write-row .slash-hint {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--notion-faint, #9b9ba1);
+  opacity: 0;
+  transition: opacity 200ms ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.post-write-row .slash-hint code {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  background: var(--notion-tint, rgba(24, 24, 27, 0.05));
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--notion-muted, #52525b);
+}
+
+.post-write-row:hover {
+  background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
+  opacity: 1;
+}
+
+.post-write-row:hover .slash-hint {
+  opacity: 1;
+}
+
+.post-caret-blink {
+  display: inline-block;
+  width: 1.5px;
+  height: 18px;
+  background: var(--notion-ink, #18181b);
+  vertical-align: -3px;
+  animation: post-caret-blink 1.05s steps(1, end) infinite;
+}
+
+@keyframes post-caret-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-caret-blink { animation: none; opacity: 1; }
 }

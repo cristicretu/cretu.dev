@@ -33,15 +33,20 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
   <article class="post">
     <header class="post-head">
       <p class="post-date">{dateFmt}</p>
-      <h1 class="post-title">{post.data.title}</h1>
+      <h1 class="post-title" tabindex="0">{post.data.title}</h1>
     </header>
 
     {post.data.image && (
       <img class="post-cover" alt={post.data.title} src={post.data.image} />
     )}
 
-    <div class="prose">
+    <div class="prose" data-prose>
       <Content />
+    </div>
+
+    <div class="post-write-row" aria-hidden="true">
+      <span class="post-caret-blink"></span>
+      <span class="slash-hint">Type <code>/</code> for commands</span>
     </div>
 
     <footer class="post-footer">
@@ -51,3 +56,41 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
     </footer>
   </article>
 </NotionLayout>
+
+<script is:inline>
+  (function () {
+    function wire() {
+      /* Make headings focusable so the keyboard accent-bar can show */
+      var proseHeadings = document.querySelectorAll('.prose h1, .prose h2, .prose h3');
+      proseHeadings.forEach(function (h) {
+        if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '0');
+      });
+
+      /* Copy section URL on anchor click — Notion's link-to-block */
+      var anchors = document.querySelectorAll('.prose .anchor');
+      anchors.forEach(function (a) {
+        if (a.dataset.wired) return;
+        a.dataset.wired = '1';
+        a.setAttribute('aria-label', 'Copy link to section');
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          var heading = a.closest('h1, h2, h3, h4, h5, h6');
+          if (!heading || !heading.id) return;
+          var url = window.location.origin + window.location.pathname + '#' + heading.id;
+          try {
+            history.replaceState(null, '', '#' + heading.id);
+          } catch (_) {}
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(function () {
+              a.classList.add('copied');
+              setTimeout(function () { a.classList.remove('copied'); }, 1200);
+            }).catch(function () {});
+          }
+        });
+      });
+    }
+
+    wire();
+    document.addEventListener('astro:after-swap', wire);
+  })();
+</script>
