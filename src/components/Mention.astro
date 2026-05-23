@@ -1,0 +1,45 @@
+---
+interface Props {
+  href: string;
+  external?: boolean;
+}
+
+const { href, external } = Astro.props;
+const isExternal =
+  external ?? (/^https?:\/\//.test(href) && !href.includes('cretu.dev'));
+---
+
+<a
+  class="mention"
+  data-mention
+  href={href}
+  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+>
+  <slot />
+  {isExternal && <span class="mention-arrow" aria-hidden="true">↗</span>}
+</a>
+
+<style>
+  .mention {
+    display: inline;
+    color: inherit;
+    text-decoration: none;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: rgba(24, 24, 27, 0.05);
+    box-shadow: inset 0 -1px 0 rgba(24, 24, 27, 0.06);
+    transition: background 140ms ease;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .mention:hover {
+    background: rgba(24, 24, 27, 0.09);
+  }
+  .mention-arrow {
+    font-size: 0.75em;
+    margin-left: 1px;
+    opacity: 0.5;
+    vertical-align: 0.05em;
+    display: inline;
+  }
+</style>

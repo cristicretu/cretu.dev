@@ -1,32 +1,122 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import NotionLayout from '@/layouts/NotionLayout.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('writing');
-const posts = allPosts
-  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+const posts = allPosts.sort(
+  (a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
 ---
 
-<Layout title="Writing" description="thoughts on design, code, and life.">
-  <div class="mx-auto max-w-2xl space-y-8 px-8">
-    <h1 class="text-primary">writing</h1>
-    <p class="text-tertiary">
-      brain dumps. check{' '}
-      <a class="underline" href="/resources">
-        /resources
-      </a>{' '}
-      for stuff that shaped my thinking.
-    </p>
-    <div class="flex flex-col">
+<NotionLayout title="Writing" description="thoughts on design, code, and life.">
+  <article class="writing-index">
+    <h1 class="index-title">writing</h1>
+    <p class="index-sub">brain dumps. shaped by what I'm building, reading, or annoyed by.</p>
+
+    <ul class="post-list">
       {posts.map((post) => (
-        <a
-          class="text-secondary hover:text-primary py-1.5 transition-colors duration-150"
-          href={`/writing/${post.slug}`}
-        >
-          <span class="text-quaternary font-mono text-sm mr-3">{post.data.publishedAt.slice(0, 4)}</span>
-          {post.data.title.toLowerCase()}
-        </a>
+        <li class="post-row">
+          <a class="post-link" href={`/writing/${post.slug}`}>
+            <span class="post-title">{post.data.title.toLowerCase()}</span>
+            <span class="post-year">{post.data.publishedAt.slice(0, 4)}</span>
+          </a>
+        </li>
       ))}
-    </div>
-  </div>
-</Layout>
+    </ul>
+  </article>
+</NotionLayout>
+
+<style>
+  .writing-index {
+    width: 100%;
+  }
+
+  .index-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.022em;
+    color: var(--notion-ink, #18181b);
+    margin: 0 0 8px;
+  }
+
+  .index-sub {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--notion-muted, #52525b);
+    margin: 0 0 36px;
+    max-width: 540px;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-row {
+    position: relative;
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+
+  .post-link {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    color: var(--notion-ink, #18181b);
+    text-decoration: none;
+    transition: background 140ms ease;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .post-link:hover {
+    background: rgba(24, 24, 27, 0.04);
+  }
+
+  .post-title {
+    color: var(--notion-ink, #18181b);
+    font-weight: 400;
+    transition: color 140ms ease;
+  }
+
+  .post-year {
+    color: var(--notion-faint, #9b9ba1);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    flex: 0 0 auto;
+  }
+
+  /* Notion-style drag-handle on hover, sits in left gutter */
+  .post-row::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 10px;
+    width: 12px;
+    height: 16px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14' fill='%2318181b'><circle cx='2.5' cy='2.5' r='1'/><circle cx='7.5' cy='2.5' r='1'/><circle cx='2.5' cy='7' r='1'/><circle cx='7.5' cy='7' r='1'/><circle cx='2.5' cy='11.5' r='1'/><circle cx='7.5' cy='11.5' r='1'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 140ms ease;
+    pointer-events: none;
+  }
+
+  .post-row:hover::before {
+    opacity: 0.4;
+  }
+
+  @media (max-width: 720px) {
+    .index-title { font-size: 20px; }
+    .index-sub { font-size: 14.5px; margin-bottom: 24px; }
+    .post-link { font-size: 14.5px; }
+  }
+</style>

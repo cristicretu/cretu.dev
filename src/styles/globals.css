@@ -99,4 +99,32 @@
   .flip-card-back {
     transform: rotateY(180deg);
   }
+
+  /* External link arrow — applies to every <a> whose href starts with http and isn't cretu.dev */
+  a[href^="http"]:not([href*="cretu.dev"])::after {
+    content: '↗';
+    display: inline-block;
+    font-size: 0.78em;
+    margin-left: 2px;
+    vertical-align: 0.05em;
+    opacity: 0.45;
+    font-feature-settings: normal;
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  a[href^="http"]:not([href*="cretu.dev"]):hover::after {
+    opacity: 0.85;
+    transform: translate(0.5px, -0.5px);
+  }
+
+  /* Opt-outs — these elements get their own arrow handling or shouldn't show one */
+  a[data-mention][href*="cretu.dev"]::after,
+  a[data-no-arrow]::after,
+  a[data-mention]::after {
+    content: none !important;
+  }
+
+  nav.links a::after {
+    content: none !important;
+  }
 }

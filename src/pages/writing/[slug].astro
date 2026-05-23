@@ -1,5 +1,5 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import NotionLayout from '@/layouts/NotionLayout.astro';
 import { getCollection } from 'astro:content';
 import '@/styles/prose.css';
 
@@ -14,40 +14,40 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
+const dateFmt = new Date(post.data.publishedAt)
+  .toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+  .toLowerCase();
+
 const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/writing/${post.slug}.mdx`;
 ---
 
-<Layout 
-  title={post.data.title} 
+<NotionLayout
+  title={post.data.title}
   description={post.data.summary}
+  image={post.data.image}
 >
-  <article class="mx-auto max-w-2xl px-8">
-    <header class="mb-8">
-      <p class="text-quaternary font-mono text-sm mb-2">{post.data.publishedAt}</p>
-      <h1 class="text-primary text-2xl font-medium">{post.data.title}</h1>
+  <article class="post">
+    <header class="post-head">
+      <p class="post-date">{dateFmt}</p>
+      <h1 class="post-title">{post.data.title}</h1>
     </header>
 
     {post.data.image && (
-      <img
-        alt={post.data.title}
-        class="rounded-lg w-full mb-8"
-        src={post.data.image}
-      />
+      <img class="post-cover" alt={post.data.title} src={post.data.image} />
     )}
 
-    <div class="prose-quoteless prose prose-neutral dark:prose-invert max-w-none">
+    <div class="prose">
       <Content />
     </div>
 
-    <footer class="mt-12 pt-4 border-t border-gray-200 dark:border-gray-800">
-      <a 
-        href={editUrl}
-        class="text-quaternary text-sm hover:text-tertiary transition-colors font-mono"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        edit →
+    <footer class="post-footer">
+      <a href={editUrl} rel="noopener noreferrer" target="_blank" data-no-arrow>
+        edit on github →
       </a>
     </footer>
   </article>
-</Layout>
+</NotionLayout>

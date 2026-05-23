@@ -1,108 +1,457 @@
 ---
-import Layout from '@/layouts/Layout.astro';
-import ExternalLink from '@/components/ExternalLink';
-import { getCollection } from 'astro:content';
+import Mention from '@/components/Mention.astro';
 
-const allPosts = await getCollection('writing');
-const posts = allPosts
-  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
-  .slice(0, 3);
+const fonts =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap';
 ---
 
-<Layout>
-  <div class="mx-auto flex max-w-2xl flex-col gap-16 px-8">
-    <!-- Header -->
-    <div class="flex flex-row items-center gap-4">
-      <div class="relative h-12 w-12">
-        <img
-          alt="Logo"
-          class="rounded-full h-full w-full object-contain"
-          src="/static/images/logo.png"
-        />
-        <div class="absolute -bottom-2 -right-2 rounded-full bg-white px-1 py-0.5 text-sm dark:bg-gray-900">
-          ✨
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cristian Crețu</title>
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-196x196.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={fonts} rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --bg: #fafafa;
+        --ink: #18181b;
+        --muted: #9b9ba1;
+        --dim: #c8c8cd;
+        --rule: #ececef;
+        --row-hover: rgba(24, 24, 27, 0.05);
+        --row-focus: rgba(24, 24, 27, 0.06);
+        --accent: #18181b;
+        --bullet: #18181b;
+      }
+      html, body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: 'Inter', system-ui, sans-serif;
+        font-feature-settings: 'cv11', 'ss01';
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      a { color: inherit; text-decoration: none; }
+
+      /* corner nav — floats deliberately off-grid */
+      .nav {
+        position: fixed;
+        top: 22px;
+        left: 22px;
+        right: 22px;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-size: 13px;
+        line-height: 1.5;
+        pointer-events: none;
+      }
+      .nav > * { pointer-events: auto; }
+      .nav .name { color: var(--ink); font-weight: 500; }
+      .nav .name .yr { color: var(--muted); font-weight: 400; }
+      .nav .links {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        color: var(--muted);
+        gap: 2px;
+      }
+      .nav .links a {
+        transition: color 160ms ease;
+        position: relative;
+      }
+      .nav .links a:hover { color: var(--ink); }
+
+      /* document */
+      .doc {
+        max-width: 720px;
+        margin: 0;
+        padding: 132px 32px 200px 96px;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      /* doc title — root node rendered as title, no bullet */
+      .doc-title {
+        font-size: 24px;
+        font-weight: 500;
+        letter-spacing: -0.022em;
+        line-height: 1.3;
+        padding: 0 0 14px;
+        color: var(--ink);
+      }
+      .doc-title .age {
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      /* node = one row */
+      .node {
+        position: relative;
+        opacity: 0;
+        transform: translateY(3px);
+        transition: opacity 360ms ease, transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .doc.entered .node { opacity: 1; transform: translateY(0); }
+
+      .row {
+        position: relative;
+        display: grid;
+        grid-template-columns: 18px 1fr;
+        column-gap: 12px;
+        align-items: flex-start;
+        padding: 2px 8px 2px 0;
+        border-radius: 4px;
+        cursor: text;
+        transition: background 140ms ease;
+      }
+      .row:hover { background: var(--row-hover); }
+
+      /* keyboard-focused row — left accent */
+      .row.has-children { cursor: pointer; }
+      .row:focus-visible {
+        outline: none;
+        background: var(--row-focus);
+      }
+      .row:focus-visible::before {
+        content: '';
+        position: absolute;
+        left: -14px;
+        top: 4px;
+        bottom: 4px;
+        width: 2px;
+        background: var(--accent);
+        border-radius: 1px;
+      }
+
+      /* bullet cell — holds bullet AND caret in same grid column */
+      .bullet-cell {
+        position: relative;
+        width: 18px;
+        height: 24px;
+        cursor: pointer;
+      }
+      .bullet {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        transition: opacity 160ms ease;
+      }
+      .bullet::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--bullet);
+        transition: transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
+        box-sizing: border-box;
+      }
+      .row:hover .bullet::before { transform: scale(1.4); }
+
+      /* collapsed parent: ring instead of dot */
+      .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
+        background: transparent;
+        border: 1.5px solid var(--bullet);
+        width: 9px;
+        height: 9px;
+      }
+
+      /* caret — hidden by default, fades in on parent hover, replaces bullet */
+      .caret {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        opacity: 0;
+        color: var(--muted);
+        transition: opacity 160ms ease;
+        pointer-events: none;
+      }
+      .caret svg {
+        width: 8px;
+        height: 8px;
+        display: block;
+        transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
+      .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
+      .node.open > .row > .bullet-cell > .caret svg { transform: rotate(90deg); }
+
+      /* label */
+      .label {
+        min-width: 0;
+        color: var(--ink);
+      }
+      .label .meta { color: var(--muted); font-weight: 400; padding-left: 6px; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+      .label .count {
+        display: inline-block;
+        padding-left: 8px;
+        font-size: 12px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        opacity: 0;
+        transform: translateX(-2px);
+        transition: opacity 200ms ease 60ms, transform 200ms ease 60ms;
+      }
+      .node.has-children:not(.open) > .row > .label > .count {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* children list with indent guide */
+      .children {
+        position: relative;
+        margin-left: 26px;
+        padding-left: 0;
+        overflow: hidden;
+        transition: max-height 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                    opacity 220ms ease;
+      }
+      .children::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 4px;
+        bottom: 4px;
+        width: 1px;
+        background: var(--rule);
+        transition: background 200ms ease;
+      }
+      .node.has-children:hover > .children::before { background: var(--dim); }
+
+      .node:not(.open) > .children {
+        max-height: 0;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .node.open > .children {
+        max-height: 1200px;
+        opacity: 1;
+      }
+
+      /* writing surface — sits inside root children as the "next sibling" */
+      .write-row {
+        position: relative;
+        display: grid;
+        grid-template-columns: 18px 1fr;
+        column-gap: 12px;
+        align-items: center;
+        padding: 4px 8px 4px 0;
+        border-radius: 4px;
+        opacity: 0.7;
+        transition: opacity 200ms ease, background 140ms ease;
+      }
+      .write-row:hover { background: var(--row-hover); opacity: 1; }
+      .ghost-bullet {
+        width: 18px;
+        height: 24px;
+        display: grid;
+        place-items: center;
+      }
+      .ghost-bullet::before {
+        content: '';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        border: 1px dashed var(--dim);
+        box-sizing: border-box;
+      }
+      .caret-blink {
+        display: inline-block;
+        width: 1.5px;
+        height: 16px;
+        background: var(--ink);
+        vertical-align: -3px;
+        animation: blink 1.05s steps(1, end) infinite;
+      }
+      @keyframes blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+      }
+
+      ::selection { background: rgba(24, 24, 27, 0.12); }
+
+      /* reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        .node { opacity: 1; transform: none; transition: none; }
+        .caret-blink { animation: none; opacity: 1; }
+        .caret svg, .bullet::before, .bullet, .children { transition: none; }
+      }
+
+      @media (max-width: 720px) {
+        .nav { top: 18px; left: 18px; right: 18px; font-size: 12px; }
+        .doc { padding: 108px 24px 160px 60px; font-size: 14.5px; }
+        .doc-title { font-size: 20px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="name">Cristian Crețu<br /><span class="yr">2026</span></div>
+      <nav class="links">
+        <a href="/work">Work</a>
+        <a href="/writing">Writing</a>
+        <a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="mailto:hi@cretu.dev">Email</a>
+      </nav>
+    </header>
+
+    <main class="doc" id="doc">
+      <div class="doc-title">Cristian Crețu<span class="age">, 22</span></div>
+
+      <div class="root-children" id="root-children">
+
+        <div class="node" data-node>
+          <div class="row">
+            <span class="bullet-cell"><span class="bullet"></span></span>
+            <span class="label">design engineer at <Mention href="https://anara.com">Anara</Mention></span>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col">
-        <h1 class="text-primary">Cristian Crețu</h1>
-        <p class="text-quaternary">Design Engineer</p>
-      </div>
-    </div>
 
-    <!-- Contact -->
-    <div class="flex flex-row gap-4 text-secondary">
-      <a
-        class="hover:text-primary transition-opacity duration-150"
-        href="https://x.com/cristicrtu"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        x
-      </a>
-      <span class="text-quaternary">/</span>
-      <a
-        class="hover:text-primary transition-opacity duration-150"
-        href="https://github.com/cristicretu"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        github
-      </a>
-      <span class="text-quaternary">/</span>
-      <span>hi[at]cretu(dot)dev</span>
-    </div>
+        <div class="node has-children open" data-node>
+          <div class="row has-children" tabindex="0">
+            <span class="bullet-cell">
+              <span class="bullet"></span>
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </span>
+            <span class="label">now<span class="meta" data-now-stamp>today</span></span>
+          </div>
+          <div class="children">
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label">drawing more, shipping less</span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label">obsessed with the half-second before you understand a screen</span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label">redrawing my own site for the nth time</span></div>
+            </div>
+          </div>
+        </div>
 
-    <!-- About Me -->
-    <div class="flex flex-col gap-4">
-      <div class="text-secondary flex flex-col gap-4">
-        <p>
-          design engineer at{' '}
-          <ExternalLink arrow={false} href="https://anara.com">
-            anara
-          </ExternalLink>
-          . we're cooking.
-        </p>
-        <p>
-          obsessed with pixels. mass-produce prototypes until something clicks.
-        </p>
-        <p>
-          previously built stuff at{' '}
-          <ExternalLink arrow={false} href="https://deta.space">
-            deta
-          </ExternalLink>{' '}
-          and{' '}
-          <ExternalLink arrow={false} href="https://github.com/Landmarks-Tech">
-            landmarks
-          </ExternalLink>
-          . studying cs at bbu but let's be real, 
-          you learn more by building things that break.
-        </p>
-        <p>
-          <a class="underline" href="/work">
-            /work
-          </a>{' '}
-          if you want proof.
-        </p>
-      </div>
-    </div>
+        <div class="node has-children" data-node data-demo>
+          <div class="row has-children" tabindex="0">
+            <span class="bullet-cell">
+              <span class="bullet"></span>
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </span>
+            <span class="label">selected work<span class="count">4</span></span>
+          </div>
+          <div class="children">
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="https://anara.com/changelog/two-dot-zero">Anara Agents</Mention></span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="https://github.com/cristicretu/family-drawer">Family Drawer</Mention></span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="https://hive.cretu.dev/">Hive</Mention></span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/work">all work</Mention></span></div>
+            </div>
+          </div>
+        </div>
 
-    <!-- Recent Writings -->
-    <div class="flex flex-col gap-2">
-      <p class="text-tertiary text-sm font-mono">recent posts</p>
-      <div class="flex flex-col">
-        {posts.map((post) => (
-          <a
-            class="text-secondary hover:text-primary py-1 transition-colors duration-150"
-            href={`/writing/${post.slug}`}
-          >
-            <span class="text-quaternary font-mono text-sm mr-2">{post.data.publishedAt.slice(0, 4)}</span>
-            {post.data.title.toLowerCase()}
-          </a>
-        ))}
+        <div class="node has-children" data-node>
+          <div class="row has-children" tabindex="0">
+            <span class="bullet-cell">
+              <span class="bullet"></span>
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </span>
+            <span class="label">writing<span class="count">3</span></span>
+          </div>
+          <div class="children">
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/writing/games-to-programming">games to programming</Mention></span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/writing/look-where-you-aim">look where you aim</Mention></span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/writing">all essays</Mention></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="node has-children open" data-node>
+          <div class="row has-children" tabindex="0">
+            <span class="bullet-cell">
+              <span class="bullet"></span>
+              <span class="caret" aria-hidden><svg viewBox="0 0 8 8" fill="none"><path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </span>
+            <span class="label">elsewhere</span>
+          </div>
+          <div class="children">
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="https://x.com/cristicrtu">x.com/cristicrtu</Mention></span></div>
+            </div>
+            <div class="node" data-node>
+              <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="mailto:hi@cretu.dev">hi@cretu.dev</Mention></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="write-row" aria-hidden>
+          <span class="ghost-bullet"></span>
+          <span><span class="caret-blink"></span></span>
+        </div>
+
       </div>
-      <a href="/writing" class="text-tertiary text-sm hover:text-secondary mt-2">
-        all posts →
-      </a>
-    </div>
-  </div>
-</Layout>
+    </main>
+
+    <script is:inline>
+      (function () {
+        const doc = document.getElementById('doc');
+        if (!doc) return;
+
+        /* fold / unfold */
+        const parents = document.querySelectorAll('.node.has-children');
+        parents.forEach(function (node) {
+          const row = node.querySelector(':scope > .row');
+          if (!row) return;
+          row.addEventListener('click', function (e) {
+            if (e.target && e.target.closest('a')) return;
+            node.classList.toggle('open');
+          });
+          row.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              node.classList.toggle('open');
+            }
+          });
+        });
+
+        /* relative timestamp on the "now" row */
+        const stamp = document.querySelector('[data-now-stamp]');
+        if (stamp) {
+          const now = new Date();
+          const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+          const day = dayNames[now.getDay()];
+          const monthShort = now.toLocaleString('en-US', { month: 'short' }).toLowerCase();
+          stamp.textContent = day.toLowerCase() + ' · ' + now.getDate() + ' ' + monthShort;
+        }
+
+        /* first-paint cascade — rows enter in stagger */
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { doc.classList.add('entered'); });
+        });
+        const nodes = doc.querySelectorAll('.node');
+        nodes.forEach(function (n, i) {
+          n.style.transitionDelay = (40 + i * 35) + 'ms';
+        });
+
+        /* page settles still after cascade — no auto-fold demo */
+      })();
+    </script>
+  </body>
+</html>
