@@ -149,21 +149,27 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
         ul.appendChild(li);
       });
       toc.appendChild(ul);
-      /* highlight current */
+      /* highlight current — scroll-driven via IntersectionObserver,
+         keyboard-driven via focus events on the headings themselves */
       var links = toc.querySelectorAll('a');
-      if (!('IntersectionObserver' in window)) return;
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          var id = e.target.id;
-          var link = toc.querySelector('a[href="#' + id + '"]');
-          if (!link) return;
-          if (e.isIntersecting) {
-            links.forEach(function (l) { l.classList.remove('current'); });
-            link.classList.add('current');
-          }
+      function setCurrent(id) {
+        links.forEach(function (l) {
+          l.classList.toggle('current', l.getAttribute('href') === '#' + id);
         });
-      }, { rootMargin: '-40% 0px -55% 0px' });
-      heads.forEach(function (h) { io.observe(h); });
+      }
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) setCurrent(e.target.id);
+          });
+        }, { rootMargin: '-40% 0px -55% 0px' });
+        heads.forEach(function (h) { io.observe(h); });
+      }
+      /* Tabbing into a heading should also update the TOC, even if the
+         heading is already inside the IntersectionObserver's sweet spot. */
+      heads.forEach(function (h) {
+        h.addEventListener('focus', function () { setCurrent(h.id); });
+      });
     }
 
     wire();
