@@ -7,9 +7,7 @@ const requestedPath = Astro.url.pathname;
 
 <NotionLayout title="404" description="page not found">
   <div class="doc-title">
-    <span class="pulse-wrap">
-      <span class="pulse-dot" aria-hidden></span>
-    </span>404<span class="age">, not found</span>
+    404<span class="age">, not found</span>
   </div>
   <p class="index-sub">
     you tried <code class="tried-path">{requestedPath}</code>. this page doesn't exist (yet). try one of these.
@@ -76,48 +74,14 @@ const requestedPath = Astro.url.pathname;
     margin: 0 0 32px;
   }
 
+  .index-sub code,
   .tried-path {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 13px;
+    font-size: 12.5px;
+    background: var(--notion-tint-strong, rgba(24, 24, 27, 0.06));
+    color: var(--notion-ink);
     padding: 1px 6px;
     border-radius: 4px;
-    background: var(--notion-row-hover);
-    color: var(--notion-ink);
-    border: 1px solid var(--notion-rule);
-  }
-
-  /* Bullet pulse next to "404", one-shot for ~3s on load */
-  .pulse-wrap {
-    display: inline-grid;
-    place-items: center;
-    width: 14px;
-    height: 14px;
-    vertical-align: 2px;
-    margin-right: 8px;
-    position: relative;
-  }
-  .pulse-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--notion-ink);
-    position: relative;
-  }
-  .pulse-dot::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1.5px solid var(--notion-ink);
-    animation: pulse-once 1s cubic-bezier(0.2, 0.7, 0.2, 1) 3;
-    opacity: 0;
-  }
-  @keyframes pulse-once {
-    0%   { transform: scale(1);   opacity: 0.6; }
-    100% { transform: scale(2.6); opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .pulse-dot::after { animation: none; }
   }
 
   .node {
@@ -219,20 +183,6 @@ const requestedPath = Astro.url.pathname;
     font-variant-numeric: tabular-nums;
     font-family: 'JetBrains Mono', ui-monospace, monospace;
   }
-  .label .count {
-    display: inline-block;
-    padding-left: 10px;
-    font-size: 12px;
-    color: var(--notion-faint);
-    font-variant-numeric: tabular-nums;
-    opacity: 0;
-    transform: translateX(-2px);
-    transition: opacity 200ms ease 60ms, transform 200ms ease 60ms;
-  }
-  .label .count::before {
-    content: '· ';
-    color: var(--notion-faint);
-  }
   .node.has-children:not(.open) > .row > .label > .count {
     opacity: 1;
     transform: translateX(0);
@@ -300,21 +250,6 @@ const requestedPath = Astro.url.pathname;
     border-radius: 50%;
     border: 1px dashed var(--notion-dim);
     box-sizing: border-box;
-  }
-  .caret-blink {
-    display: inline-block;
-    width: 1.5px;
-    height: 16px;
-    background: var(--notion-ink);
-    vertical-align: -3px;
-    animation: caret-blink 1.1s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
-  }
-  @keyframes caret-blink {
-    0%   { opacity: 1; }
-    100% { opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .caret-blink { animation: none; opacity: 1; }
   }
 </style>
 

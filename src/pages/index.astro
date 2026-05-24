@@ -137,7 +137,7 @@ const latestPosts = allPosts
     font-weight: 500;
     letter-spacing: -0.022em;
     line-height: 1.3;
-    padding: 0 0 14px;
+    padding: 0 0 16px;
     color: var(--notion-ink);
     cursor: text;
     font-feature-settings: 'kern' 1, 'cv11', 'ss01';
@@ -287,25 +287,6 @@ const latestPosts = allPosts
     font-variant-numeric: tabular-nums;
     font-family: 'JetBrains Mono', ui-monospace, monospace;
   }
-  .label .count {
-    display: inline-block;
-    padding-left: 10px;
-    font-size: 12px;
-    color: var(--notion-faint);
-    font-variant-numeric: tabular-nums;
-    opacity: 0;
-    transform: translateX(-2px);
-    transition: opacity var(--dur-normal, 200ms) ease 60ms, transform var(--dur-normal, 200ms) ease 60ms;
-  }
-  .label .count::before {
-    content: '· ';
-    color: var(--notion-faint);
-  }
-  .node.has-children:not(.open) > .row > .label > .count {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
   .children {
     position: relative;
     margin-left: 26px;
@@ -347,7 +328,7 @@ const latestPosts = allPosts
     align-items: center;
     padding: 4px 8px 4px 0;
     border-radius: 4px;
-    opacity: 0.7;
+    opacity: 0.65;
     transition: opacity var(--dur-normal, 200ms) ease, background var(--dur-quick, 140ms) ease;
   }
   .write-row:hover {
@@ -367,21 +348,6 @@ const latestPosts = allPosts
     border-radius: 50%;
     border: 1px dashed var(--notion-dim);
     box-sizing: border-box;
-  }
-  .caret-blink {
-    display: inline-block;
-    width: 1.5px;
-    height: 16px;
-    background: var(--notion-ink);
-    vertical-align: -3px;
-    animation: caret-blink 1.1s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
-  }
-  @keyframes caret-blink {
-    0%   { opacity: 1; }
-    100% { opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .caret-blink { animation: none; opacity: 1; }
   }
 </style>
 
@@ -411,9 +377,14 @@ const latestPosts = allPosts
       const stamp = document.querySelector('[data-now-stamp]');
       if (stamp) {
         const now = new Date();
-        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const day = dayNames[now.getDay()];
         const monthShort = now.toLocaleString('en-US', { month: 'short' }).toLowerCase();
-        stamp.textContent = days[now.getDay()] + ' · ' + now.getDate() + ' ' + monthShort;
+        const monthLong = now.toLocaleString('en-US', { month: 'long' });
+        stamp.textContent = day + ' · ' + now.getDate() + ' ' + monthShort;
+        /* readable for screen readers */
+        stamp.removeAttribute('aria-hidden');
+        stamp.setAttribute('aria-label', `Today is ${day.charAt(0).toUpperCase() + day.slice(1)}, ${monthLong} ${now.getDate()}, ${now.getFullYear()}`);
       }
 
       /* double-click bullet → toggle done state (visual only) */

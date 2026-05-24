@@ -28,7 +28,8 @@ const isActive = (href: string) => {
     <ViewTransitions />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="/static/favicons/favicon-196x196.png" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicons/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="196x196" href="/static/favicons/favicon-196x196.png" />
     <link rel="apple-touch-icon" href="/static/favicons/apple-touch-icon-180x180.png" />
     <link rel="manifest" href="/static/favicons/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
@@ -45,6 +46,7 @@ const isActive = (href: string) => {
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <!-- TODO: refresh OG image to match outliner aesthetic — needs design pass -->
     <meta property="og:image" content={image} />
     <meta property="og:site_name" content="Cristian Crețu" />
     <meta property="og:locale" content="en-US" />
@@ -252,19 +254,38 @@ const isActive = (href: string) => {
       /* --- Skip to content --- */
       .skip-link {
         position: fixed;
-        top: 8px;
-        left: 8px;
+        top: 50%;
+        left: 50%;
         z-index: 200;
-        padding: 8px 14px;
+        padding: 10px 16px;
         background: var(--notion-ink);
         color: var(--notion-bg);
-        border-radius: 6px;
+        border-radius: 8px;
         font-size: 13px;
-        transform: translateY(-200%);
-        transition: transform 200ms var(--ease-out);
+        font-family: 'Inter', sans-serif;
+        transform: translate(-50%, calc(-50% - 200px));
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity var(--dur-normal, 200ms) var(--ease-out, ease),
+          transform var(--dur-normal, 200ms) var(--ease-out, ease);
       }
       .skip-link:focus {
-        transform: translateY(0);
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        pointer-events: auto;
+        outline: none;
+      }
+
+      /* --- Screen reader only --- */
+      .sr-only {
+        position: absolute;
+        width: 1px; height: 1px;
+        padding: 0; margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
       }
       .theme-toggle {
         margin-top: 6px;
@@ -492,10 +513,26 @@ const isActive = (href: string) => {
         padding: 8px 12px; font-size: 14px; color: var(--notion-ink);
         cursor: pointer; border-radius: 6px;
         transition: background var(--dur-quick) ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
       }
       .cmdk-list li[role="option"][aria-selected="true"],
       .cmdk-list li[role="option"]:hover {
         background: var(--notion-row-hover);
+      }
+      .cmdk-kbd {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10.5px;
+        color: var(--notion-faint);
+        background: var(--notion-tint);
+        border-radius: 3px;
+        padding: 1px 5px;
+        letter-spacing: 0;
+      }
+      .cmdk-list li[role="option"][aria-selected="true"] .cmdk-kbd {
+        color: var(--notion-muted);
       }
       .cmdk-section {
         padding: 6px 12px 4px;
@@ -519,6 +556,59 @@ const isActive = (href: string) => {
       .cmdk-hint kbd {
         font-family: 'JetBrains Mono', monospace; font-size: 10px;
         background: var(--notion-tint); border-radius: 3px; padding: 1px 5px;
+      }
+
+      /* Canonical count badge — overrides any page-local rules (loaded later normally; use specificity + !important if needed) */
+      .label .count {
+        display: inline-block;
+        padding-left: 10px;
+        font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+        font-size: 12px;
+        color: var(--notion-faint);
+        font-variant-numeric: tabular-nums;
+        letter-spacing: -0.04em;
+        opacity: 0;
+        transform: translateX(-2px);
+        transition:
+          opacity var(--dur-normal, 200ms) ease 60ms,
+          transform var(--dur-normal, 200ms) ease 60ms;
+      }
+      .label .count::before {
+        content: '· ';
+        color: var(--notion-faint);
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+      }
+      .node.has-children:not(.open) > .row > .label > .count {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* --- Easter egg discoverability hint --- */
+      .hint {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 30;
+        font-size: 11px;
+        color: var(--notion-faint);
+        font-family: 'Inter', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity var(--dur-slow, 360ms) var(--ease-out, ease);
+      }
+      .hint kbd {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        background: var(--notion-tint);
+        border-radius: 3px;
+        padding: 1px 5px;
+      }
+      .hint.visible {
+        opacity: 0.55;
       }
     </style>
   </head>
@@ -558,7 +648,8 @@ const isActive = (href: string) => {
       <slot />
     </main>
 
-    <div class="cmdk" role="dialog" aria-modal="true" aria-label="Command palette" hidden>
+    <div class="cmdk" role="dialog" aria-modal="true" aria-labelledby="cmdk-title" hidden>
+      <h2 id="cmdk-title" class="sr-only">Command palette</h2>
       <div class="cmdk-backdrop"></div>
       <div class="cmdk-panel">
         <div class="cmdk-search">
@@ -569,16 +660,28 @@ const isActive = (href: string) => {
           <input class="cmdk-input" type="text" placeholder="type to search…" aria-label="Search commands" autocomplete="off" />
         </div>
         <ul class="cmdk-list" role="listbox">
-          <li role="option" data-href="/" data-keys="home start">Home</li>
-          <li role="option" data-href="/writing" data-keys="writing essays posts">Writing</li>
-          <li role="option" data-href="/work" data-keys="work projects">Work</li>
-          <li role="option" data-href="/resources" data-keys="resources links books talks">Resources</li>
-          <li role="option" data-href="mailto:hi@cretu.dev" data-keys="email contact">Email</li>
+          <li role="option" data-href="/" data-keys="home start" data-shortcut="1">
+            <span>Home</span><kbd class="cmdk-kbd">⌘1</kbd>
+          </li>
+          <li role="option" data-href="/writing" data-keys="writing essays posts" data-shortcut="2">
+            <span>Writing</span><kbd class="cmdk-kbd">⌘2</kbd>
+          </li>
+          <li role="option" data-href="/work" data-keys="work projects" data-shortcut="3">
+            <span>Work</span><kbd class="cmdk-kbd">⌘3</kbd>
+          </li>
+          <li role="option" data-href="/resources" data-keys="resources links books talks" data-shortcut="4">
+            <span>Resources</span><kbd class="cmdk-kbd">⌘4</kbd>
+          </li>
+          <li role="option" data-href="mailto:hi@cretu.dev" data-keys="email contact" data-shortcut="5">
+            <span>Email</span><kbd class="cmdk-kbd">⌘5</kbd>
+          </li>
           <li class="cmdk-empty" hidden>No commands match</li>
         </ul>
         <div class="cmdk-hint"><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> open <kbd>esc</kbd> close</div>
       </div>
     </div>
+
+    <div class="hint" aria-hidden="true">press <kbd>⌘K</kbd> or <kbd>/</kbd> to navigate</div>
 
     <script is:inline>
       (function () {
@@ -740,6 +843,17 @@ const isActive = (href: string) => {
               root.hidden ? open() : close();
               return;
             }
+            if ((e.metaKey || e.ctrlKey) && /^[1-5]$/.test(e.key)) {
+              /* don't interfere with browser tab-switching: ignore if input/textarea focused */
+              if (/input|textarea/i.test(document.activeElement.tagName)) return;
+              const idx2 = parseInt(e.key, 10) - 1;
+              const item = list.querySelectorAll('li[role="option"]:not(.cmdk-recent)')[idx2];
+              if (item) {
+                e.preventDefault();
+                window.location.href = item.dataset.href;
+              }
+              return;
+            }
             if (e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)) {
               e.preventDefault();
               open();
@@ -769,6 +883,25 @@ const isActive = (href: string) => {
             if (!href) return;
             close();
             window.location.href = href;
+          });
+        })();
+
+        /* easter egg hint — fades in after idle, hides on user activity */
+        (function hintReveal() {
+          const hint = document.querySelector('.hint');
+          if (!hint) return;
+          const show = function () {
+            requestAnimationFrame(function () { hint.classList.add('visible'); });
+          };
+          const hide = function () { hint.classList.remove('visible'); };
+          setTimeout(show, 4000);
+          let hideTimer;
+          ['keydown', 'click', 'scroll'].forEach(function (ev) {
+            document.addEventListener(ev, function () {
+              hide();
+              clearTimeout(hideTimer);
+              hideTimer = setTimeout(show, 6000);
+            }, { passive: true });
           });
         })();
       })();

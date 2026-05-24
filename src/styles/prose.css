@@ -96,7 +96,7 @@
   max-height: 280px;
   object-fit: cover;
   border-radius: 6px;
-  border: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
+  /* border removed — shadow alone provides depth */
   margin: 24px 0 8px;
   box-shadow: var(--notion-shadow, 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06));
 }
@@ -734,7 +734,7 @@
   padding: 6px 8px;
   border-radius: 4px;
   cursor: text;
-  opacity: 0.85;
+  opacity: 0.65;
   transition: background var(--dur-quick, 140ms) ease, opacity var(--dur-normal, 200ms) ease;
 }
 
@@ -775,6 +775,22 @@
 @keyframes post-caret-blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* TOC "Top" arrow — chunky SVG mask, rotated 45° (pointing up) */
+.toc-top-arrow {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  margin-right: 4px;
+  vertical-align: -0.05em;
+  background-color: currentColor;
+  opacity: 0.6;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M5 7.5V2.5M2.5 5L5 2.5L7.5 5' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M5 7.5V2.5M2.5 5L5 2.5L7.5 5' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: contain; mask-size: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {

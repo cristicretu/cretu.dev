@@ -151,7 +151,7 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
       top.className = 'post-toc-top';
       var topLink = document.createElement('a');
       topLink.href = '#';
-      topLink.textContent = '↑ Top';
+      topLink.innerHTML = '<span class="toc-top-arrow"></span>Top';
       topLink.addEventListener('click', function (e) {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
