@@ -766,12 +766,15 @@
   .post-toc {
     display: block;
     position: fixed;
-    top: 132px;
-    right: 24px;
+    /* Sit well below the corner nav so it reads as a separate column,
+       and right-align text so it shares the nav's right edge cleanly. */
+    top: 200px;
+    right: 22px;
     width: 200px;
     font-size: 12px;
     line-height: 1.6;
     color: var(--notion-faint, #9b9ba1);
+    text-align: right;
   }
   .post-toc[hidden] { display: none; }
   .post-toc ul {
@@ -779,12 +782,8 @@
     padding: 0;
     margin: 0;
   }
-  .post-toc li {
-    padding: 2px 0;
-  }
-  .post-toc li.post-toc-h3 {
-    padding-left: 12px;
-  }
+  .post-toc li { padding: 2px 0; }
+  .post-toc li.post-toc-h3 { padding-right: 12px; }
   .post-toc a {
     color: var(--notion-faint, #9b9ba1);
     text-decoration: none;
@@ -797,9 +796,9 @@
   .post-toc a::after { content: none !important; }
   .post-toc a:hover { color: var(--notion-ink, #18181b); }
   .post-toc a.current { color: var(--notion-ink, #18181b); }
-  .post-toc-top { padding-bottom: 4px; }
-  .post-toc-top a { font-size: 11.5px; }
-  .post-toc-top a:hover { color: var(--notion-ink, #18181b); }
+}
+@media (min-width: 1440px) {
+  .post-toc { right: 32px; }
 }
 
 /* ---------- Toast (anchor copy feedback) ---------- */
