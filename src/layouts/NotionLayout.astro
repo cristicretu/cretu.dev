@@ -577,7 +577,7 @@ const isActive = (href: string) => {
       }
 
       /* --- External link ↗ arrow (SVG-based: shorter, thicker) --- */
-      a[href^="http"]:not([href*="cretu.dev"])::after {
+      a[href^="http"]:not([href*="://cretu.dev"])::after {
         content: '';
         display: inline-block;
         width: 0.62em;
@@ -596,7 +596,7 @@ const isActive = (href: string) => {
                 mask-size: contain;
         transition: opacity 160ms ease, transform 160ms ease;
       }
-      a[href^="http"]:not([href*="cretu.dev"]):hover::after {
+      a[href^="http"]:not([href*="://cretu.dev"]):hover::after {
         opacity: 0.85;
         transform: translate(0.5px, -0.5px);
       }

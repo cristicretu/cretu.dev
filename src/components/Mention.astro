@@ -5,8 +5,19 @@ interface Props {
 }
 
 const { href, external } = Astro.props;
-const isExternal =
-  external ?? (/^https?:\/\//.test(href) && !href.includes('cretu.dev'));
+/* Treat anything with a hostname that isn't exactly cretu.dev (or www.cretu.dev)
+   as external — subdomains like hive.cretu.dev are separate sites and deserve
+   the ↗ arrow. */
+function detectExternal(url: string): boolean {
+  if (!/^https?:\/\//.test(url)) return false;
+  try {
+    const u = new URL(url);
+    return u.hostname !== 'cretu.dev' && u.hostname !== 'www.cretu.dev';
+  } catch {
+    return false;
+  }
+}
+const isExternal = external ?? detectExternal(href);
 ---
 
 <a
