@@ -408,18 +408,29 @@ const isActive = (href: string) => {
         padding: 132px 32px 200px 96px;
       }
 
-      /* Back-link shown at the top of every non-root page (← index / ← writing). */
+      /* Back-link shown at the top of every non-root page. ↩ glyph + sans. */
       .page-back {
-        display: inline-block;
-        font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
         color: var(--notion-faint);
         text-decoration: none;
-        margin: 0 0 16px;
+        margin: 0 0 24px;
         transition: color var(--dur-quick, 140ms) ease;
       }
       .page-back:hover { color: var(--notion-ink); }
       .page-back::after { content: none !important; }
+      .page-back .back-arrow {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1;
+        display: inline-block;
+        transition: transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+      }
+      .page-back:hover .back-arrow { transform: translateX(-2px); }
 
       /* <main tabindex="-1"> accepts programmatic focus from the skip link,
          but shouldn't paint a default focus ring around the entire viewport
@@ -549,6 +560,12 @@ const isActive = (href: string) => {
       @keyframes page-in {
         0%   { opacity: 0; transform: translateY(6px); }
         100% { opacity: 1; transform: translateY(0); }
+      }
+      /* Persisted chrome doesn't animate during navigation — the corner
+         nav stays planted while the page swaps under it. */
+      ::view-transition-old(page-nav),
+      ::view-transition-new(page-nav) {
+        animation: none;
       }
       @media (prefers-reduced-motion: reduce) {
         ::view-transition-old(root),
@@ -698,7 +715,7 @@ const isActive = (href: string) => {
   </head>
   <body>
     <a href="#page-body" class="skip-link">Skip to content</a>
-    <header class="page-nav" transition:persist>
+    <header class="page-nav" transition:persist transition:name="page-nav">
       <a class="name" href="/" aria-current={isActive('/') ? 'page' : undefined}>
         Cristian Crețu<br /><span class="yr">2026</span>
       </a>
