@@ -227,7 +227,6 @@ const isActive = (href: string) => {
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
         background: var(--notion-bg);
-        transition: background var(--dur-normal) ease, color var(--dur-normal) ease;
       }
       body {
         background: var(--notion-bg);
@@ -237,7 +236,6 @@ const isActive = (href: string) => {
         font-kerning: normal;
         font-variant-ligatures: contextual;
         min-height: 100vh;
-        transition: background var(--dur-normal) ease, color var(--dur-normal) ease;
       }
       a {
         color: inherit;
@@ -249,11 +247,38 @@ const isActive = (href: string) => {
       }
 
       /* --- Corner nav --- */
+      /* Soft top fade behind the nav — content scrolls under it cleanly */
+      .nav-fade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 132px;
+        z-index: 40;
+        pointer-events: none;
+        background: linear-gradient(
+          to bottom,
+          var(--notion-bg) 0%,
+          var(--notion-bg) 30%,
+          color-mix(in srgb, var(--notion-bg) 60%, transparent) 70%,
+          transparent 100%
+        );
+        /* Fallback for browsers without color-mix() */
+        background: linear-gradient(
+          to bottom,
+          var(--notion-bg),
+          var(--notion-bg) 40%,
+          transparent
+        );
+      }
+      /* When prefers-reduced-motion or low-end, gradient still works */
+
       .page-nav {
         position: fixed;
         top: 22px;
         left: 22px;
         right: 22px;
+        z-index: 50;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -261,7 +286,6 @@ const isActive = (href: string) => {
         font-size: 13px;
         font-weight: 400;
         line-height: 1.5;
-        z-index: 50;
         pointer-events: none;
       }
       .page-nav .name {
@@ -556,27 +580,28 @@ const isActive = (href: string) => {
         .caret-blink { animation: none !important; opacity: 1 !important; }
       }
 
-      /* --- Custom direction-aware crossfade for view transitions ---
-         Matched durations + 60ms delay on the new page so old fades
-         out before new fades in (no "two pages at once" overlap). */
+      /* Pure crossfade for view transitions — no translate, no scale.
+         Pages just swap; the corner nav and fade stay planted (their own
+         transition:name overrides this animation to none). */
       ::view-transition-old(root) {
-        animation: page-out 280ms cubic-bezier(0.4, 0, 0.2, 1) both;
+        animation: page-fade-out 160ms ease both;
       }
       ::view-transition-new(root) {
-        animation: page-in 280ms cubic-bezier(0.2, 0.7, 0.2, 1) 60ms both;
+        animation: page-fade-in 200ms ease 80ms both;
       }
-      @keyframes page-out {
-        0%   { opacity: 1; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-6px); }
+      @keyframes page-fade-out {
+        to { opacity: 0; }
       }
-      @keyframes page-in {
-        0%   { opacity: 0; transform: translateY(6px); }
-        100% { opacity: 1; transform: translateY(0); }
+      @keyframes page-fade-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
       }
       /* Persisted chrome doesn't animate during navigation — the corner
-         nav stays planted while the page swaps under it. */
+         nav and its fade stay planted while the page swaps under them. */
       ::view-transition-old(page-nav),
-      ::view-transition-new(page-nav) {
+      ::view-transition-new(page-nav),
+      ::view-transition-old(nav-fade),
+      ::view-transition-new(nav-fade) {
         animation: none;
       }
       @media (prefers-reduced-motion: reduce) {
@@ -727,6 +752,7 @@ const isActive = (href: string) => {
   </head>
   <body>
     <a href="#page-body" class="skip-link">Skip to content</a>
+    <div class="nav-fade" aria-hidden="true" transition:persist transition:name="nav-fade"></div>
     <header class="page-nav" transition:persist transition:name="page-nav">
       <a class="name" href="/" aria-current={isActive('/') ? 'page' : undefined}>
         Cristian Crețu<br /><span class="yr">2026</span>
