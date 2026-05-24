@@ -458,7 +458,8 @@
 .prose hr {
   border: 0;
   height: 1px;
-  background: var(--notion-rule, rgba(24, 24, 27, 0.08));
+  background: var(--notion-rule, rgba(24, 24, 27, 0.04));
+  opacity: 0.5;
   margin: 2em 0;
 }
 
@@ -681,7 +682,19 @@
   border-radius: 4px;
   cursor: text;
   opacity: 0.65;
+  /* reset native button chrome */
+  background: transparent;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  width: calc(100% + 16px);
   transition: background var(--dur-quick, 140ms) ease, opacity var(--dur-normal, 200ms) ease;
+}
+.post-write-row:hover { background: var(--notion-row-hover); opacity: 1; }
+.post-write-row:focus-visible {
+  outline: 2px solid var(--notion-ink);
+  outline-offset: 2px;
 }
 
 .post-caret-area {
@@ -694,14 +707,14 @@
   font-family: 'Inter', sans-serif;
   font-size: 14.5px;
   color: var(--notion-faint, #9b9ba1);
-  opacity: 0.18;
+  opacity: 0.7;
   transition: opacity var(--dur-normal, 200ms) ease;
   pointer-events: none;
   user-select: none;
 }
 
 .post-write-row:hover .post-slash-hint {
-  opacity: 0.55;
+  opacity: 1;
 }
 
 .post-write-row:hover {
