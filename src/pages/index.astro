@@ -92,7 +92,7 @@ const latestPosts = allPosts
         <div class="node" data-node>
           <div class="row">
             <span class="bullet-cell"><span class="bullet"></span></span>
-            <span class="label"><Mention href={`/writing/${post.slug}`}>{post.data.title.toLowerCase()}</Mention><span class="meta">{post.data.publishedAt.slice(0, 4)}</span></span>
+            <span class="label"><Mention href={`/writing/${post.slug}`}>{post.data.title.replace(/[.!?]+$/, '').toLowerCase()}</Mention><span class="meta">{post.data.publishedAt.slice(0, 4)}</span></span>
           </div>
         </div>
       ))}

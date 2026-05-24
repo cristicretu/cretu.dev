@@ -102,12 +102,28 @@ const isActive = (href: string) => {
           document.documentElement.dataset.theme = 'light';
         }
       })();
+      /* Skip the entry cascade on any navigation after the first one in
+         this tab — set the class BEFORE paint so the .page-body children
+         never start at opacity:0. Runs on every navigation thanks to
+         <script is:inline> being re-evaluated by Astro view transitions. */
+      (function syncCascadeFlag() {
+        try {
+          if (sessionStorage.getItem('cretu_cascaded') === '1') {
+            document.documentElement.classList.add('cascade-done');
+          }
+        } catch (_) {}
+      })();
       document.addEventListener('DOMContentLoaded', syncThemeButtons);
       document.addEventListener('astro:after-swap', () => {
         const saved = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const isDark = saved === 'dark' || (!saved && prefersDark);
         document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        try {
+          if (sessionStorage.getItem('cretu_cascaded') === '1') {
+            document.documentElement.classList.add('cascade-done');
+          }
+        } catch (_) {}
         syncThemeButtons();
       });
     </script>
@@ -153,6 +169,29 @@ const isActive = (href: string) => {
         --notion-code-bg: #f5f5f7;
         --notion-selection: rgba(24, 24, 27, 0.12);
         --notion-shadow: 0 1px 2px rgba(24, 24, 27, 0.06), 0 4px 12px rgba(24, 24, 27, 0.06);
+      }
+
+      /* When the user prefers dark and data-theme hasn't been written yet
+         (brief gap during view transition), default to dark tokens so we
+         never flash a white background before paint. */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --notion-bg: #0f0f10;
+          --notion-surface: #18181b;
+          --notion-ink: #ececef;
+          --notion-muted: #b0b0b8;
+          --notion-faint: #8a8a92;
+          --notion-dim: #3f3f46;
+          --notion-rule: rgba(255, 255, 255, 0.08);
+          --notion-tint: rgba(255, 255, 255, 0.05);
+          --notion-tint-strong: rgba(255, 255, 255, 0.14);
+          --notion-tint-hover: rgba(255, 255, 255, 0.10);
+          --notion-row-hover: rgba(255, 255, 255, 0.04);
+          --notion-row-focus: rgba(255, 255, 255, 0.07);
+          --notion-code-bg: #1c1c1f;
+          --notion-selection: rgba(255, 255, 255, 0.14);
+          --notion-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
       }
 
       html[data-theme='dark'] {
@@ -368,6 +407,20 @@ const isActive = (href: string) => {
         margin: 0;
         padding: 132px 32px 200px 96px;
       }
+
+      /* Back-link shown at the top of every non-root page (← index / ← writing). */
+      .page-back {
+        display: inline-block;
+        font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        color: var(--notion-faint);
+        text-decoration: none;
+        margin: 0 0 16px;
+        transition: color var(--dur-quick, 140ms) ease;
+      }
+      .page-back:hover { color: var(--notion-ink); }
+      .page-back::after { content: none !important; }
+
       /* <main tabindex="-1"> accepts programmatic focus from the skip link,
          but shouldn't paint a default focus ring around the entire viewport
          when that focus lands. */
@@ -377,16 +430,17 @@ const isActive = (href: string) => {
       }
 
       /* --- Universal cascade for direct children of .page-body ---
-         Wrapped in :where() to zero specificity so page-level opacity
-         rules (e.g. .write-row { opacity: 0.65 }) still win. */
-      :where(.page-body) > * {
+         Scoped to html:not(.cascade-done) so the animation only plays
+         once per session, never on subsequent navigations. Wrapped in
+         :where() to zero specificity so page-level opacity rules still win. */
+      :where(html:not(.cascade-done) .page-body) > * {
         opacity: 0;
         transform: translateY(3px);
         transition:
           opacity var(--dur-slow, 360ms) ease,
           transform var(--dur-slow, 360ms) cubic-bezier(0.2, 0.7, 0.2, 1);
       }
-      :where(.page-body.entered) > * {
+      :where(html:not(.cascade-done) .page-body.entered) > * {
         opacity: 1;
         transform: translateY(0);
       }

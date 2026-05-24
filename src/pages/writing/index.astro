@@ -16,6 +16,7 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
 ---
 
 <NotionLayout title="Writing" description="thoughts on design, code, and life.">
+  <a class="page-back" href="/">← index</a>
   <div class="doc-title">writing<span class="age">, {sorted.length} {sorted.length === 1 ? 'essay' : 'essays'}</span></div>
   <p class="index-sub">brain dumps. shaped by what I'm building, reading, or annoyed by.</p>
 
@@ -39,7 +40,7 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
             <div class="node" data-node>
               <div class="row">
                 <span class="bullet-cell"><span class="bullet"></span></span>
-                <span class="label"><Mention href={`/writing/${post.slug}`}>{post.data.title.toLowerCase()}</Mention><time class="meta" datetime={post.data.publishedAt}>{dateFmt}</time></span>
+                <span class="label"><Mention href={`/writing/${post.slug}`}>{post.data.title.replace(/[.!?]+$/, '').toLowerCase()}</Mention><time class="meta" datetime={post.data.publishedAt}>{dateFmt}</time></span>
               </div>
             </div>
           );
