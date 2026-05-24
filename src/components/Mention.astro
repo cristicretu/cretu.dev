@@ -47,12 +47,23 @@ const isExternal = external ?? detectExternal(href);
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
-  /* Reset native chrome when .mention is rendered as a <button> */
+  /* Reset native chrome when .mention is rendered as a <button>.
+     iOS Safari applies -webkit-appearance: button + native padding that
+     override the .mention pill metrics — these reset every property the
+     UA injects so the button is metrically identical to the <a>. */
   button.mention {
+    -webkit-appearance: none;
+            appearance: none;
     font: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    text-align: inherit;
     cursor: pointer;
     border: 0;
     outline: 0;
+    margin: 0;
+    padding: 0 4px;
   }
   @media (hover: hover) and (pointer: fine) {
     .mention:hover {
