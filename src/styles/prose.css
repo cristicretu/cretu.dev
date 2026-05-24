@@ -33,13 +33,11 @@
 }
 
 .post-date {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1;
   color: var(--notion-muted, #52525b);
-  text-transform: lowercase;
-  letter-spacing: 0;
   margin: 0 0 8px;
+  font-variant-numeric: tabular-nums;
 }
 
 .post-meta {
@@ -49,8 +47,7 @@
 
 .post-breadcrumb {
   display: inline-block;
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--notion-faint, #9b9ba1);
   text-decoration: none;
   margin: 0 0 12px;
@@ -596,11 +593,9 @@
 }
 
 .post-footer a {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--notion-faint, #9b9ba1);
   text-decoration: none;
-  text-transform: lowercase;
   transition: color var(--dur-quick, 140ms) ease;
 }
 
