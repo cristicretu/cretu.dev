@@ -401,6 +401,18 @@ const isActive = (href: string) => {
         transform: translateX(1px);
       }
 
+      /* Outliner interactive surfaces never select text on rapid click —
+         parent rows are toggles, bullets are buttons, mention pills are
+         links. Body text inside leaf rows stays selectable. */
+      .row.has-children,
+      .bullet-cell,
+      .caret,
+      .write-row,
+      .post-write-row {
+        -webkit-user-select: none;
+                user-select: none;
+      }
+
       /* --- Page body --- */
       .page-body {
         max-width: 720px;
