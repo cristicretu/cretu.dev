@@ -145,69 +145,9 @@
   background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
 }
 
-/* Drag handle (⋮⋮) — sits closer to the block */
-.prose > *::after {
-  content: '';
-  position: absolute;
-  left: -22px;
-  top: 10px;
-  width: 12px;
-  height: 16px;
-  background-color: currentColor;
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'><circle cx='2.5' cy='2.5' r='1'/><circle cx='7.5' cy='2.5' r='1'/><circle cx='2.5' cy='7' r='1'/><circle cx='7.5' cy='7' r='1'/><circle cx='2.5' cy='11.5' r='1'/><circle cx='7.5' cy='11.5' r='1'/></svg>");
-          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='14' viewBox='0 0 10 14'><circle cx='2.5' cy='2.5' r='1'/><circle cx='7.5' cy='2.5' r='1'/><circle cx='2.5' cy='7' r='1'/><circle cx='7.5' cy='7' r='1'/><circle cx='2.5' cy='11.5' r='1'/><circle cx='7.5' cy='11.5' r='1'/></svg>");
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-          mask-position: center;
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity var(--dur-quick, 140ms) ease 60ms;
-}
-
-/* "+" add-block icon — further left */
-.prose > *:not(hr) > .block-plus,
-.prose > *::before {
-  /* keep selector compact — actual styling below uses ::before only */
-}
-
-.prose > *:not(pre):not(hr)::before {
-  content: '';
-  position: absolute;
-  left: -40px;
-  top: 10px;
-  width: 14px;
-  height: 16px;
-  background-color: currentColor;
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M6 1.5v9M1.5 6h9' stroke='black' stroke-width='1.4' stroke-linecap='round'/></svg>");
-          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M6 1.5v9M1.5 6h9' stroke='black' stroke-width='1.4' stroke-linecap='round'/></svg>");
-  -webkit-mask-repeat: no-repeat;
-          mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-          mask-position: center;
-  -webkit-mask-size: contain;
-          mask-size: contain;
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity var(--dur-quick, 140ms) ease 60ms;
-}
-
-.prose > *:hover::after { opacity: 0.35; }
-.prose > *:hover::before { opacity: 0.35; }
-.prose > *::after:hover { opacity: 0.8; }
-.prose > *::before:hover { opacity: 0.8; }
-
-/* Headings sit a touch higher to align icons with first line */
-.prose > h1::before,
-.prose > h1::after,
-.prose > h2::before,
-.prose > h2::after,
-.prose > h3::before,
-.prose > h3::after { top: 14px; }
-
-/* hr block treatment off — icons would overlap the line */
-.prose > hr::before,
-.prose > hr::after { display: none; }
+/* Removed the fake [+] [⋮⋮] block gutter affordances — they implied
+   editability that didn't exist. The hover-tint background and indent
+   guide are enough to feel Notion-like without faking the editor. */
 .prose > hr:hover { background: transparent; }
 
 /* pre uses ::before for code styling — don't conflict */
@@ -825,15 +765,12 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    position: relative;
-    border-left: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
   }
   .post-toc li {
-    position: relative;
-    padding: 2px 0 2px 12px;
+    padding: 2px 0;
   }
   .post-toc li.post-toc-h3 {
-    padding-left: 24px;
+    padding-left: 12px;
   }
   .post-toc a {
     color: var(--notion-faint, #9b9ba1);
@@ -844,41 +781,11 @@
     padding: 0;
     border-radius: 0;
   }
-  .post-toc a::after {
-    content: none !important;
-  }
-  .post-toc a:hover {
-    color: var(--notion-ink, #18181b);
-    background: transparent;
-  }
-  .post-toc a.current {
-    color: var(--notion-ink, #18181b);
-    /* removed font-weight to avoid layout shift */
-  }
-  .post-toc a.current::before {
-    content: '';
-    position: absolute;
-    left: -1px;
-    top: 4px;
-    bottom: 4px;
-    width: 2px;
-    background: var(--notion-ink, #18181b);
-    border-radius: 1px;
-  }
-  .post-toc-top {
-    padding-left: 0 !important;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
-    margin-bottom: 4px;
-  }
-  .post-toc-top a {
-    color: var(--notion-faint, #9b9ba1);
-    font-size: 11.5px;
-    padding-bottom: 8px;
-  }
-  .post-toc-top a::before {
-    content: none !important;
-  }
+  .post-toc a::after { content: none !important; }
+  .post-toc a:hover { color: var(--notion-ink, #18181b); }
+  .post-toc a.current { color: var(--notion-ink, #18181b); }
+  .post-toc-top { padding-bottom: 4px; }
+  .post-toc-top a { font-size: 11.5px; }
   .post-toc-top a:hover { color: var(--notion-ink, #18181b); }
 }
 
