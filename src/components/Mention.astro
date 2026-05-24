@@ -30,7 +30,9 @@ const isExternal = external ?? detectExternal(href);
   {isExternal && <span class="mention-arrow" aria-hidden="true"></span>}
 </a>
 
-<style>
+<style is:global>
+  /* Global so siblings can adopt .mention styling (e.g. the email
+     button on the homepage that's not rendered through this component). */
   .mention {
     display: inline;
     color: inherit;
@@ -44,6 +46,13 @@ const isExternal = external ?? detectExternal(href);
       transform var(--dur-normal, 180ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
+  }
+  /* Reset native chrome when .mention is rendered as a <button> */
+  button.mention {
+    font: inherit;
+    cursor: pointer;
+    border: 0;
+    outline: 0;
   }
   @media (hover: hover) and (pointer: fine) {
     .mention:hover {

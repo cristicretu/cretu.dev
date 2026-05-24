@@ -122,7 +122,7 @@ const latestPosts = allPosts
         <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="https://github.com/cristicretu">github.com/cristicretu</Mention></span></div>
       </div>
       <div class="node" data-node>
-        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="mailto:hi@cretu.dev">hi@cretu.dev</Mention></span></div>
+        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><button class="mention" type="button" data-mention data-email-copy aria-label="Copy email to clipboard">hi <span aria-hidden="true">[at]</span><span class="sr-only">@</span> cretu <span aria-hidden="true">(dot)</span><span class="sr-only">.</span> dev</button></span></div>
       </div>
     </div>
   </div>
@@ -170,7 +170,7 @@ const latestPosts = allPosts
     20%, 60% { transform: rotate(14deg); }
     40%, 80% { transform: rotate(-8deg); }
   }
-  body.greeted .bullet::before {
+  body.greeted .bullet {
     animation: pulse-bullet 800ms ease-out;
   }
   @keyframes pulse-bullet {
@@ -186,7 +186,7 @@ const latestPosts = allPosts
     text-decoration-color: var(--notion-faint);
     color: var(--notion-faint);
   }
-  .node.done > .row > .bullet-cell > .bullet::before {
+  .node.done > .row > .bullet-cell > .bullet {
     background: var(--notion-faint);
     transform: scale(0.85);
     transition: background var(--dur-normal, 220ms) var(--ease-out-soft, ease), transform var(--dur-normal, 220ms) var(--ease-spring, ease);
@@ -219,7 +219,7 @@ const latestPosts = allPosts
   .row.has-children:active {
     transform: scale(0.997);
   }
-  .bullet-cell:active .bullet::before {
+  .bullet-cell:active .bullet {
     transform: scale(0.7);
     transition: transform 100ms var(--ease-out-soft, ease);
   }
@@ -242,26 +242,26 @@ const latestPosts = allPosts
     position: relative;
     width: 18px;
     height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     cursor: pointer;
   }
   .bullet {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    transition: opacity var(--dur-quick, 140ms) ease;
-  }
-  .bullet::before {
-    content: '';
+    display: block;
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: var(--notion-ink);
-    transition: transform 140ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
     box-sizing: border-box;
+    flex-shrink: 0;
+    transition:
+      opacity var(--dur-quick, 140ms) ease,
+      transform 140ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
   }
 
-  .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
+  .node.has-children:not(.open) > .row > .bullet-cell > .bullet {
     background: transparent;
     border: 1.5px solid var(--notion-ink);
     width: 9px;
@@ -310,7 +310,7 @@ const latestPosts = allPosts
   .children::before {
     content: '';
     position: absolute;
-    left: 8px;
+    left: 2px;
     top: 4px;
     bottom: 4px;
     width: 1px;
@@ -319,7 +319,7 @@ const latestPosts = allPosts
   }
   @media (hover: hover) and (pointer: fine) {
     .row:hover { background: var(--notion-row-hover); }
-    .row:hover .bullet::before { transform: scale(1.4); }
+    .row:hover .bullet { transform: scale(1.4); }
     .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
     .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
     .node.has-children:hover > .children::before { background: var(--notion-dim); }

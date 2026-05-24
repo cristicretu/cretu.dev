@@ -130,30 +130,30 @@ const requestedPath = Astro.url.pathname;
     position: relative;
     width: 18px;
     height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     cursor: pointer;
   }
   .bullet {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    transition: opacity 160ms ease;
-  }
-  .bullet::before {
-    content: '';
+    display: block;
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: var(--notion-ink);
-    transition: transform 140ms var(--ease-out-soft);
+    flex-shrink: 0;
     box-sizing: border-box;
+    transition:
+      opacity 160ms ease,
+      transform 140ms var(--ease-out-soft);
   }
-  .bullet-cell:active .bullet::before {
+  .bullet-cell:active .bullet {
     transform: scale(0.7);
     transition: transform 100ms var(--ease-out-soft, ease);
   }
 
-  .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
+  .node.has-children:not(.open) > .row > .bullet-cell > .bullet {
     background: transparent;
     border: 1.5px solid var(--notion-ink);
     width: 9px;
@@ -207,7 +207,7 @@ const requestedPath = Astro.url.pathname;
   .children::before {
     content: '';
     position: absolute;
-    left: 8px;
+    left: 2px;
     top: 4px;
     bottom: 4px;
     width: 1px;
@@ -252,7 +252,7 @@ const requestedPath = Astro.url.pathname;
 
   @media (hover: hover) and (pointer: fine) {
     .row:hover { background: var(--notion-row-hover); }
-    .row:hover .bullet::before { transform: scale(1.4); }
+    .row:hover .bullet { transform: scale(1.4); }
     .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
     .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
     .node.has-children:hover > .children::before { background: var(--notion-dim); }

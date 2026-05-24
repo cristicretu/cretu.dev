@@ -723,7 +723,7 @@ const isActive = (href: string) => {
         <a href="/work" aria-current={isActive('/work') ? 'page' : undefined}>Work</a>
         <a href="/writing" aria-current={isActive('/writing') ? 'page' : undefined}>Writing</a>
         <a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer" data-no-arrow>X</a>
-        <a href="mailto:hi@cretu.dev" data-no-arrow>Email</a>
+        <button type="button" data-email-copy data-no-arrow aria-label="Copy email to clipboard">Email</button>
         <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle aria-pressed="false">
           <svg class="sun" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <circle cx="8" cy="8" r="3.2" fill="currentColor"/>
@@ -811,6 +811,26 @@ const isActive = (href: string) => {
           btn.classList.add('rotating');
           setTimeout(function () { btn.classList.remove('rotating'); }, 320);
           setTheme(cur === 'dark' ? 'light' : 'dark');
+        });
+
+        /* Email copy — built at runtime from parts so Cloudflare's Email
+           Protection can't rewrite the address. Click copies to clipboard
+           and the button briefly flashes "copied". */
+        var emailFlashTimer;
+        document.addEventListener('click', function (e) {
+          var btn = e.target && e.target.closest && e.target.closest('[data-email-copy]');
+          if (!btn) return;
+          e.preventDefault();
+          var addr = 'hi' + '@' + 'cretu' + '.' + 'dev';
+          var prev = btn.dataset.original || btn.textContent;
+          btn.dataset.original = prev;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(addr).then(function () {
+              btn.textContent = 'copied';
+              clearTimeout(emailFlashTimer);
+              emailFlashTimer = setTimeout(function () { btn.textContent = prev; }, 1200);
+            }).catch(function () {});
+          }
         });
 
         /* Mike Matas-style cursor — smooth follow, grows on interactive
