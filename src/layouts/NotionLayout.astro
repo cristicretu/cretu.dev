@@ -522,18 +522,6 @@ const isActive = (href: string) => {
       .cmdk-list li[role="option"]:hover {
         background: var(--notion-row-hover);
       }
-      .cmdk-kbd {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 10.5px;
-        color: var(--notion-faint);
-        background: var(--notion-tint);
-        border-radius: 3px;
-        padding: 1px 5px;
-        letter-spacing: 0;
-      }
-      .cmdk-list li[role="option"][aria-selected="true"] .cmdk-kbd {
-        color: var(--notion-muted);
-      }
       .cmdk-section {
         padding: 6px 12px 4px;
         font-size: 10.5px;
@@ -660,21 +648,11 @@ const isActive = (href: string) => {
           <input class="cmdk-input" type="text" placeholder="type to search…" aria-label="Search commands" autocomplete="off" />
         </div>
         <ul class="cmdk-list" role="listbox">
-          <li role="option" data-href="/" data-keys="home start" data-shortcut="1">
-            <span>Home</span><kbd class="cmdk-kbd">⌘1</kbd>
-          </li>
-          <li role="option" data-href="/writing" data-keys="writing essays posts" data-shortcut="2">
-            <span>Writing</span><kbd class="cmdk-kbd">⌘2</kbd>
-          </li>
-          <li role="option" data-href="/work" data-keys="work projects" data-shortcut="3">
-            <span>Work</span><kbd class="cmdk-kbd">⌘3</kbd>
-          </li>
-          <li role="option" data-href="/resources" data-keys="resources links books talks" data-shortcut="4">
-            <span>Resources</span><kbd class="cmdk-kbd">⌘4</kbd>
-          </li>
-          <li role="option" data-href="mailto:hi@cretu.dev" data-keys="email contact" data-shortcut="5">
-            <span>Email</span><kbd class="cmdk-kbd">⌘5</kbd>
-          </li>
+          <li role="option" data-href="/" data-keys="home start">Home</li>
+          <li role="option" data-href="/writing" data-keys="writing essays posts">Writing</li>
+          <li role="option" data-href="/work" data-keys="work projects">Work</li>
+          <li role="option" data-href="/resources" data-keys="resources links books talks">Resources</li>
+          <li role="option" data-href="mailto:hi@cretu.dev" data-keys="email contact">Email</li>
           <li class="cmdk-empty" hidden>No commands match</li>
         </ul>
         <div class="cmdk-hint"><kbd>↑</kbd><kbd>↓</kbd> navigate <kbd>↵</kbd> open <kbd>esc</kbd> close</div>
@@ -841,17 +819,6 @@ const isActive = (href: string) => {
             if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
               e.preventDefault();
               root.hidden ? open() : close();
-              return;
-            }
-            if ((e.metaKey || e.ctrlKey) && /^[1-5]$/.test(e.key)) {
-              /* don't interfere with browser tab-switching: ignore if input/textarea focused */
-              if (/input|textarea/i.test(document.activeElement.tagName)) return;
-              const idx2 = parseInt(e.key, 10) - 1;
-              const item = list.querySelectorAll('li[role="option"]:not(.cmdk-recent)')[idx2];
-              if (item) {
-                e.preventDefault();
-                window.location.href = item.dataset.href;
-              }
               return;
             }
             if (e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)) {
