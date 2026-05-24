@@ -103,9 +103,14 @@ const requestedPath = Astro.url.pathname;
     transition: background 140ms ease;
     max-width: 580px;
   }
-  .row:hover { background: var(--notion-row-hover); }
 
-  .row.has-children { cursor: pointer; }
+  .row.has-children {
+    cursor: pointer;
+    transition:
+      background var(--dur-quick, 140ms) ease,
+      transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+  }
+  .row.has-children:active { transform: scale(0.997); }
   .row:focus-visible {
     outline: none;
     background: var(--notion-row-focus);
@@ -140,10 +145,13 @@ const requestedPath = Astro.url.pathname;
     height: 6px;
     border-radius: 50%;
     background: var(--notion-ink);
-    transition: transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition: transform 140ms var(--ease-out-soft);
     box-sizing: border-box;
   }
-  .row:hover .bullet::before { transform: scale(1.4); }
+  .bullet-cell:active .bullet::before {
+    transform: scale(0.7);
+    transition: transform 100ms var(--ease-out-soft, ease);
+  }
 
   .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
     background: transparent;
@@ -168,8 +176,6 @@ const requestedPath = Astro.url.pathname;
     display: block;
     transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-  .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
-  .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
   .node.open > .row > .bullet-cell > .caret svg { transform: rotate(90deg); }
 
   .label {
@@ -195,7 +201,7 @@ const requestedPath = Astro.url.pathname;
     padding-left: 0;
     overflow: hidden;
     transition:
-      max-height 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      max-height 260ms cubic-bezier(0.2, 0.7, 0.2, 1),
       opacity 220ms ease;
   }
   .children::before {
@@ -208,11 +214,6 @@ const requestedPath = Astro.url.pathname;
     background: var(--notion-rule);
     transition: background 200ms ease;
   }
-  .node.has-children:hover > .children::before,
-  .row.has-children:hover + .children::before {
-    background: var(--notion-dim);
-  }
-
   .node:not(.open) > .children {
     max-height: 0;
     opacity: 0;
@@ -234,10 +235,6 @@ const requestedPath = Astro.url.pathname;
     opacity: 0.7;
     transition: opacity 200ms ease, background 140ms ease;
   }
-  .write-row:hover {
-    background: var(--notion-row-hover);
-    opacity: 1;
-  }
   .ghost-bullet {
     width: 18px;
     height: 24px;
@@ -251,6 +248,15 @@ const requestedPath = Astro.url.pathname;
     border-radius: 50%;
     border: 1px dashed var(--notion-dim);
     box-sizing: border-box;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover { background: var(--notion-row-hover); }
+    .row:hover .bullet::before { transform: scale(1.4); }
+    .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
+    .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
+    .node.has-children:hover > .children::before { background: var(--notion-dim); }
+    .write-row:hover { background: var(--notion-row-hover); opacity: 1; }
   }
 </style>
 

@@ -206,9 +206,20 @@ const latestPosts = allPosts
     line-height: 1.7;
     transition: background var(--dur-quick, 140ms) ease;
   }
-  .row:hover { background: var(--notion-row-hover); }
 
-  .row.has-children { cursor: pointer; }
+  .row.has-children {
+    cursor: pointer;
+    transition:
+      background var(--dur-quick, 140ms) ease,
+      transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+  }
+  .row.has-children:active {
+    transform: scale(0.997);
+  }
+  .bullet-cell:active .bullet::before {
+    transform: scale(0.7);
+    transition: transform 100ms var(--ease-out-soft, ease);
+  }
   .row:focus-visible {
     outline: none;
     background: var(--notion-row-focus);
@@ -243,10 +254,9 @@ const latestPosts = allPosts
     height: 6px;
     border-radius: 50%;
     background: var(--notion-ink);
-    transition: transform var(--dur-quick, 180ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+    transition: transform 140ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
     box-sizing: border-box;
   }
-  .row:hover .bullet::before { transform: scale(1.4); }
 
   .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
     background: transparent;
@@ -271,8 +281,6 @@ const latestPosts = allPosts
     display: block;
     transition: transform var(--dur-normal, 220ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
   }
-  .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
-  .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
   .node.open > .row > .bullet-cell > .caret svg { transform: rotate(90deg); }
 
   .label {
@@ -293,8 +301,8 @@ const latestPosts = allPosts
     padding-left: 0;
     overflow: hidden;
     transition:
-      max-height var(--dur-slow, 320ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)),
-      opacity var(--dur-normal, 220ms) ease;
+      max-height 260ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)),
+      opacity 200ms ease;
   }
   .children::before {
     content: '';
@@ -306,8 +314,12 @@ const latestPosts = allPosts
     background: var(--notion-rule);
     transition: background 200ms ease;
   }
-  .node.has-children:hover > .children::before {
-    background: var(--notion-dim);
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover { background: var(--notion-row-hover); }
+    .row:hover .bullet::before { transform: scale(1.4); }
+    .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
+    .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
+    .node.has-children:hover > .children::before { background: var(--notion-dim); }
   }
 
   .node:not(.open) > .children {

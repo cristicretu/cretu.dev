@@ -57,8 +57,10 @@
   transition: color var(--dur-quick, 160ms) ease;
 }
 
-.post-breadcrumb:hover {
-  color: var(--notion-ink, #18181b);
+@media (hover: hover) and (pointer: fine) {
+  .post-breadcrumb:hover {
+    color: var(--notion-ink, #18181b);
+  }
 }
 
 /* Internal link — suppress the global external-arrow rule defensively */
@@ -141,8 +143,10 @@
 }
 
 /* Notion block hover state — subtle tint on row */
-.prose > *:not(pre):hover {
-  background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
+@media (hover: hover) and (pointer: fine) {
+  .prose > *:not(pre):hover {
+    background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
+  }
 }
 
 /* Removed the fake [+] [⋮⋮] block gutter affordances — they implied
@@ -268,9 +272,11 @@
   transition: background var(--dur-quick, 140ms) ease, color var(--dur-quick, 140ms) ease, transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
 }
 
-.prose a:hover {
-  background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .prose a:hover {
+    background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
+    transform: translateY(-1px);
+  }
 }
 
 .prose a:active {
@@ -689,9 +695,15 @@
   color: inherit;
   text-align: left;
   width: calc(100% + 16px);
-  transition: background var(--dur-quick, 140ms) ease, opacity var(--dur-normal, 200ms) ease;
+  transition:
+    background var(--dur-quick, 140ms) ease,
+    opacity 100ms ease,
+    transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
 }
 .post-write-row:hover { background: var(--notion-row-hover); opacity: 1; }
+.post-write-row:active {
+  transform: scale(0.997);
+}
 .post-write-row:focus-visible {
   outline: 2px solid var(--notion-ink);
   outline-offset: 2px;
@@ -794,7 +806,9 @@
     border-radius: 0;
   }
   .post-toc a::after { content: none !important; }
-  .post-toc a:hover { color: var(--notion-ink, #18181b); }
+  @media (hover: hover) and (pointer: fine) {
+    .post-toc a:hover { color: var(--notion-ink, #18181b); }
+  }
   .post-toc a.current { color: var(--notion-ink, #18181b); }
 }
 @media (min-width: 1440px) {
@@ -818,14 +832,17 @@
   box-shadow: var(--notion-shadow, 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06));
   opacity: 0;
   transition:
-    opacity var(--dur-normal, 220ms) var(--ease-out-soft, ease),
-    transform var(--dur-normal, 220ms) var(--ease-out-soft, ease);
+    opacity 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+    transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   pointer-events: none;
 }
 
 .toast.show {
   opacity: 1;
   transform: translate(-50%, 0);
+  transition:
+    opacity 220ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+    transform 220ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
 }
 
 .toast[hidden] { display: none; }

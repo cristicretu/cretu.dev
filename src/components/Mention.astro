@@ -34,9 +34,15 @@ const isExternal =
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
   }
-  .mention:hover {
-    background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
-    transform: translateY(-1px);
+  @media (hover: hover) and (pointer: fine) {
+    .mention:hover {
+      background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
+      transform: translateY(-1px);
+    }
+    .mention:hover .mention-arrow {
+      opacity: 0.85;
+      transform: translate(1px, -1px);
+    }
   }
   .mention:active {
     transform: translateY(0);
@@ -83,9 +89,5 @@ const isExternal =
             mask-position: center;
     -webkit-mask-size: contain;
             mask-size: contain;
-  }
-  .mention:hover .mention-arrow {
-    opacity: 0.85;
-    transform: translate(1px, -1px);
   }
 </style>

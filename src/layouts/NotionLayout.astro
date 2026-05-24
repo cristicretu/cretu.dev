@@ -143,8 +143,8 @@ const isActive = (href: string) => {
       html[data-theme='dark'] {
         /* easing */
         --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
-        --ease-in-out:   cubic-bezier(0.4, 0, 0.6, 1);
-        --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-in-out:   cubic-bezier(0.77, 0, 0.175, 1);
+        --ease-out:      cubic-bezier(0.23, 1, 0.32, 1);
         --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
         /* duration */
         --dur-quick:  140ms;
@@ -448,7 +448,10 @@ const isActive = (href: string) => {
         gap: 6px;
         color: var(--notion-faint);
         opacity: 0.85;
-        transition: color 160ms ease, opacity 160ms ease;
+        transition: transform var(--dur-quick, 140ms) var(--ease-out-soft, ease), color var(--dur-quick, 160ms) ease, opacity var(--dur-quick, 160ms) ease;
+      }
+      .theme-toggle:active {
+        transform: scale(0.9);
       }
       .page-nav .links button.theme-toggle:hover {
         color: var(--notion-ink);
@@ -689,7 +692,8 @@ const isActive = (href: string) => {
       .cmdk-backdrop {
         position: absolute; inset: 0; background: rgba(0,0,0,0.18);
         backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-        opacity: 0; transition: opacity var(--dur-normal) var(--ease-out-soft);
+        opacity: 0;
+        transition: opacity 220ms cubic-bezier(0.77, 0, 0.175, 1);
       }
       .cmdk:not([hidden]) .cmdk-backdrop { opacity: 1; }
       .cmdk-panel {
@@ -698,10 +702,14 @@ const isActive = (href: string) => {
         border: 1px solid var(--notion-rule); border-radius: 10px;
         box-shadow: var(--notion-shadow);
         padding: 8px;
-        transform: translateY(8px); opacity: 0;
-        transition: transform var(--dur-normal) var(--ease-out-soft), opacity var(--dur-normal) var(--ease-out-soft);
+        transform-origin: center top;
+        transform: translateY(8px) scale(0.97);
+        opacity: 0;
+        transition:
+          transform 220ms cubic-bezier(0.77, 0, 0.175, 1),
+          opacity 220ms cubic-bezier(0.77, 0, 0.175, 1);
       }
-      .cmdk:not([hidden]) .cmdk-panel { transform: translateY(0); opacity: 1; }
+      .cmdk:not([hidden]) .cmdk-panel { transform: translateY(0) scale(1); opacity: 1; }
       .cmdk-search {
         display: flex;
         align-items: center;
@@ -721,13 +729,26 @@ const isActive = (href: string) => {
       .cmdk-list li[role="option"] {
         padding: 8px 12px; font-size: 14px; color: var(--notion-ink);
         cursor: pointer; border-radius: 6px;
-        transition: background var(--dur-quick) ease;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 12px;
         position: relative; /* needed for the ::before accent bar */
+        opacity: 0;
+        transform: translateY(2px);
+        transition: background var(--dur-quick) ease, opacity 160ms ease, transform 160ms ease;
       }
+      .cmdk:not([hidden]) .cmdk-list li[role="option"] {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .cmdk:not([hidden]) .cmdk-list li:nth-child(1) { transition-delay: 80ms; }
+      .cmdk:not([hidden]) .cmdk-list li:nth-child(2) { transition-delay: 100ms; }
+      .cmdk:not([hidden]) .cmdk-list li:nth-child(3) { transition-delay: 120ms; }
+      .cmdk:not([hidden]) .cmdk-list li:nth-child(4) { transition-delay: 140ms; }
+      .cmdk:not([hidden]) .cmdk-list li:nth-child(5) { transition-delay: 160ms; }
+      .cmdk:not([hidden]) .cmdk-list li:nth-child(6) { transition-delay: 180ms; }
+      .cmdk:not([hidden]) .cmdk-list li:nth-child(7) { transition-delay: 200ms; }
       .cmdk-list li[role="option"]:hover {
         background: var(--notion-row-hover);
       }
@@ -1127,8 +1148,8 @@ const isActive = (href: string) => {
             if (reduced) {
               cx = mx; cy = my;
             } else {
-              cx += (mx - cx) * 0.28;
-              cy += (my - cy) * 0.28;
+              cx += (mx - cx) * 0.35;
+              cy += (my - cy) * 0.35;
             }
             cursor.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
             requestAnimationFrame(draw);
