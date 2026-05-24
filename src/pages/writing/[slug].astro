@@ -57,13 +57,12 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
       <Content />
     </div>
 
-    <button class="post-write-row" type="button" aria-label='Open command palette' data-open-cmdk>
+    <div class="post-write-row" aria-hidden="true">
       <span class="ghost-bullet"></span>
       <span class="post-caret-area">
         <span class="post-caret-blink"></span>
-        <span class="post-slash-hint">Type "/" for commands</span>
       </span>
-    </button>
+    </div>
 
     <footer class="post-footer">
       <a href={editUrl} rel="noopener noreferrer" target="_blank">
@@ -169,17 +168,6 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
 
     wire();
     document.addEventListener('astro:after-swap', wire);
-
-    /* Click anywhere on the bottom "Type / for commands" row to open cmd-K. */
-    document.addEventListener('click', function (e) {
-      var trigger = e.target && e.target.closest && e.target.closest('[data-open-cmdk]');
-      if (!trigger) return;
-      e.preventDefault();
-      /* Trigger the same shortcut the layout listens for */
-      document.dispatchEvent(new KeyboardEvent('keydown', {
-        key: 'k', code: 'KeyK', metaKey: true, ctrlKey: true, bubbles: true,
-      }));
-    });
   })();
 
   (function progress() {
