@@ -72,11 +72,14 @@ const isActive = (href: string) => {
       "worksFor": { "@type": "Organization", "name": "Anara", "url": "https://anara.com" }
     })} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Self-hosted Inter (variable) — preloaded for first-paint. JetBrains
+         Mono falls back to system mono stack. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/static/fonts/inter-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <script is:inline>
@@ -110,6 +113,15 @@ const isActive = (href: string) => {
     </script>
 
     <style is:global>
+      /* Self-hosted Inter — single variable woff2 covers 400 + 500 */
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url('/static/fonts/inter-var.woff2') format('woff2');
+      }
+
       :root,
       html[data-theme='light'],
       html[data-theme='dark'] {
@@ -355,6 +367,13 @@ const isActive = (href: string) => {
         max-width: 720px;
         margin: 0;
         padding: 132px 32px 200px 96px;
+      }
+      /* <main tabindex="-1"> accepts programmatic focus from the skip link,
+         but shouldn't paint a default focus ring around the entire viewport
+         when that focus lands. */
+      .page-body:focus,
+      .page-body:focus-visible {
+        outline: none;
       }
 
       /* --- Universal cascade for direct children of .page-body ---
