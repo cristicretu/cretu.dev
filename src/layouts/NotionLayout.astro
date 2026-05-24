@@ -247,6 +247,77 @@ const isActive = (href: string) => {
       }
 
       /* --- Corner nav --- */
+      /* --- Mike Matas-style custom cursor (fine-pointer devices only) --- */
+      .cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 22px;
+        height: 22px;
+        margin: -11px 0 0 -11px;
+        border-radius: 50%;
+        background: var(--notion-faint);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate3d(-100px, -100px, 0);
+        will-change: transform, width, height, opacity, background;
+        transition:
+          width   var(--dur-normal, 220ms) var(--ease-out-soft, ease),
+          height  var(--dur-normal, 220ms) var(--ease-out-soft, ease),
+          margin  var(--dur-normal, 220ms) var(--ease-out-soft, ease),
+          background var(--dur-quick, 140ms) ease,
+          opacity var(--dur-normal, 220ms) ease;
+        mix-blend-mode: multiply;
+      }
+      html[data-theme='dark'] .cursor { mix-blend-mode: screen; }
+
+      @media (pointer: fine) and (hover: hover) {
+        .cursor.visible { opacity: 0.55; }
+        /* Hide the native cursor on EVERY element (page-local rules use
+           cursor: text/pointer in many places — !important wins them all).
+           Text inputs keep the native I-beam so the user can still see
+           where they're typing in real fields. */
+        html, body, *, *::before, *::after {
+          cursor: none !important;
+        }
+        input:not([type='button']):not([type='submit']),
+        textarea,
+        [contenteditable='true'] {
+          cursor: text !important;
+        }
+      }
+
+      .cursor.grow {
+        width: 40px;
+        height: 40px;
+        margin: -20px 0 0 -20px;
+        background: var(--notion-tint-strong);
+      }
+      html[data-theme='dark'] .cursor.grow {
+        background: rgba(255, 255, 255, 0.22);
+      }
+      .cursor.press {
+        width: 14px;
+        height: 14px;
+        margin: -7px 0 0 -7px;
+      }
+      .cursor.text {
+        width: 2px;
+        height: 18px;
+        margin: -9px 0 0 -1px;
+        border-radius: 1px;
+        background: var(--notion-ink);
+      }
+
+      @media (pointer: coarse), (hover: none) {
+        .cursor { display: none !important; }
+        body { cursor: auto !important; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cursor { transition: opacity var(--dur-normal, 220ms) ease; }
+      }
+
       /* Soft top fade behind the nav — content scrolls under it cleanly */
       .nav-fade {
         position: fixed;
@@ -597,11 +668,14 @@ const isActive = (href: string) => {
         to   { opacity: 1; }
       }
       /* Persisted chrome doesn't animate during navigation — the corner
-         nav and its fade stay planted while the page swaps under them. */
+         nav, fade, and custom cursor all stay planted while the page
+         swaps under them. */
       ::view-transition-old(page-nav),
       ::view-transition-new(page-nav),
       ::view-transition-old(nav-fade),
-      ::view-transition-new(nav-fade) {
+      ::view-transition-new(nav-fade),
+      ::view-transition-old(cursor),
+      ::view-transition-new(cursor) {
         animation: none;
       }
       @media (prefers-reduced-motion: reduce) {
@@ -752,6 +826,7 @@ const isActive = (href: string) => {
   </head>
   <body>
     <a href="#page-body" class="skip-link">Skip to content</a>
+    <div class="cursor" aria-hidden="true" transition:persist transition:name="cursor"></div>
     <div class="nav-fade" aria-hidden="true" transition:persist transition:name="nav-fade"></div>
     <header class="page-nav" transition:persist transition:name="page-nav">
       <a class="name" href="/" aria-current={isActive('/') ? 'page' : undefined}>
@@ -1011,6 +1086,54 @@ const isActive = (href: string) => {
             close();
             window.location.href = href;
           });
+        })();
+
+        /* Mike Matas-style cursor — smooth follow, grows on interactive
+           targets, presses inward on mousedown. Skipped on touch. */
+        (function customCursor() {
+          if (!window.matchMedia('(pointer: fine)').matches) return;
+          const cursor = document.querySelector('.cursor');
+          if (!cursor) return;
+
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const HOVER = 'a, button, [role="button"], [role="option"], .bullet-cell, .row.has-children, .theme-toggle, .write-row, .post-write-row, [data-open-cmdk]';
+          const TEXT = 'p, h1, h2, h3, h4, h5, h6, li, .label, .prose, .post-title, .doc-title, .post-date, .post-breadcrumb';
+
+          let mx = -100, my = -100;
+          let cx = -100, cy = -100;
+          let visible = false;
+
+          function onMove(e) {
+            mx = e.clientX;
+            my = e.clientY;
+            if (!visible) { cursor.classList.add('visible'); visible = true; }
+            const el = e.target;
+            if (el && el.closest && el.closest(HOVER)) {
+              cursor.classList.add('grow');
+              cursor.classList.remove('text');
+            } else if (el && el.closest && el.closest(TEXT)) {
+              cursor.classList.add('text');
+              cursor.classList.remove('grow');
+            } else {
+              cursor.classList.remove('grow', 'text');
+            }
+          }
+          document.addEventListener('mousemove', onMove, { passive: true });
+          document.addEventListener('mousedown', function () { cursor.classList.add('press'); });
+          document.addEventListener('mouseup',   function () { cursor.classList.remove('press'); });
+          document.addEventListener('mouseleave', function () { cursor.classList.remove('visible'); visible = false; });
+
+          function draw() {
+            if (reduced) {
+              cx = mx; cy = my;
+            } else {
+              cx += (mx - cx) * 0.28;
+              cy += (my - cy) * 0.28;
+            }
+            cursor.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
+            requestAnimationFrame(draw);
+          }
+          draw();
         })();
 
         /* platform-aware kbd labels — swap ⌘ for "Ctrl" on non-Mac */
