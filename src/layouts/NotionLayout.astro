@@ -75,7 +75,7 @@ const isActive = (href: string) => {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -217,6 +217,8 @@ const isActive = (href: string) => {
         color: var(--notion-ink);
         font-weight: 500;
         pointer-events: auto;
+        padding: 4px 8px;          /* hit area expansion */
+        margin: -4px -8px;          /* visual position preserved */
         transition: color 160ms ease;
       }
       .page-nav .name .yr {
@@ -237,7 +239,8 @@ const isActive = (href: string) => {
         color: var(--notion-faint);
         background: none;
         border: 0;
-        padding: 0;
+        padding: 4px 8px;          /* hit area expansion */
+        margin: -4px -8px;          /* visual position preserved */
         font: inherit;
         cursor: pointer;
         transition: color 160ms ease;
@@ -274,7 +277,8 @@ const isActive = (href: string) => {
         transform: translate(-50%, -50%);
         opacity: 1;
         pointer-events: auto;
-        outline: none;
+        outline: 1px solid var(--notion-bg);
+        outline-offset: -3px;
       }
 
       /* --- Screen reader only --- */
@@ -289,10 +293,10 @@ const isActive = (href: string) => {
       }
       .theme-toggle {
         margin-top: 6px;
-        padding: 4px;
-        margin-right: -4px;
-        margin-left: -4px;
-        margin-bottom: -4px;
+        padding: 6px;
+        margin-right: -6px;
+        margin-left: -6px;
+        margin-bottom: -6px;
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -353,21 +357,23 @@ const isActive = (href: string) => {
         padding: 132px 32px 200px 96px;
       }
 
-      /* --- Universal cascade for direct children of .page-body --- */
-      .page-body > * {
+      /* --- Universal cascade for direct children of .page-body ---
+         Wrapped in :where() to zero specificity so page-level opacity
+         rules (e.g. .write-row { opacity: 0.65 }) still win. */
+      :where(.page-body) > * {
         opacity: 0;
         transform: translateY(3px);
         transition:
-          opacity 360ms ease,
-          transform 360ms cubic-bezier(0.2, 0.7, 0.2, 1);
+          opacity var(--dur-slow, 360ms) ease,
+          transform var(--dur-slow, 360ms) cubic-bezier(0.2, 0.7, 0.2, 1);
       }
-      .page-body.entered > * {
+      :where(.page-body.entered) > * {
         opacity: 1;
         transform: translateY(0);
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .page-body > * {
+        :where(.page-body) > * {
           opacity: 1;
           transform: none;
           transition: none;
@@ -454,20 +460,22 @@ const isActive = (href: string) => {
         .caret-blink { animation: none !important; opacity: 1 !important; }
       }
 
-      /* --- Custom direction-aware crossfade for view transitions --- */
+      /* --- Custom direction-aware crossfade for view transitions ---
+         Matched durations + 60ms delay on the new page so old fades
+         out before new fades in (no "two pages at once" overlap). */
       ::view-transition-old(root) {
-        animation: page-out 240ms cubic-bezier(0.4, 0, 0.2, 1) both;
+        animation: page-out 280ms cubic-bezier(0.4, 0, 0.2, 1) both;
       }
       ::view-transition-new(root) {
-        animation: page-in 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        animation: page-in 280ms cubic-bezier(0.2, 0.7, 0.2, 1) 60ms both;
       }
       @keyframes page-out {
-        0%   { opacity: 1; transform: translateY(0) scale(1); }
-        100% { opacity: 0; transform: translateY(-4px) scale(0.998); }
+        0%   { opacity: 1; transform: translateY(0); }
+        100% { opacity: 0; transform: translateY(-6px); }
       }
       @keyframes page-in {
-        0%   { opacity: 0; transform: translateY(6px) scale(0.998); }
-        100% { opacity: 1; transform: translateY(0) scale(1); }
+        0%   { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
       }
       @media (prefers-reduced-motion: reduce) {
         ::view-transition-old(root),
@@ -517,10 +525,23 @@ const isActive = (href: string) => {
         align-items: center;
         justify-content: space-between;
         gap: 12px;
+        position: relative; /* needed for the ::before accent bar */
       }
-      .cmdk-list li[role="option"][aria-selected="true"],
       .cmdk-list li[role="option"]:hover {
         background: var(--notion-row-hover);
+      }
+      .cmdk-list li[role="option"][aria-selected="true"] {
+        background: var(--notion-row-hover);
+      }
+      .cmdk-list li[role="option"][aria-selected="true"]::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 6px;
+        bottom: 6px;
+        width: 2px;
+        background: var(--notion-ink);
+        border-radius: 1px;
       }
       .cmdk-section {
         padding: 6px 12px 4px;
@@ -598,6 +619,8 @@ const isActive = (href: string) => {
       .hint.visible {
         opacity: 0.55;
       }
+      /* Hide the bottom hint while the command palette is open */
+      body.cmdk-open .hint { opacity: 0 !important; }
     </style>
   </head>
   <body>
@@ -632,7 +655,7 @@ const isActive = (href: string) => {
       </nav>
     </header>
 
-    <main class="page-body" id="page-body" transition:animate="fade">
+    <main class="page-body" id="page-body" tabindex="-1" transition:animate="fade">
       <slot />
     </main>
 
@@ -659,7 +682,9 @@ const isActive = (href: string) => {
       </div>
     </div>
 
-    <div class="hint" aria-hidden="true">press <kbd>⌘K</kbd> or <kbd>/</kbd> to navigate</div>
+    <div class="hint" aria-hidden="true">
+      press <kbd class="hint-mod">⌘</kbd><kbd>K</kbd> or <kbd>/</kbd> to navigate
+    </div>
 
     <script is:inline>
       (function () {
@@ -782,6 +807,7 @@ const isActive = (href: string) => {
           function open() {
             lastFocus = document.activeElement;
             root.hidden = false;
+            document.body.classList.add('cmdk-open');
             buildRecent();
             requestAnimationFrame(function () { input.focus(); });
             render();
@@ -789,6 +815,7 @@ const isActive = (href: string) => {
           }
           function close() {
             root.hidden = true;
+            document.body.classList.remove('cmdk-open');
             input.value = '';
             render();
             if (lastFocus && typeof lastFocus.focus === 'function') {
@@ -840,6 +867,11 @@ const isActive = (href: string) => {
                 window.location.href = href;
               }
             }
+            else if (e.key === 'Tab') {
+              /* trap focus inside the input */
+              e.preventDefault();
+              input.focus();
+            }
           });
           input && input.addEventListener('input', render);
           root.querySelector('.cmdk-backdrop').addEventListener('click', close);
@@ -851,6 +883,16 @@ const isActive = (href: string) => {
             close();
             window.location.href = href;
           });
+        })();
+
+        /* platform-aware kbd labels — swap ⌘ for "Ctrl" on non-Mac */
+        (function platformKbd() {
+          const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.platform) || /Mac/.test(navigator.userAgent);
+          if (!isMac) {
+            document.querySelectorAll('.cmdk-mod, .hint-mod').forEach(function (el) {
+              el.textContent = 'Ctrl';
+            });
+          }
         })();
 
         /* easter egg hint — fades in after idle, hides on user activity */

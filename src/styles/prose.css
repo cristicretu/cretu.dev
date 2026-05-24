@@ -325,11 +325,17 @@
   border-radius: 4px;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
-  transition: background var(--dur-quick, 140ms) ease, color var(--dur-quick, 140ms) ease;
+  transition: background var(--dur-quick, 140ms) ease, color var(--dur-quick, 140ms) ease, transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
 }
 
 .prose a:hover {
-  background: rgba(24, 24, 27, 0.09);
+  background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
+  transform: translateY(-1px);
+}
+
+.prose a:active {
+  transform: translateY(0);
+  transition-duration: var(--dur-quick, 80ms);
 }
 
 /* ---------- Inline code ---------- */
@@ -785,7 +791,7 @@
   margin-right: 4px;
   vertical-align: -0.05em;
   background-color: currentColor;
-  opacity: 0.6;
+  opacity: 0.75;
   -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M5 7.5V2.5M2.5 5L5 2.5L7.5 5' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
           mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M5 7.5V2.5M2.5 5L5 2.5L7.5 5' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
@@ -809,7 +815,7 @@
     position: fixed;
     top: 132px;
     right: 24px;
-    width: 180px;
+    width: 200px;
     font-size: 12px;
     line-height: 1.6;
     color: var(--notion-faint, #9b9ba1);
@@ -859,11 +865,19 @@
     background: var(--notion-ink, #18181b);
     border-radius: 1px;
   }
-  .post-toc-top { padding-left: 0; }
+  .post-toc-top {
+    padding-left: 0 !important;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
+    margin-bottom: 4px;
+  }
   .post-toc-top a {
     color: var(--notion-faint, #9b9ba1);
     font-size: 11.5px;
     padding-bottom: 8px;
+  }
+  .post-toc-top a::before {
+    content: none !important;
   }
   .post-toc-top a:hover { color: var(--notion-ink, #18181b); }
 }

@@ -14,6 +14,8 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 
+const cleanedTitle = post.data.title.replace(/[.!?]+$/, '').toLowerCase();
+
 const dateFmt = new Date(post.data.publishedAt)
   .toLocaleDateString('en-US', {
     month: 'short',
@@ -30,7 +32,7 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
 ---
 
 <NotionLayout
-  title={post.data.title}
+  title={cleanedTitle}
   description={post.data.summary}
   image={post.data.image}
 >
@@ -43,7 +45,7 @@ const editUrl = `https://github.com/cristicretu/cretu.dev/edit/main/src/content/
         <span class="post-meta">· <time datetime={`PT${mins}M`}>{mins} min</time> · {words.toLocaleString()} words</span>
       </p>
       <a class="post-breadcrumb" href="/writing">← writing</a>
-      <h1 class="post-title" tabindex="0">{post.data.title.toLowerCase()}</h1>
+      <h1 class="post-title" tabindex="0">{cleanedTitle}</h1>
     </header>
 
     {post.data.image && (
