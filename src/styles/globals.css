@@ -99,4 +99,36 @@
   .flip-card-back {
     transform: rotateY(180deg);
   }
+
+  /* External link ↗ arrow — SVG-mask glyph (thicker + shorter than U+2197) */
+  a[href^="http"]:not([href*="://cretu.dev"])::after {
+    content: '';
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-left: 2px;
+    vertical-align: 0em;
+    background-color: currentColor;
+    opacity: 0.5;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  a[href^="http"]:not([href*="://cretu.dev"]):hover::after {
+    opacity: 0.85;
+    transform: translate(0.5px, -0.5px);
+  }
+
+  a[data-mention]::after,
+  a[data-no-arrow]::after,
+  nav.links a::after {
+    content: none !important;
+  }
 }

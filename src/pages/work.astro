@@ -1,103 +1,375 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import NotionLayout from '@/layouts/NotionLayout.astro';
+import Mention from '@/components/Mention.astro';
 import { works } from '@/data/work';
 
-// Calculate stats
 const totalProjects = works.length;
-const yearCounts = works.reduce((acc, work) => {
-  acc[work.year] = (acc[work.year] || 0) + 1;
-  return acc;
-}, {} as Record<number, number>);
 
-const years = Object.keys(yearCounts).map(Number).sort((a, b) => b - a);
-const soloProjects = works.filter(w => w.authors?.length === 1).length;
-const collabProjects = totalProjects - soloProjects;
+const yearMap = works.reduce((acc, w) => {
+  (acc[w.year] = acc[w.year] || []).push(w);
+  return acc;
+}, {} as Record<number, typeof works>);
+
+const years = Object.keys(yearMap)
+  .map(Number)
+  .sort((a, b) => b - a);
+
+const fullYears = years.filter((y) => yearMap[y].length >= 2);
+const earlierYears = years.filter((y) => yearMap[y].length < 2);
+const earlierProjects = earlierYears.flatMap((y) => yearMap[y]);
+const earlierIsCollapsible = earlierProjects.length >= 2;
+const inlineEarlier = earlierProjects.length === 1 ? earlierProjects[0] : null;
+const lastFullYearIndex = fullYears.length - 1;
 ---
 
-<Layout title="work" description="stuff i built.">
-  <div class="mx-auto max-w-2xl px-8">
-    <h1 class="text-primary font-medium">work</h1>
-    <p class="text-tertiary mt-2 font-mono text-sm">
-      things i shipped. {totalProjects} projects and counting.
-    </p>
-    
-    {/* Stats */}
-    <div class="mt-6 mb-8 font-mono text-xs text-neutral-500 dark:text-neutral-500">
-      <div class="flex flex-wrap gap-x-6 gap-y-1">
-        {years.map((year) => (
-          <span>
-            <span class="text-neutral-400 dark:text-neutral-600">{year}:</span> {yearCounts[year]}
+<NotionLayout title="Work" description="stuff i built — solo, with collaborators, at companies.">
+  <a class="page-back" href="/"><span class="back-arrow" aria-hidden="true">↩</span>Index</a>
+  <div class="doc-title">work<span class="age">, {totalProjects} projects</span></div>
+
+  <p class="doc-sub">stuff i built — solo, with collaborators, at companies. organized by year.</p>
+
+  {fullYears.map((year, idx) => {
+    const items = yearMap[year];
+    const openByDefault = idx < 2; /* most recent two years expanded */
+    const isLastFull = idx === lastFullYearIndex;
+    return (
+      <div class={`node has-children${openByDefault ? ' open' : ''}`} data-node>
+        <div class="row has-children" tabindex="0">
+          <span class="bullet-cell">
+            <span class="bullet"></span>
+            <span class="caret" aria-hidden>
+              <svg viewBox="0 0 8 8" fill="none">
+                <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
           </span>
+          <span class="label">{year}<span class="count">{items.length}</span></span>
+        </div>
+        <div class="children">
+          {items.map((work) => (
+            <div class="node" data-node>
+              <div class="row">
+                <span class="bullet-cell"><span class="bullet"></span></span>
+                <span class="label work-line">
+                  {work.link ? (
+                    <Mention href={work.link}>{work.title.toLowerCase()}</Mention>
+                  ) : (
+                    <span class="work-title">{work.title.toLowerCase()}</span>
+                  )}
+                  <span class="work-desc">{work.description.toLowerCase()}</span>
+                  {work.company && <span class="meta">{work.company.toLowerCase()}</span>}
+                </span>
+              </div>
+            </div>
+          ))}
+          {isLastFull && inlineEarlier && (
+            <div class="node" data-node>
+              <div class="row">
+                <span class="bullet-cell"><span class="bullet"></span></span>
+                <span class="label work-line">
+                  {inlineEarlier.link ? (
+                    <Mention href={inlineEarlier.link}>{inlineEarlier.title.toLowerCase()}</Mention>
+                  ) : (
+                    <span class="work-title">{inlineEarlier.title.toLowerCase()}</span>
+                  )}
+                  <span class="work-desc">{inlineEarlier.description.toLowerCase()}</span>
+                  {inlineEarlier.company && <span class="meta">{inlineEarlier.company.toLowerCase()}</span>}
+                  <span class="meta">earlier · {inlineEarlier.year}</span>
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  })}
+
+  {earlierIsCollapsible && (
+    <div class="node has-children" data-node>
+      <div class="row has-children" tabindex="0">
+        <span class="bullet-cell">
+          <span class="bullet"></span>
+          <span class="caret" aria-hidden>
+            <svg viewBox="0 0 8 8" fill="none">
+              <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+        <span class="label">earlier<span class="count">{earlierProjects.length}</span></span>
+      </div>
+      <div class="children">
+        {earlierProjects.map((work) => (
+          <div class="node" data-node>
+            <div class="row">
+              <span class="bullet-cell"><span class="bullet"></span></span>
+              <span class="label work-line">
+                {work.link ? (
+                  <Mention href={work.link}>{work.title.toLowerCase()}</Mention>
+                ) : (
+                  <span class="work-title">{work.title.toLowerCase()}</span>
+                )}
+                <span class="work-desc">{work.description.toLowerCase()}</span>
+                {work.company && <span class="meta">{work.company.toLowerCase()}</span>}
+                <span class="meta">{work.year}</span>
+              </span>
+            </div>
+          </div>
         ))}
       </div>
-      <div class="mt-2 text-neutral-400 dark:text-neutral-600">
-        {soloProjects} solo · {collabProjects} collabs
-      </div>
     </div>
-    
-    {/* Projects grouped by year */}
-    {years.map((year) => {
-      const yearWorks = works.filter(w => w.year === year);
-      return (
-        <div class="mb-8">
-          <div class="font-mono text-xs text-neutral-400 dark:text-neutral-600 mb-3 border-b border-neutral-200 dark:border-neutral-800 pb-2">
-            {year}
-          </div>
-          <div class="grid grid-cols-2 gap-2">
-            {yearWorks.map((work) => {
-              const hasImage = work.img && !work.img.includes('placeholder');
-              const Tag = work.link ? 'a' : 'div';
-              return (
-                <Tag
-                  href={work.link || undefined}
-                  target={work.link ? '_blank' : undefined}
-                  rel={work.link ? 'noopener noreferrer' : undefined}
-                  class:list={[
-                    "group relative aspect-square overflow-hidden rounded bg-neutral-100 dark:bg-neutral-900",
-                    work.link && "cursor-pointer"
-                  ]}
-                >
-                  {hasImage ? (
-                    <img
-                      alt={work.title}
-                      class="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                      src={work.img}
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div class="absolute inset-0 flex items-center justify-center">
-                      <span class="font-mono text-2xl text-neutral-300 dark:text-neutral-700">?</span>
-                    </div>
-                  )}
-                  
-                  {/* Overlay on hover */}
-                  <div class="absolute inset-0 bg-black/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col items-center justify-center p-3 text-center overflow-y-auto">
-                    <span class="text-white font-mono text-sm">{work.title.toLowerCase()}</span>
-                    <span class="text-white/60 font-mono text-xs mt-1">{work.description.toLowerCase()}</span>
-                    {work.company && (
-                      <span class="text-white/40 font-mono text-xs mt-2">@{work.company.toLowerCase()}</span>
-                    )}
-                    {work.authors && work.authors.length > 0 && (
-                      <div class="text-white/40 font-mono text-[10px] mt-3 leading-relaxed">
-                        {work.authors.map((author, i) => (
-                          <span>
-                            {author.toLowerCase().split(' ')[0]}{i < work.authors!.length - 1 ? ', ' : ''}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Title always visible at bottom */}
-                  <div class="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/60 to-transparent">
-                    <span class="text-white font-mono text-xs">{work.title.toLowerCase()}</span>
-                  </div>
-                </Tag>
-              );
-            })}
-          </div>
-        </div>
-      );
-    })}
+  )}
+
+  <div class="write-row" aria-hidden>
+    <span class="ghost-bullet"></span>
+    <span><span class="caret-blink"></span></span>
   </div>
-</Layout>
+</NotionLayout>
+
+<style is:global>
+  /* Outliner-specific styles, mirrored from the homepage. */
+  .doc-title {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    line-height: 1.3;
+    padding: 0 0 16px;
+    color: var(--notion-ink);
+    cursor: text;
+    font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+    font-kerning: normal;
+  }
+  .doc-title .age {
+    color: var(--notion-faint);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .doc-sub {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--notion-muted);
+    margin: 0 0 24px;
+    max-width: 540px;
+  }
+
+  .node {
+    position: relative;
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: flex-start;
+    padding: 2px 8px 2px 0;
+    border-radius: 4px;
+    cursor: text;
+    font-size: 15px;
+    line-height: 1.7;
+    transition: background var(--dur-quick, 140ms) ease;
+  }
+
+  .row.has-children {
+    cursor: pointer;
+    transition:
+      background var(--dur-quick, 140ms) ease,
+      transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+  }
+  .row.has-children:active { transform: scale(0.997); }
+
+  .bullet-cell:active .bullet::before {
+    transform: scale(0.7);
+    transition: transform 100ms var(--ease-out-soft, ease);
+  }
+  .row:focus-visible {
+    outline: none;
+    background: var(--notion-row-focus);
+  }
+  .row:focus-visible::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--notion-ink);
+    border-radius: 1px;
+  }
+
+  .bullet-cell {
+    position: relative;
+    width: 18px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .bullet {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transition: opacity var(--dur-quick, 160ms) ease;
+  }
+  .bullet::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--notion-ink);
+    transition: transform 140ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+    box-sizing: border-box;
+  }
+
+  .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
+    background: transparent;
+    border: 1.5px solid var(--notion-ink);
+    width: 9px;
+    height: 9px;
+  }
+
+  .caret {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    color: var(--notion-faint);
+    transition: opacity var(--dur-quick, 160ms) ease;
+    pointer-events: none;
+  }
+  .caret svg {
+    width: 8px;
+    height: 8px;
+    display: block;
+    transition: transform var(--dur-normal, 220ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+  }
+  .node.open > .row > .bullet-cell > .caret svg { transform: rotate(90deg); }
+
+  .label {
+    min-width: 0;
+    color: var(--notion-ink);
+  }
+  .label .meta {
+    color: var(--notion-faint);
+    font-weight: 400;
+    padding-left: 10px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    /* mono dropped per voice — sans throughout */
+    white-space: nowrap;
+  }
+  .children {
+    position: relative;
+    margin-left: 26px;
+    padding-left: 0;
+    overflow: hidden;
+    transition:
+      max-height 260ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)),
+      opacity var(--dur-normal, 220ms) ease;
+  }
+  .children::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--notion-rule);
+    transition: background var(--dur-normal, 200ms) ease;
+  }
+  .node:not(.open) > .children {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .node.open > .children {
+    max-height: 4000px;
+    opacity: 1;
+  }
+
+  /* Work-row description: muted, sits after title */
+  .work-line {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .work-line .work-desc {
+    color: var(--notion-muted);
+    font-size: 14.5px;
+    white-space: nowrap;
+  }
+  .work-line .work-title {
+    color: var(--notion-ink);
+  }
+  .work-line .meta,
+  .work-line code,
+  .work-line .badge {
+    white-space: nowrap;
+    vertical-align: baseline;
+    padding-left: 0;
+  }
+
+  .write-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: center;
+    padding: 4px 8px 4px 0;
+    border-radius: 4px;
+    opacity: 0.65;
+    transition: opacity var(--dur-normal, 200ms) ease, background var(--dur-quick, 140ms) ease;
+  }
+  .ghost-bullet {
+    width: 18px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+  }
+  .ghost-bullet::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px dashed var(--notion-dim);
+    box-sizing: border-box;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover { background: var(--notion-row-hover); }
+    .row:hover .bullet::before { transform: scale(1.4); }
+    .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
+    .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
+    .node.has-children:hover > .children::before { background: var(--notion-dim); }
+    .write-row:hover { background: var(--notion-row-hover); opacity: 1; }
+  }
+</style>
+
+<script is:inline>
+  (function init() {
+    function wire() {
+      /* fold / unfold for outliner parents */
+      const parents = document.querySelectorAll('.node.has-children');
+      parents.forEach(function (node) {
+        if (node.dataset.wired) return;
+        node.dataset.wired = '1';
+        const row = node.querySelector(':scope > .row');
+        if (!row) return;
+        row.addEventListener('click', function (e) {
+          if (e.target && e.target.closest && e.target.closest('a')) return;
+          node.classList.toggle('open');
+        });
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            node.classList.toggle('open');
+          }
+        });
+      });
+    }
+
+    wire();
+    document.addEventListener('astro:after-swap', wire);
+  })();
+</script>

@@ -1,175 +1,637 @@
-/* geohot-style typography - minimal, clean, no BS */
+/* Notion-style content typography
+ * Used inside .prose within /writing/[slug] pages.
+ * Faithful to Notion's reading experience: Inter body, JetBrains Mono code,
+ * subtle pill links, calm hierarchy, generous breathing room.
+ */
 
-.prose h1 {
-  @apply text-xl font-medium text-neutral-900 dark:text-neutral-100 mt-12 mb-4;
+.post {
+  width: 100%;
+  position: relative;
 }
 
-.prose h2 {
-  @apply text-lg font-medium text-neutral-900 dark:text-neutral-100 mt-10 mb-3;
+/* "You are here" full-document accent rail — extends entire post height */
+.post::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -16px;
+  width: 1px;
+  background: var(--notion-rule, rgba(24, 24, 27, 0.08));
+  border-radius: 1px;
+  transition: width var(--dur-normal, 200ms) ease, background var(--dur-normal, 200ms) ease;
+  pointer-events: none;
 }
 
-.prose h3 {
-  @apply text-base font-medium text-neutral-900 dark:text-neutral-100 mt-8 mb-2;
+.post:focus-within::before {
+  width: 2px;
+  background: var(--notion-ink, #18181b);
 }
 
-.prose h4, .prose h5, .prose h6 {
-  @apply text-sm font-medium text-neutral-700 dark:text-neutral-300 mt-6 mb-2;
+.post-head {
+  margin-bottom: 32px;
+}
+
+.post-date {
+  font-size: 13px;
+  line-height: 1;
+  color: var(--notion-muted, #52525b);
+  margin: 0 0 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.post-meta {
+  color: var(--notion-faint, #9b9ba1);
+  margin-left: 4px;
+}
+
+.post-breadcrumb {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--notion-faint, #9b9ba1);
+  text-decoration: none;
+  margin: 0 0 12px;
+  transition: color var(--dur-quick, 160ms) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .post-breadcrumb:hover {
+    color: var(--notion-ink, #18181b);
+  }
+}
+
+/* Internal link — suppress the global external-arrow rule defensively */
+.post-breadcrumb::after {
+  content: none !important;
+}
+
+.post-title {
+  position: relative;
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.022em;
+  color: var(--notion-ink, #18181b);
+  margin: 0;
+  cursor: text;
+  outline: none;
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-left: -8px;
+  margin-right: -8px;
+  transition: background var(--dur-quick, 140ms) ease;
+  font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+  font-kerning: normal;
+}
+
+.post-title:focus-visible {
+  background: var(--notion-row-focus, rgba(24, 24, 27, 0.06));
+}
+
+.post-cover {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 6px;
+  /* border removed — shadow alone provides depth */
+  margin: 24px 0 8px;
+  box-shadow: var(--notion-shadow, 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06));
+}
+
+@media (max-width: 720px) {
+  .post-title {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .post-head {
+    margin-bottom: 24px;
+  }
+  .post-cover {
+    max-height: 200px;
+  }
+}
+
+/* ---------- Body ---------- */
+
+.prose {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--notion-ink, #18181b);
+  max-width: 100%;
+  cursor: text;
+}
+
+.prose > * {
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: background var(--dur-quick, 140ms) ease;
+}
+
+.prose > * + * {
+  margin-top: 1em;
+}
+
+/* Notion block hover state — subtle tint on row */
+@media (hover: hover) and (pointer: fine) {
+  .prose > *:not(pre):hover {
+    background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
+  }
+}
+
+/* Removed the fake [+] [⋮⋮] block gutter affordances — they implied
+   editability that didn't exist. The hover-tint background and indent
+   guide are enough to feel Notion-like without faking the editor. */
+.prose > hr:hover { background: transparent; }
+
+/* pre uses ::before for code styling — don't conflict */
+.prose > pre::before,
+.prose > pre::after { display: none; }
+
+/* Keyboard focus-visible state for focusable blocks (matches homepage row) */
+.prose > *:focus-visible {
+  outline: none;
+  background: var(--notion-row-focus, rgba(24, 24, 27, 0.06));
+}
+.prose > *:focus-visible > .block-focus-bar,
+.prose > h1:focus-visible,
+.prose > h2:focus-visible,
+.prose > h3:focus-visible {
+  position: relative;
+}
+.prose > h1:focus-visible::before,
+.prose > h2:focus-visible::before,
+.prose > h3:focus-visible::before {
+  /* override the "+" icon with a focus bar when focused */
+  content: '';
+  left: -14px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  height: auto;
+  background-color: var(--notion-ink, #18181b);
+  -webkit-mask-image: none;
+          mask-image: none;
+  border-radius: 1px;
+  opacity: 1;
 }
 
 .prose p {
-  @apply text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--notion-ink, #18181b);
+  margin: 0;
 }
 
+.prose p + p {
+  margin-top: 1.1em;
+}
+
+/* Thematic-break cue — give the first paragraph after an H2 a touch more air */
+.prose h2 + p {
+  margin-top: 0.8em;
+}
+
+/* ---------- Headings ---------- */
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--notion-ink, #18181b);
+  line-height: 1.25;
+}
+
+.prose h1 {
+  font-size: 28px;
+  margin-top: 1.6em;
+  margin-bottom: 0.4em;
+}
+
+.prose h2 {
+  font-size: 22px;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.prose h3 {
+  font-size: 17px;
+  margin-top: 1.6em;
+  margin-bottom: 0.4em;
+}
+
+.prose h4 {
+  font-size: 15px;
+  margin-top: 1.4em;
+  margin-bottom: 0.3em;
+}
+
+.prose h5,
+.prose h6 {
+  font-size: 14px;
+  color: var(--notion-muted, #52525b);
+  margin-top: 1.2em;
+  margin-bottom: 0.3em;
+}
+
+/* ---------- Inline elements ---------- */
+
 .prose strong {
-  @apply font-medium text-neutral-900 dark:text-neutral-100;
+  font-weight: 600;
+  color: var(--notion-ink, #18181b);
 }
 
 .prose em {
-  @apply italic;
+  font-style: italic;
 }
 
-.prose ul {
-  @apply list-none pl-0 mb-4;
-}
-
-.prose ul li {
-  @apply relative pl-4 mb-1 text-neutral-700 dark:text-neutral-300;
-}
-
-.prose ul li::before {
-  content: '-';
-  @apply absolute left-0 text-neutral-400 dark:text-neutral-600;
-}
-
-.prose ol {
-  @apply list-decimal pl-4 mb-4;
-}
-
-.prose ol li {
-  @apply mb-1 text-neutral-700 dark:text-neutral-300;
-}
-
-.prose blockquote {
-  @apply border-l-2 border-neutral-300 dark:border-neutral-700 pl-4 italic text-neutral-600 dark:text-neutral-400 my-4;
-}
-
-.prose hr {
-  @apply border-neutral-200 dark:border-neutral-800 my-8;
-}
-
-.prose .anchor {
-  @apply invisible absolute no-underline;
-  margin-left: -1em;
-  padding-right: 0.5em;
-  width: 80%;
-  max-width: 700px;
-  cursor: pointer;
-}
-
-.anchor:hover {
-  @apply visible;
-}
-
+/* Notion-style pill links */
 .prose a {
-  @apply text-neutral-900 dark:text-neutral-100 underline decoration-neutral-400 dark:decoration-neutral-600 decoration-[0.1em] underline-offset-2 transition-all hover:decoration-neutral-600 dark:hover:decoration-neutral-400;
+  color: var(--notion-ink, #18181b);
+  text-decoration: none;
+  background: var(--notion-tint, rgba(24, 24, 27, 0.05));
+  padding: 0 4px;
+  border-radius: 4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background var(--dur-quick, 140ms) ease, color var(--dur-quick, 140ms) ease, transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
 }
 
-.prose .anchor:after {
-  @apply text-neutral-300 dark:text-neutral-700;
-  content: '#';
+@media (hover: hover) and (pointer: fine) {
+  .prose a:hover {
+    background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
+    transform: translateY(-1px);
+  }
 }
 
-.prose *:hover > .anchor {
-  @apply visible;
+.prose a:active {
+  transform: translateY(0);
+  transition-duration: var(--dur-quick, 80ms);
 }
 
-.prose pre {
-  @apply border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900 rounded-lg my-4 p-4 overflow-x-auto;
-}
+/* ---------- Inline code ---------- */
 
 .prose code {
-  @apply font-mono text-sm rounded border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-1.5 py-0.5 text-neutral-800 dark:text-neutral-200;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13.5px;
+  background: var(--notion-tint-strong, rgba(24, 24, 27, 0.06));
+  color: var(--notion-ink, #18181b);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 400;
+}
+
+/* ---------- Code block ---------- */
+
+.prose pre {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: var(--notion-code-bg, #f5f5f7);
+  border: 1px solid rgba(24, 24, 27, 0.06);
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--notion-ink, #18181b);
+  overflow-x: auto;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  -webkit-overflow-scrolling: touch;
 }
 
 .prose pre code {
-  @apply p-0 border-0 bg-transparent;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  color: inherit;
+  font-weight: 400;
 }
+
+.prose pre::-webkit-scrollbar {
+  height: 6px;
+}
+.prose pre::-webkit-scrollbar-thumb {
+  background: rgba(24, 24, 27, 0.12);
+  border-radius: 999px;
+}
+.prose pre {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(24, 24, 27, 0.12) transparent;
+}
+
+/* ---------- Blockquote ---------- */
+
+.prose blockquote {
+  border-left: 3px solid var(--notion-ink, #18181b);
+  padding-left: 18px;
+  color: var(--notion-muted, #52525b);
+  font-style: normal;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.prose blockquote p {
+  color: inherit;
+}
+
+.prose blockquote p + p {
+  margin-top: 0.6em;
+}
+
+/* ---------- Lists ---------- */
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5em;
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+.prose ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.prose ul > li {
+  position: relative;
+  padding-left: 1.5em;
+  color: var(--notion-ink, #18181b);
+}
+
+.prose ul > li + li {
+  margin-top: 8px;
+}
+
+.prose ul > li::before {
+  content: '';
+  position: absolute;
+  left: 0.55em;
+  top: 0.65em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--notion-ink, #18181b);
+}
+
+.prose ol {
+  list-style: decimal;
+  padding-left: 1.6em;
+}
+
+.prose ol > li {
+  color: var(--notion-ink, #18181b);
+  padding-left: 0.25em;
+}
+
+.prose ol > li + li {
+  margin-top: 8px;
+}
+
+.prose ol > li::marker {
+  color: var(--notion-muted, #52525b);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose li > p {
+  margin: 0;
+}
+
+.prose li > ul,
+.prose li > ol {
+  position: relative;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+/* Notion-style indent guide for nested lists */
+.prose li > ul::before,
+.prose li > ol::before {
+  content: '';
+  position: absolute;
+  left: 0.55em;
+  top: 0;
+  bottom: 0.2em;
+  width: 1px;
+  background: var(--notion-rule, rgba(24, 24, 27, 0.08));
+  transition: background var(--dur-normal, 200ms) ease;
+}
+
+.prose li:hover > ul::before,
+.prose li:hover > ol::before {
+  background: var(--notion-dim, #c8c8cd);
+}
+
+/* ---------- Images ---------- */
 
 .prose img {
-  @apply rounded-lg my-4;
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 }
 
-.prose > :first-child {
-  margin-top: 1.25em !important;
-  margin-bottom: 1.25em !important;
+/* Image caption (em right after an image) */
+.prose img + em,
+.prose p > img + em {
+  display: block;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--notion-muted, #52525b);
+  margin-top: -0.6em;
+  margin-bottom: 1.25em;
 }
 
-code[class*='language-'],
-pre[class*='language-'] {
-  @apply text-neutral-50;
+/* ---------- Horizontal rule ---------- */
+
+.prose hr {
+  border: 0;
+  height: 1px;
+  background: var(--notion-rule, rgba(24, 24, 27, 0.04));
+  opacity: 0.5;
+  margin: 2em 0;
 }
 
-pre::-webkit-scrollbar {
-  display: none;
-}
-
-pre {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-input[type='text'],
-input[type='email'] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.prose .tweet a {
-  text-decoration: inherit;
-  font-weight: inherit;
-}
+/* ---------- Tables ---------- */
 
 .prose table {
-  @apply w-full border-collapse text-sm;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 }
 
-.prose table thead {
-  @apply border-b border-neutral-200 dark:border-neutral-800;
+.prose thead {
+  border-bottom: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
 }
 
-.prose table th {
-  @apply py-3 pr-8 text-left font-mono text-xs uppercase tracking-wider text-neutral-500 dark:text-neutral-400;
+.prose th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--notion-muted, #52525b);
+  padding: 10px 12px 10px 0;
 }
 
-.prose table td {
-  @apply py-3 pr-8 text-neutral-700 dark:text-neutral-300;
+.prose td {
+  padding: 10px 12px 10px 0;
+  border-bottom: 1px solid rgba(24, 24, 27, 0.05);
+  color: var(--notion-ink, #18181b);
 }
 
-.prose table tbody tr {
-  @apply border-b border-neutral-100 dark:border-neutral-800/50;
+.prose tbody tr:last-child td {
+  border-bottom: 0;
 }
 
-.prose table tbody tr:last-child {
-  @apply border-b-0;
+/* ---------- Anchor (heading hash) — Notion's link-to-block ---------- */
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  position: relative;
 }
 
-.prose table tbody tr:hover {
-  @apply bg-neutral-50 dark:bg-neutral-900/50;
+.prose .anchor {
+  position: absolute;
+  left: -0.85em;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  height: 1.4em;
+  width: 0.85em;
+  justify-content: flex-start;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  border-radius: 3px;
+  color: var(--notion-faint, #9b9ba1);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity var(--dur-quick, 160ms) ease, color var(--dur-quick, 160ms) ease, background var(--dur-quick, 140ms) ease;
+}
+
+.prose .anchor::after {
+  content: '#';
+  font-weight: 500;
+  font-size: 0.85em;
+}
+
+.prose h1:hover > .anchor,
+.prose h2:hover > .anchor,
+.prose h3:hover > .anchor,
+.prose h4:hover > .anchor,
+.prose h5:hover > .anchor,
+.prose h6:hover > .anchor,
+.prose .anchor:focus-visible {
+  opacity: 0.6;
+  outline: none;
+}
+
+.prose .anchor:hover {
+  opacity: 1;
+  color: var(--notion-ink, #18181b);
+}
+
+.prose .anchor.copied::after {
+  content: '✓';
+  color: var(--notion-ink, #18181b);
+}
+
+/* ---------- Callout (.callout used by some MDX) ---------- */
+
+.prose .callout {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--notion-tint, rgba(24, 24, 27, 0.05));
+  border-radius: 6px;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
 }
 
 .prose .callout > p {
   margin: 0 !important;
+  color: var(--notion-ink, #18181b);
+}
+
+/* ---------- Tweet embeds ---------- */
+
+.prose .tweet a {
+  text-decoration: inherit;
+  font-weight: inherit;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* ---------- Footer (edit link) ---------- */
+
+.post-footer {
+  margin-top: 64px;
+  padding-top: 18px;
+  border-top: 1px solid var(--notion-rule, rgba(24, 24, 27, 0.08));
+}
+
+.post-footer a {
+  font-size: 13px;
+  color: var(--notion-faint, #9b9ba1);
+  text-decoration: none;
+  transition: color var(--dur-quick, 140ms) ease;
+}
+
+.post-footer a:hover {
+  color: var(--notion-ink, #18181b);
+}
+
+/* ---------- rehype-pretty-code (Shiki) integration ---------- */
+
+[data-rehype-pretty-code-fragment] {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+[data-rehype-pretty-code-fragment] pre {
+  margin: 0;
 }
 
 [data-rehype-pretty-code-fragment] code {
-  @apply grid min-w-full break-words rounded-none border-0 bg-transparent p-0 text-sm text-black;
+  display: grid;
+  min-width: 100%;
+  word-break: break-word;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: 13.5px;
+  color: var(--notion-ink, #18181b);
   counter-reset: line;
+  -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
+
 [data-rehype-pretty-code-fragment] .line {
-  @apply py-1;
+  padding: 1px 0;
 }
+
 [data-rehype-pretty-code-fragment] [data-line-numbers] > .line::before {
   counter-increment: line;
   content: counter(line);
@@ -177,20 +639,257 @@ input[type='email'] {
   width: 1rem;
   margin-right: 1rem;
   text-align: right;
-  color: gray;
+  color: var(--notion-faint, #9b9ba1);
 }
+
 [data-rehype-pretty-code-fragment] .line--highlighted {
-  @apply bg-slate-500 bg-opacity-10;
+  background: rgba(24, 24, 27, 0.05);
 }
-[data-rehype-pretty-code-fragment] .line-highlighted span {
-  @apply relative;
-}
+
 [data-rehype-pretty-code-fragment] .word--highlighted {
-  @apply rounded-md bg-slate-500 bg-opacity-10 p-1;
+  border-radius: 3px;
+  background: rgba(24, 24, 27, 0.06);
+  padding: 1px 3px;
 }
+
 [data-rehype-pretty-code-title] {
-  @apply rounded-t-lg border border-[#333333] bg-[#1c1c1c] px-4 py-3 font-mono text-xs font-medium text-neutral-200;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: var(--notion-code-bg, #f5f5f7);
+  border: 1px solid rgba(24, 24, 27, 0.06);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--notion-muted, #52525b);
 }
-[data-rehype-pretty-code-title] + pre {
-  @apply mt-0 rounded-t-none border-t-0;
+
+[data-rehype-pretty-code-title] + pre,
+[data-rehype-pretty-code-title] + [data-rehype-pretty-code-fragment] pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* ---------- Bottom write-row (editor "open for editing" cue) ---------- */
+
+.post-write-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  margin-left: -8px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: text;
+  opacity: 0.65;
+  /* reset native button chrome */
+  background: transparent;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  width: calc(100% + 16px);
+  transition:
+    background var(--dur-quick, 140ms) ease,
+    opacity 100ms ease,
+    transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+}
+.post-write-row:hover { background: var(--notion-row-hover); opacity: 1; }
+.post-write-row:active {
+  transform: scale(0.997);
+}
+.post-write-row:focus-visible {
+  outline: 2px solid var(--notion-ink);
+  outline-offset: 2px;
+}
+
+.post-caret-area {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.post-write-row:hover {
+  background: var(--notion-row-hover, rgba(24, 24, 27, 0.03));
+  opacity: 1;
+}
+
+.post-caret-blink {
+  display: inline-block;
+  width: 1.5px;
+  height: 18px;
+  background: var(--notion-ink, #18181b);
+  vertical-align: -3px;
+  animation: post-caret-blink 1.05s ease-in-out infinite;
+}
+
+@keyframes post-caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* TOC "Top" arrow — chunky SVG mask, rotated 45° (pointing up) */
+.toc-top-arrow {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  margin-right: 4px;
+  vertical-align: -0.05em;
+  background-color: currentColor;
+  opacity: 0.75;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M5 7.5V2.5M2.5 5L5 2.5L7.5 5' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M5 7.5V2.5M2.5 5L5 2.5L7.5 5' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: contain; mask-size: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-caret-blink { animation: none; opacity: 1; }
+}
+
+/* ---------- Right-side TOC (≥1280px viewports, posts with ≥3 H2) ---------- */
+
+.post-toc {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .post-toc {
+    display: block;
+    position: fixed;
+    /* Sit well below the corner nav so it reads as a separate column,
+       and right-align text so it shares the nav's right edge cleanly. */
+    top: 200px;
+    right: 22px;
+    width: 200px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--notion-faint, #9b9ba1);
+    text-align: right;
+  }
+  .post-toc[hidden] { display: none; }
+  .post-toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .post-toc li { padding: 2px 0; }
+  .post-toc li.post-toc-h3 { padding-right: 12px; }
+  .post-toc a {
+    color: var(--notion-faint, #9b9ba1);
+    text-decoration: none;
+    transition: color var(--dur-quick, 140ms) ease;
+    display: block;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+  }
+  .post-toc a::after { content: none !important; }
+  @media (hover: hover) and (pointer: fine) {
+    .post-toc a:hover { color: var(--notion-ink, #18181b); }
+  }
+  .post-toc a.current { color: var(--notion-ink, #18181b); }
+}
+@media (min-width: 1440px) {
+  .post-toc { right: 32px; }
+}
+
+/* ---------- Toast (anchor copy feedback) ---------- */
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 16px);
+  z-index: 80;
+  padding: 8px 14px;
+  background: var(--notion-ink, #18181b);
+  color: var(--notion-bg, #ffffff);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  box-shadow: var(--notion-shadow, 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.06));
+  opacity: 0;
+  transition:
+    opacity 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+    transform 160ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition:
+    opacity 220ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)),
+    transform 220ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.toast[hidden] { display: none; }
+
+/* ---------- Reading progress bar ---------- */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.reading-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--notion-ink, #18181b);
+  transform-origin: left;
+  transition: width 80ms linear;
+}
+
+/* ---------- Print stylesheet ---------- */
+
+@media print {
+  .page-nav,
+  .post-write-row,
+  .post-breadcrumb,
+  .post-footer,
+  .post-toc,
+  .reading-progress,
+  .toast,
+  .cmdk {
+    display: none !important;
+  }
+  .page-body {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .post-cover {
+    max-height: 360px;
+  }
+  .prose > *::before,
+  .prose > *::after {
+    display: none !important;
+  }
+  .post::before {
+    display: none !important;
+  }
+  .prose a {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #888;
+  }
+  .prose a::after {
+    content: ' (' attr(href) ')' !important;
+    font-size: 0.9em;
+    color: #555;
+    opacity: 1;
+  }
 }

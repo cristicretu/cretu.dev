@@ -1,0 +1,104 @@
+---
+interface Props {
+  href: string;
+  external?: boolean;
+}
+
+const { href, external } = Astro.props;
+/* Treat anything with a hostname that isn't exactly cretu.dev (or www.cretu.dev)
+   as external — subdomains like hive.cretu.dev are separate sites and deserve
+   the ↗ arrow. */
+function detectExternal(url: string): boolean {
+  if (!/^https?:\/\//.test(url)) return false;
+  try {
+    const u = new URL(url);
+    return u.hostname !== 'cretu.dev' && u.hostname !== 'www.cretu.dev';
+  } catch {
+    return false;
+  }
+}
+const isExternal = external ?? detectExternal(href);
+---
+
+<a
+  class="mention"
+  data-mention
+  href={href}
+  {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+>
+  <slot />
+  {isExternal && <span class="mention-arrow" aria-hidden="true"></span>}
+</a>
+
+<style>
+  .mention {
+    display: inline;
+    color: inherit;
+    text-decoration: none;
+    padding: 0 4px;
+    border-radius: 4px;
+    background: var(--notion-tint, rgba(24, 24, 27, 0.05));
+    box-shadow: inset 0 -1px 0 var(--notion-tint-strong, rgba(24, 24, 27, 0.06));
+    transition:
+      background var(--dur-quick, 140ms) ease,
+      transform var(--dur-normal, 180ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .mention:hover {
+      background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
+      transform: translateY(-1px);
+    }
+    .mention:hover .mention-arrow {
+      opacity: 0.85;
+      transform: translate(1px, -1px);
+    }
+  }
+  .mention:active {
+    transform: translateY(0);
+    transition-duration: var(--dur-quick, 80ms);
+  }
+  .mention:visited {
+    color: var(--notion-muted);
+  }
+  .mention:visited .mention-arrow {
+    opacity: 0.4;
+  }
+  .mention:visited:hover {
+    color: var(--notion-ink);
+  }
+  .mention:visited:hover .mention-arrow {
+    opacity: 0.85;
+  }
+  .mention:focus-visible {
+    outline: 2px solid var(--notion-ink);
+    outline-offset: 2px;
+    border-radius: 4px;
+    background: var(--notion-tint-hover, rgba(24, 24, 27, 0.09));
+  }
+  .mention:focus:not(:focus-visible) {
+    outline: none;
+  }
+  /* Use the same chunky SVG arrow as the global rule, sized to inline with text */
+  .mention-arrow {
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-left: 2px;
+    vertical-align: 0em;
+    background-color: currentColor;
+    opacity: 0.55;
+    transition:
+      opacity var(--dur-quick, 160ms) ease,
+      transform var(--dur-quick, 160ms) ease;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+            mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+  }
+</style>

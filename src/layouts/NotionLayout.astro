@@ -1,0 +1,867 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'Cristian Crețu',
+  description = 'Design Engineer.',
+  image = 'https://cretu.dev/static/images/og.png',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(href + '/');
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <ViewTransitions />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/static/favicons/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="196x196" href="/static/favicons/favicon-196x196.png" />
+    <link rel="apple-touch-icon" href="/static/favicons/apple-touch-icon-180x180.png" />
+    <link rel="manifest" href="/static/favicons/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title === 'Cristian Crețu' ? title : `${title} | Cristian Crețu`}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title="Cristian Crețu — writing" href="/rss.xml" />
+
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f10" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Cristian Crețu" />
+    <meta property="og:locale" content="en-US" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
+    <meta property="twitter:site" content="@cristicrtu" />
+
+    <meta name="author" content="Cristian Crețu" />
+    <meta name="robots" content="index, follow" />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Cristian Crețu",
+      "url": "https://cretu.dev",
+      "sameAs": ["https://x.com/cristicrtu", "https://github.com/cristicretu"],
+      "jobTitle": "Design Engineer",
+      "worksFor": { "@type": "Organization", "name": "Anara", "url": "https://anara.com" }
+    })} />
+
+    <!-- Self-hosted Inter (variable) — preloaded for first-paint. JetBrains
+         Mono falls back to system mono stack. -->
+    <link
+      rel="preload"
+      href="/static/fonts/inter-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <script is:inline>
+      /* Apply theme before paint to avoid flash. Re-apply on view transitions. */
+      function syncThemeButtons() {
+        const isDark = document.documentElement.dataset.theme === 'dark';
+        document.querySelectorAll('[data-theme-toggle]').forEach(function (b) {
+          b.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+          b.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+        });
+      }
+      (function applyTheme() {
+        try {
+          const saved = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = saved === 'dark' || (!saved && prefersDark);
+          document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        } catch (_) {
+          /* SSR / blocked storage fallback */
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+      /* Skip the entry cascade on any navigation after the first one in
+         this tab — set the class BEFORE paint so the .page-body children
+         never start at opacity:0. Runs on every navigation thanks to
+         <script is:inline> being re-evaluated by Astro view transitions. */
+      (function syncCascadeFlag() {
+        try {
+          if (sessionStorage.getItem('cretu_cascaded') === '1') {
+            document.documentElement.classList.add('cascade-done');
+          }
+        } catch (_) {}
+      })();
+      document.addEventListener('DOMContentLoaded', syncThemeButtons);
+      document.addEventListener('astro:after-swap', () => {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = saved === 'dark' || (!saved && prefersDark);
+        document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+        try {
+          if (sessionStorage.getItem('cretu_cascaded') === '1') {
+            document.documentElement.classList.add('cascade-done');
+          }
+        } catch (_) {}
+        syncThemeButtons();
+      });
+    </script>
+
+    <style is:global>
+      /* Self-hosted Inter — single variable woff2 covers 400 + 500 */
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: swap;
+        src: url('/static/fonts/inter-var.woff2') format('woff2');
+      }
+
+      :root,
+      html[data-theme='light'],
+      html[data-theme='dark'] {
+        /* easing */
+        --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+        --ease-in-out:   cubic-bezier(0.77, 0, 0.175, 1);
+        --ease-out:      cubic-bezier(0.23, 1, 0.32, 1);
+        --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+        /* duration */
+        --dur-quick:  140ms;
+        --dur-normal: 220ms;
+        --dur-slow:   360ms;
+      }
+
+      :root,
+      html[data-theme='light'] {
+        --notion-bg: #fafafa;
+        --notion-surface: #ffffff;
+        --notion-ink: #18181b;
+        --notion-muted: #4a4a52;
+        --notion-faint: #67676d;
+        --notion-dim: #c8c8cd;
+        --notion-rule: rgba(24, 24, 27, 0.08);
+        --notion-tint: rgba(24, 24, 27, 0.05);
+        --notion-tint-strong: rgba(24, 24, 27, 0.06);
+        --notion-tint-hover: rgba(24, 24, 27, 0.09);
+        --notion-row-hover: rgba(24, 24, 27, 0.03);
+        --notion-row-focus: rgba(24, 24, 27, 0.06);
+        --notion-code-bg: #f5f5f7;
+        --notion-selection: rgba(24, 24, 27, 0.12);
+        --notion-shadow: 0 1px 2px rgba(24, 24, 27, 0.06), 0 4px 12px rgba(24, 24, 27, 0.06);
+      }
+
+      /* When the user prefers dark and data-theme hasn't been written yet
+         (brief gap during view transition), default to dark tokens so we
+         never flash a white background before paint. */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --notion-bg: #0f0f10;
+          --notion-surface: #18181b;
+          --notion-ink: #ececef;
+          --notion-muted: #b0b0b8;
+          --notion-faint: #8a8a92;
+          --notion-dim: #3f3f46;
+          --notion-rule: rgba(255, 255, 255, 0.08);
+          --notion-tint: rgba(255, 255, 255, 0.05);
+          --notion-tint-strong: rgba(255, 255, 255, 0.14);
+          --notion-tint-hover: rgba(255, 255, 255, 0.10);
+          --notion-row-hover: rgba(255, 255, 255, 0.04);
+          --notion-row-focus: rgba(255, 255, 255, 0.07);
+          --notion-code-bg: #1c1c1f;
+          --notion-selection: rgba(255, 255, 255, 0.14);
+          --notion-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+      }
+
+      html[data-theme='dark'] {
+        --notion-bg: #0f0f10;
+        --notion-surface: #18181b;
+        --notion-ink: #ececef;
+        --notion-muted: #b0b0b8;
+        --notion-faint: #8a8a92;
+        --notion-dim: #3f3f46;
+        --notion-rule: rgba(255, 255, 255, 0.08);
+        --notion-tint: rgba(255, 255, 255, 0.05);
+        --notion-tint-strong: rgba(255, 255, 255, 0.14);
+        --notion-tint-hover: rgba(255, 255, 255, 0.10);
+        --notion-row-hover: rgba(255, 255, 255, 0.04);
+        --notion-row-focus: rgba(255, 255, 255, 0.07);
+        --notion-code-bg: #1c1c1f;
+        --notion-selection: rgba(255, 255, 255, 0.14);
+        --notion-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+        background: var(--notion-bg);
+      }
+      body {
+        background: var(--notion-bg);
+        color: var(--notion-ink);
+        font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+        font-kerning: normal;
+        font-variant-ligatures: contextual;
+        min-height: 100vh;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      ::selection {
+        background: var(--notion-selection);
+        color: var(--notion-ink);
+      }
+
+      /* --- Corner nav --- */
+      /* --- Mike Matas-style custom cursor (fine-pointer devices only) --- */
+      .cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 22px;
+        height: 22px;
+        margin: -11px 0 0 -11px;
+        border-radius: 50%;
+        background: var(--notion-faint);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate3d(-100px, -100px, 0);
+        will-change: transform, width, height, opacity, background;
+        transition:
+          width   var(--dur-normal, 220ms) var(--ease-out-soft, ease),
+          height  var(--dur-normal, 220ms) var(--ease-out-soft, ease),
+          margin  var(--dur-normal, 220ms) var(--ease-out-soft, ease),
+          background var(--dur-quick, 140ms) ease,
+          opacity var(--dur-normal, 220ms) ease;
+        mix-blend-mode: multiply;
+      }
+      html[data-theme='dark'] .cursor { mix-blend-mode: screen; }
+
+      @media (pointer: fine) and (hover: hover) {
+        .cursor.visible { opacity: 0.55; }
+        /* Hide the native cursor on EVERY element (page-local rules use
+           cursor: text/pointer in many places — !important wins them all).
+           Text inputs keep the native I-beam so the user can still see
+           where they're typing in real fields. */
+        html, body, *, *::before, *::after {
+          cursor: none !important;
+        }
+        input:not([type='button']):not([type='submit']),
+        textarea,
+        [contenteditable='true'] {
+          cursor: text !important;
+        }
+      }
+
+      .cursor.grow {
+        width: 40px;
+        height: 40px;
+        margin: -20px 0 0 -20px;
+        background: var(--notion-tint-strong);
+      }
+      html[data-theme='dark'] .cursor.grow {
+        background: rgba(255, 255, 255, 0.22);
+      }
+      .cursor.press {
+        width: 14px;
+        height: 14px;
+        margin: -7px 0 0 -7px;
+      }
+      .cursor.text {
+        width: 2px;
+        height: 18px;
+        margin: -9px 0 0 -1px;
+        border-radius: 1px;
+        background: var(--notion-ink);
+      }
+
+      @media (pointer: coarse), (hover: none) {
+        .cursor { display: none !important; }
+        body { cursor: auto !important; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .cursor { transition: opacity var(--dur-normal, 220ms) ease; }
+      }
+
+      /* Soft top fade behind the nav — content scrolls under it cleanly */
+      .nav-fade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 132px;
+        z-index: 40;
+        pointer-events: none;
+        background: linear-gradient(
+          to bottom,
+          var(--notion-bg) 0%,
+          var(--notion-bg) 30%,
+          color-mix(in srgb, var(--notion-bg) 60%, transparent) 70%,
+          transparent 100%
+        );
+        /* Fallback for browsers without color-mix() */
+        background: linear-gradient(
+          to bottom,
+          var(--notion-bg),
+          var(--notion-bg) 40%,
+          transparent
+        );
+      }
+      /* When prefers-reduced-motion or low-end, gradient still works */
+
+      .page-nav {
+        position: fixed;
+        top: 22px;
+        left: 22px;
+        right: 22px;
+        z-index: 50;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.5;
+        pointer-events: none;
+      }
+      .page-nav .name {
+        color: var(--notion-ink);
+        font-weight: 500;
+        pointer-events: auto;
+        padding: 4px 8px;          /* hit area expansion */
+        margin: -4px -8px;          /* visual position preserved */
+        transition: color 160ms ease;
+      }
+      .page-nav .name .yr {
+        color: var(--notion-faint);
+        font-weight: 400;
+      }
+      .page-nav .links {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        color: var(--notion-faint);
+        gap: 2px;
+        align-items: flex-end;
+      }
+      .page-nav .links a,
+      .page-nav .links button {
+        pointer-events: auto;
+        color: var(--notion-faint);
+        background: none;
+        border: 0;
+        padding: 4px 8px;          /* hit area expansion */
+        margin: -4px -8px;          /* visual position preserved */
+        font: inherit;
+        cursor: pointer;
+        transition: color 160ms ease;
+      }
+      .page-nav .links a:hover,
+      .page-nav .links button:hover {
+        color: var(--notion-ink);
+      }
+      .page-nav .links a[aria-current="page"] {
+        color: var(--notion-ink);
+        font-weight: 500;
+      }
+
+      /* --- Skip to content --- */
+      .skip-link {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        z-index: 200;
+        padding: 10px 16px;
+        background: var(--notion-ink);
+        color: var(--notion-bg);
+        border-radius: 8px;
+        font-size: 13px;
+        font-family: 'Inter', sans-serif;
+        transform: translate(-50%, calc(-50% - 200px));
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity var(--dur-normal, 200ms) var(--ease-out, ease),
+          transform var(--dur-normal, 200ms) var(--ease-out, ease);
+      }
+      .skip-link:focus {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        pointer-events: auto;
+        outline: 1px solid var(--notion-bg);
+        outline-offset: -3px;
+      }
+
+      /* --- Screen reader only --- */
+      .sr-only {
+        position: absolute;
+        width: 1px; height: 1px;
+        padding: 0; margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .theme-toggle {
+        margin-top: 6px;
+        padding: 6px;
+        margin-right: -6px;
+        margin-left: -6px;
+        margin-bottom: -6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--notion-faint);
+        opacity: 0.85;
+        transition: transform var(--dur-quick, 140ms) var(--ease-out-soft, ease), color var(--dur-quick, 160ms) ease, opacity var(--dur-quick, 160ms) ease;
+      }
+      .theme-toggle:active {
+        transform: scale(0.9);
+      }
+      .page-nav .links button.theme-toggle:hover {
+        color: var(--notion-ink);
+        opacity: 1;
+      }
+      .theme-toggle svg {
+        width: 15px;
+        height: 15px;
+        display: block;
+        transition: transform var(--dur-slow) var(--ease-out-soft), opacity 200ms ease;
+      }
+      .theme-toggle.rotating svg {
+        transform: rotate(180deg);
+      }
+      html[data-theme='dark'] .theme-toggle .sun { display: none; }
+      html[data-theme='light'] .theme-toggle .moon { display: none; }
+
+      /* Meta link — for "all essays", "all work", "view more" rows
+         Renders as italic muted with subtle chevron, never as a Mention pill */
+      .meta-link {
+        font-style: italic;
+        color: var(--notion-faint);
+        text-decoration: none;
+        transition: color 160ms ease;
+      }
+      .meta-link:hover { color: var(--notion-ink); }
+      .meta-link::after {
+        content: '';
+        display: inline-block;
+        width: 0.6em;
+        height: 0.6em;
+        margin-left: 4px;
+        vertical-align: 0em;
+        background-color: currentColor;
+        opacity: 0.55;
+        -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M2.5 5h5M5 2.5L7.5 5 5 7.5' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+                mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M2.5 5h5M5 2.5L7.5 5 5 7.5' stroke='black' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+        -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+        -webkit-mask-position: center; mask-position: center;
+        -webkit-mask-size: contain; mask-size: contain;
+        transition: transform 160ms ease, opacity 160ms ease;
+      }
+      .meta-link:hover::after {
+        opacity: 0.85;
+        transform: translateX(1px);
+      }
+
+      /* Outliner interactive surfaces never select text on rapid click —
+         parent rows are toggles, bullets are buttons, mention pills are
+         links. Body text inside leaf rows stays selectable. */
+      .row.has-children,
+      .bullet-cell,
+      .caret,
+      .write-row,
+      .post-write-row {
+        -webkit-user-select: none;
+                user-select: none;
+      }
+
+      /* --- Page body --- */
+      .page-body {
+        max-width: 720px;
+        margin: 0;
+        padding: 132px 32px 200px 96px;
+      }
+
+      /* Back-link shown at the top of every non-root page. ↩ glyph + sans. */
+      .page-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--notion-faint);
+        text-decoration: none;
+        margin: 0 0 24px;
+        transition: color var(--dur-quick, 140ms) ease;
+      }
+      .page-back:hover { color: var(--notion-ink); }
+      .page-back::after { content: none !important; }
+      .page-back .back-arrow {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 16px;
+        line-height: 1;
+        display: inline-block;
+        transition: transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+      }
+      .page-back:hover .back-arrow { transform: translateX(-2px); }
+
+      /* <main tabindex="-1"> accepts programmatic focus from the skip link,
+         but shouldn't paint a default focus ring around the entire viewport
+         when that focus lands. */
+      .page-body:focus,
+      .page-body:focus-visible {
+        outline: none;
+      }
+
+      /* --- Universal cascade for direct children of .page-body ---
+         Scoped to html:not(.cascade-done) so the animation only plays
+         once per session, never on subsequent navigations. Wrapped in
+         :where() to zero specificity so page-level opacity rules still win. */
+      :where(html:not(.cascade-done) .page-body) > * {
+        opacity: 0;
+        transform: translateY(3px);
+        transition:
+          opacity var(--dur-slow, 360ms) ease,
+          transform var(--dur-slow, 360ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      :where(html:not(.cascade-done) .page-body.entered) > * {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        :where(.page-body) > * {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        html, body { transition: none; }
+      }
+
+      /* --- External link ↗ arrow (SVG-based: shorter, thicker) --- */
+      a[href^="http"]:not([href*="://cretu.dev"])::after {
+        content: '';
+        display: inline-block;
+        width: 0.62em;
+        height: 0.62em;
+        margin-left: 2px;
+        vertical-align: 0em;
+        background-color: currentColor;
+        opacity: 0.5;
+        -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+                mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'><path d='M3.2 7L7 3.2M7 3.2H3.9M7 3.2V6.3' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+        -webkit-mask-repeat: no-repeat;
+                mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+                mask-position: center;
+        -webkit-mask-size: contain;
+                mask-size: contain;
+        transition: opacity 160ms ease, transform 160ms ease;
+      }
+      a[href^="http"]:not([href*="://cretu.dev"]):hover::after {
+        opacity: 0.85;
+        transform: translate(0.5px, -0.5px);
+      }
+      a[data-mention]::after,
+      a[data-no-arrow]::after,
+      .page-nav .links a::after,
+      .page-nav .name::after {
+        content: none !important;
+      }
+
+      @media (max-width: 720px) {
+        .page-nav {
+          top: 18px;
+          left: 18px;
+          right: 18px;
+          font-size: 12px;
+        }
+        .page-body {
+          padding: 108px 24px 160px 60px;
+        }
+      }
+
+      @media (pointer: coarse) {
+        /* Expand nav and toggle hit areas without changing visual size */
+        .page-nav .links a,
+        .page-nav .links button {
+          padding: 8px 12px;
+          margin: -8px -12px;
+        }
+        .theme-toggle {
+          padding: 10px !important;
+          margin: -4px !important;
+        }
+        .theme-toggle svg {
+          width: 18px;
+          height: 18px;
+        }
+        .page-nav .name {
+          padding: 8px;
+          margin: -8px;
+        }
+        /* Outliner targets — bullets & rows for touch */
+        .bullet-cell { padding: 10px; margin: -10px; }
+        .row { min-height: 36px; }
+      }
+
+      /* --- Smooth caret-blink (overrides per-page steps(1) variants) --- */
+      @keyframes caret-blink {
+        0%   { opacity: 1; }
+        100% { opacity: 0; }
+      }
+      .caret-blink {
+        animation: caret-blink 1.1s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .caret-blink { animation: none !important; opacity: 1 !important; }
+      }
+
+      /* Pure crossfade for view transitions — no translate, no scale.
+         Pages just swap; the corner nav and fade stay planted (their own
+         transition:name overrides this animation to none). */
+      ::view-transition-old(root) {
+        animation: page-fade-out 160ms ease both;
+      }
+      ::view-transition-new(root) {
+        animation: page-fade-in 200ms ease 80ms both;
+      }
+      @keyframes page-fade-out {
+        to { opacity: 0; }
+      }
+      @keyframes page-fade-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      /* Persisted chrome doesn't animate during navigation — the corner
+         nav, fade, and custom cursor all stay planted while the page
+         swaps under them. */
+      ::view-transition-old(page-nav),
+      ::view-transition-new(page-nav),
+      ::view-transition-old(nav-fade),
+      ::view-transition-new(nav-fade),
+      ::view-transition-old(cursor),
+      ::view-transition-new(cursor) {
+        animation: none;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        ::view-transition-old(root),
+        ::view-transition-new(root) { animation: none; }
+      }
+
+      /* Canonical count badge — overrides any page-local rules (loaded later normally; use specificity + !important if needed) */
+      .label .count {
+        display: inline-block;
+        padding-left: 10px;
+        font-size: 12px;
+        color: var(--notion-faint);
+        font-variant-numeric: tabular-nums;
+        opacity: 0;
+        transform: translateX(-2px);
+        transition:
+          opacity var(--dur-normal, 200ms) ease 60ms,
+          transform var(--dur-normal, 200ms) ease 60ms;
+      }
+      .label .count::before {
+        content: '· ';
+        color: var(--notion-faint);
+      }
+      .node.has-children:not(.open) > .row > .label > .count {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+    </style>
+  </head>
+  <body>
+    <a href="#page-body" class="skip-link">Skip to content</a>
+    <div class="cursor" aria-hidden="true" transition:persist transition:name="cursor"></div>
+    <div class="nav-fade" aria-hidden="true" transition:persist transition:name="nav-fade"></div>
+    <header class="page-nav" transition:persist transition:name="page-nav">
+      <a class="name" href="/" aria-current={isActive('/') ? 'page' : undefined}>
+        Cristian Crețu<br /><span class="yr">2026</span>
+      </a>
+      <nav class="links">
+        <a href="/work" aria-current={isActive('/work') ? 'page' : undefined}>Work</a>
+        <a href="/writing" aria-current={isActive('/writing') ? 'page' : undefined}>Writing</a>
+        <a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer" data-no-arrow>X</a>
+        <a href="mailto:hi@cretu.dev" data-no-arrow>Email</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle aria-pressed="false">
+          <svg class="sun" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="3.2" fill="currentColor"/>
+            <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <line x1="8" y1="1.6" x2="8" y2="3"/>
+              <line x1="8" y1="13" x2="8" y2="14.4"/>
+              <line x1="1.6" y1="8" x2="3" y2="8"/>
+              <line x1="13" y1="8" x2="14.4" y2="8"/>
+              <line x1="3.5" y1="3.5" x2="4.5" y2="4.5"/>
+              <line x1="11.5" y1="11.5" x2="12.5" y2="12.5"/>
+              <line x1="3.5" y1="12.5" x2="4.5" y2="11.5"/>
+              <line x1="11.5" y1="4.5" x2="12.5" y2="3.5"/>
+            </g>
+          </svg>
+          <svg class="moon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M13 9.2A5.5 5.5 0 0 1 6.8 3a5.5 5.5 0 1 0 6.2 6.2Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <main class="page-body" id="page-body" tabindex="-1" transition:animate="fade">
+      <slot />
+    </main>
+
+    <script is:inline>
+      (function () {
+        /* cascade-in for top-level children of .page-body
+           Runs only on first page load (per session). Subsequent navigations
+           render instantly to avoid repetitive motion. */
+        const CASCADE_KEY = 'cretu_cascaded';
+        function arm(body) {
+          if (!body) return;
+          const seen = sessionStorage.getItem(CASCADE_KEY) === '1';
+          const kids = body.children;
+          if (seen) {
+            body.classList.add('entered');
+            for (let i = 0; i < kids.length; i++) {
+              kids[i].style.transitionDelay = '0ms';
+            }
+            return;
+          }
+          const total = 600;
+          const base = 40;
+          const step = Math.min(35, (total - base) / Math.max(kids.length - 1, 1));
+          for (let i = 0; i < kids.length; i++) {
+            kids[i].style.transitionDelay = (base + i * step) + 'ms';
+          }
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              body.classList.add('entered');
+              sessionStorage.setItem(CASCADE_KEY, '1');
+            });
+          });
+        }
+        arm(document.getElementById('page-body'));
+        document.addEventListener('astro:after-swap', function () {
+          const b = document.getElementById('page-body');
+          if (b) b.classList.remove('entered');
+          arm(b);
+        });
+
+        /* theme toggle */
+        function setTheme(t) {
+          document.documentElement.dataset.theme = t;
+          try { localStorage.setItem('theme', t); } catch (_) {}
+          const isDark = t === 'dark';
+          document.querySelectorAll('[data-theme-toggle]').forEach(function (b) {
+            b.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            b.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+          });
+        }
+        /* Sync on initial load (in case head script ran before buttons existed) */
+        (function () {
+          const isDark = document.documentElement.dataset.theme === 'dark';
+          document.querySelectorAll('[data-theme-toggle]').forEach(function (b) {
+            b.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+            b.setAttribute('title', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+          });
+        })();
+        document.addEventListener('click', function (e) {
+          const btn = e.target && e.target.closest && e.target.closest('[data-theme-toggle]');
+          if (!btn) return;
+          const cur = document.documentElement.dataset.theme || 'light';
+          btn.classList.add('rotating');
+          setTimeout(function () { btn.classList.remove('rotating'); }, 320);
+          setTheme(cur === 'dark' ? 'light' : 'dark');
+        });
+
+        /* Mike Matas-style cursor — smooth follow, grows on interactive
+           targets, presses inward on mousedown. Skipped on touch. */
+        (function customCursor() {
+          if (!window.matchMedia('(pointer: fine)').matches) return;
+          const cursor = document.querySelector('.cursor');
+          if (!cursor) return;
+
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          const HOVER = 'a, button, [role="button"], .bullet-cell, .row.has-children, .theme-toggle';
+          const TEXT = 'p, h1, h2, h3, h4, h5, h6, li, .label, .prose, .post-title, .doc-title, .post-date, .post-breadcrumb';
+
+          let mx = -100, my = -100;
+          let cx = -100, cy = -100;
+          let visible = false;
+
+          function onMove(e) {
+            mx = e.clientX;
+            my = e.clientY;
+            if (!visible) { cursor.classList.add('visible'); visible = true; }
+            const el = e.target;
+            if (el && el.closest && el.closest(HOVER)) {
+              cursor.classList.add('grow');
+              cursor.classList.remove('text');
+            } else if (el && el.closest && el.closest(TEXT)) {
+              cursor.classList.add('text');
+              cursor.classList.remove('grow');
+            } else {
+              cursor.classList.remove('grow', 'text');
+            }
+          }
+          document.addEventListener('mousemove', onMove, { passive: true });
+          document.addEventListener('mousedown', function () { cursor.classList.add('press'); });
+          document.addEventListener('mouseup',   function () { cursor.classList.remove('press'); });
+          document.addEventListener('mouseleave', function () { cursor.classList.remove('visible'); visible = false; });
+
+          function draw() {
+            if (reduced) {
+              cx = mx; cy = my;
+            } else {
+              cx += (mx - cx) * 0.35;
+              cy += (my - cy) * 0.35;
+            }
+            cursor.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
+            requestAnimationFrame(draw);
+          }
+          draw();
+        })();
+
+      })();
+    </script>
+  </body>
+</html>

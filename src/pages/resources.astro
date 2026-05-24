@@ -1,26 +1,344 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import NotionLayout from '@/layouts/NotionLayout.astro';
+import Mention from '@/components/Mention.astro';
 import { resources } from '@/data/resources';
+
+type Resource = {
+  title: string;
+  description: string;
+  link: string;
+};
+
+type Category = {
+  key: string;
+  label: string;
+  match: (r: Resource) => boolean;
+};
+
+const isVideo = (r: Resource) =>
+  /youtube\.com|youtu\.be|vimeo\.com/.test(r.link);
+const isBook = (r: Resource) =>
+  /book\.|\.pdf$|localroger\.com|stevejobsarchive\.com|squarespace\.com.*\.pdf/i.test(
+    r.link
+  );
+const isInteractive = (r: Resource) => /nan\.fyi/.test(r.link);
+const isEssay = (r: Resource) =>
+  !isVideo(r) && !isBook(r) && !isInteractive(r);
+
+const categories: Category[] = [
+  { key: 'essays', label: 'essays & articles', match: isEssay },
+  { key: 'talks', label: 'talks & videos', match: isVideo },
+  { key: 'books', label: 'books & long reads', match: isBook },
+  { key: 'tools', label: 'tools & interactives', match: isInteractive },
+];
+
+const grouped = categories.map((cat) => ({
+  ...cat,
+  items: resources.filter(cat.match),
+}));
+
+const totalCount = resources.length;
+
+// Best-effort author/source extraction from URL host.
+function sourceFrom(url: string) {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, '');
+    const map: Record<string, string> = {
+      'youtube.com': 'youtube',
+      'youtu.be': 'youtube',
+      'nan.fyi': 'nan.fyi',
+      'paulgraham.com': 'paul graham',
+      'catb.org': 'esr',
+      'tldp.org': 'tldp',
+      'linuxcommand.org': 'linuxcommand',
+      'unqualified-reservations.org': 'mencius moldbug',
+      'web.archive.org': 'yudkowsky',
+      'localroger.com': 'roger williams',
+      'static1.squarespace.com': 'welch labs',
+      'book.stevejobsarchive.com': 'steve jobs archive',
+      'sciencedaily.com': 'science daily',
+    };
+    return map[host] ?? host;
+  } catch {
+    return '';
+  }
+}
 ---
 
-<Layout title="resources" description="stuff that shaped my thinking.">
-  <div class="mx-auto max-w-2xl space-y-8 px-8">
-    <h1 class="text-primary">resources</h1>
-    <p class="text-tertiary">
-      stuff that shaped my thinking. essays, videos, rabbit holes.
-    </p>
-    <div class="flex flex-col">
-      {resources.map((resource) => (
-        <a
-          class="text-secondary hover:text-primary py-1.5 transition-colors duration-150 flex items-baseline gap-2"
-          href={resource.link}
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          <span class="text-quaternary">→</span>
-          <span>{resource.title.toLowerCase()}</span>
-        </a>
-      ))}
+<NotionLayout title="resources" description="stuff that shaped my thinking — books, posts, talks, tools.">
+  <main class="resources-page">
+  <a class="page-back" href="/"><span class="back-arrow" aria-hidden="true">↩</span>Index</a>
+  <div class="doc-title">resources<span class="age">, {totalCount} items</span></div>
+
+  <p class="index-sub">stuff that shaped my thinking — books, posts, talks, tools.</p>
+
+  {grouped.map((cat) => (
+    <div class={`node has-children ${cat.items.length > 0 ? 'open' : ''}`} data-node>
+      <div class="row has-children" tabindex="0">
+        <span class="bullet-cell">
+          <span class="bullet"></span>
+          <span class="caret" aria-hidden>
+            <svg viewBox="0 0 8 8" fill="none">
+              <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+        <span class="label">{cat.label}<span class="count">{cat.items.length}</span></span>
+      </div>
+      <div class="children">
+        {cat.items.map((r) => (
+          <div class="node" data-node>
+            <div class="row">
+              <span class="bullet-cell"><span class="bullet"></span></span>
+              <span class="label">
+                <Mention href={r.link}>{r.title.toLowerCase()}</Mention>
+                <span class="meta">{sourceFrom(r.link)}</span>
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
+  ))}
+
+  <div class="write-row" aria-hidden>
+    <span class="ghost-bullet"></span>
+    <span><span class="caret-blink"></span></span>
   </div>
-</Layout>
+  </main>
+</NotionLayout>
+
+<style is:global>
+  /* Outliner styles, mirrored from `/` so this page can reuse the same mechanic. */
+  .doc-title {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    line-height: 1.3;
+    padding: 0 0 16px;
+    color: var(--notion-ink);
+    cursor: text;
+    font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+    font-kerning: normal;
+  }
+  .doc-title .age {
+    color: var(--notion-faint);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  /* Scoped to resources page: mention pills inside row labels don't render
+     their ↗ arrow since each item already has a source badge implying external. */
+  .resources-page .mention .mention-arrow {
+    display: none;
+  }
+
+  .index-sub {
+    color: var(--notion-muted);
+    font-size: 15px;
+    line-height: 1.65;
+    max-width: 540px;
+    margin: 0 0 32px;
+  }
+  @media (max-width: 720px) {
+    .index-sub { font-size: 14.5px; margin-bottom: 24px; }
+  }
+
+  .node {
+    position: relative;
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: flex-start;
+    padding: 2px 8px 2px 0;
+    border-radius: 4px;
+    cursor: text;
+    font-size: 15px;
+    line-height: 1.7;
+    transition: background var(--dur-quick, 140ms) ease;
+  }
+
+  .row.has-children {
+    cursor: pointer;
+    transition:
+      background var(--dur-quick, 140ms) ease,
+      transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+  }
+  .row.has-children:active { transform: scale(0.997); }
+
+  .bullet-cell:active .bullet::before {
+    transform: scale(0.7);
+    transition: transform 100ms var(--ease-out-soft, ease);
+  }
+  .row:focus-visible {
+    outline: none;
+    background: var(--notion-row-focus);
+  }
+  .row:focus-visible::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--notion-ink);
+    border-radius: 1px;
+  }
+
+  .bullet-cell {
+    position: relative;
+    width: 18px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .bullet {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transition: opacity var(--dur-quick, 160ms) ease;
+  }
+  .bullet::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--notion-ink);
+    transition: transform 140ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+    box-sizing: border-box;
+  }
+
+  .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
+    background: transparent;
+    border: 1.5px solid var(--notion-ink);
+    width: 9px;
+    height: 9px;
+  }
+
+  .caret {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    color: var(--notion-faint);
+    transition: opacity var(--dur-quick, 160ms) ease;
+    pointer-events: none;
+  }
+  .caret svg {
+    width: 8px;
+    height: 8px;
+    display: block;
+    transition: transform var(--dur-normal, 220ms) var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+  }
+  .node.open > .row > .bullet-cell > .caret svg { transform: rotate(90deg); }
+
+  .label {
+    min-width: 0;
+    color: var(--notion-ink);
+  }
+  .label .meta {
+    color: var(--notion-faint);
+    font-weight: 400;
+    padding-left: 10px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    /* mono dropped per voice — sans throughout */
+    white-space: nowrap;
+  }
+  .children {
+    position: relative;
+    margin-left: 26px;
+    padding-left: 0;
+    overflow: hidden;
+    transition:
+      max-height 260ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)),
+      opacity var(--dur-normal, 220ms) ease;
+  }
+  .children::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--notion-rule);
+    transition: background var(--dur-normal, 200ms) ease;
+  }
+  .node:not(.open) > .children {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .node.open > .children {
+    max-height: 2400px;
+    opacity: 1;
+  }
+
+  .write-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: center;
+    padding: 4px 8px 4px 0;
+    border-radius: 4px;
+    opacity: 0.65;
+    transition: opacity var(--dur-normal, 200ms) ease, background var(--dur-quick, 140ms) ease;
+  }
+  .ghost-bullet {
+    width: 18px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+  }
+  .ghost-bullet::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px dashed var(--notion-dim);
+    box-sizing: border-box;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover { background: var(--notion-row-hover); }
+    .row:hover .bullet::before { transform: scale(1.4); }
+    .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
+    .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
+    .node.has-children:hover > .children::before { background: var(--notion-dim); }
+    .write-row:hover { background: var(--notion-row-hover); opacity: 1; }
+  }
+</style>
+
+<script is:inline>
+  (function init() {
+    function wire() {
+      const parents = document.querySelectorAll('.node.has-children');
+      parents.forEach(function (node) {
+        if (node.dataset.wired) return;
+        node.dataset.wired = '1';
+        const row = node.querySelector(':scope > .row');
+        if (!row) return;
+        row.addEventListener('click', function (e) {
+          if (e.target && e.target.closest && e.target.closest('a')) return;
+          node.classList.toggle('open');
+        });
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            node.classList.toggle('open');
+          }
+        });
+      });
+    }
+
+    wire();
+    document.addEventListener('astro:after-swap', wire);
+  })();
+</script>

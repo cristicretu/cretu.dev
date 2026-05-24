@@ -1,45 +1,289 @@
 ---
-import Layout from '@/layouts/Layout.astro';
+import NotionLayout from '@/layouts/NotionLayout.astro';
+import Mention from '@/components/Mention.astro';
+
+const requestedPath = Astro.url.pathname;
 ---
 
-<Layout title="404" description="page not found">
-  <div class="mx-auto max-w-2xl px-8 flex flex-col items-center justify-center min-h-[60vh]">
-    <pre class="text-xs sm:text-sm font-mono text-neutral-500 dark:text-neutral-500 mb-8 select-none">
-{`
-    ╭──────────────────────────────╮
-    │                              │
-    │   $ curl cretu.dev${Astro.url.pathname}
-    │                              │
-    │   HTTP/1.1 404 Not Found     │
-    │   Content-Type: text/plain   │
-    │                              │
-    │   > page not found           │
-    │   > but you are              │
-    │                              │
-    ╰──────────────────────────────╯
-`}
-    </pre>
-    
-    <div class="font-mono text-sm space-y-4 text-center">
-      <p class="text-neutral-600 dark:text-neutral-400">
-        this page doesn't exist. yet.
-      </p>
-      
-      <div class="flex gap-4 justify-center text-neutral-500">
-        <a href="/" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">
-          [1] home
-        </a>
-        <a href="/writing" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">
-          [2] writing
-        </a>
-        <a href="/work" class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors">
-          [3] work
-        </a>
+<NotionLayout title="404" description="page not found">
+  <a class="page-back" href="/"><span class="back-arrow" aria-hidden="true">↩</span>Index</a>
+  <div class="doc-title">
+    404<span class="age">, not found</span>
+  </div>
+  <p class="index-sub">
+    you tried <code class="tried-path">{requestedPath}</code>. this page doesn't exist (yet). try one of these.
+  </p>
+
+  <div class="node has-children open" data-node>
+    <div class="row has-children" tabindex="0">
+      <span class="bullet-cell">
+        <span class="bullet"></span>
+        <span class="caret" aria-hidden>
+          <svg viewBox="0 0 8 8" fill="none">
+            <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </span>
+      <span class="label">where to next</span>
+    </div>
+    <div class="children">
+      <div class="node" data-node>
+        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/">home</Mention></span></div>
       </div>
-      
-      <p class="text-neutral-400 dark:text-neutral-600 text-xs mt-8">
-        or just press the numbers
-      </p>
+      <div class="node" data-node>
+        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/writing">writing</Mention></span></div>
+      </div>
+      <div class="node" data-node>
+        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/work">work</Mention></span></div>
+      </div>
+      <div class="node" data-node>
+        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="/resources">resources</Mention></span></div>
+      </div>
     </div>
   </div>
-</Layout>
+
+  <div class="write-row" aria-hidden>
+    <span class="ghost-bullet"></span>
+    <span><span class="caret-blink"></span></span>
+  </div>
+</NotionLayout>
+
+<style is:global>
+  /* Outliner-specific styles, copied verbatim from src/pages/writing/index.astro */
+  .doc-title {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    line-height: 1.3;
+    padding: 0 0 14px;
+    color: var(--notion-ink);
+    cursor: text;
+    font-feature-settings: 'kern' 1, 'cv11', 'ss01';
+    font-kerning: normal;
+  }
+  .doc-title .age {
+    color: var(--notion-faint);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .index-sub {
+    color: var(--notion-muted);
+    max-width: 540px;
+    font-size: 15px;
+    line-height: 1.65;
+    margin: 0 0 32px;
+  }
+
+  .index-sub code,
+  .tried-path {
+    /* mono dropped per voice — sans throughout */
+    font-size: 12.5px;
+    background: var(--notion-tint-strong, rgba(24, 24, 27, 0.06));
+    color: var(--notion-ink);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .node {
+    position: relative;
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: flex-start;
+    padding: 2px 8px 2px 0;
+    border-radius: 4px;
+    cursor: text;
+    font-size: 15px;
+    line-height: 1.7;
+    transition: background 140ms ease;
+    max-width: 580px;
+  }
+
+  .row.has-children {
+    cursor: pointer;
+    transition:
+      background var(--dur-quick, 140ms) ease,
+      transform var(--dur-quick, 140ms) var(--ease-out-soft, ease);
+  }
+  .row.has-children:active { transform: scale(0.997); }
+  .row:focus-visible {
+    outline: none;
+    background: var(--notion-row-focus);
+  }
+  .row:focus-visible::before {
+    content: '';
+    position: absolute;
+    left: -14px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--notion-ink);
+    border-radius: 1px;
+  }
+
+  .bullet-cell {
+    position: relative;
+    width: 18px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .bullet {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    transition: opacity 160ms ease;
+  }
+  .bullet::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--notion-ink);
+    transition: transform 140ms var(--ease-out-soft);
+    box-sizing: border-box;
+  }
+  .bullet-cell:active .bullet::before {
+    transform: scale(0.7);
+    transition: transform 100ms var(--ease-out-soft, ease);
+  }
+
+  .node.has-children:not(.open) > .row > .bullet-cell > .bullet::before {
+    background: transparent;
+    border: 1.5px solid var(--notion-ink);
+    width: 9px;
+    height: 9px;
+  }
+
+  .caret {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    color: var(--notion-faint);
+    transition: opacity 160ms ease;
+    pointer-events: none;
+  }
+  .caret svg {
+    width: 8px;
+    height: 8px;
+    display: block;
+    transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .node.open > .row > .bullet-cell > .caret svg { transform: rotate(90deg); }
+
+  .label {
+    min-width: 0;
+    color: var(--notion-ink);
+  }
+  .label .meta {
+    color: var(--notion-faint);
+    font-weight: 400;
+    padding-left: 8px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    /* mono dropped per voice — sans throughout */
+  }
+  .node.has-children:not(.open) > .row > .label > .count {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .children {
+    position: relative;
+    margin-left: 26px;
+    padding-left: 0;
+    overflow: hidden;
+    transition:
+      max-height 260ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      opacity 220ms ease;
+  }
+  .children::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--notion-rule);
+    transition: background 200ms ease;
+  }
+  .node:not(.open) > .children {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .node.open > .children {
+    max-height: 2400px;
+    opacity: 1;
+  }
+
+  .write-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 12px;
+    align-items: center;
+    padding: 4px 8px 4px 0;
+    border-radius: 4px;
+    opacity: 0.7;
+    transition: opacity 200ms ease, background 140ms ease;
+  }
+  .ghost-bullet {
+    width: 18px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+  }
+  .ghost-bullet::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1px dashed var(--notion-dim);
+    box-sizing: border-box;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover { background: var(--notion-row-hover); }
+    .row:hover .bullet::before { transform: scale(1.4); }
+    .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
+    .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
+    .node.has-children:hover > .children::before { background: var(--notion-dim); }
+    .write-row:hover { background: var(--notion-row-hover); opacity: 1; }
+  }
+</style>
+
+<script is:inline>
+  (function init() {
+    function wire() {
+      /* fold / unfold for outliner parents */
+      const parents = document.querySelectorAll('.node.has-children');
+      parents.forEach(function (node) {
+        if (node.dataset.wired) return;
+        node.dataset.wired = '1';
+        const row = node.querySelector(':scope > .row');
+        if (!row) return;
+        row.addEventListener('click', function (e) {
+          if (e.target && e.target.closest && e.target.closest('a')) return;
+          node.classList.toggle('open');
+        });
+        row.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            node.classList.toggle('open');
+          }
+        });
+      });
+    }
+
+    wire();
+    document.addEventListener('astro:after-swap', wire);
+  })();
+</script>
