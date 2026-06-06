@@ -638,8 +638,15 @@ const isActive = (href: string) => {
           padding: 8px;
           margin: -8px;
         }
-        /* Outliner targets — bullets & rows for touch */
-        .bullet-cell { padding: 10px; margin: -10px; }
+        /* Outliner targets — bullets & rows for touch.
+           Pseudo-element overlay expands the tap area without shifting
+           layout (padding/negative-margin pushed the bullet past the
+           children container's overflow clip and off the text baseline). */
+        .bullet-cell::after {
+          content: '';
+          position: absolute;
+          inset: -10px;
+        }
         .row { min-height: 36px; }
       }
 

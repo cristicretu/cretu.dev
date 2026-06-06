@@ -199,16 +199,6 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
       max-height 260ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)),
       opacity var(--dur-normal, 220ms) ease;
   }
-  .children::before {
-    content: '';
-    position: absolute;
-    left: 2px;
-    top: 4px;
-    bottom: 4px;
-    width: 1px;
-    background: var(--notion-rule);
-    transition: background var(--dur-normal, 200ms) ease;
-  }
   .node:not(.open) > .children {
     max-height: 0;
     opacity: 0;
@@ -250,8 +240,6 @@ const years = Object.keys(groups).sort((a, b) => Number(b) - Number(a));
     .row:hover .bullet { transform: scale(1.4); }
     .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
     .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
-    .node.has-children:hover > .children::before,
-    .row.has-children:hover + .children::before { background: var(--notion-dim); }
     .write-row:hover { background: var(--notion-row-hover); opacity: 1; }
   }
 </style>
