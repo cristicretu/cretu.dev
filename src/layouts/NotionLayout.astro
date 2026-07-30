@@ -694,10 +694,10 @@ const isActive = (href: string) => {
         .caret-blink { animation: none !important; opacity: 1 !important; }
       }
 
-      /* Every route shares one content plane. The browser interpolates its
-         bounds between pages while the old and new snapshots crossfade,
-         which keeps the Work transition's sense of spatial continuity on
-         the rest of the site too. */
+      /* Every route shares one content plane. Its bounds interpolate between
+         pages, while the incoming page scales from the direction of travel.
+         The top-left origin preserves the anchored zoom already visible when
+         Work expands from the narrower index. */
       ::view-transition-old(root),
       ::view-transition-new(root) {
         animation: none;
@@ -707,26 +707,38 @@ const isActive = (href: string) => {
         animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
       }
       ::view-transition-old(page-content) {
-        animation: page-content-out 150ms cubic-bezier(0.4, 0, 1, 1) both;
+        animation: none;
+        opacity: 0;
+        mix-blend-mode: normal;
       }
       ::view-transition-new(page-content) {
-        animation: page-content-in 220ms 30ms cubic-bezier(0.23, 1, 0.32, 1) both;
+        animation: page-content-zoom-in 260ms cubic-bezier(0.23, 1, 0.32, 1) both;
+        mix-blend-mode: normal;
+        transform-origin: left top;
       }
-      @keyframes page-content-out {
-        to {
-          opacity: 0;
-          transform: translateY(-2px);
-        }
+      [data-astro-transition='back']::view-transition-new(page-content) {
+        animation-name: page-content-zoom-out;
       }
-      @keyframes page-content-in {
-        from {
-          opacity: 0;
-          transform: translateY(4px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      @keyframes page-content-zoom-in {
+        from { transform: scale(0.975); }
+        to   { transform: scale(1); }
+      }
+      @keyframes page-content-zoom-out {
+        from { transform: scale(1.025); }
+        to   { transform: scale(1); }
+      }
+      /* Astro's fallback uses element animations in browsers without native
+         View Transitions. Match the same scale motion there without fading. */
+      [data-astro-transition-fallback='old'] .page-content.page-content {
+        animation: none;
+        opacity: 0;
+      }
+      [data-astro-transition-fallback='new'] .page-content.page-content {
+        animation: page-content-zoom-in 260ms cubic-bezier(0.23, 1, 0.32, 1) both;
+        transform-origin: left top;
+      }
+      [data-astro-transition='back'][data-astro-transition-fallback='new'] .page-content.page-content {
+        animation-name: page-content-zoom-out;
       }
       /* Persisted chrome doesn't animate during navigation — the corner
          nav, fade, and custom cursor all stay planted while the page
@@ -740,7 +752,10 @@ const isActive = (href: string) => {
         animation: none;
       }
       @media (prefers-reduced-motion: reduce) {
-        .page-content { animation: none !important; }
+        [data-astro-transition-fallback] .page-content.page-content {
+          animation: none;
+          transform: none;
+        }
         ::view-transition-group(page-content),
         ::view-transition-old(page-content),
         ::view-transition-new(page-content),
@@ -814,6 +829,15 @@ const isActive = (href: string) => {
 
     <script is:inline>
       (function () {
+        /* Treat the visible ↩ links like browser Back so the zoom reverses
+           even though those links navigate with a regular href. */
+        document.addEventListener('astro:before-preparation', function (event) {
+          const source = event.sourceElement;
+          if (source && source.closest && source.closest('.page-back')) {
+            event.direction = 'back';
+          }
+        });
+
         /* cascade-in for top-level children of .page-body
            Runs only on first page load (per session). Subsequent navigations
            render instantly to avoid repetitive motion. */
