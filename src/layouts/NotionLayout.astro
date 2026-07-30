@@ -547,6 +547,9 @@ const isActive = (href: string) => {
       .page-body.page-body--wide {
         max-width: 940px;
       }
+      .page-content {
+        width: 100%;
+      }
 
       /* Back-link shown at the top of every non-root page. ↩ glyph + sans. */
       .page-back {
@@ -691,21 +694,39 @@ const isActive = (href: string) => {
         .caret-blink { animation: none !important; opacity: 1 !important; }
       }
 
-      /* Pure crossfade for view transitions — no translate, no scale.
-         Pages just swap; the corner nav and fade stay planted (their own
-         transition:name overrides this animation to none). */
-      ::view-transition-old(root) {
-        animation: page-fade-out 160ms ease both;
-      }
+      /* Every route shares one content plane. The browser interpolates its
+         bounds between pages while the old and new snapshots crossfade,
+         which keeps the Work transition's sense of spatial continuity on
+         the rest of the site too. */
+      ::view-transition-old(root),
       ::view-transition-new(root) {
-        animation: page-fade-in 200ms ease 80ms both;
+        animation: none;
       }
-      @keyframes page-fade-out {
-        to { opacity: 0; }
+      ::view-transition-group(page-content) {
+        animation-duration: 260ms;
+        animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
       }
-      @keyframes page-fade-in {
-        from { opacity: 0; }
-        to   { opacity: 1; }
+      ::view-transition-old(page-content) {
+        animation: page-content-out 150ms cubic-bezier(0.4, 0, 1, 1) both;
+      }
+      ::view-transition-new(page-content) {
+        animation: page-content-in 220ms 30ms cubic-bezier(0.23, 1, 0.32, 1) both;
+      }
+      @keyframes page-content-out {
+        to {
+          opacity: 0;
+          transform: translateY(-2px);
+        }
+      }
+      @keyframes page-content-in {
+        from {
+          opacity: 0;
+          transform: translateY(4px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
       /* Persisted chrome doesn't animate during navigation — the corner
          nav, fade, and custom cursor all stay planted while the page
@@ -719,6 +740,10 @@ const isActive = (href: string) => {
         animation: none;
       }
       @media (prefers-reduced-motion: reduce) {
+        .page-content { animation: none !important; }
+        ::view-transition-group(page-content),
+        ::view-transition-old(page-content),
+        ::view-transition-new(page-content),
         ::view-transition-old(root),
         ::view-transition-new(root) { animation: none; }
       }
@@ -781,8 +806,10 @@ const isActive = (href: string) => {
       </nav>
     </header>
 
-    <main class:list={['page-body', { 'page-body--wide': wide }]} id="page-body" tabindex="-1" transition:animate="fade">
-      <slot />
+    <main class:list={['page-body', { 'page-body--wide': wide }]} id="page-body" tabindex="-1">
+      <div class="page-content" transition:name="page-content">
+        <slot />
+      </div>
     </main>
 
     <script is:inline>
