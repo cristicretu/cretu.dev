@@ -335,6 +335,7 @@
 
 .prose blockquote {
   border-left: 3px solid var(--notion-ink, #18181b);
+  border-radius: 0;
   padding-left: 18px;
   color: var(--notion-muted, #52525b);
   font-style: normal;
