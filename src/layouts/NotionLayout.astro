@@ -5,12 +5,14 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  wide?: boolean;
 }
 
 const {
   title = 'Cristian Crețu',
   description = 'Design Engineer.',
   image = 'https://cretu.dev/static/images/og.png',
+  wide = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -542,6 +544,9 @@ const isActive = (href: string) => {
         margin: 0;
         padding: 132px 32px 200px 96px;
       }
+      .page-body.page-body--wide {
+        max-width: 940px;
+      }
 
       /* Back-link shown at the top of every non-root page. ↩ glyph + sans. */
       .page-back {
@@ -776,7 +781,7 @@ const isActive = (href: string) => {
       </nav>
     </header>
 
-    <main class="page-body" id="page-body" tabindex="-1" transition:animate="fade">
+    <main class:list={['page-body', { 'page-body--wide': wide }]} id="page-body" tabindex="-1" transition:animate="fade">
       <slot />
     </main>
 

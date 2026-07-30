@@ -4,6 +4,53 @@ import Mention from '@/components/Mention.astro';
 import { works } from '@/data/work';
 
 const totalProjects = works.length;
+const firstYear = Math.min(...works.map((work) => work.year));
+const latestYear = Math.max(...works.map((work) => work.year));
+
+const featuredProjects = [
+  {
+    key: 'agents',
+    title: 'Anara Agents',
+    context: 'Anara · 2025',
+    summary:
+      'Specialized agents that turn open-ended research into coordinated search, analysis, and writing workflows.',
+    role: 'design engineering',
+    result: 'shipped in Anara 2.0',
+    link: 'https://anara.com/updates/two-dot-zero',
+    image: '/static/images/work/agents.webp',
+    width: 2046,
+    height: 1152,
+    alt: 'Anara composer with specialized research agent suggestions',
+  },
+  {
+    key: 'family',
+    title: 'Family Drawer',
+    context: 'independent · 2025',
+    summary:
+      'A from-scratch SwiftUI recreation of Family’s gesture-driven drawer, focused on motion, depth, and interruption.',
+    role: 'interaction design + SwiftUI',
+    result: 'published as an open-source reference',
+    link: 'https://github.com/cristicretu/family-drawer',
+    image: '/static/images/work/family.webp',
+    width: 1856,
+    height: 1620,
+    alt: 'SwiftUI recreation of the Family app drawer on an iPhone',
+  },
+  {
+    key: 'hive',
+    title: 'Hive',
+    context: 'with Mihai Farcaș · 2025',
+    summary:
+      'A CLI that runs coding agents in parallel while isolating each task in its own Git worktree.',
+    role: 'product + engineering',
+    result: 'parallel work without file collisions',
+    link: 'https://hive.cretu.dev/',
+    image: '/static/images/work/cli.webp',
+    width: 2088,
+    height: 710,
+    alt: 'Hive terminal interface showing isolated parallel agent tasks',
+  },
+] as const;
 
 const yearMap = works.reduce((acc, w) => {
   (acc[w.year] = acc[w.year] || []).push(w);
@@ -22,111 +69,175 @@ const inlineEarlier = earlierProjects.length === 1 ? earlierProjects[0] : null;
 const lastFullYearIndex = fullYears.length - 1;
 ---
 
-<NotionLayout title="Work" description="stuff i built — solo, with collaborators, at companies.">
-  <a class="page-back" href="/"><span class="back-arrow" aria-hidden="true">↩</span>Index</a>
-  <div class="doc-title">work<span class="age">, {totalProjects} projects</span></div>
+<NotionLayout title="Work" description="stuff i built — solo, with collaborators, at companies." wide>
+  <div class="work-page">
+    <a class="page-back" href="/"><span class="back-arrow" aria-hidden="true">↩</span>Index</a>
+    <div class="doc-title">work<span class="age">, {totalProjects} projects</span></div>
 
-  <p class="doc-sub">stuff i built — solo, with collaborators, at companies. organized by year.</p>
+    <p class="doc-sub">
+      selected product design, interface engineering, and tools. the complete archive follows.
+    </p>
 
-  {fullYears.map((year, idx) => {
-    const items = yearMap[year];
-    const openByDefault = idx < 2; /* most recent two years expanded */
-    const isLastFull = idx === lastFullYearIndex;
-    return (
-      <div class={`node has-children${openByDefault ? ' open' : ''}`} data-node>
-        <div class="row has-children" tabindex="0">
-          <span class="bullet-cell">
-            <span class="bullet"></span>
-            <span class="caret" aria-hidden>
-              <svg viewBox="0 0 8 8" fill="none">
-                <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </span>
-          <span class="label">{year}<span class="count">{items.length}</span></span>
-        </div>
-        <div class="children">
-          {items.map((work) => (
-            <div class="node" data-node>
-              <div class="row">
-                <span class="bullet-cell"><span class="bullet"></span></span>
-                <span class="label work-line">
-                  {work.link ? (
-                    <Mention href={work.link}>{work.title.toLowerCase()}</Mention>
-                  ) : (
-                    <span class="work-title">{work.title.toLowerCase()}</span>
-                  )}
-                  <span class="work-desc">{work.description.toLowerCase()}</span>
-                  {work.company && <span class="meta">{work.company.toLowerCase()}</span>}
-                </span>
-              </div>
-            </div>
-          ))}
-          {isLastFull && inlineEarlier && (
-            <div class="node" data-node>
-              <div class="row">
-                <span class="bullet-cell"><span class="bullet"></span></span>
-                <span class="label work-line">
-                  {inlineEarlier.link ? (
-                    <Mention href={inlineEarlier.link}>{inlineEarlier.title.toLowerCase()}</Mention>
-                  ) : (
-                    <span class="work-title">{inlineEarlier.title.toLowerCase()}</span>
-                  )}
-                  <span class="work-desc">{inlineEarlier.description.toLowerCase()}</span>
-                  {inlineEarlier.company && <span class="meta">{inlineEarlier.company.toLowerCase()}</span>}
-                  <span class="meta">earlier · {inlineEarlier.year}</span>
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
+    <section class="featured-work" aria-labelledby="featured-work-title">
+      <div class="section-heading">
+        <h2 id="featured-work-title">featured</h2>
+        <span>{featuredProjects.length} projects</span>
       </div>
-    );
-  })}
 
-  {earlierIsCollapsible && (
-    <div class="node has-children" data-node>
-      <div class="row has-children" tabindex="0">
-        <span class="bullet-cell">
-          <span class="bullet"></span>
-          <span class="caret" aria-hidden>
-            <svg viewBox="0 0 8 8" fill="none">
-              <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </span>
-        <span class="label">earlier<span class="count">{earlierProjects.length}</span></span>
-      </div>
-      <div class="children">
-        {earlierProjects.map((work) => (
-          <div class="node" data-node>
-            <div class="row">
-              <span class="bullet-cell"><span class="bullet"></span></span>
-              <span class="label work-line">
-                {work.link ? (
-                  <Mention href={work.link}>{work.title.toLowerCase()}</Mention>
-                ) : (
-                  <span class="work-title">{work.title.toLowerCase()}</span>
-                )}
-                <span class="work-desc">{work.description.toLowerCase()}</span>
-                {work.company && <span class="meta">{work.company.toLowerCase()}</span>}
-                <span class="meta">{work.year}</span>
-              </span>
+      <div class="featured-grid">
+        {featuredProjects.map((project, index) => (
+          <article class:list={['featured-card', { 'featured-card--lead': index === 0 }]}>
+            <a
+              class="featured-media"
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-no-arrow
+              aria-label={`View ${project.title}`}
+            >
+              <img
+                class={`featured-image featured-image--${project.key}`}
+                src={project.image}
+                width={project.width}
+                height={project.height}
+                alt={project.alt}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                fetchpriority={index === 0 ? 'high' : 'auto'}
+                decoding="async"
+              />
+            </a>
+
+            <div class="featured-copy">
+              <p class="featured-context">{project.context}</p>
+              <h3><a href={project.link} target="_blank" rel="noopener noreferrer">{project.title}</a></h3>
+              <p class="featured-summary">{project.summary}</p>
+              <dl class="featured-facts">
+                <div>
+                  <dt>role</dt>
+                  <dd>{project.role}</dd>
+                </div>
+                <div>
+                  <dt>result</dt>
+                  <dd>{project.result}</dd>
+                </div>
+              </dl>
             </div>
-          </div>
+          </article>
         ))}
       </div>
-    </div>
-  )}
+    </section>
 
-  <div class="write-row" aria-hidden>
-    <span class="ghost-bullet"></span>
-    <span><span class="caret-blink"></span></span>
+    <section class="work-archive" aria-labelledby="work-archive-title">
+      <div class="section-heading section-heading--archive">
+        <h2 id="work-archive-title">archive</h2>
+        <span>{firstYear}–{latestYear}</span>
+      </div>
+
+      {fullYears.map((year, idx) => {
+        const items = yearMap[year];
+        const openByDefault = idx < 2; /* most recent two years expanded */
+        const isLastFull = idx === lastFullYearIndex;
+        return (
+          <div class={`node has-children${openByDefault ? ' open' : ''}`} data-node>
+            <button class="row has-children" type="button" aria-expanded={openByDefault}>
+              <span class="bullet-cell">
+                <span class="bullet"></span>
+                <span class="caret" aria-hidden>
+                  <svg viewBox="0 0 8 8" fill="none">
+                    <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </span>
+              <span class="label">{year}<span class="count">{items.length}</span></span>
+            </button>
+            <div class="children">
+              {items.map((work) => (
+                <div class="node" data-node>
+                  <div class="row">
+                    <span class="bullet-cell"><span class="bullet"></span></span>
+                    <span class="label work-line">
+                      {work.link ? (
+                        <Mention href={work.link}>{work.title.toLowerCase()}</Mention>
+                      ) : (
+                        <span class="work-title">{work.title.toLowerCase()}</span>
+                      )}
+                      <span class="work-desc">{work.description.toLowerCase()}</span>
+                      {work.company && <span class="meta">{work.company.toLowerCase()}</span>}
+                    </span>
+                  </div>
+                </div>
+              ))}
+              {isLastFull && inlineEarlier && (
+                <div class="node" data-node>
+                  <div class="row">
+                    <span class="bullet-cell"><span class="bullet"></span></span>
+                    <span class="label work-line">
+                      {inlineEarlier.link ? (
+                        <Mention href={inlineEarlier.link}>{inlineEarlier.title.toLowerCase()}</Mention>
+                      ) : (
+                        <span class="work-title">{inlineEarlier.title.toLowerCase()}</span>
+                      )}
+                      <span class="work-desc">{inlineEarlier.description.toLowerCase()}</span>
+                      {inlineEarlier.company && <span class="meta">{inlineEarlier.company.toLowerCase()}</span>}
+                      <span class="meta">earlier · {inlineEarlier.year}</span>
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+
+      {earlierIsCollapsible && (
+        <div class="node has-children" data-node>
+          <button class="row has-children" type="button" aria-expanded="false">
+            <span class="bullet-cell">
+              <span class="bullet"></span>
+              <span class="caret" aria-hidden>
+                <svg viewBox="0 0 8 8" fill="none">
+                  <path d="M2 1l4 3-4 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </span>
+            <span class="label">earlier<span class="count">{earlierProjects.length}</span></span>
+          </button>
+          <div class="children">
+            {earlierProjects.map((work) => (
+              <div class="node" data-node>
+                <div class="row">
+                  <span class="bullet-cell"><span class="bullet"></span></span>
+                  <span class="label work-line">
+                    {work.link ? (
+                      <Mention href={work.link}>{work.title.toLowerCase()}</Mention>
+                    ) : (
+                      <span class="work-title">{work.title.toLowerCase()}</span>
+                    )}
+                    <span class="work-desc">{work.description.toLowerCase()}</span>
+                    {work.company && <span class="meta">{work.company.toLowerCase()}</span>}
+                    <span class="meta">{work.year}</span>
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+
+    <div class="write-row" aria-hidden>
+      <span class="ghost-bullet"></span>
+      <span><span class="caret-blink"></span></span>
+    </div>
   </div>
 </NotionLayout>
 
 <style is:global>
   /* Outliner-specific styles, mirrored from the homepage. */
+  .work-page {
+    width: 100%;
+  }
+
   .doc-title {
     font-size: 24px;
     font-weight: 500;
@@ -148,8 +259,189 @@ const lastFullYearIndex = fullYears.length - 1;
     font-size: 15px;
     line-height: 1.6;
     color: var(--notion-muted);
-    margin: 0 0 24px;
-    max-width: 540px;
+    margin: 0 0 32px;
+    max-width: 600px;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0 0 14px;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    color: var(--notion-ink);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+
+  .section-heading > span {
+    color: var(--notion-faint);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .featured-work {
+    margin-bottom: 52px;
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 20px;
+  }
+
+  .featured-card {
+    min-width: 0;
+  }
+
+  .featured-card--lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(240px, 0.75fr);
+    grid-column: 1 / -1;
+    gap: 24px;
+    align-items: start;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--notion-rule);
+  }
+
+  .featured-card:not(.featured-card--lead),
+  .featured-card:not(.featured-card--lead) .featured-copy {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .featured-card:not(.featured-card--lead) .featured-copy {
+    flex: 1;
+  }
+
+  .featured-card:not(.featured-card--lead) .featured-summary {
+    margin-bottom: 15px;
+  }
+
+  .featured-card:not(.featured-card--lead) .featured-facts {
+    margin-top: auto;
+  }
+
+  .featured-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid var(--notion-rule);
+    border-radius: 8px;
+    background: var(--notion-surface);
+    box-shadow: var(--notion-shadow);
+    isolation: isolate;
+  }
+
+  .featured-media:focus-visible,
+  .featured-copy h3 a:focus-visible {
+    outline: 2px solid var(--notion-ink);
+    outline-offset: 3px;
+  }
+
+  .featured-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .featured-image--family {
+    object-position: 50% 8%;
+  }
+
+  .featured-image--hive {
+    object-fit: contain;
+    background: #1b1c20;
+  }
+
+  .featured-copy {
+    min-width: 0;
+    padding-top: 13px;
+  }
+
+  .featured-card--lead .featured-copy {
+    padding-top: 2px;
+  }
+
+  .featured-context {
+    margin: 0 0 7px;
+    color: var(--notion-faint);
+    font-size: 12px;
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .featured-copy h3 {
+    margin: 0;
+    color: var(--notion-ink);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.018em;
+    text-wrap: balance;
+  }
+
+  .featured-card--lead .featured-copy h3 {
+    font-size: 22px;
+  }
+
+  .featured-copy h3 a {
+    border-radius: 3px;
+  }
+
+  .featured-summary {
+    margin: 9px 0 0;
+    color: var(--notion-muted);
+    font-size: 14px;
+    line-height: 1.58;
+    text-wrap: pretty;
+  }
+
+  .featured-facts {
+    display: grid;
+    gap: 7px;
+    margin: 15px 0 0;
+    padding: 13px 0 0;
+    border-top: 1px solid var(--notion-rule);
+  }
+
+  .featured-facts > div {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 10px;
+    align-items: baseline;
+  }
+
+  .featured-facts dt,
+  .featured-facts dd {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .featured-facts dt {
+    color: var(--notion-faint);
+  }
+
+  .featured-facts dd {
+    color: var(--notion-ink);
+  }
+
+  .work-archive {
+    padding-top: 28px;
+    border-top: 1px solid var(--notion-rule);
+  }
+
+  .section-heading--archive {
+    margin-bottom: 12px;
   }
 
   .node {
@@ -171,6 +463,12 @@ const lastFullYearIndex = fullYears.length - 1;
   }
 
   .row.has-children {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
     cursor: pointer;
     transition:
       background var(--dur-quick, 140ms) ease,
@@ -327,11 +625,61 @@ const lastFullYearIndex = fullYears.length - 1;
   }
 
   @media (hover: hover) and (pointer: fine) {
+    .featured-media:hover .featured-image {
+      transform: scale(1.012);
+    }
     .row:hover { background: var(--notion-row-hover); }
     .row:hover .bullet { transform: scale(1.4); }
     .node.has-children > .row:hover > .bullet-cell > .bullet { opacity: 0; }
     .node.has-children > .row:hover > .bullet-cell > .caret { opacity: 1; }
     .write-row:hover { background: var(--notion-row-hover); opacity: 1; }
+  }
+
+  @media (max-width: 760px) {
+    .featured-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .featured-card,
+    .featured-card--lead {
+      display: block;
+      grid-column: auto;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--notion-rule);
+    }
+
+    .featured-card:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .featured-card--lead .featured-copy,
+    .featured-copy {
+      padding-top: 13px;
+    }
+
+    .featured-card:not(.featured-card--lead) .featured-facts {
+      margin-top: 15px;
+    }
+
+    .featured-card:not(.featured-card--lead) .featured-summary {
+      margin-bottom: 0;
+    }
+
+    .featured-card--lead .featured-copy h3 {
+      font-size: 18px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .featured-image {
+      transition: none;
+    }
+
+    .featured-media:hover .featured-image {
+      transform: none;
+    }
   }
 </style>
 
@@ -347,13 +695,9 @@ const lastFullYearIndex = fullYears.length - 1;
         if (!row) return;
         row.addEventListener('click', function (e) {
           if (e.target && e.target.closest && e.target.closest('a')) return;
-          node.classList.toggle('open');
-        });
-        row.addEventListener('keydown', function (e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            node.classList.toggle('open');
-          }
+          const isOpen = !node.classList.contains('open');
+          node.classList.toggle('open', isOpen);
+          row.setAttribute('aria-expanded', String(isOpen));
         });
       });
     }
