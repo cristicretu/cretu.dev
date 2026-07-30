@@ -325,26 +325,47 @@ const isActive = (href: string) => {
         top: 0;
         left: 0;
         right: 0;
-        height: 180px;
+        height: 190px;
         z-index: 40;
         pointer-events: none;
-        /* Fallback for browsers without color-mix(). */
         background: linear-gradient(
           to bottom,
           var(--notion-bg) 0%,
-          var(--notion-bg) 28%,
+          var(--notion-bg) 36%,
           transparent 100%
         );
-        background: linear-gradient(
-          to bottom,
-          var(--notion-bg) 0%,
-          var(--notion-bg) 28%,
-          color-mix(in srgb, var(--notion-bg) 88%, transparent) 42%,
-          color-mix(in srgb, var(--notion-bg) 62%, transparent) 58%,
-          color-mix(in srgb, var(--notion-bg) 36%, transparent) 72%,
-          color-mix(in srgb, var(--notion-bg) 15%, transparent) 86%,
-          transparent 100%
-        );
+      }
+
+      @supports (-webkit-mask-image: linear-gradient(to bottom, #000, transparent)) {
+        .nav-fade {
+          background: var(--notion-bg);
+          -webkit-mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 36%,
+            rgba(0, 0, 0, 0.957) 44%,
+            rgba(0, 0, 0, 0.844) 52%,
+            rgba(0, 0, 0, 0.684) 60%,
+            rgba(0, 0, 0, 0.5) 68%,
+            rgba(0, 0, 0, 0.316) 76%,
+            rgba(0, 0, 0, 0.156) 84%,
+            rgba(0, 0, 0, 0.043) 92%,
+            transparent 100%
+          );
+          mask-image: linear-gradient(
+            to bottom,
+            #000 0%,
+            #000 36%,
+            rgba(0, 0, 0, 0.957) 44%,
+            rgba(0, 0, 0, 0.844) 52%,
+            rgba(0, 0, 0, 0.684) 60%,
+            rgba(0, 0, 0, 0.5) 68%,
+            rgba(0, 0, 0, 0.316) 76%,
+            rgba(0, 0, 0, 0.156) 84%,
+            rgba(0, 0, 0, 0.043) 92%,
+            transparent 100%
+          );
+        }
       }
       /* When prefers-reduced-motion or low-end, gradient still works */
 
