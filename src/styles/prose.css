@@ -782,7 +782,10 @@
     color: var(--notion-faint, #9b9ba1);
     text-decoration: none;
     transition: color var(--dur-quick, 140ms) ease;
-    display: block;
+    display: flex;
+    min-height: 28px;
+    align-items: center;
+    justify-content: flex-end;
     background: transparent;
     padding: 0;
     border-radius: 0;
