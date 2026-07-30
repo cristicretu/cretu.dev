@@ -325,22 +325,25 @@ const isActive = (href: string) => {
         top: 0;
         left: 0;
         right: 0;
-        height: 132px;
+        height: 180px;
         z-index: 40;
         pointer-events: none;
+        /* Fallback for browsers without color-mix(). */
         background: linear-gradient(
           to bottom,
           var(--notion-bg) 0%,
-          var(--notion-bg) 30%,
-          color-mix(in srgb, var(--notion-bg) 60%, transparent) 70%,
+          var(--notion-bg) 28%,
           transparent 100%
         );
-        /* Fallback for browsers without color-mix() */
         background: linear-gradient(
           to bottom,
-          var(--notion-bg),
-          var(--notion-bg) 40%,
-          transparent
+          var(--notion-bg) 0%,
+          var(--notion-bg) 28%,
+          color-mix(in srgb, var(--notion-bg) 88%, transparent) 42%,
+          color-mix(in srgb, var(--notion-bg) 62%, transparent) 58%,
+          color-mix(in srgb, var(--notion-bg) 36%, transparent) 72%,
+          color-mix(in srgb, var(--notion-bg) 15%, transparent) 86%,
+          transparent 100%
         );
       }
       /* When prefers-reduced-motion or low-end, gradient still works */
