@@ -54,7 +54,7 @@ export class MonthCard {
 
   constructor(private f: Field, private onPick: (day: number) => void) {
     const el = document.createElement('aside');
-    el.className = 'month-card';
+    el.className = 'month-card paper';
     el.setAttribute('role', 'dialog');
     el.hidden = true;
     el.innerHTML = `<button type="button" class="mc-close" aria-label="Close">×</button>
@@ -256,8 +256,29 @@ export class MonthCard {
 <p class="mc-stats">${n(active)} of ${m.len} days in flower${total ? ` · ${n(total)} contributions` : ''}</p>
 ${day >= 0 ? `<p class="mc-day">${this.dayLine(m, day, sp)}</p>` : ''}
 ${note ? `<p class="mc-note">${esc(note)}</p>` : ''}
-${items.length ? `<ul class="mc-list">${items.join('')}</ul>` : ''}`;
+${items.length ? `<ul class="mc-list">${items.join('')}</ul>` : ''}
+${this.shelf(cal.y[m.first])}`;
   }
+
+  /** Work from the month's year, as small tilted prints. */
+  private shelf(year: number) {
+    this.made ??= (() => {
+      try {
+        return JSON.parse(document.querySelector<HTMLElement>('[data-works]')?.dataset.works ?? '[]');
+      } catch {
+        return [];
+      }
+    })();
+    const list = this.made!.filter((w) => w.y === year);
+    if (!list.length) return '';
+    const items = list.map((w, k) => {
+      const inner = `${w.i ? `<img src="${esc(w.i)}" alt="" loading="lazy" decoding="async">` : '<i class="mc-blank"></i>'}<span>${esc(w.t.toLowerCase())}</span><small>${esc(w.d)}</small>`;
+      const tilt = `style="--tilt:${(((k * 37) % 7) - 3) * 0.6}deg"`;
+      return `<li>${w.h ? `<a href="${esc(w.h)}" target="_blank" rel="noopener" data-no-arrow ${tilt}>${inner}</a>` : `<div ${tilt}>${inner}</div>`}</li>`;
+    });
+    return `<div class="mc-made"><p class="mc-made-h">made in ${year}</p><ul class="mc-shelf">${items.join('')}</ul></div>`;
+  }
+  private made?: { t: string; d: string; y: number; h?: string; i?: string; c?: string }[];
 
   /** "a bell in full bloom · 15 aug: 3 contributions" */
   private dayLine(m: CardMonth, i: number, sp: { flower: string }) {

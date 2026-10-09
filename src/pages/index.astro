@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 import { START, getDays, getLandmarks } from '@/data/days';
 import { months as monthNotes } from '@/data/months';
 import { variantNames } from '@/scripts/field-variants';
+import { works } from '@/data/work';
 
 const allPosts = await getCollection('writing');
 const latestPosts = allPosts
@@ -15,11 +16,15 @@ const latestPosts = allPosts
   .slice(0, 3);
 
 const [days, landmarks] = await Promise.all([getDays(), getLandmarks()]);
+// Work lives in the meadow now: each month's card shows what was made that year.
+const made = works
+  .filter((w) => w.year >= Number(START.slice(0, 4)))
+  .map((w) => ({ t: w.title, d: w.description, y: w.year, ...(w.link ? { h: w.link } : {}), ...(w.img ? { i: w.img } : {}), ...(w.company ? { c: w.company } : {}) }));
 const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
 ---
 
 <NotionLayout>
-  <div class="field" data-field data-days={JSON.stringify(days)} data-landmarks={JSON.stringify(landmarks)} data-notes={JSON.stringify(monthNotes)} data-start={START}>
+  <div class="field" data-field data-days={JSON.stringify(days)} data-landmarks={JSON.stringify(landmarks)} data-notes={JSON.stringify(monthNotes)} data-works={JSON.stringify(made)} data-start={START}>
     <canvas role="img" aria-label={`${days.length} dots, one for every day since ${START}. Darker dots are days with more commits; ringed dots are days an essay was published.`}></canvas>
     <p class="field-readout" data-readout aria-live="polite">{days.length.toLocaleString('en-US')} days since i started shipping · {essayCount} essays</p>
     <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">info</button>
@@ -93,7 +98,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
         <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="https://hive.cretu.dev/">Hive</Mention><span class="meta">n agents on n tasks, isolated via worktrees</span></span></div>
       </div>
       <div class="node" data-node>
-        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><a class="meta-link" href="/work">all work</a></span></div>
+        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><span class="meta-link">more in each month's card</span></span></div>
       </div>
     </div>
   </div>
@@ -285,12 +290,10 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     width: 540px;
     max-height: min(640px, calc(100vh - 200px));
     padding: 26px 22px 26px 26px;
-    overflow: hidden;
-    background: var(--notion-surface);
-    border-radius: 14px;
-    box-shadow: var(--notion-shadow), 0 0 0 1px var(--notion-rule);
     transform-origin: 18% 100%;
+    --paper-inset: 0;
   }
+  .month-card.paper::before { background: var(--notion-surface); }
   .month-card[hidden] { display: none; }
   .mc-sketch {
     width: 168px;
@@ -412,6 +415,40 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   .mc-list li span { color: var(--notion-faint); font-size: 12px; white-space: nowrap; }
   .mc-list a { color: var(--notion-ink); text-decoration: underline; text-decoration-color: var(--notion-dim); text-underline-offset: 3px; }
   .mc-list a:hover { text-decoration-color: var(--notion-ink); }
+  /* What was made that year: small prints on a shelf, each tilted a little. */
+  .mc-made { margin-top: 18px; }
+  .mc-made-h { font-size: 12px; color: var(--notion-faint); margin-bottom: 8px; }
+  .mc-shelf {
+    list-style: none;
+    margin: 0 -22px 0 0;
+    padding: 4px 22px 10px 2px;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .mc-shelf::-webkit-scrollbar { display: none; }
+  .mc-shelf li { flex: 0 0 auto; width: 104px; scroll-snap-align: start; }
+  .mc-shelf a, .mc-shelf div {
+    display: block;
+    color: var(--notion-ink);
+    text-decoration: none;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .mc-shelf a:hover, .mc-shelf a:focus-visible { transform: rotate(0deg) translateY(-3px) scale(1.04); }
+  .mc-shelf img, .mc-shelf .mc-blank {
+    display: block;
+    width: 104px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: var(--notion-row-hover);
+    box-shadow: 0 0 0 1px var(--notion-rule), 0 6px 14px -8px rgba(0, 0, 0, 0.35);
+  }
+  .mc-shelf span { display: block; margin-top: 6px; font-size: 12px; line-height: 1.3; }
+  .mc-shelf small { display: block; font-size: 11px; color: var(--notion-faint); line-height: 1.3; }
   .mc-close {
     position: absolute;
     top: 14px;

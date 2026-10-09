@@ -43,7 +43,7 @@ export function mountSpecimens(root: ParentNode = document) {
       const s = live.find((x) => x.el === e.target);
       if (!s) continue;
       s.seen = e.isIntersecting;
-      if (s.seen && s.born === Infinity) s.born = performance.now() + Math.random() * 120;
+      if (s.seen && s.born === Infinity) s.born = performance.now() + live.indexOf(s) * 60;
     }
     wake();
   }, { rootMargin: '40px' });
@@ -53,12 +53,21 @@ export function mountSpecimens(root: ParentNode = document) {
   const onMove = (e: PointerEvent) => {
     for (const s of live) {
       if (!s.seen) continue;
-      const r = s.el.getBoundingClientRect();
+      const r = (s.el.closest('[data-press]') ?? s.el).getBoundingClientRect();
       if (e.clientX > r.left - 8 && e.clientX < r.right + 8 && e.clientY > r.top && e.clientY < r.bottom) s.gv += e.movementX * 0.004;
     }
     wake();
   };
   addEventListener('pointermove', onMove, { passive: true });
+  // Opening an essay from a list carries its little bunch to the page (it grows there).
+  const onPress = (e: MouseEvent) => {
+    const a = (e.target as HTMLElement)?.closest?.('a[data-press]');
+    const sp = a?.querySelector<HTMLElement>('[data-specimen]');
+    if (!sp || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    sp.style.viewTransitionName = 'specimen';
+    handOff((JSON.parse(sp.dataset.specimen!) as SpecimenData).key);
+  };
+  document.addEventListener('click', onPress);
 
   let raf = 0, last = performance.now(), colors = read();
   const onTheme = new MutationObserver(() => { colors = read(); wake(); });
@@ -114,6 +123,7 @@ export function mountSpecimens(root: ParentNode = document) {
     io.disconnect();
     onTheme.disconnect();
     removeEventListener('pointermove', onMove);
+    document.removeEventListener('click', onPress);
   };
 }
 
