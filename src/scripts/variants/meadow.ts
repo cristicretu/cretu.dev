@@ -23,7 +23,7 @@ import { MonthCard } from './meadow-card';
 import { type MeadowSound, createMeadowSound } from './meadow-sound';
 import { type Organ, type Sprig, buildSprig } from './sprigs';
 import { REF, drawSpecimen, frameOf, planMonths } from './specimen';
-import { handOff } from '../specimen-page';
+import { RETURN, handOff, readReturn } from '../specimen-page';
 
 type Leaf = {
   o: Organ;
@@ -527,36 +527,46 @@ function leave(f: Field, e: Event) {
 }
 
 function liftOff(f: Field, c: Cell, pick: number) {
-  const S = f.state, cam: Camera = S.cam;
-  const fr = frameOf(c.h), k = S.k * cam.z, base = cam.toScreen(c.bx, c.by);
-  const box = { x: base.x + fr.x * k, y: base.y + fr.y * k, w: fr.w * k, h: fr.h * k };
-  if (box.x > f.width || box.y > f.height || box.x + box.w < 0 || box.y + box.h < 0) return;
-  const ghost = document.createElement('canvas'), dpr = Math.min(devicePixelRatio || 1, 2);
-  ghost.setAttribute('aria-hidden', 'true');
-  ghost.width = Math.round(box.w * dpr);
-  ghost.height = Math.round(box.h * dpr);
-  ghost.style.cssText = `position:fixed;left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px;z-index:3;pointer-events:none;view-transition-name:specimen`;
-  const ctx = ghost.getContext('2d')!;
-  ctx.scale(dpr, dpr);
-  drawSpecimen(ctx, c.sprig, c.h, { x: 0, y: 0, w: box.w, h: box.h }, {
-    ink: f.colors.ink, bg: f.colors.bg, lw: clamp(0.7 + 0.22 * Math.log2(Math.max(cam.z, 1)), 0.72, 1.8), pick, sway: S.sway[c.m],
-  });
-  document.body.append(ghost);
-  S.lifted = c.m;
-  // The rest of the meadow steps back while the bunch travels.
-  (f.ctx.canvas.parentElement as HTMLElement).style.viewTransitionName = 'meadow';
+  const S = f.state;
+  if (!ghost(f, c, pick)) return;
   handOff(c.key);
   const clean = () => {
-    ghost.remove();
+    S.ghost?.remove();
     S.lifted = -1;
     document.removeEventListener('astro:after-swap', clean);
   };
   document.addEventListener('astro:after-swap', clean);
 }
 
+/** A stand-in for a bunch, laid exactly over it, that a view transition can fly to or from. */
+function ghost(f: Field, c: Cell, pick: number | undefined) {
+  const S = f.state, cam: Camera = S.cam;
+  const fr = frameOf(c.h), k = S.k * cam.z, base = cam.toScreen(c.bx, c.by);
+  const box = { x: base.x + fr.x * k, y: base.y + fr.y * k, w: fr.w * k, h: fr.h * k };
+  if (box.x > f.width || box.y > f.height || box.x + box.w < 0 || box.y + box.h < 0) return false;
+  const el = document.createElement('canvas'), dpr = Math.min(devicePixelRatio || 1, 2);
+  el.setAttribute('aria-hidden', 'true');
+  el.width = Math.round(box.w * dpr);
+  el.height = Math.round(box.h * dpr);
+  el.style.cssText = `position:fixed;left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px;z-index:3;pointer-events:none;view-transition-name:specimen`;
+  const ctx = el.getContext('2d')!;
+  ctx.scale(dpr, dpr);
+  drawSpecimen(ctx, c.sprig, c.h, { x: 0, y: 0, w: box.w, h: box.h }, {
+    ink: f.colors.ink, bg: f.colors.bg, lw: clamp(0.7 + 0.22 * Math.log2(Math.max(cam.z, 1)), 0.72, 1.8), pick, sway: S.sway[c.m],
+  });
+  document.body.append(el);
+  S.ghost = el;
+  S.lifted = c.m;
+  // The rest of the meadow steps back (or comes forward) while the bunch travels.
+  (f.ctx.canvas.parentElement as HTMLElement).style.viewTransitionName = 'meadow';
+  return true;
+}
+
 /** Back from an essay (or a link to a month): pick up where things were, no intro. */
 function comeBack(f: Field) {
   const S = f.state, cam: Camera = S.cam, cells: Cell[] = S.cells;
+  const ret = readReturn();
+  try { sessionStorage.removeItem(RETURN); } catch {}
   const hash = location.hash.slice(1);
   const byHash = /^\d{4}-\d{2}$/.test(hash) ? cells.find((c) => c.key === hash) : undefined;
   let saved: { cx: number; cy: number; z: number; key: string | null; day: number; at: number } | null = null;
@@ -576,6 +586,18 @@ function comeBack(f: Field) {
   const c = saved.key ? cells.find((x) => x.key === saved!.key) : undefined;
   if (c) {
     (S.card as MonthCard).open({ key: c.key, m: c.m, first: c.first, len: c.len, h: c.h, sprig: c.sprig }, saved.day);
+  }
+  // Back from an essay: its bunch flies home to its place on the sheet.
+  const home = ret && cells.find((x) => x.key === ret.key);
+  if (home && !f.reduced) {
+    place(f);
+    if (ghost(f, home, ret!.pick)) {
+      document.addEventListener('astro:page-load', () => {
+        S.ghost?.remove();
+        S.lifted = -1;
+        (f.ctx.canvas.parentElement as HTMLElement).style.viewTransitionName = '';
+      }, { once: true });
+    }
   }
   if (hash) history.replaceState(history.state, '', location.pathname);
   return true;

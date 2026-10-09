@@ -23,6 +23,7 @@ const GROW_FOR = 1500;
 export function mountSpecimens(root: ParentNode = document) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const handed = consumeHandoff();
+  const back = readReturn();
   const live: Live[] = [];
   for (const el of root.querySelectorAll<HTMLElement>('[data-specimen]')) {
     const canvas = el.querySelector('canvas');
@@ -32,7 +33,7 @@ export function mountSpecimens(root: ParentNode = document) {
     live.push({
       el, canvas, data, sprig: growSpecimen(data),
       // The essay's own bunch arrives already grown when the meadow flew it here.
-      born: reduced || (big && handed === data.key) ? -Infinity : Infinity,
+      born: reduced || (big && handed?.key === data.key) || (!big && back?.pick === data.pick) ? -Infinity : Infinity,
       seen: false, gust: 0, gv: 0, phase: data.first * 0.37,
     });
   }
@@ -108,7 +109,36 @@ export function mountSpecimens(root: ParentNode = document) {
       pick: s.data.pick, sway, grow: g,
     });
   }
-  // A bunch handed over by the meadow is drawn at once, before the page is shown.
+  // Arrived from the meadow or the index: the way back is the way we came, and the bunch
+  // flies home with it.
+  const essay = live.find((s) => s.el.classList.contains('specimen'));
+  const backLink = document.querySelector<HTMLAnchorElement>('.page-back');
+  if (essay && handed?.from && backLink) {
+    backLink.href = handed.from;
+    backLink.lastChild!.textContent = handed.from === '/' ? 'Meadow' : 'Writing';
+    backLink.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      history.back();
+    });
+  }
+  const onLeave = (e: Event) => {
+    const to: URL | undefined = (e as any).to;
+    if (!essay || !to || (to.pathname !== '/' && to.pathname.replace(/\/$/, '') !== '/writing')) return;
+    try { sessionStorage.setItem(RETURN, JSON.stringify({ key: essay.data.key, pick: essay.data.pick })); } catch {}
+  };
+  document.addEventListener('astro:before-preparation', onLeave);
+  // Back on the index, the essay's own little bunch is the one it lands in.
+  if (back && !essay) {
+    const home = live.find((s) => s.data.pick === back.pick);
+    if (home) {
+      home.el.style.viewTransitionName = 'specimen';
+      document.addEventListener('astro:page-load', () => { home.el.style.viewTransitionName = ''; }, { once: true });
+    }
+    try { sessionStorage.removeItem(RETURN); } catch {}
+  }
+
+  // A bunch handed over is drawn at once, before the page is shown.
   for (const s of live) {
     if (s.born !== -Infinity) continue;
     const r = s.el.getBoundingClientRect();
@@ -123,6 +153,7 @@ export function mountSpecimens(root: ParentNode = document) {
     io.disconnect();
     onTheme.disconnect();
     removeEventListener('pointermove', onMove);
+    document.removeEventListener('astro:before-preparation', onLeave);
     document.removeEventListener('click', onPress);
   };
 }
@@ -132,16 +163,27 @@ function read() {
   return { ink: cs.getPropertyValue('--notion-ink').trim() || '#18181b', bg: cs.getPropertyValue('--notion-bg').trim() || '#fafafa' };
 }
 
-/** The meadow leaves a note when it hands a bunch over to an essay. */
+/** Whoever hands a bunch to an essay (the meadow, the index) leaves a note: which bunch, and
+    where the essay should lead back to. */
 const HANDOFF = 'meadow-handoff';
 export function handOff(key: string) {
-  try { sessionStorage.setItem(HANDOFF, key); } catch {}
+  try { sessionStorage.setItem(HANDOFF, JSON.stringify({ key, from: location.pathname })); } catch {}
 }
-function consumeHandoff() {
+function consumeHandoff(): { key: string; from: string } | null {
   try {
     const k = sessionStorage.getItem(HANDOFF);
     sessionStorage.removeItem(HANDOFF);
-    return k;
+    return k ? JSON.parse(k) : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Leaving an essay for the meadow or the index: the bunch to fly back into. */
+export const RETURN = 'meadow-return';
+export function readReturn(): { key: string; pick?: number } | null {
+  try {
+    return JSON.parse(sessionStorage.getItem(RETURN) ?? 'null');
   } catch {
     return null;
   }

@@ -624,9 +624,10 @@ const isActive = (href: string) => {
         to { opacity: 1; transform: none; filter: none; }
       }
 
-      /* --- Paper: a sheet with a hand-cut edge, never a hard rectangle ---
-         The sheet is a pseudo-element run through the #deckle filter, which
-         roughens its outline; the content above it stays crisp. */
+      /* --- Paper: a clearing in the meadow, not a box ---
+         Text sits on the page's own colour, feathered out at the edges, so
+         the drawing around it simply fades away instead of meeting a border.
+         No outline, no shadow, the same in light and dark. */
       .paper {
         position: relative;
         isolation: isolate;
@@ -634,13 +635,18 @@ const isActive = (href: string) => {
       .paper::before {
         content: '';
         position: absolute;
-        inset: var(--paper-inset, -14px);
+        inset: var(--paper-inset, -28px);
         z-index: -1;
         background: var(--notion-bg);
-        border: 1px solid color-mix(in srgb, var(--notion-ink) 22%, transparent);
-        border-radius: var(--paper-radius, 14px 18px 12px 20px / 18px 12px 20px 14px);
-        box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--notion-ink) 28%, transparent);
-        filter: url(#deckle);
+        --f: var(--paper-feather, 28px);
+        -webkit-mask:
+          linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent),
+          linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
+        -webkit-mask-composite: source-in;
+        mask:
+          linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent),
+          linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
+        mask-composite: intersect;
         pointer-events: none;
       }
 
@@ -803,6 +809,12 @@ const isActive = (href: string) => {
         height: 100%;
         animation-duration: 680ms;
       }
+      ::view-transition-new(meadow) {
+        animation: meadow-back 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      @keyframes meadow-back {
+        from { opacity: 0; transform: scale(1.04); filter: blur(3px); }
+      }
       ::view-transition-old(meadow) {
         animation: meadow-away 460ms cubic-bezier(0.4, 0, 0.2, 1) both;
       }
@@ -886,12 +898,6 @@ const isActive = (href: string) => {
       </nav>
     </header>
 
-    <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-      <filter id="deckle" x="-5%" y="-5%" width="110%" height="110%">
-        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n" />
-        <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </svg>
 
     <main class:list={['page-body', { 'page-body--wide': wide }]} id="page-body" tabindex="-1">
       <div class="page-content" transition:name="page-content">
@@ -943,6 +949,15 @@ const isActive = (href: string) => {
           void root.offsetWidth;
           root.classList.add('inking');
         };
+        /* Esc goes back the way you came, wherever there's a way back. */
+        document.addEventListener('keydown', function (e) {
+          if (e.key !== 'Escape' || e.defaultPrevented) return;
+          var t = e.target;
+          if (t && t.closest && t.closest('input, textarea, [contenteditable]')) return;
+          var back = document.querySelector('.page-back');
+          if (back) back.click();
+        });
+
         function inkPage() {
           var c = document.querySelector('.page-content');
           if (c && !c.hasAttribute('data-ink-manual')) window.inkIn(c, { delay: 60 });

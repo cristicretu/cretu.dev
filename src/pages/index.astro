@@ -172,8 +172,10 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     const root = document.querySelector<HTMLElement>('[data-field]');
     if (root) unmount = mountDaysField(root);
   }
-  // Fires on the first load too, so it's the only entry point.
-  document.addEventListener('astro:page-load', init);
+  // Mounted right after the swap (not once the transition is over), so coming back from an
+  // essay the meadow is already there for the bunch to fly home into.
+  document.addEventListener('astro:after-swap', init);
+  init();
 </script>
 
 <style is:global>
@@ -291,9 +293,8 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     max-height: min(640px, calc(100vh - 200px));
     padding: 26px 22px 26px 26px;
     transform-origin: 18% 100%;
-    --paper-inset: 0;
+    --paper-inset: -24px;
   }
-  .month-card.paper::before { background: var(--notion-surface); }
   .month-card[hidden] { display: none; }
   .mc-sketch {
     width: 168px;
