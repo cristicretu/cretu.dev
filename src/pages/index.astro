@@ -34,7 +34,6 @@ const monthList = Object.values(
     return acc;
   }, {} as Record<string, { key: string; label: string; note?: string; essays: { t: string; s: string }[] }>)
 ).reverse();
-const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
 ---
 
 <NotionLayout description="A meadow of every day since I started shipping: one hand-drawn flower per day, grown from commits and essays." image="https://cretu.dev/static/images/og-meadow.png">
@@ -47,7 +46,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
         ))}
       </ul>
     </nav>
-    <p class="field-readout" data-readout aria-live="polite">{days.length.toLocaleString('en-US')} days since i started shipping · {essayCount} essays</p>
+    <p class="field-readout" data-readout aria-live="polite"></p>
     <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">about</button>
   </div>
 
@@ -220,7 +219,10 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     overflow: hidden;
     text-overflow: ellipsis;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 220ms ease;
   }
+  .field-readout.shown { opacity: 1; transition-duration: 120ms; }
   .field-readout span { color: var(--notion-ink); }
   .page-nav .links button.field-info[aria-expanded='true'] { color: var(--notion-ink); }
 

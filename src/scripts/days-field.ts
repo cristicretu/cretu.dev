@@ -35,7 +35,6 @@ export function mountDaysField(root: HTMLElement) {
   const start = Date.parse(`${root.dataset.start}T00:00:00Z`);
   const n = days.length;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const defaultReadout = readout.innerHTML;
   const variant: Variant = meadow;
 
   // Per-dot spring state: position, velocity, and an animated scale (0 = hidden).
@@ -156,7 +155,9 @@ export function mountDaysField(root: HTMLElement) {
   function setHovered(i: number) {
     if (i === field.hovered) return;
     field.hovered = i;
-    readout.innerHTML = i < 0 ? defaultReadout : describe(i);
+    // The header line only speaks up while a day is under the pointer.
+    if (i >= 0) readout.innerHTML = describe(i);
+    readout.classList.toggle('shown', i >= 0);
     // Variants that answer clicks themselves make everything they hit pressable.
     canvas.style.cursor = i >= 0 && (days[i].e || (variant.hit && variant.click)) ? 'pointer' : '';
     document.querySelector('.cursor')?.classList.toggle('grow', i >= 0 && !!days[i].e);

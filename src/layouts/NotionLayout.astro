@@ -392,7 +392,7 @@ const isActive = (href: string) => {
         flex-direction: column;
         text-align: right;
         color: var(--notion-faint);
-        gap: 2px;
+        gap: 8px;
         align-items: flex-end;
       }
       .page-nav .links a,
@@ -406,6 +406,12 @@ const isActive = (href: string) => {
         font: inherit;
         cursor: pointer;
         transition: color 160ms ease;
+      }
+      /* Roomier hit areas on desktop too; the visual position stays put. */
+      .page-nav .links a,
+      .page-nav .links button:not(.theme-toggle) {
+        padding: 6px 14px;
+        margin: -6px -14px;
       }
       .page-nav .links a:hover,
       .page-nav .links button:hover {
@@ -467,11 +473,11 @@ const isActive = (href: string) => {
       }
       .page-nav .links .theme-toggle,
       .theme-toggle {
-        margin-top: -2px;
-        padding: 6px;
-        margin-right: -6px;
-        margin-left: -6px;
-        margin-bottom: -6px;
+        margin-top: -6px;
+        padding: 9px;
+        margin-right: -9px;
+        margin-left: -9px;
+        margin-bottom: -9px;
         display: inline-flex;
         align-items: center;
         gap: 6px;
