@@ -202,42 +202,25 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     width: 100%;
     height: 100%;
     touch-action: pan-y;
-    /* The meadow thins out along the bottom edge, so the readout always sits on clear paper. */
-    -webkit-mask-image: linear-gradient(to top, rgb(0 0 0 / 0.05) 54px, #000 104px);
-    mask-image: linear-gradient(to top, rgb(0 0 0 / 0.05) 54px, #000 104px);
   }
-  .field-readout,
-  .field-info {
-    position: absolute;
-    bottom: 32px;
-    margin: 0;
-    font-size: 13px;
-    line-height: 1.4;
-    color: var(--notion-muted);
-    font-variant-numeric: tabular-nums;
-    text-shadow: 0 0 2px var(--notion-bg), 0 0 6px var(--notion-bg);
-  }
+  /* The day count rides in the corner nav while the meadow is up: centred on the name's line,
+     or under the year on a phone. (The info button joins the nav's links.) */
   .field-readout {
-    left: 96px;
-    right: 160px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: min(620px, calc(100vw - 440px));
+    margin: 0;
+    color: var(--notion-faint);
+    font-variant-numeric: tabular-nums;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     pointer-events: none;
   }
   .field-readout span { color: var(--notion-ink); }
-  .field-info {
-    right: 96px;
-    padding: 8px;
-    margin: -8px;
-    background: none;
-    border: 0;
-    font: inherit;
-    font-size: 13px;
-    transition: color var(--dur-quick, 140ms) ease;
-  }
-  .field-info:hover,
-  .field-info[aria-expanded='true'] { color: var(--notion-ink); }
+  .page-nav .links button.field-info[aria-expanded='true'] { color: var(--notion-ink); }
 
   html.has-field:not(.info-open) body { overflow: hidden; }
   /* The page's content box sits over the meadow (its view-transition name stacks it above the
@@ -510,8 +493,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     transition-delay: 120ms;
   }
   @media (max-width: 639px) {
-    .field-readout { left: 20px; right: 80px; bottom: 28px; }
-    .field-info { right: 20px; bottom: 28px; }
+    .field-readout { top: 40px; left: 0; transform: none; max-width: calc(100vw - 36px - 76px); }
     .month-card {
       left: 12px;
       right: 12px;

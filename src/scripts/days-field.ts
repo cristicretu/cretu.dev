@@ -14,7 +14,15 @@ export function mountDaysField(root: HTMLElement) {
   const canvas = root.querySelector('canvas')!;
   const ctx = canvas.getContext('2d')!;
   const readout = root.querySelector<HTMLElement>('[data-readout]')!;
-  const infoButton = document.querySelector<HTMLButtonElement>('[data-info]');
+  const infoButton = root.querySelector<HTMLButtonElement>('[data-info]');
+  // The day count and the info button live in the corner nav, above its fade, for as long as
+  // the meadow is up.
+  const nav = document.querySelector<HTMLElement>('.page-nav');
+  if (nav) {
+    nav.append(readout);
+    const links = nav.querySelector('.links');
+    if (infoButton && links) links.insertBefore(infoButton, links.querySelector('.theme-toggle'));
+  }
   const panel = document.querySelector<HTMLElement>('[data-info-panel]');
   const days: Day[] = JSON.parse(root.dataset.days!);
   const landmarks = JSON.parse(root.dataset.landmarks || '{}');
@@ -80,7 +88,7 @@ export function mountDaysField(root: HTMLElement) {
     const mobile = width < 640;
     const nav = document.querySelector('.page-nav')?.getBoundingClientRect().bottom ?? 0;
     const top = Math.max(mobile ? 104 : 120, nav + 24);
-    const bottom = mobile ? 72 : 88, side = mobile ? 20 : 96;
+    const bottom = mobile ? 56 : 64, side = mobile ? 20 : 96;
     return { left: side, top, w: width - side * 2, h: height - top - bottom };
   }
 
@@ -434,6 +442,8 @@ export function mountDaysField(root: HTMLElement) {
     infoButton?.removeEventListener('click', onInfo);
     if (savedTheme !== null) document.documentElement.dataset.theme = savedTheme;
     document.documentElement.classList.remove('info-open', 'has-field');
+    readout.remove();
+    infoButton?.remove();
     root.remove();
   };
 }
