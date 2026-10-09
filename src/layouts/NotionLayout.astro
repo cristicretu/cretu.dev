@@ -105,28 +105,12 @@ const isActive = (href: string) => {
           document.documentElement.dataset.theme = 'light';
         }
       })();
-      /* Skip the entry cascade on any navigation after the first one in
-         this tab — set the class BEFORE paint so the .page-body children
-         never start at opacity:0. Runs on every navigation thanks to
-         <script is:inline> being re-evaluated by Astro view transitions. */
-      (function syncCascadeFlag() {
-        try {
-          if (sessionStorage.getItem('cretu_cascaded') === '1') {
-            document.documentElement.classList.add('cascade-done');
-          }
-        } catch (_) {}
-      })();
       document.addEventListener('DOMContentLoaded', syncThemeButtons);
       document.addEventListener('astro:after-swap', () => {
         const saved = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const isDark = saved === 'dark' || (!saved && prefersDark);
         document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
-        try {
-          if (sessionStorage.getItem('cretu_cascaded') === '1') {
-            document.documentElement.classList.add('cascade-done');
-          }
-        } catch (_) {}
         syncThemeButtons();
       });
     </script>
@@ -408,7 +392,7 @@ const isActive = (href: string) => {
         flex-direction: column;
         text-align: right;
         color: var(--notion-faint);
-        gap: 2px;
+        gap: 8px;
         align-items: flex-end;
       }
       .page-nav .links a,
@@ -423,10 +407,28 @@ const isActive = (href: string) => {
         cursor: pointer;
         transition: color 160ms ease;
       }
+      /* Roomier hit areas on desktop too; the visual position stays put. */
+      .page-nav .links a,
+      .page-nav .links button:not(.theme-toggle) {
+        padding: 6px 14px;
+        margin: -6px -14px;
+      }
       .page-nav .links a:hover,
       .page-nav .links button:hover {
         color: var(--notion-ink);
       }
+      /* Keyboard focus: the soft row wash the outliner uses, not the browser's ring. */
+      .page-nav .name:focus-visible,
+      .page-nav .links a:focus-visible,
+      .page-nav .links button:focus-visible {
+        outline: none;
+        border-radius: 6px;
+        color: var(--notion-ink);
+        background: var(--notion-row-focus);
+      }
+      .page-nav .name:focus:not(:focus-visible),
+      .page-nav .links a:focus:not(:focus-visible),
+      .page-nav .links button:focus:not(:focus-visible) { outline: none; }
       .page-nav .links a[aria-current="page"] {
         color: var(--notion-ink);
         font-weight: 500;
@@ -469,12 +471,13 @@ const isActive = (href: string) => {
         white-space: nowrap;
         border: 0;
       }
+      .page-nav .links .theme-toggle,
       .theme-toggle {
-        margin-top: 6px;
-        padding: 6px;
-        margin-right: -6px;
-        margin-left: -6px;
-        margin-bottom: -6px;
+        margin-top: -6px;
+        padding: 9px;
+        margin-right: -9px;
+        margin-left: -9px;
+        margin-bottom: -9px;
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -626,28 +629,51 @@ const isActive = (href: string) => {
         outline: none;
       }
 
-      /* --- Universal cascade for direct children of .page-body ---
-         Scoped to html:not(.cascade-done) so the animation only plays
-         once per session, never on subsequent navigations. Wrapped in
-         :where() to zero specificity so page-level opacity rules still win. */
-      :where(html:not(.cascade-done) .page-body) > * {
-        opacity: 0;
-        transform: translateY(3px);
-        transition:
-          opacity var(--dur-slow, 360ms) ease,
-          transform var(--dur-slow, 360ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+      /* --- Ink: text arrives the way ink settles into paper ---
+         Each line rises a few pixels out of a soft blur, one after another.
+         window.inkIn(root) arms it; it plays on every page and whenever a
+         panel opens. */
+      .inking .ink-item {
+        animation: ink-in 640ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        animation-delay: calc(var(--ink-delay, 0ms) + var(--ink-i, 0) * 34ms);
       }
-      :where(html:not(.cascade-done) .page-body.entered) > * {
-        opacity: 1;
-        transform: translateY(0);
+      @keyframes ink-in {
+        from { opacity: 0; transform: translateY(6px); filter: blur(4px); }
+        55% { filter: blur(0.4px); }
+        to { opacity: 1; transform: none; filter: none; }
+      }
+
+      /* --- Paper: a sheet laid over the meadow ---
+         A shade lifted off the page in its own neutral grey (no tint), a
+         hairline edge and a soft shadow that's always dark, never a glow. */
+      .paper {
+        position: relative;
+        isolation: isolate;
+        --paper: color-mix(in srgb, var(--notion-bg) 96%, var(--notion-ink));
+        --paper-edge: color-mix(in srgb, var(--notion-ink) 9%, transparent);
+        --paper-shade: rgba(0, 0, 0, 0.14);
+      }
+      :root[data-theme='dark'] .paper {
+        --paper: color-mix(in srgb, var(--notion-bg) 91%, var(--notion-ink));
+        --paper-edge: color-mix(in srgb, var(--notion-ink) 11%, transparent);
+        --paper-shade: rgba(0, 0, 0, 0.55);
+      }
+      .paper::before {
+        content: '';
+        position: absolute;
+        inset: var(--paper-inset, -18px);
+        z-index: -1;
+        background: var(--paper);
+        border-radius: 18px;
+        box-shadow:
+          0 0 0 1px var(--paper-edge),
+          0 24px 60px -24px var(--paper-shade),
+          0 4px 14px -6px var(--paper-shade);
+        pointer-events: none;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        :where(.page-body) > * {
-          opacity: 1;
-          transform: none;
-          transition: none;
-        }
+        .inking .ink-item { animation: none; }
         html, body { transition: none; }
       }
 
@@ -770,6 +796,16 @@ const isActive = (href: string) => {
       [data-astro-transition='back']::view-transition-new(page-content) {
         animation-name: page-content-zoom-out;
       }
+      /* Going back, the page you leave settles away (the reverse of how it arrived) instead
+         of vanishing. */
+      [data-astro-transition='back']::view-transition-old(page-content) {
+        opacity: 1;
+        animation: page-content-leave 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+        transform-origin: left top;
+      }
+      @keyframes page-content-leave {
+        to { opacity: 0; transform: scale(0.975); filter: blur(2px); }
+      }
       @keyframes page-content-zoom-in {
         from { transform: scale(0.975); }
         to   { transform: scale(1); }
@@ -794,6 +830,29 @@ const isActive = (href: string) => {
       /* Persisted chrome doesn't animate during navigation — the corner
          nav, fade, and custom cursor all stay planted while the page
          swaps under them. */
+      /* Meadow to essay: the bunch lifts off the sheet and flies to its place beside the
+         text while the rest of the meadow steps back. */
+      ::view-transition-group(specimen) {
+        animation-duration: 680ms;
+        animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      ::view-transition-old(specimen),
+      ::view-transition-new(specimen) {
+        height: 100%;
+        animation-duration: 680ms;
+      }
+      ::view-transition-new(meadow) {
+        animation: meadow-back 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      @keyframes meadow-back {
+        from { opacity: 0; transform: scale(1.04); filter: blur(3px); }
+      }
+      ::view-transition-old(meadow) {
+        animation: meadow-away 460ms cubic-bezier(0.4, 0, 0.2, 1) both;
+      }
+      @keyframes meadow-away {
+        to { opacity: 0; transform: scale(1.04); filter: blur(3px); }
+      }
       ::view-transition-old(page-nav),
       ::view-transition-new(page-nav),
       ::view-transition-old(nav-fade),
@@ -847,10 +906,7 @@ const isActive = (href: string) => {
         Cristian Crețu<br /><span class="yr">2026</span>
       </a>
       <nav class="links">
-        <a href="/work" aria-current={isActive('/work') ? 'page' : undefined}>Work</a>
         <a href="/writing" aria-current={isActive('/writing') ? 'page' : undefined}>Writing</a>
-        <a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer" data-no-arrow>X</a>
-        <button type="button" data-email-copy data-no-arrow aria-label="Copy email to clipboard">Email</button>
         <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle aria-pressed="false">
           <svg class="sun" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <circle cx="8" cy="8" r="3.2" fill="currentColor"/>
@@ -872,11 +928,27 @@ const isActive = (href: string) => {
       </nav>
     </header>
 
+
     <main class:list={['page-body', { 'page-body--wide': wide }]} id="page-body" tabindex="-1">
       <div class="page-content" transition:name="page-content">
         <slot />
       </div>
     </main>
+
+    <script>
+      /* Pressed bunches (beside essays, in the writing index) on whatever page has them. */
+      import { mountSpecimens } from '@/scripts/specimen-page';
+
+      // Mounted right after the swap, so a bunch the meadow hands over is already on the new
+      // page when the transition takes its picture of it.
+      let stopSpecimens: (() => void) | null = null;
+      const mount = () => {
+        stopSpecimens?.();
+        stopSpecimens = document.querySelector('[data-specimen]') ? mountSpecimens() : null;
+      };
+      document.addEventListener('astro:after-swap', mount);
+      mount();
+    </script>
 
     <script is:inline>
       (function () {
@@ -889,40 +961,39 @@ const isActive = (href: string) => {
           }
         });
 
-        /* cascade-in for top-level children of .page-body
-           Runs only on first page load (per session). Subsequent navigations
-           render instantly to avoid repetitive motion. */
-        const CASCADE_KEY = 'cretu_cascaded';
-        function arm(body) {
-          if (!body) return;
-          const seen = sessionStorage.getItem(CASCADE_KEY) === '1';
-          const kids = body.children;
-          if (seen) {
-            body.classList.add('entered');
-            for (let i = 0; i < kids.length; i++) {
-              kids[i].style.transitionDelay = '0ms';
-            }
-            return;
+        /* Ink in a page's text, line by line. Only what's on screen gets a
+           place in the queue; the rest is simply there when you scroll to it. */
+        var INK = '.page-back, .doc-title, .index-sub, .post-head > *, .post-cover, .prose > *, .page-content > .node > .row, .node.open > .children > .node > .row, .post-footer, [data-ink-item]';
+        window.inkIn = function (root, opts) {
+          if (!root) return;
+          opts = opts || {};
+          var items = root.querySelectorAll(opts.items || INK), k = 0, vh = window.innerHeight;
+          for (var i = 0; i < items.length; i++) {
+            var el = items[i];
+            el.classList.add('ink-item');
+            var top = el.getBoundingClientRect().top;
+            el.style.setProperty('--ink-i', String(top < vh + 40 ? Math.min(k++, opts.max || 16) : 0));
           }
-          const total = 600;
-          const base = 40;
-          const step = Math.min(35, (total - base) / Math.max(kids.length - 1, 1));
-          for (let i = 0; i < kids.length; i++) {
-            kids[i].style.transitionDelay = (base + i * step) + 'ms';
-          }
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              body.classList.add('entered');
-              sessionStorage.setItem(CASCADE_KEY, '1');
-            });
-          });
-        }
-        arm(document.getElementById('page-body'));
-        document.addEventListener('astro:after-swap', function () {
-          const b = document.getElementById('page-body');
-          if (b) b.classList.remove('entered');
-          arm(b);
+          root.style.setProperty('--ink-delay', (opts.delay || 0) + 'ms');
+          root.classList.remove('inking');
+          void root.offsetWidth;
+          root.classList.add('inking');
+        };
+        /* Esc goes back the way you came, wherever there's a way back. */
+        document.addEventListener('keydown', function (e) {
+          if (e.key !== 'Escape' || e.defaultPrevented) return;
+          var t = e.target;
+          if (t && t.closest && t.closest('input, textarea, [contenteditable]')) return;
+          var back = document.querySelector('.page-back');
+          if (back) back.click();
         });
+
+        function inkPage() {
+          var c = document.querySelector('.page-content');
+          if (c && !c.hasAttribute('data-ink-manual')) window.inkIn(c, { delay: 60 });
+        }
+        inkPage();
+        document.addEventListener('astro:after-swap', inkPage);
 
         /* theme toggle */
         function setTheme(t) {
@@ -960,13 +1031,13 @@ const isActive = (href: string) => {
           if (!btn) return;
           e.preventDefault();
           var addr = 'hi' + '@' + 'cretu' + '.' + 'dev';
-          var prev = btn.dataset.original || btn.textContent;
+          var prev = btn.dataset.original || btn.innerHTML;
           btn.dataset.original = prev;
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(addr).then(function () {
               btn.textContent = 'copied';
               clearTimeout(emailFlashTimer);
-              emailFlashTimer = setTimeout(function () { btn.textContent = prev; }, 1200);
+              emailFlashTimer = setTimeout(function () { btn.innerHTML = prev; }, 1200);
             }).catch(function () {});
           }
         });

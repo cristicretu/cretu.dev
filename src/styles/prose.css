@@ -92,6 +92,7 @@
 .post-cover {
   display: block;
   width: 100%;
+  height: auto;
   max-height: 280px;
   object-fit: cover;
   border-radius: 6px;
@@ -895,5 +896,67 @@
     font-size: 0.9em;
     color: #555;
     opacity: 1;
+  }
+}
+
+/* --- The essay's bunch, pressed beside it ---
+   On wide screens it stands in the open space right of the text, rooted near the bottom of
+   the window like a specimen taped to the sheet; on narrow ones it sits small above the title.
+   It shares a view-transition name with the bunch the meadow lifts off as you open an essay. */
+.specimen {
+  display: block;
+  width: fit-content;
+  margin: 0 0 18px;
+  color: var(--notion-faint);
+  text-decoration: none;
+  view-transition-name: specimen;
+}
+.specimen canvas {
+  --sh: 132px;
+  display: block;
+  height: var(--sh);
+  width: calc(var(--sh) * var(--aspect, 0.8));
+}
+.specimen-cap {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  transition: color 160ms ease;
+}
+.specimen-cap { position: relative; }
+/* The hover hint hangs off the end, so the month itself stays centred under the bunch. */
+.specimen-cap span { position: absolute; white-space: pre; opacity: 0; transition: opacity 200ms ease; }
+.specimen:hover .specimen-cap { color: var(--notion-ink); }
+.specimen:hover .specimen-cap span,
+.specimen:focus-visible .specimen-cap span { opacity: 1; }
+
+/* Narrower screens: the bunch stands small beside the date and title instead of above them. */
+@media (max-width: 1099px) {
+  .specimen {
+    float: right;
+    margin: 4px 0 8px 16px;
+  }
+  .specimen canvas { --sh: 104px; }
+  .specimen-cap { display: none; }
+}
+@media (min-width: 1100px) {
+  .specimen {
+    position: fixed;
+    left: 744px;
+    bottom: 7vh;
+    margin: 0;
+    z-index: 1;
+  }
+  .specimen canvas {
+    --sh: max(200px, min(62vh, 540px, calc((100vw - 800px) / var(--aspect, 0.8))));
+  }
+  .specimen-cap { text-align: center; }
+}
+@media (min-width: 1280px) {
+  /* Leave the table of contents its column on the right. */
+  .specimen canvas {
+    --sh: max(200px, min(62vh, 560px, calc((100vw - 1010px) / var(--aspect, 0.8))));
   }
 }

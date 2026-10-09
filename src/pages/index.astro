@@ -2,6 +2,8 @@
 import NotionLayout from '@/layouts/NotionLayout.astro';
 import Mention from '@/components/Mention.astro';
 import { getCollection } from 'astro:content';
+import { START, getDatedWorks, getDays, getLandmarks } from '@/data/days';
+import { months as monthNotes } from '@/data/months';
 
 const allPosts = await getCollection('writing');
 const latestPosts = allPosts
@@ -10,9 +12,46 @@ const latestPosts = allPosts
       new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
   )
   .slice(0, 3);
+
+const [days, landmarks] = await Promise.all([getDays(), getLandmarks()]);
+// Work lives in the meadow now: a month's card shows what shipped that month. Projects known
+// only to the year stay out until they're given a date in src/data/work.ts.
+const made = (await getDatedWorks())
+  .filter((w) => w.date.length >= 7)
+  .map((w) => ({ t: w.title, d: w.description, k: w.date.slice(0, 7), ...(w.link ? { h: w.link } : {}), ...(w.img ? { i: w.img } : {}) }));
+// For screen readers and keyboards: every month, its note and essays, newest first.
+const monthList = Object.values(
+  days.reduce((acc, d, i) => {
+    const date = new Date(Date.parse(`${START}T00:00:00Z`) + i * 86400000);
+    const key = date.toISOString().slice(0, 7);
+    acc[key] ??= {
+      key,
+      label: date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).toLowerCase(),
+      note: (monthNotes as Record<string, string>)[key],
+      essays: [] as { t: string; s: string }[],
+    };
+    acc[key].essays.push(...(d.e ?? []));
+    return acc;
+  }, {} as Record<string, { key: string; label: string; note?: string; essays: { t: string; s: string }[] }>)
+).reverse();
 ---
 
-<NotionLayout>
+<NotionLayout description="A meadow of every day since I started shipping: one hand-drawn flower per day, grown from commits and essays." image="https://cretu.dev/static/images/og-meadow.png">
+  <div class="field" data-field data-days={JSON.stringify(days)} data-landmarks={JSON.stringify(landmarks)} data-notes={JSON.stringify(monthNotes)} data-works={JSON.stringify(made)} data-start={START}>
+    <canvas role="img" aria-label={`A hand-drawn meadow: one bunch of flowers for every month since ${START}, one flower or leaf for every day. Busier days bloom; essays are the largest flowers. The months are listed below.`}></canvas>
+    <nav class="sr-only" aria-label="Months in the meadow">
+      <ul>
+        {monthList.map((m) => (
+          <li><a href={`/#${m.key}`}>{m.label}</a>{m.note && <p>{m.note}</p>}{m.essays.length > 0 && <ul>{m.essays.map((e) => <li><a href={`/writing/${e.s}`}>{e.t}</a></li>)}</ul>}</li>
+        ))}
+      </ul>
+    </nav>
+    <p class="field-readout" data-readout aria-live="polite"></p>
+    <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">About</button>
+  </div>
+
+  <div class="about" id="about" data-info-panel role="dialog" aria-label="About">
+  <div class="about-in" data-about-text>
   <div class="doc-title">Cristian Crețu<span class="age">, 21</span></div>
 
   <div class="node" data-node>
@@ -70,7 +109,7 @@ const latestPosts = allPosts
         <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><Mention href="https://hive.cretu.dev/">Hive</Mention><span class="meta">n agents on n tasks, isolated via worktrees</span></span></div>
       </div>
       <div class="node" data-node>
-        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><a class="meta-link" href="/work">all work</a></span></div>
+        <div class="row"><span class="bullet-cell"><span class="bullet"></span></span><span class="label"><span class="meta-link">more in each month's card</span></span></div>
       </div>
     </div>
   </div>
@@ -131,9 +170,385 @@ const latestPosts = allPosts
     <span class="ghost-bullet"></span>
     <span><span class="caret-blink"></span></span>
   </div>
+  </div>
+  </div>
 </NotionLayout>
 
+<script>
+  import { mountDaysField } from '@/scripts/days-field';
+
+  let unmount: (() => void) | null = null;
+  function init() {
+    unmount?.();
+    unmount = null;
+    const root = document.querySelector<HTMLElement>('[data-field]');
+    if (root) unmount = mountDaysField(root);
+  }
+  // Mounted right after the swap (not once the transition is over), so coming back from an
+  // essay the meadow is already there for the bunch to fly home into.
+  document.addEventListener('astro:after-swap', init);
+  init();
+</script>
+
 <style is:global>
+  /* --- Days field: the homepage canvas --- */
+  .field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  .field canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: pan-y;
+  }
+  /* The day count rides in the corner nav while the meadow is up: centred on the name's line,
+     or under the year on a phone. (The info button joins the nav's links.) */
+  .field-readout {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: min(620px, calc(100vw - 440px));
+    margin: 0;
+    color: var(--notion-faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 220ms ease;
+  }
+  .field-readout.shown { opacity: 1; transition-duration: 120ms; }
+  .field-readout span { color: var(--notion-ink); }
+  .page-nav .links button.field-info[aria-expanded='true'] { color: var(--notion-ink); }
+
+  html.has-field body { overflow: hidden; }
+  /* The page's content box sits over the meadow (its view-transition name stacks it above the
+     canvas); only the info panel itself, when open, may take the pointer. */
+  html.has-field .page-content { pointer-events: none; }
+
+  /* Variant switcher: only shown when the URL carries ?v= */
+
+  /* Meadow's month card: a specimen label with the bunch sketched in. */
+  .month-card {
+    position: fixed;
+    left: 96px;
+    bottom: 76px;
+    z-index: 46;
+    display: grid;
+    grid-template-columns: 168px 1fr;
+    gap: 0 26px;
+    width: 540px;
+    max-height: min(640px, calc(100vh - 200px));
+    padding: 26px 22px 26px 26px;
+    transform-origin: 18% 100%;
+    --paper-inset: 0;
+  }
+  .month-card[hidden] { display: none; }
+  .month-card:focus { outline: none; }
+  .mc-sketch {
+    width: 168px;
+    height: 224px;
+    align-self: center;
+  }
+  .mc-body {
+    min-width: 0;
+    overflow-y: auto;
+    padding-right: 18px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .mc-body > * { margin: 0; }
+  .mc-kicker { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--notion-faint); }
+  /* A rubber-stamped specimen number. */
+  .mc-no {
+    padding: 0 5px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    font-size: 10px;
+    line-height: 15px;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    transform: rotate(-3deg);
+    opacity: 0.85;
+  }
+  .mc-title {
+    margin-top: 4px;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--notion-ink);
+  }
+  .mc-title i {
+    margin-left: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--notion-faint);
+  }
+  .mc-why { color: var(--notion-muted); }
+  /* The month's days in a row: hollow when quiet, inked by how much happened, ringed when
+     something was written or launched. Each one takes you to its flower. */
+  .mc-days {
+    display: flex;
+    justify-content: space-between;
+    max-width: calc(var(--n) * 10px);
+    height: 16px;
+    margin-top: 14px;
+  }
+  .mc-dot {
+    position: relative;
+    flex: none;
+    width: 7px;
+    height: 16px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .mc-dot::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(2.5px + var(--l) * 1px);
+    height: calc(2.5px + var(--l) * 1px);
+    border-radius: 50%;
+    background: var(--notion-ink);
+    opacity: calc(0.3 + var(--l) * 0.17);
+    translate: -50% -50%;
+    transition: scale 0.35s cubic-bezier(0.3, 1.8, 0.4, 1);
+  }
+  .mc-dot[style*='--l:0']::after { background: none; box-shadow: inset 0 0 0 1px var(--notion-dim); opacity: 1; width: 3px; height: 3px; }
+  /* Rings stay within the dot's own width, so the strip lines up with the text. */
+  .mc-dot.mark::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--notion-faint);
+    translate: -50% -50%;
+  }
+  /* The open day: a small tick underneath. */
+  .mc-dot.on::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: var(--notion-ink);
+  }
+  .mc-dot.on::after { scale: 1.25; }
+  .mc-dot:hover::after { scale: 1.7; }
+  .mc-dot:focus-visible { outline: none; }
+  .mc-dot:focus-visible::before { content: ''; position: absolute; inset: 1px -1px; border-radius: 4px; box-shadow: 0 0 0 1.5px var(--notion-ink); }
+  .mc-stats { margin-top: 6px; font-size: 12px; color: var(--notion-faint); font-variant-numeric: tabular-nums; }
+  .mc-day {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--notion-faint);
+  }
+  .mc-day span { color: var(--notion-muted); }
+  .mc-note { margin-top: 14px; color: var(--notion-ink); }
+  .mc-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 14px;
+    display: grid;
+    gap: 4px;
+  }
+  .mc-list li { display: flex; justify-content: space-between; gap: 12px; }
+  .mc-list li span { color: var(--notion-faint); font-size: 12px; white-space: nowrap; }
+  .mc-list a { color: var(--notion-ink); text-decoration: underline; text-decoration-color: var(--notion-dim); text-underline-offset: 3px; }
+  .mc-list a:hover { text-decoration-color: var(--notion-ink); }
+  /* What was made that year: small prints on a shelf, each tilted a little. */
+  .mc-made { margin-top: 18px; }
+  .mc-made-h { font-size: 12px; color: var(--notion-faint); margin-bottom: 8px; }
+  .mc-shelf {
+    list-style: none;
+    margin: 0 -22px 0 0;
+    padding: 4px 22px 10px 2px;
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .mc-shelf::-webkit-scrollbar { display: none; }
+  .mc-shelf li { flex: 0 0 auto; width: 104px; scroll-snap-align: start; }
+  .mc-shelf a, .mc-shelf div {
+    display: block;
+    color: var(--notion-ink);
+    text-decoration: none;
+    transform: rotate(var(--tilt, 0deg));
+    transition: transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .mc-shelf a:hover, .mc-shelf a:focus-visible { transform: rotate(0deg) translateY(-3px) scale(1.04); }
+  .mc-shelf img, .mc-shelf .mc-blank {
+    display: block;
+    width: 104px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: var(--notion-row-hover);
+    box-shadow: 0 0 0 1px var(--notion-rule), 0 6px 14px -8px rgba(0, 0, 0, 0.35);
+  }
+  .mc-shelf span { display: block; margin-top: 6px; font-size: 12px; line-height: 1.3; }
+  .mc-shelf small { display: block; font-size: 11px; color: var(--notion-faint); line-height: 1.3; }
+  .mc-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    font: inherit;
+    font-size: 15px;
+    line-height: 22px;
+    color: var(--notion-faint);
+  }
+  .mc-close:hover { color: var(--notion-ink); background: var(--notion-tint); }
+
+  /* Meadow's controls card: a near-invisible ? that only wakes on hover or focus. */
+  .field-help {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    z-index: 45;
+  }
+  .field-help button {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    font: inherit;
+    font-size: 11px;
+    line-height: 18px;
+    color: var(--notion-faint);
+    opacity: 0.22;
+    transition: opacity var(--dur-quick, 140ms) ease, color var(--dur-quick, 140ms) ease;
+  }
+  .field-help:hover button,
+  .field-help.open button,
+  .field-help button:focus-visible {
+    opacity: 1;
+    color: var(--notion-ink);
+  }
+  .field-help dl {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 6px 16px;
+    margin: 0;
+    padding: 12px 14px;
+    white-space: nowrap;
+    font-size: 12px;
+    background: var(--notion-surface);
+    border-radius: 10px;
+    box-shadow: var(--notion-shadow), 0 0 0 1px var(--notion-rule);
+    opacity: 0;
+    transform: translate(-50%, 4px);
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 200ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+  }
+  .field-help:hover dl,
+  .field-help.open dl {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  .field-help dt { color: var(--notion-faint); }
+  .field-help dd { margin: 0; color: var(--notion-ink); }
+
+  /* "about" is written into a clearing in the meadow: the bunches under it sink back into the
+     ground and those around lean away (meadow.ts), and the outliner inks in over the bare
+     patch. Clicking anywhere off the text (or esc, or close) lets the meadow grow back. */
+  .about {
+    position: fixed;
+    inset: 0;
+    z-index: 39; /* under the nav's fade, so the page scrolls away into it */
+    display: flex;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 120px 24px 96px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 180ms ease, visibility 0s linear 180ms;
+  }
+  /* The about text inks in lighter and quicker than a page (no blur), so it never costs the
+     meadow a frame while the clearing opens. */
+  .about.inking .ink-item {
+    animation: about-in 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--ink-delay, 0ms) + var(--ink-i, 0) * 16ms);
+  }
+  @keyframes about-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .about.inking .ink-item { animation: none; }
+  }
+  .about-in {
+    margin: auto;
+    width: fit-content;
+    max-width: 560px;
+  }
+  html.info-open .about {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 280ms ease 140ms, visibility 0s;
+  }
+  html.info-open .month-card,
+  html.info-open .field-help { opacity: 0; pointer-events: none; }
+  @media (max-width: 639px) {
+    .field-readout { top: 40px; left: 0; transform: none; max-width: calc(100vw - 36px - 76px); }
+    .about { padding: 108px 20px 96px; }
+    .month-card {
+      left: 12px;
+      right: 12px;
+      bottom: 84px;
+      width: auto;
+      grid-template-columns: 84px 1fr;
+      gap: 0 14px;
+      padding: 18px 14px 18px 14px;
+      max-height: 50vh;
+    }
+    .mc-sketch { width: 84px; height: 112px; }
+    /* The latin name drops to its own line rather than breaking mid-name. */
+    .mc-title i { display: block; margin: 2px 0 0; }
+    .field-help {
+      left: auto;
+      right: 64px;
+      bottom: 26px;
+      transform: none;
+    }
+    .field-help dl {
+      left: auto;
+      right: -40px;
+      transform: translateY(4px);
+    }
+    .field-help:hover dl,
+    .field-help.open dl { transform: none; }
+  }
+
   /* Outliner-specific styles, scoped via top-level class names used only on / */
   .doc-title {
     font-size: 24px;
