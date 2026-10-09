@@ -624,29 +624,32 @@ const isActive = (href: string) => {
         to { opacity: 1; transform: none; filter: none; }
       }
 
-      /* --- Paper: a clearing in the meadow, not a box ---
-         Text sits on the page's own colour, feathered out at the edges, so
-         the drawing around it simply fades away instead of meeting a border.
-         No outline, no shadow, the same in light and dark. */
+      /* --- Paper: a sheet laid over the meadow ---
+         A shade lifted off the page in its own neutral grey (no tint), a
+         hairline edge and a soft shadow that's always dark, never a glow. */
       .paper {
         position: relative;
         isolation: isolate;
+        --paper: color-mix(in srgb, var(--notion-bg) 96%, var(--notion-ink));
+        --paper-edge: color-mix(in srgb, var(--notion-ink) 9%, transparent);
+        --paper-shade: rgba(0, 0, 0, 0.14);
+      }
+      :root[data-theme='dark'] .paper {
+        --paper: color-mix(in srgb, var(--notion-bg) 91%, var(--notion-ink));
+        --paper-edge: color-mix(in srgb, var(--notion-ink) 11%, transparent);
+        --paper-shade: rgba(0, 0, 0, 0.55);
       }
       .paper::before {
         content: '';
         position: absolute;
-        inset: var(--paper-inset, -28px);
+        inset: var(--paper-inset, -18px);
         z-index: -1;
-        background: var(--notion-bg);
-        --f: var(--paper-feather, 28px);
-        -webkit-mask:
-          linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent),
-          linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
-        -webkit-mask-composite: source-in;
-        mask:
-          linear-gradient(to right, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent),
-          linear-gradient(to bottom, transparent, #000 var(--f), #000 calc(100% - var(--f)), transparent);
-        mask-composite: intersect;
+        background: var(--paper);
+        border-radius: 18px;
+        box-shadow:
+          0 0 0 1px var(--paper-edge),
+          0 24px 60px -24px var(--paper-shade),
+          0 4px 14px -6px var(--paper-shade);
         pointer-events: none;
       }
 
