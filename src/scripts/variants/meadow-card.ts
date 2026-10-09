@@ -56,6 +56,7 @@ export class MonthCard {
     const el = document.createElement('aside');
     el.className = 'month-card paper';
     el.setAttribute('role', 'dialog');
+    el.tabIndex = -1;
     el.hidden = true;
     el.innerHTML = `<button type="button" class="mc-close" aria-label="Close">×</button>
 <canvas class="mc-sketch" aria-hidden="true"></canvas><div class="mc-body"></div>`;

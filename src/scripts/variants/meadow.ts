@@ -714,6 +714,16 @@ export const meadow: Variant = {
     // Leaving for an essay or anywhere else, the meadow remembers the view to come back to.
     S.onLeave = (e: Event) => leave(f, e);
     document.addEventListener('astro:before-preparation', S.onLeave);
+    // A link to a month (#2023-07), from the month list or anywhere on the page, opens it.
+    S.onHash = () => {
+      const key = location.hash.slice(1), c = (S.cells as Cell[]).find((x) => x.key === key);
+      if (!c) return;
+      history.replaceState(history.state, '', location.pathname);
+      focusOn(f, c, -1);
+      // Keyboard and screen reader users land in the card they opened.
+      (S.card as MonthCard).el.focus({ preventScroll: true });
+    };
+    addEventListener('hashchange', S.onHash);
     if (comeBack(f)) return;
     if (f.reduced) return;
     // Open close on today's bud, then pull back to the sheet.
@@ -734,6 +744,7 @@ export const meadow: Variant = {
     (f.state.sound as MeadowSound | undefined)?.dispose();
     f.state.helpKey && document.removeEventListener('keydown', f.state.helpKey);
     f.state.onLeave && document.removeEventListener('astro:before-preparation', f.state.onLeave);
+    f.state.onHash && removeEventListener('hashchange', f.state.onHash);
     if (f.state.yearEl) f.state.yearEl.textContent = f.state.yearHome;
   },
   tick(f) {

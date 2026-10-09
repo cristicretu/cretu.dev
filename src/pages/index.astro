@@ -19,12 +19,34 @@ const [days, landmarks] = await Promise.all([getDays(), getLandmarks()]);
 const made = (await getDatedWorks())
   .filter((w) => w.date.length >= 7)
   .map((w) => ({ t: w.title, d: w.description, k: w.date.slice(0, 7), ...(w.link ? { h: w.link } : {}), ...(w.img ? { i: w.img } : {}) }));
+// For screen readers and keyboards: every month, its note and essays, newest first.
+const monthList = Object.values(
+  days.reduce((acc, d, i) => {
+    const date = new Date(Date.parse(`${START}T00:00:00Z`) + i * 86400000);
+    const key = date.toISOString().slice(0, 7);
+    acc[key] ??= {
+      key,
+      label: date.toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).toLowerCase(),
+      note: (monthNotes as Record<string, string>)[key],
+      essays: [] as { t: string; s: string }[],
+    };
+    acc[key].essays.push(...(d.e ?? []));
+    return acc;
+  }, {} as Record<string, { key: string; label: string; note?: string; essays: { t: string; s: string }[] }>)
+).reverse();
 const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
 ---
 
 <NotionLayout description="A meadow of every day since I started shipping: one hand-drawn flower per day, grown from commits and essays." image="https://cretu.dev/static/images/og-meadow.png">
   <div class="field" data-field data-days={JSON.stringify(days)} data-landmarks={JSON.stringify(landmarks)} data-notes={JSON.stringify(monthNotes)} data-works={JSON.stringify(made)} data-start={START}>
-    <canvas role="img" aria-label={`${days.length} dots, one for every day since ${START}. Darker dots are days with more commits; ringed dots are days an essay was published.`}></canvas>
+    <canvas role="img" aria-label={`A hand-drawn meadow: one bunch of flowers for every month since ${START}, one flower or leaf for every day. Busier days bloom; essays are the largest flowers. The months are listed below.`}></canvas>
+    <nav class="sr-only" aria-label="Months in the meadow">
+      <ul>
+        {monthList.map((m) => (
+          <li><a href={`/#${m.key}`}>{m.label}</a>{m.note && <p>{m.note}</p>}{m.essays.length > 0 && <ul>{m.essays.map((e) => <li><a href={`/writing/${e.s}`}>{e.t}</a></li>)}</ul>}</li>
+        ))}
+      </ul>
+    </nav>
     <p class="field-readout" data-readout aria-live="polite">{days.length.toLocaleString('en-US')} days since i started shipping · {essayCount} essays</p>
     <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">info</button>
   </div>
@@ -236,6 +258,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     --paper-inset: 0;
   }
   .month-card[hidden] { display: none; }
+  .month-card:focus { outline: none; }
   .mc-sketch {
     width: 168px;
     height: 224px;
