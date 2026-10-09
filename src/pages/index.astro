@@ -2,6 +2,9 @@
 import NotionLayout from '@/layouts/NotionLayout.astro';
 import Mention from '@/components/Mention.astro';
 import { getCollection } from 'astro:content';
+import { START, getDays, getLandmarks } from '@/data/days';
+import { months as monthNotes } from '@/data/months';
+import { variantNames } from '@/scripts/field-variants';
 
 const allPosts = await getCollection('writing');
 const latestPosts = allPosts
@@ -10,9 +13,29 @@ const latestPosts = allPosts
       new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
   )
   .slice(0, 3);
+
+const [days, landmarks] = await Promise.all([getDays(), getLandmarks()]);
+const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
 ---
 
 <NotionLayout>
+  <div class="field" data-field data-days={JSON.stringify(days)} data-landmarks={JSON.stringify(landmarks)} data-notes={JSON.stringify(monthNotes)} data-start={START}>
+    <canvas role="img" aria-label={`${days.length} dots, one for every day since ${START}. Darker dots are days with more commits; ringed dots are days an essay was published.`}></canvas>
+    <p class="field-readout" data-readout aria-live="polite">{days.length.toLocaleString('en-US')} days since i started shipping · {essayCount} essays</p>
+    <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">info</button>
+    <nav class="field-variants" data-variants aria-label="Variant" hidden>
+      <button type="button" class="fv-step" data-step="-1" aria-label="Previous variant">←</button>
+      <button type="button" class="fv-current" data-menu aria-expanded="false" aria-controls="fv-menu">
+        <span data-current></span><span class="fv-count" data-count></span>
+      </button>
+      <button type="button" class="fv-step" data-step="1" aria-label="Next variant">→</button>
+      <div class="fv-menu" id="fv-menu" data-menu-list hidden>
+        {variantNames.map((name) => <button type="button" data-variant={name}>{name}</button>)}
+      </div>
+    </nav>
+  </div>
+
+  <div class="about" id="about" data-info-panel>
   <div class="doc-title">Cristian Crețu<span class="age">, 21</span></div>
 
   <div class="node" data-node>
@@ -131,9 +154,396 @@ const latestPosts = allPosts
     <span class="ghost-bullet"></span>
     <span><span class="caret-blink"></span></span>
   </div>
+  </div>
 </NotionLayout>
 
+<script>
+  import { mountDaysField } from '@/scripts/days-field';
+
+  let unmount: (() => void) | null = null;
+  function init() {
+    unmount?.();
+    unmount = null;
+    const root = document.querySelector<HTMLElement>('[data-field]');
+    if (root) unmount = mountDaysField(root);
+  }
+  // Fires on the first load too, so it's the only entry point.
+  document.addEventListener('astro:page-load', init);
+</script>
+
 <style is:global>
+  /* --- Days field: the homepage canvas --- */
+  .field {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  .field canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: pan-y;
+  }
+  .field-readout,
+  .field-info {
+    position: absolute;
+    bottom: 32px;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--notion-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .field-readout {
+    left: 96px;
+    right: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+  }
+  .field-readout span { color: var(--notion-ink); }
+  .field-info {
+    right: 96px;
+    padding: 8px;
+    margin: -8px;
+    background: none;
+    border: 0;
+    font: inherit;
+    font-size: 13px;
+    transition: color var(--dur-quick, 140ms) ease;
+  }
+  .field-info:hover,
+  .field-info[aria-expanded='true'] { color: var(--notion-ink); }
+
+  html.has-field:not(.info-open) body { overflow: hidden; }
+
+  /* Variant switcher: only shown when the URL carries ?v= */
+  .field-variants {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    z-index: 50;
+    font-size: 13px;
+  }
+  .field-variants[hidden] { display: none; }
+  .field-variants button {
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var(--notion-faint);
+    border-radius: 6px;
+    transition: color var(--dur-quick, 140ms) ease, background var(--dur-quick, 140ms) ease;
+  }
+  .field-variants button:hover { color: var(--notion-ink); }
+  .fv-step { width: 28px; height: 28px; }
+  .fv-current {
+    display: inline-flex;
+    gap: 8px;
+    align-items: baseline;
+    padding: 5px 10px;
+    min-width: 128px;
+    justify-content: center;
+  }
+  .fv-current [data-current] { color: var(--notion-ink); }
+  .fv-current[aria-expanded='true'] { background: var(--notion-tint); }
+  .fv-count { font-variant-numeric: tabular-nums; color: var(--notion-faint); }
+  .fv-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(96px, 1fr));
+    gap: 2px;
+    padding: 6px;
+    background: var(--notion-surface);
+    border-radius: 12px;
+    box-shadow: var(--notion-shadow), 0 0 0 1px var(--notion-rule);
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .fv-menu[hidden] { display: none; }
+  .fv-menu button { padding: 6px 10px; text-align: left; }
+  .fv-menu button:hover { background: var(--notion-row-hover); }
+  .fv-menu button[aria-pressed='true'] { color: var(--notion-ink); background: var(--notion-tint); }
+
+  /* Meadow's month card: a specimen label with the bunch sketched in. */
+  .month-card {
+    position: fixed;
+    left: 96px;
+    bottom: 76px;
+    z-index: 46;
+    display: grid;
+    grid-template-columns: 168px 1fr;
+    gap: 0 26px;
+    width: 540px;
+    max-height: min(640px, calc(100vh - 200px));
+    padding: 26px 22px 26px 26px;
+    overflow: hidden;
+    background: var(--notion-surface);
+    border-radius: 14px;
+    box-shadow: var(--notion-shadow), 0 0 0 1px var(--notion-rule);
+    transform-origin: 18% 100%;
+  }
+  .month-card[hidden] { display: none; }
+  .mc-sketch {
+    width: 168px;
+    height: 224px;
+    align-self: center;
+  }
+  .mc-body {
+    min-width: 0;
+    overflow-y: auto;
+    padding-right: 18px;
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .mc-body > * { margin: 0; }
+  .mc-kicker { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--notion-faint); }
+  /* A rubber-stamped specimen number. */
+  .mc-no {
+    padding: 0 5px;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    font-size: 10px;
+    line-height: 15px;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    transform: rotate(-3deg);
+    opacity: 0.85;
+  }
+  .mc-title {
+    margin-top: 4px;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--notion-ink);
+  }
+  .mc-title i {
+    margin-left: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--notion-faint);
+  }
+  .mc-why { color: var(--notion-muted); }
+  /* The month's days in a row: hollow when quiet, inked by how much happened, ringed when
+     something was written or launched. Each one takes you to its flower. */
+  .mc-days {
+    display: flex;
+    justify-content: space-between;
+    max-width: calc(var(--n) * 10px);
+    height: 16px;
+    margin-top: 14px;
+  }
+  .mc-dot {
+    position: relative;
+    flex: none;
+    width: 7px;
+    height: 16px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .mc-dot::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: calc(2.5px + var(--l) * 1px);
+    height: calc(2.5px + var(--l) * 1px);
+    border-radius: 50%;
+    background: var(--notion-ink);
+    opacity: calc(0.3 + var(--l) * 0.17);
+    translate: -50% -50%;
+    transition: scale 0.35s cubic-bezier(0.3, 1.8, 0.4, 1);
+  }
+  .mc-dot[style*='--l:0']::after { background: none; box-shadow: inset 0 0 0 1px var(--notion-dim); opacity: 1; width: 3px; height: 3px; }
+  /* Rings stay within the dot's own width, so the strip lines up with the text. */
+  .mc-dot.mark::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--notion-faint);
+    translate: -50% -50%;
+  }
+  /* The open day: a small tick underneath. */
+  .mc-dot.on::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: var(--notion-ink);
+  }
+  .mc-dot.on::after { scale: 1.25; }
+  .mc-dot:hover::after { scale: 1.7; }
+  .mc-dot:focus-visible { outline: none; }
+  .mc-dot:focus-visible::before { content: ''; position: absolute; inset: 1px -1px; border-radius: 4px; box-shadow: 0 0 0 1.5px var(--notion-ink); }
+  .mc-stats { margin-top: 6px; font-size: 12px; color: var(--notion-faint); font-variant-numeric: tabular-nums; }
+  .mc-day {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--notion-faint);
+  }
+  .mc-day span { color: var(--notion-muted); }
+  .mc-note { margin-top: 14px; color: var(--notion-ink); }
+  .mc-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 14px;
+    display: grid;
+    gap: 4px;
+  }
+  .mc-list li { display: flex; justify-content: space-between; gap: 12px; }
+  .mc-list li span { color: var(--notion-faint); font-size: 12px; white-space: nowrap; }
+  .mc-list a { color: var(--notion-ink); text-decoration: underline; text-decoration-color: var(--notion-dim); text-underline-offset: 3px; }
+  .mc-list a:hover { text-decoration-color: var(--notion-ink); }
+  .mc-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    font: inherit;
+    font-size: 15px;
+    line-height: 22px;
+    color: var(--notion-faint);
+  }
+  .mc-close:hover { color: var(--notion-ink); background: var(--notion-tint); }
+
+  /* Meadow's controls card: a near-invisible ? that only wakes on hover or focus. */
+  .field-help {
+    position: fixed;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    z-index: 45;
+  }
+  .field-help button {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    font: inherit;
+    font-size: 11px;
+    line-height: 18px;
+    color: var(--notion-faint);
+    opacity: 0.22;
+    transition: opacity var(--dur-quick, 140ms) ease, color var(--dur-quick, 140ms) ease;
+  }
+  .field-help:hover button,
+  .field-help.open button,
+  .field-help button:focus-visible {
+    opacity: 1;
+    color: var(--notion-ink);
+  }
+  .field-help dl {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 6px 16px;
+    margin: 0;
+    padding: 12px 14px;
+    white-space: nowrap;
+    font-size: 12px;
+    background: var(--notion-surface);
+    border-radius: 10px;
+    box-shadow: var(--notion-shadow), 0 0 0 1px var(--notion-rule);
+    opacity: 0;
+    transform: translate(-50%, 4px);
+    pointer-events: none;
+    transition: opacity 160ms ease, transform 200ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+  }
+  .field-help:hover dl,
+  .field-help.open dl {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  .field-help dt { color: var(--notion-faint); }
+  .field-help dd { margin: 0; color: var(--notion-ink); }
+
+  /* The outliner sits above the field and only appears when "info" is open;
+     the field clears a hole around it. */
+  .about {
+    position: relative;
+    z-index: 1;
+    width: fit-content;
+    max-width: 100%;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition:
+      opacity 240ms ease,
+      transform 320ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+  }
+  html.info-open .about {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    transition-delay: 120ms;
+  }
+  @media (max-width: 639px) {
+    .field-readout { left: 20px; right: 80px; bottom: 28px; }
+    .field-info { right: 20px; bottom: 28px; }
+    .field-variants {
+      top: auto;
+      bottom: 50px;
+    }
+    .month-card {
+      left: 12px;
+      right: 12px;
+      bottom: 84px;
+      width: auto;
+      grid-template-columns: 84px 1fr;
+      gap: 0 14px;
+      padding: 18px 14px 18px 14px;
+      max-height: 50vh;
+    }
+    .mc-sketch { width: 84px; height: 112px; }
+    .field-help {
+      left: auto;
+      right: 64px;
+      bottom: 26px;
+      transform: none;
+    }
+    .field-help dl {
+      left: auto;
+      right: -40px;
+      transform: translateY(4px);
+    }
+    .field-help:hover dl,
+    .field-help.open dl { transform: none; }
+    .fv-menu {
+      top: auto;
+      bottom: calc(100% + 8px);
+      grid-template-columns: repeat(2, minmax(110px, 1fr));
+    }
+    html.info-open .field canvas { opacity: 0.15; }
+    .field canvas { transition: opacity 240ms ease; }
+  }
+
   /* Outliner-specific styles, scoped via top-level class names used only on / */
   .doc-title {
     font-size: 24px;
