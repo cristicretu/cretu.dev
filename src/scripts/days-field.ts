@@ -24,6 +24,11 @@ export function mountDaysField(root: HTMLElement) {
     if (infoButton && links) links.insertBefore(infoButton, links.querySelector('.theme-toggle'));
   }
   const panel = document.querySelector<HTMLElement>('[data-info-panel]');
+  // "about" opens as a whole page over the meadow; it lives under <body> too, out of the
+  // transformed content box.
+  if (panel) document.body.append(panel);
+  const onSheet = (e: MouseEvent) => { if (e.target === panel) setInfo(false); };
+  panel?.addEventListener('click', onSheet);
   const days: Day[] = JSON.parse(root.dataset.days!);
   const landmarks = JSON.parse(root.dataset.landmarks || '{}');
   const notes = JSON.parse(root.dataset.notes || '{}');
@@ -96,17 +101,11 @@ export function mountDaysField(root: HTMLElement) {
     field.frame = frame();
     field.width = width; field.height = height;
     field.cell = variant.layout(field);
-    const clear = field.infoOpen && panel ? clearRect() : null;
     for (let i = 0; i < n; i++) {
-      ts[i] = clear && tx[i] > clear.l && tx[i] < clear.r && ty[i] > clear.t && ty[i] < clear.b ? 0 : 1;
+      ts[i] = 1;
       if (!placed) { x[i] = tx[i]; y[i] = ty[i]; }
     }
     placed = true;
-  }
-
-  function clearRect() {
-    const r = panel!.getBoundingClientRect(), pad = Math.max(field.cell * 1.5, 16);
-    return { l: r.left - pad, r: r.right + pad, t: r.top - pad, b: r.bottom + pad };
   }
 
   function resize() {
@@ -241,24 +240,10 @@ export function mountDaysField(root: HTMLElement) {
     field.colors = colors;
     const { cell } = field;
 
-    // Drawings that aren't dots stay out of the info hole.
-    const clear = field.infoOpen && panel ? clearRect() : null;
-    const clipHole = (fn: () => void) => {
-      ctx.save();
-      if (clear) {
-        ctx.beginPath();
-        ctx.rect(0, 0, width, height);
-        ctx.rect(clear.l, clear.t, clear.r - clear.l, clear.b - clear.t);
-        ctx.clip('evenodd');
-      }
-      fn();
-      ctx.restore();
-    };
-
-    if (variant.under) clipHole(() => variant.under!(field));
+    if (variant.under) variant.under(field);
 
     if (variant.draw) {
-      clipHole(() => variant.draw!(field));
+      variant.draw(field);
     } else {
       if (variant.hideDots) {
         // Essays still mark their days.
@@ -312,7 +297,7 @@ export function mountDaysField(root: HTMLElement) {
       }
     }
 
-    if (variant.over) clipHole(() => variant.over!(field));
+    if (variant.over) variant.over(field);
 
     const h = field.hovered;
     if (h >= 0 && s[h] > 0.5 && !variant.hideHover) {
@@ -413,9 +398,6 @@ export function mountDaysField(root: HTMLElement) {
   document.addEventListener('keydown', onKey);
   const ro = new ResizeObserver(resize);
   ro.observe(root);
-  // Folding outliner nodes changes the panel's size; keep the hole around it.
-  const panelObserver = new ResizeObserver(() => { if (field.infoOpen) { layout(); wake(); } });
-  if (panel) panelObserver.observe(panel);
   const themeObserver = new MutationObserver(() => { colors = field.colors = readColors(); wake(); });
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
@@ -434,7 +416,6 @@ export function mountDaysField(root: HTMLElement) {
     cancelAnimationFrame(raf);
     variant.exit?.(field);
     ro.disconnect();
-    panelObserver.disconnect();
     themeObserver.disconnect();
     window.removeEventListener('pointerup', onUp);
     document.removeEventListener('keydown', onKey);
@@ -444,6 +425,8 @@ export function mountDaysField(root: HTMLElement) {
     document.documentElement.classList.remove('info-open', 'has-field');
     readout.remove();
     infoButton?.remove();
+    panel?.removeEventListener('click', onSheet);
+    panel?.remove();
     root.remove();
   };
 }

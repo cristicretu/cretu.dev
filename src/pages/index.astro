@@ -51,7 +51,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">about</button>
   </div>
 
-  <div class="about paper" id="about" data-info-panel>
+  <div class="about" id="about" data-info-panel role="dialog" aria-label="About">
   <div class="doc-title">Cristian Crețu<span class="age">, 21</span></div>
 
   <div class="node" data-node>
@@ -222,7 +222,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   .field-readout span { color: var(--notion-ink); }
   .page-nav .links button.field-info[aria-expanded='true'] { color: var(--notion-ink); }
 
-  html.has-field:not(.info-open) body { overflow: hidden; }
+  html.has-field body { overflow: hidden; }
   /* The page's content box sits over the meadow (its view-transition name stacks it above the
      canvas); only the info panel itself, when open, may take the pointer. */
   html.has-field .page-content { pointer-events: none; }
@@ -472,28 +472,42 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   .field-help dt { color: var(--notion-faint); }
   .field-help dd { margin: 0; color: var(--notion-ink); }
 
-  /* The outliner sits above the field and only appears when "about" is open;
-     the field clears a hole around it. */
+  /* "about" is a whole page laid over the meadow: the meadow parts and fades back to a wash,
+     and the outliner inks in down the middle, on the open page rather than on a card. Clicking
+     the empty page (or esc, or close) brings the meadow back. */
   .about {
-    position: relative;
-    z-index: 1;
-    width: fit-content;
-    max-width: 100%;
+    position: fixed;
+    inset: 0;
+    z-index: 39; /* under the nav's fade, so the page scrolls away into it */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 160px max(24px, calc(50vw - 300px)) 120px;
+    /* A clear lane down the middle, feathered into the meadow either side. */
+    background: linear-gradient(90deg,
+      transparent calc(50% - 520px),
+      color-mix(in srgb, var(--notion-bg) 70%, transparent) calc(50% - 440px),
+      var(--notion-bg) calc(50% - 360px),
+      var(--notion-bg) calc(50% + 360px),
+      color-mix(in srgb, var(--notion-bg) 70%, transparent) calc(50% + 440px),
+      transparent calc(50% + 520px));
     opacity: 0;
-    transform: translateY(4px);
+    visibility: hidden;
     pointer-events: none;
-    transition:
-      opacity 240ms ease,
-      transform 320ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+    transition: opacity 280ms ease, visibility 0s linear 280ms;
   }
   html.info-open .about {
     opacity: 1;
-    transform: none;
+    visibility: visible;
     pointer-events: auto;
-    transition-delay: 120ms;
+    transition: opacity 360ms ease 120ms, visibility 0s;
   }
+  .field canvas { transition: opacity 520ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)); }
+  html.info-open .field canvas { opacity: 0.22; }
+  html.info-open .month-card,
+  html.info-open .field-help { opacity: 0; pointer-events: none; }
   @media (max-width: 639px) {
     .field-readout { top: 40px; left: 0; transform: none; max-width: calc(100vw - 36px - 76px); }
+    .about { padding-top: 132px; }
     .month-card {
       left: 12px;
       right: 12px;
@@ -520,8 +534,6 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     }
     .field-help:hover dl,
     .field-help.open dl { transform: none; }
-    html.info-open .field canvas { opacity: 0.15; }
-    .field canvas { transition: opacity 240ms ease; }
   }
 
   /* Outliner-specific styles, scoped via top-level class names used only on / */

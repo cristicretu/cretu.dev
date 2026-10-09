@@ -467,7 +467,7 @@ const isActive = (href: string) => {
       }
       .page-nav .links .theme-toggle,
       .theme-toggle {
-        margin-top: 4px;
+        margin-top: -2px;
         padding: 6px;
         margin-right: -6px;
         margin-left: -6px;
@@ -901,8 +901,6 @@ const isActive = (href: string) => {
       </a>
       <nav class="links">
         <a href="/writing" aria-current={isActive('/writing') ? 'page' : undefined}>Writing</a>
-        <a href="https://x.com/cristicrtu" target="_blank" rel="noopener noreferrer" data-no-arrow>X</a>
-        <button type="button" data-email-copy data-no-arrow aria-label="Copy email to clipboard">Email</button>
         <button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle aria-pressed="false">
           <svg class="sun" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <circle cx="8" cy="8" r="3.2" fill="currentColor"/>
@@ -1027,13 +1025,13 @@ const isActive = (href: string) => {
           if (!btn) return;
           e.preventDefault();
           var addr = 'hi' + '@' + 'cretu' + '.' + 'dev';
-          var prev = btn.dataset.original || btn.textContent;
+          var prev = btn.dataset.original || btn.innerHTML;
           btn.dataset.original = prev;
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(addr).then(function () {
               btn.textContent = 'copied';
               clearTimeout(emailFlashTimer);
-              emailFlashTimer = setTimeout(function () { btn.textContent = prev; }, 1200);
+              emailFlashTimer = setTimeout(function () { btn.innerHTML = prev; }, 1200);
             }).catch(function () {});
           }
         });

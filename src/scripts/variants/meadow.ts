@@ -762,21 +762,19 @@ export const meadow: Variant = {
     S.bulge ??= 0;
     S.bulge += (target - S.bulge) * (1 - Math.exp(-dt * (Math.abs(target) > Math.abs(S.bulge) ? 9 : 6)));
     const cells: Cell[] = S.cells, p = f.pointer;
-    // With "about" open the meadow parts for the document: bunches near it lean away, the way
-    // grass parts around someone walking through, and straighten again when it closes.
+    // With "about" open the meadow parts like curtains for the page: bunches lean away from
+    // the middle, those nearest it most, and straighten again when it closes.
     const rest: Float32Array = (S.rest ??= new Float32Array(cells.length));
-    const panel = f.infoOpen ? document.querySelector('[data-info-panel]')?.getBoundingClientRect() : null;
-    const rk = 1 - Math.exp(-dt * (panel ? 2.6 : 1.8));
+    const parting = f.infoOpen && !f.reduced;
+    const rk = 1 - Math.exp(-dt * (parting ? 2.6 : 1.8));
+    const mid = f.width / 2;
     // Wind, and the pointer brushing through sprigs it passes over.
     for (const c of cells) {
       let want = 0;
-      if (panel && !f.reduced) {
-        const base = cam.toScreen(c.bx, c.by), half = (c.W * cam.z) / 2, top = base.y - c.H * cam.z;
-        const dx = Math.max(panel.left - (base.x + half), base.x - half - panel.right, 0);
-        const dy = Math.max(panel.top - base.y, top - panel.bottom, 0);
-        const near = clamp(1 - Math.hypot(dx, dy) / 180, 0, 1);
-        const away = Math.sign(base.x - (panel.left + panel.right) / 2) || 1;
-        want = away * 0.34 * near * near * (3 - 2 * near);
+      if (parting) {
+        const bx = cam.toScreen(c.bx, c.by).x;
+        const near = clamp(1 - Math.abs(bx - mid) / (f.width * 0.55), 0, 1);
+        want = (Math.sign(bx - mid) || 1) * 0.32 * near * near * (3 - 2 * near);
       }
       rest[c.m] += (want - rest[c.m]) * rk;
       if (p && !f.reduced && !p.down && p.dx) {
