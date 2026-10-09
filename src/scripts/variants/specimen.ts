@@ -84,8 +84,15 @@ export function growSpecimen(d: SpecimenData): Sprig {
 
 /** The sprig-local box a bunch is framed in: a little air around the stems and blooms. */
 export function frameOf(h: number) {
-  return { x: -REF * 0.62, y: -h * 1.32, w: REF * 1.24, h: h * 1.32 + REF * 0.06 };
+  // Wide enough for the farthest-reaching essay flowers (they stretch to about 0.65 REF).
+  return { x: -REF * 0.74, y: -h * 1.32, w: REF * 1.48, h: h * 1.32 + REF * 0.06 };
 }
+
+/** Width over height of a bunch's frame, for sizing its canvas. */
+export const frameAspect = (h: number) => {
+  const f = frameOf(h);
+  return f.w / f.h;
+};
 
 export type DrawOpts = {
   ink: string;

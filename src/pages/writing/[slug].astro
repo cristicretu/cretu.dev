@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import '@/styles/prose.css';
 import { START, getDays } from '@/data/days';
 import { imageSize } from '@/data/image-size';
-import { specimenFor } from '@/scripts/variants/specimen';
+import { frameAspect, specimenFor } from '@/scripts/variants/specimen';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
@@ -38,7 +38,7 @@ const specimen = dayIndex >= 0 && dayIndex < days.length ? specimenFor(days, STA
 const monthLabel = specimen
   ? new Date(`${specimen.key}-01T00:00:00Z`).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }).toLowerCase()
   : '';
-const sprigAspect = specimen ? (1.24 * 100) / (specimen.h * 1.32 + 6) : 1;
+const sprigAspect = specimen ? frameAspect(specimen.h) : 1;
 
 // The cover's size, so the text below doesn't jump when it loads.
 const cover = post.data.image ? imageSize(post.data.image) : null;

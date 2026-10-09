@@ -2,7 +2,7 @@
 import NotionLayout from '@/layouts/NotionLayout.astro';
 import { getCollection } from 'astro:content';
 import { START, getDays } from '@/data/days';
-import { specimenFor } from '@/scripts/variants/specimen';
+import { frameAspect, specimenFor } from '@/scripts/variants/specimen';
 
 const allPosts = await getCollection('writing');
 const sorted = allPosts.sort(
@@ -21,7 +21,7 @@ const pressed = (publishedAt: string) => {
   const i = Math.round((Date.parse(publishedAt) - Date.parse(START)) / 86400000);
   if (i < 0 || i >= days.length) return null;
   const data = specimenFor(days, START, i);
-  return { data, aspect: (1.24 * 100) / (data.h * 1.32 + 6) };
+  return { data, aspect: frameAspect(data.h) };
 };
 ---
 
@@ -97,7 +97,7 @@ const pressed = (publishedAt: string) => {
   }
   .press {
     display: grid;
-    grid-template-columns: 44px 1fr auto;
+    grid-template-columns: 52px 1fr auto;
     align-items: end;
     column-gap: 14px;
     max-width: 580px;

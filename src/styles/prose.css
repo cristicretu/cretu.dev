@@ -925,7 +925,9 @@
   white-space: nowrap;
   transition: color 160ms ease;
 }
-.specimen-cap span { opacity: 0; transition: opacity 200ms ease; }
+.specimen-cap { position: relative; }
+/* The hover hint hangs off the end, so the month itself stays centred under the bunch. */
+.specimen-cap span { position: absolute; white-space: pre; opacity: 0; transition: opacity 200ms ease; }
 .specimen:hover .specimen-cap { color: var(--notion-ink); }
 .specimen:hover .specimen-cap span,
 .specimen:focus-visible .specimen-cap span { opacity: 1; }
