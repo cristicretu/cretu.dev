@@ -521,7 +521,7 @@ function leave(f: Field, e: Event) {
   const S = f.state, cam: Camera = S.cam, card: MonthCard = S.card;
   const to: URL | undefined = (e as any).to;
   try {
-    sessionStorage.setItem(VIEW, JSON.stringify({ cx: cam.cx, cy: cam.cy, z: cam.z, key: card.openKey, day: card.openDay, at: Date.now() }));
+    sessionStorage.setItem(VIEW, JSON.stringify({ cx: cam.cx, cy: cam.cy, z: cam.z, slack: cam.slack, key: card.openKey, day: card.openDay, at: Date.now() }));
   } catch {}
   const m = to?.pathname.match(/^\/writing\/([^/]+)\/?$/);
   if (!m || f.reduced) return;
@@ -573,7 +573,7 @@ function comeBack(f: Field) {
   try { sessionStorage.removeItem(RETURN); } catch {}
   const hash = location.hash.slice(1);
   const byHash = /^\d{4}-\d{2}$/.test(hash) ? cells.find((c) => c.key === hash) : undefined;
-  let saved: { cx: number; cy: number; z: number; key: string | null; day: number; at: number } | null = null;
+  let saved: { cx: number; cy: number; z: number; slack?: Camera['slack']; key: string | null; day: number; at: number } | null = null;
   try {
     saved = JSON.parse(sessionStorage.getItem(VIEW) ?? 'null');
   } catch {}
@@ -587,22 +587,23 @@ function comeBack(f: Field) {
   cam.cx = saved.cx;
   cam.cy = saved.cy;
   cam.z = clamp(saved.z, cam.zMin, cam.zMax);
+  if (saved.slack) cam.slack = saved.slack;
   const c = saved.key ? cells.find((x) => x.key === saved!.key) : undefined;
-  if (c) {
-    (S.card as MonthCard).open({ key: c.key, m: c.m, first: c.first, len: c.len, h: c.h, sprig: c.sprig }, saved.day);
-  }
-  // Back from an essay: its bunch flies home to its place on the sheet.
+  const reopen = () => {
+    if (c) (S.card as MonthCard).open({ key: c.key, m: c.m, first: c.first, len: c.len, h: c.h, sprig: c.sprig }, saved!.day);
+  };
+  // Back from an essay: its bunch flies home to its place on the sheet, and once it has
+  // landed the card springs back open beside it.
   const home = ret && cells.find((x) => x.key === ret.key);
-  if (home && !f.reduced) {
-    place(f);
-    if (ghost(f, home, ret!.pick)) {
-      afterTransition(() => {
-        S.ghost?.remove();
-        S.lifted = -1;
-        (f.ctx.canvas.parentElement as HTMLElement).style.viewTransitionName = '';
-      });
-    }
-  }
+  if (home && !f.reduced) place(f);
+  if (home && !f.reduced && ghost(f, home, ret!.pick)) {
+    afterTransition(() => {
+      S.ghost?.remove();
+      S.lifted = -1;
+      (f.ctx.canvas.parentElement as HTMLElement).style.viewTransitionName = '';
+      reopen();
+    });
+  } else reopen();
   if (hash) history.replaceState(history.state, '', location.pathname);
   return true;
 }
@@ -806,7 +807,7 @@ export const meadow: Variant = {
     followFocus(f);
     focusLight(f);
     // With the card gone, the view eases back inside the sheet.
-    if (!(S.card as MonthCard).isOpen && (cam.slack.l || cam.slack.r || cam.slack.t || cam.slack.b)) cam.slack = { l: 0, r: 0, t: 0, b: 0 };
+    if (!(S.card as MonthCard).isOpen && !(S.lifted >= 0) && (cam.slack.l || cam.slack.r || cam.slack.t || cam.slack.b)) cam.slack = { l: 0, r: 0, t: 0, b: 0 };
     // A bunch under the pointer wakes up, even one faded back by the focus light.
     const hl: Float32Array = (S.hl ??= new Float32Array(cells.length));
     const hov = f.hovered >= 0 ? S.cellOf[f.hovered] : -1, hk = 1 - Math.exp(-dt * 14);
