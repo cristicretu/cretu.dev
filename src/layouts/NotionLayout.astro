@@ -792,6 +792,23 @@ const isActive = (href: string) => {
       /* Persisted chrome doesn't animate during navigation — the corner
          nav, fade, and custom cursor all stay planted while the page
          swaps under them. */
+      /* Meadow to essay: the bunch lifts off the sheet and flies to its place beside the
+         text while the rest of the meadow steps back. */
+      ::view-transition-group(specimen) {
+        animation-duration: 680ms;
+        animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+      }
+      ::view-transition-old(specimen),
+      ::view-transition-new(specimen) {
+        height: 100%;
+        animation-duration: 680ms;
+      }
+      ::view-transition-old(meadow) {
+        animation: meadow-away 460ms cubic-bezier(0.4, 0, 0.2, 1) both;
+      }
+      @keyframes meadow-away {
+        to { opacity: 0; transform: scale(1.04); filter: blur(3px); }
+      }
       ::view-transition-old(page-nav),
       ::view-transition-new(page-nav),
       ::view-transition-old(nav-fade),
@@ -882,6 +899,21 @@ const isActive = (href: string) => {
         <slot />
       </div>
     </main>
+
+    <script>
+      /* Pressed bunches (beside essays, in the writing index) on whatever page has them. */
+      import { mountSpecimens } from '@/scripts/specimen-page';
+
+      // Mounted right after the swap, so a bunch the meadow hands over is already on the new
+      // page when the transition takes its picture of it.
+      let stopSpecimens: (() => void) | null = null;
+      const mount = () => {
+        stopSpecimens?.();
+        stopSpecimens = document.querySelector('[data-specimen]') ? mountSpecimens() : null;
+      };
+      document.addEventListener('astro:after-swap', mount);
+      mount();
+    </script>
 
     <script is:inline>
       (function () {

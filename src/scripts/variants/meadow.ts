@@ -15,12 +15,15 @@
    controls. */
 
 import { type Field, type Variant, MONTHS, TAU } from '../field-kit';
+import { navigate } from 'astro:transitions/client';
 import { Camera } from './camera';
 import { font } from './d-common';
 import { Fisheye } from './fisheye';
 import { MonthCard } from './meadow-card';
 import { type MeadowSound, createMeadowSound } from './meadow-sound';
-import { type Organ, type Sprig, buildSprig, chooseSpecies } from './sprigs';
+import { type Organ, type Sprig, buildSprig } from './sprigs';
+import { REF, drawSpecimen, frameOf, planMonths } from './specimen';
+import { handOff } from '../specimen-page';
 
 type Leaf = {
   o: Organ;
@@ -36,8 +39,6 @@ type Leaf = {
   landed: number;
 };
 
-/** Sprigs are grown once at this reference width and scaled to fit, so resizing never regrows. */
-const REF = 100;
 
 type Cell = {
   m: number; first: number; len: number; sprig: Sprig;
@@ -58,29 +59,15 @@ const panAt = (f: Field, x: number) => (x < 0 || x > f.width ? null : clamp((x /
 function grow(f: Field) {
   const S = f.state, { n, cal, days } = f;
   const months = cal.mi[n - 1] + 1;
-  const first = new Int32Array(months).fill(-1), len = new Uint16Array(months);
-  for (let i = 0; i < n; i++) {
-    if (first[cal.mi[i]] < 0) first[cal.mi[i]] = i;
-    len[cal.mi[i]]++;
-  }
-  let best = 1;
-  const weight = new Float32Array(months);
-  for (let m = 0; m < months; m++) {
-    for (let i = first[m]; i < first[m] + len[m]; i++) weight[m] += days[i].l + (days[i].e ? 3 : 0) + (days[i].ev ? 2 : 0);
-    weight[m] /= Math.max(len[m], 1);
-    best = Math.max(best, weight[m]);
-  }
-  const cells: Cell[] = [];
-  let prev: string | undefined;
-  for (let m = 0; m < months; m++) {
-    const i0 = first[m];
-    const h = REF * 1.15 * (0.62 + 0.38 * Math.sqrt(weight[m] / best));
-    const species = chooseSpecies(days, i0, i0 + len[m], m + 1, prev);
-    prev = species;
-    const sprig = buildSprig(days, i0, i0 + len[m], REF, h, species, m * 131 + 7, n - 1);
-    const key = `${cal.y[i0]}-${String(cal.m[i0] + 1).padStart(2, '0')}`;
-    cells.push({ m, key, first: i0, len: len[m], sprig, h, col: 0, row: 0, bx: 0, by: 0, W: 0, H: 0 });
-  }
+  const keys = Array.from({ length: months }, (_, m) => {
+    const i = cal.mi.indexOf(m);
+    return `${cal.y[i]}-${String(cal.m[i] + 1).padStart(2, '0')}`;
+  });
+  const cells: Cell[] = planMonths(days, cal.mi, keys).map((p) => ({
+    m: p.m, key: p.key, first: p.first, len: p.len, h: p.h,
+    sprig: buildSprig(days, p.first, p.first + p.len, REF, p.h, p.species, p.seed, n - 1),
+    col: 0, row: 0, bx: 0, by: 0, W: 0, H: 0,
+  }));
   // Where each day lives within its sprig (reference units), for hit-testing and the readout.
   const hx = new Float32Array(n), hy = new Float32Array(n), cellOf = new Uint16Array(n);
   for (const c of cells) {
@@ -522,6 +509,78 @@ function followYear(f: Field) {
   };
 }
 
+const VIEW = 'meadow-view';
+
+/** On the way out: note the view, and if it's an essay from this meadow, lift its bunch off
+    the sheet so it can fly to its place beside the text. */
+function leave(f: Field, e: Event) {
+  const S = f.state, cam: Camera = S.cam, card: MonthCard = S.card;
+  const to: URL | undefined = (e as any).to;
+  try {
+    sessionStorage.setItem(VIEW, JSON.stringify({ cx: cam.cx, cy: cam.cy, z: cam.z, key: card.openKey, day: card.openDay, at: Date.now() }));
+  } catch {}
+  const m = to?.pathname.match(/^\/writing\/([^/]+)\/?$/);
+  if (!m || f.reduced) return;
+  const i = f.days.findIndex((d) => d.e?.some((x) => x.s === m[1]));
+  if (i < 0) return;
+  liftOff(f, (S.cells as Cell[])[S.cellOf[i]], i);
+}
+
+function liftOff(f: Field, c: Cell, pick: number) {
+  const S = f.state, cam: Camera = S.cam;
+  const fr = frameOf(c.h), k = S.k * cam.z, base = cam.toScreen(c.bx, c.by);
+  const box = { x: base.x + fr.x * k, y: base.y + fr.y * k, w: fr.w * k, h: fr.h * k };
+  if (box.x > f.width || box.y > f.height || box.x + box.w < 0 || box.y + box.h < 0) return;
+  const ghost = document.createElement('canvas'), dpr = Math.min(devicePixelRatio || 1, 2);
+  ghost.setAttribute('aria-hidden', 'true');
+  ghost.width = Math.round(box.w * dpr);
+  ghost.height = Math.round(box.h * dpr);
+  ghost.style.cssText = `position:fixed;left:${box.x}px;top:${box.y}px;width:${box.w}px;height:${box.h}px;z-index:3;pointer-events:none;view-transition-name:specimen`;
+  const ctx = ghost.getContext('2d')!;
+  ctx.scale(dpr, dpr);
+  drawSpecimen(ctx, c.sprig, c.h, { x: 0, y: 0, w: box.w, h: box.h }, {
+    ink: f.colors.ink, bg: f.colors.bg, lw: clamp(0.7 + 0.22 * Math.log2(Math.max(cam.z, 1)), 0.72, 1.8), pick, sway: S.sway[c.m],
+  });
+  document.body.append(ghost);
+  S.lifted = c.m;
+  // The rest of the meadow steps back while the bunch travels.
+  (f.ctx.canvas.parentElement as HTMLElement).style.viewTransitionName = 'meadow';
+  handOff(c.key);
+  const clean = () => {
+    ghost.remove();
+    S.lifted = -1;
+    document.removeEventListener('astro:after-swap', clean);
+  };
+  document.addEventListener('astro:after-swap', clean);
+}
+
+/** Back from an essay (or a link to a month): pick up where things were, no intro. */
+function comeBack(f: Field) {
+  const S = f.state, cam: Camera = S.cam, cells: Cell[] = S.cells;
+  const hash = location.hash.slice(1);
+  const byHash = /^\d{4}-\d{2}$/.test(hash) ? cells.find((c) => c.key === hash) : undefined;
+  let saved: { cx: number; cy: number; z: number; key: string | null; day: number; at: number } | null = null;
+  try {
+    saved = JSON.parse(sessionStorage.getItem(VIEW) ?? 'null');
+  } catch {}
+  if (saved && Date.now() - saved.at > 30 * 60000) saved = null;
+  if (byHash && (!saved || saved.key !== byHash.key)) {
+    history.replaceState(history.state, '', location.pathname);
+    focusOn(f, byHash, -1);
+    return true;
+  }
+  if (!saved) return false;
+  cam.cx = saved.cx;
+  cam.cy = saved.cy;
+  cam.z = clamp(saved.z, cam.zMin, cam.zMax);
+  const c = saved.key ? cells.find((x) => x.key === saved!.key) : undefined;
+  if (c) {
+    (S.card as MonthCard).open({ key: c.key, m: c.m, first: c.first, len: c.len, h: c.h, sprig: c.sprig }, saved.day);
+  }
+  if (hash) history.replaceState(history.state, '', location.pathname);
+  return true;
+}
+
 /** A picked flower rings its own note: higher days of the month, higher notes. */
 function chime(f: Field, i: number) {
   const S = f.state, sound: MeadowSound | undefined = S.sound;
@@ -622,6 +681,10 @@ export const meadow: Variant = {
     S.bulge = 0;
     S.lastLogZ = Math.log(cam.z);
     if (import.meta.env.DEV) Object.assign(window as any, { __meadowCam: cam, __meadow: S, __meadowHit: (x: number, y: number) => hitTest(f, x, y), __meadowField: f });
+    // Leaving for an essay or anywhere else, the meadow remembers the view to come back to.
+    S.onLeave = (e: Event) => leave(f, e);
+    document.addEventListener('astro:before-preparation', S.onLeave);
+    if (comeBack(f)) return;
     if (f.reduced) return;
     // Open close on today's bud, then pull back to the sheet.
     const t = f.n - 1, c: Cell = S.cells[S.cellOf[t]];
@@ -640,6 +703,7 @@ export const meadow: Variant = {
     (f.state.card as MonthCard | undefined)?.dispose();
     (f.state.sound as MeadowSound | undefined)?.dispose();
     f.state.helpKey && document.removeEventListener('keydown', f.state.helpKey);
+    f.state.onLeave && document.removeEventListener('astro:before-preparation', f.state.onLeave);
     if (f.state.yearEl) f.state.yearEl.textContent = f.state.yearHome;
   },
   tick(f) {
@@ -719,6 +783,9 @@ export const meadow: Variant = {
     const w = cam.toWorld(p.x, p.y), cells: Cell[] = S.cells;
     const cell = i >= 0 ? cells[S.cellOf[i]] : cells.find((c) => Math.abs(w.x - c.bx) < c.W / 2 && w.y < c.by + S.ch * 0.07 && w.y > c.by - S.ch * 0.93);
     if (!cell) { card.close(); return true; }
+    // A second click on an essay's flower opens the essay.
+    const essay = i >= 0 && card.openDay === i ? f.days[i].e?.[0] : undefined;
+    if (essay) { navigate(`/writing/${essay.s}`); return true; }
     focusOn(f, cell, i);
     chime(f, i);
     return true;
@@ -777,7 +844,7 @@ export const meadow: Variant = {
       const reach = Math.max(c.W, c.H) * z;
       const wake = (hl?.[c.m] ?? 0) * 0.75;
       if (base.x < -reach || base.x > W + reach || base.y < -20 || base.y - c.H * z * 1.25 > H) continue;
-      if (s[c.first] < 0.01) continue;
+      if (s[c.first] < 0.01 || c.m === S.lifted) continue;
       ctx.save();
       ctx.translate(base.x, base.y);
       ctx.scale(zk, zk);
