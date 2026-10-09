@@ -92,6 +92,7 @@
 .post-cover {
   display: block;
   width: 100%;
+  height: auto;
   max-height: 280px;
   object-fit: cover;
   border-radius: 6px;

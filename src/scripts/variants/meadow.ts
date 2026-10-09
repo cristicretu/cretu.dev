@@ -646,7 +646,7 @@ function mountHelp(f: Field) {
   const help = document.createElement('div');
   help.className = 'field-help';
   help.innerHTML = `<button type="button" aria-label="Controls" aria-expanded="false">?</button>
-<dl role="tooltip">
+<dl aria-label="Controls">
   <dt>move</dt><dd>drag, two-finger scroll, wasd or arrows</dd>
   <dt>zoom</dt><dd>pinch, ⌘ scroll, q / e</dd>
   <dt>dive in</dt><dd>click or double-click</dd>
