@@ -1,4 +1,7 @@
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { getCollection } from 'astro:content';
+import saved from './contributions.json';
 import { type TimelineKind, timeline } from './timeline';
 import { live } from './archive';
 import { works } from './work';
@@ -26,7 +29,13 @@ export type Landmarks = Record<string, Moment[]>;
 
 let contributionsCache: Promise<Map<string, { l: number; c: number }>> | null = null;
 
-/** Scrapes the public contribution calendar, one request per year. Fails soft to an empty map. */
+/** The last good scrape, kept in the repo: a year GitHub doesn't answer for falls back to it,
+    so a flaky build never turns the meadow into nothing but leaves. Refreshed whenever every
+    year comes back. ("YYYY-MM-DD": [level, count]) */
+const SAVED = saved as Record<string, [number, number]>;
+
+/** Scrapes the public contribution calendar, one request per year; years it can't get come
+    from the saved copy. */
 function fetchContributions() {
   if (contributionsCache) return contributionsCache;
   const firstYear = Number(START.slice(0, 4));
@@ -43,18 +52,36 @@ function fetchContributions() {
         return '';
       }
     })
-  ).then((pages) => {
+  ).then(async (pages) => {
     const map = new Map<string, { l: number; c: number }>();
-    for (const html of pages) {
+    let complete = true;
+    pages.forEach((html, k) => {
       const ids = new Map<string, { date: string; l: number }>();
       for (const m of html.matchAll(/data-date="([\d-]+)" id="([^"]+)" data-level="(\d)"/g)) {
         ids.set(m[2], { date: m[1], l: Number(m[3]) });
       }
       // Heavy days read "100+ contributions" (a floor, not the true count) and big numbers can
       // carry commas; both used to slip past and leave the day looking empty.
+      let got = 0;
       for (const m of html.matchAll(/for="([^"]+)"[^>]*>([\d,]+\+?|No) contributions?/g)) {
         const day = ids.get(m[1]);
-        if (day) map.set(day.date, { l: day.l, c: m[2] === 'No' ? 0 : Number(m[2].replace(/[^\d]/g, '')) });
+        if (day) { map.set(day.date, { l: day.l, c: m[2] === 'No' ? 0 : Number(m[2].replace(/[^\d]/g, '')) }); got++; }
+      }
+      if (got) return;
+      complete = false;
+      const year = String(years[k]);
+      for (const [date, [l, c]] of Object.entries(SAVED)) if (date.startsWith(year)) map.set(date, { l, c });
+      console.warn(`[days] no contributions from GitHub for ${year}; using the saved copy`);
+    });
+    if (complete) {
+      const out: Record<string, [number, number]> = {};
+      for (const [date, v] of [...map].sort(([a], [b]) => a.localeCompare(b))) if (date >= START) out[date] = [v.l, v.c];
+      // Only when something changed, so the dev server doesn't reload itself in a loop.
+      const text = JSON.stringify(out);
+      if (text !== JSON.stringify(SAVED)) {
+        try {
+          await writeFile(join(process.cwd(), 'src/data/contributions.json'), `${text}\n`);
+        } catch {}
       }
     }
     return map;
