@@ -2,6 +2,8 @@ export type WorkCardType = {
   title: string;
   description: string;
   year: number;
+  /** When it shipped, if known ("2025-06" or "2025-06-14"); places it in that month's card. */
+  date?: string;
   authors?: string[];
   link?: string;
   company?: string;
@@ -56,6 +58,7 @@ export const works: WorkCardType[] = [
     title: "Anara Agents",
     description: "ai for scientific research",
     year: 2025,
+    date: "2025-08",
     authors: ["Naveed Janmohamed", "Andrew Dorobantu", "Tudor Cocaina", "Cristian Dumitrana", "Cristian Crețu"],
     company: "Anara",
     link: "https://anara.com/changelog/two-dot-zero",

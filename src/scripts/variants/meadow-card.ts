@@ -243,10 +243,12 @@ export class MonthCard {
     const label = `${MONTH_NAMES[cal.m[m.first]]} ${cal.y[m.first]}`;
     const dayShort = (i: number) => `${cal.dom[i]} ${MONTHS[cal.m[i]]}`;
 
+    // Projects with a print on the shelf below aren't listed twice.
+    const shelved = new Set(this.shelved(m.key).map((w) => w.t.toLowerCase()));
     const items: string[] = [];
-    for (const x of monthOnly) items.push(`<li>${x.h ? `<a href="${esc(x.h)}" target="_blank" rel="noopener">${esc(x.t)}</a>` : esc(x.t)}</li>`);
+    for (const x of monthOnly.filter((x) => !shelved.has(x.t))) items.push(`<li>${x.h ? `<a href="${esc(x.h)}" target="_blank" rel="noopener">${esc(x.t)}</a>` : esc(x.t)}</li>`);
     for (const e of essays) items.push(`<li><a href="/writing/${esc(e.s)}">${esc(e.t)}</a><span>${dayShort(e.i)}</span></li>`);
-    for (const x of moments) items.push(`<li>${x.m.h ? `<a href="${esc(x.m.h)}" target="_blank" rel="noopener">${esc(x.m.t)}</a>` : esc(x.m.t)}<span>${dayShort(x.i)}</span></li>`);
+    for (const x of moments.filter((x) => !shelved.has(x.m.t))) items.push(`<li>${x.m.h ? `<a href="${esc(x.m.h)}" target="_blank" rel="noopener">${esc(x.m.t)}</a>` : esc(x.m.t)}<span>${dayShort(x.i)}</span></li>`);
 
     const n = (v: number) => `<span class="mc-n" data-n="${v}">${v.toLocaleString('en-US')}</span>`;
     return `<p class="mc-kicker"><span class="mc-no">no. ${String(m.m + 1).padStart(2, '0')}</span>${label}${isNow ? ' · still growing' : ''}</p>
@@ -257,11 +259,22 @@ export class MonthCard {
 ${day >= 0 ? `<p class="mc-day">${this.dayLine(m, day, sp)}</p>` : ''}
 ${note ? `<p class="mc-note">${esc(note)}</p>` : ''}
 ${items.length ? `<ul class="mc-list">${items.join('')}</ul>` : ''}
-${this.shelf(cal.y[m.first])}`;
+${this.shelf(m.key)}`;
   }
 
-  /** Work from the month's year, as small tilted prints. */
-  private shelf(year: number) {
+  /** What shipped this month, as small tilted prints. */
+  private shelf(key: string) {
+    const list = this.shelved(key);
+    if (!list.length) return '';
+    const items = list.map((w, k) => {
+      const inner = `${w.i ? `<img src="${esc(w.i)}" alt="" loading="lazy" decoding="async">` : '<i class="mc-blank"></i>'}<span>${esc(w.t.toLowerCase())}</span><small>${esc(w.d)}</small>`;
+      const tilt = `style="--tilt:${(((k * 37) % 7) - 3) * 0.6}deg"`;
+      return `<li>${w.h ? `<a href="${esc(w.h)}" target="_blank" rel="noopener" data-no-arrow ${tilt}>${inner}</a>` : `<div ${tilt}>${inner}</div>`}</li>`;
+    });
+    return `<div class="mc-made"><p class="mc-made-h">made this month</p><ul class="mc-shelf">${items.join('')}</ul></div>`;
+  }
+  private made?: { t: string; d: string; k: string; h?: string; i?: string }[];
+  private shelved(key: string) {
     this.made ??= (() => {
       try {
         return JSON.parse(document.querySelector<HTMLElement>('[data-works]')?.dataset.works ?? '[]');
@@ -269,16 +282,8 @@ ${this.shelf(cal.y[m.first])}`;
         return [];
       }
     })();
-    const list = this.made!.filter((w) => w.y === year);
-    if (!list.length) return '';
-    const items = list.map((w, k) => {
-      const inner = `${w.i ? `<img src="${esc(w.i)}" alt="" loading="lazy" decoding="async">` : '<i class="mc-blank"></i>'}<span>${esc(w.t.toLowerCase())}</span><small>${esc(w.d)}</small>`;
-      const tilt = `style="--tilt:${(((k * 37) % 7) - 3) * 0.6}deg"`;
-      return `<li>${w.h ? `<a href="${esc(w.h)}" target="_blank" rel="noopener" data-no-arrow ${tilt}>${inner}</a>` : `<div ${tilt}>${inner}</div>`}</li>`;
-    });
-    return `<div class="mc-made"><p class="mc-made-h">made in ${year}</p><ul class="mc-shelf">${items.join('')}</ul></div>`;
+    return this.made!.filter((w) => w.k === key);
   }
-  private made?: { t: string; d: string; y: number; h?: string; i?: string; c?: string }[];
 
   /** "a bell in full bloom · 15 aug: 3 contributions" */
   private dayLine(m: CardMonth, i: number, sp: { flower: string }) {

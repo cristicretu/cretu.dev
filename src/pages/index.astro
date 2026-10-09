@@ -2,10 +2,9 @@
 import NotionLayout from '@/layouts/NotionLayout.astro';
 import Mention from '@/components/Mention.astro';
 import { getCollection } from 'astro:content';
-import { START, getDays, getLandmarks } from '@/data/days';
+import { START, getDatedWorks, getDays, getLandmarks } from '@/data/days';
 import { months as monthNotes } from '@/data/months';
 import { variantNames } from '@/scripts/field-variants';
-import { works } from '@/data/work';
 
 const allPosts = await getCollection('writing');
 const latestPosts = allPosts
@@ -16,10 +15,11 @@ const latestPosts = allPosts
   .slice(0, 3);
 
 const [days, landmarks] = await Promise.all([getDays(), getLandmarks()]);
-// Work lives in the meadow now: each month's card shows what was made that year.
-const made = works
-  .filter((w) => w.year >= Number(START.slice(0, 4)))
-  .map((w) => ({ t: w.title, d: w.description, y: w.year, ...(w.link ? { h: w.link } : {}), ...(w.img ? { i: w.img } : {}), ...(w.company ? { c: w.company } : {}) }));
+// Work lives in the meadow now: a month's card shows what shipped that month. Projects known
+// only to the year stay out until they're given a date in src/data/work.ts.
+const made = (await getDatedWorks())
+  .filter((w) => w.date.length >= 7)
+  .map((w) => ({ t: w.title, d: w.description, k: w.date.slice(0, 7), ...(w.link ? { h: w.link } : {}), ...(w.img ? { i: w.img } : {}) }));
 const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
 ---
 

@@ -87,17 +87,25 @@ function fetchRepos() {
 const sameUrl = (a: string, b: string) =>
   !!a && !!b && a.replace(/\/+$/, '').replace(/^https?:\/\//, '') === b.replace(/\/+$/, '').replace(/^https?:\/\//, '');
 
-/** Timeline entries plus work projects, each dated as precisely as we honestly can. */
-async function getMoments() {
+/** Work projects since START, each dated as precisely as we honestly can: a hand-given date,
+    else its repo's creation day, else only its year. */
+export async function getDatedWorks() {
   const repos = await fetchRepos();
-  const projects = works
+  return works
     .filter((w) => w.year >= Number(START.slice(0, 4)))
     .map((w) => {
       const repo = w.link ? repos.find((r) => sameUrl(r.url, w.link!) || sameUrl(r.homepage, w.link!)) : undefined;
       // A repo created in a different year than the project was listed under isn't its birthday.
-      const date = repo && repo.created.startsWith(String(w.year)) ? repo.created : String(w.year);
-      return { date, kind: 'launch' as const, title: w.title.toLowerCase(), href: w.link };
+      // The timeline may already know when it launched ("meshgrad", "agents 2.0 at anara").
+      const known = timeline.find((t) => t.date.length >= 7 && t.date.startsWith(String(w.year)) && t.title.split(/[,(]/)[0].trim() === w.title.toLowerCase());
+      const date = w.date ?? known?.date ?? (repo && repo.created.startsWith(String(w.year)) ? repo.created : String(w.year));
+      return { ...w, date };
     });
+}
+
+/** Timeline entries plus work projects, each dated as precisely as we honestly can. */
+async function getMoments() {
+  const projects = (await getDatedWorks()).map((w) => ({ date: w.date, kind: 'launch' as const, title: w.title.toLowerCase(), href: w.link }));
   // Hand-written entries win over the automatic ones when both name the same thing.
   const seen = new Set(timeline.map((t) => t.title));
   return [...timeline, ...projects.filter((p) => !seen.has(p.title))];
