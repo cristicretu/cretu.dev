@@ -377,7 +377,12 @@ export function mountDaysField(root: HTMLElement) {
   const onClick = (e: MouseEvent) => {
     const p = pointerAt(e);
     const i = nearest(p.x, p.y);
-    if (variant.click?.(field, i)) return;
+    // A touch has already "left" by the time its click arrives; the click still happened here.
+    const lifted = !field.pointer;
+    if (lifted) field.pointer = { x: p.x, y: p.y, down: false, dx: 0, dy: 0 };
+    const handled = variant.click?.(field, i);
+    if (lifted) field.pointer = null;
+    if (handled) return;
     if (i >= 0 && days[i].e) window.location.href = `/writing/${days[i].e![0].s}`;
   };
   const onWheel = (e: WheelEvent) => {

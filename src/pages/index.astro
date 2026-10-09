@@ -22,7 +22,7 @@ const made = (await getDatedWorks())
 const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
 ---
 
-<NotionLayout>
+<NotionLayout description="A meadow of every day since I started shipping: one hand-drawn flower per day, grown from commits and essays." image="https://cretu.dev/static/images/og-meadow.png">
   <div class="field" data-field data-days={JSON.stringify(days)} data-landmarks={JSON.stringify(landmarks)} data-notes={JSON.stringify(monthNotes)} data-works={JSON.stringify(made)} data-start={START}>
     <canvas role="img" aria-label={`${days.length} dots, one for every day since ${START}. Darker dots are days with more commits; ringed dots are days an essay was published.`}></canvas>
     <p class="field-readout" data-readout aria-live="polite">{days.length.toLocaleString('en-US')} days since i started shipping · {essayCount} essays</p>
@@ -496,6 +496,8 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
       max-height: 50vh;
     }
     .mc-sketch { width: 84px; height: 112px; }
+    /* The latin name drops to its own line rather than breaking mid-name. */
+    .mc-title i { display: block; margin: 2px 0 0; }
     .field-help {
       left: auto;
       right: 64px;
