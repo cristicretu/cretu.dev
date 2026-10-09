@@ -4,7 +4,6 @@ import Mention from '@/components/Mention.astro';
 import { getCollection } from 'astro:content';
 import { START, getDatedWorks, getDays, getLandmarks } from '@/data/days';
 import { months as monthNotes } from '@/data/months';
-import { variantNames } from '@/scripts/field-variants';
 
 const allPosts = await getCollection('writing');
 const latestPosts = allPosts
@@ -28,16 +27,6 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     <canvas role="img" aria-label={`${days.length} dots, one for every day since ${START}. Darker dots are days with more commits; ringed dots are days an essay was published.`}></canvas>
     <p class="field-readout" data-readout aria-live="polite">{days.length.toLocaleString('en-US')} days since i started shipping · {essayCount} essays</p>
     <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">info</button>
-    <nav class="field-variants" data-variants aria-label="Variant" hidden>
-      <button type="button" class="fv-step" data-step="-1" aria-label="Previous variant">←</button>
-      <button type="button" class="fv-current" data-menu aria-expanded="false" aria-controls="fv-menu">
-        <span data-current></span><span class="fv-count" data-count></span>
-      </button>
-      <button type="button" class="fv-step" data-step="1" aria-label="Next variant">→</button>
-      <div class="fv-menu" id="fv-menu" data-menu-list hidden>
-        {variantNames.map((name) => <button type="button" data-variant={name}>{name}</button>)}
-      </div>
-    </nav>
   </div>
 
   <div class="about paper" id="about" data-info-panel>
@@ -230,58 +219,6 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   html.has-field .page-content { pointer-events: none; }
 
   /* Variant switcher: only shown when the URL carries ?v= */
-  .field-variants {
-    position: fixed;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    z-index: 50;
-    font-size: 13px;
-  }
-  .field-variants[hidden] { display: none; }
-  .field-variants button {
-    border: 0;
-    background: none;
-    font: inherit;
-    color: var(--notion-faint);
-    border-radius: 6px;
-    transition: color var(--dur-quick, 140ms) ease, background var(--dur-quick, 140ms) ease;
-  }
-  .field-variants button:hover { color: var(--notion-ink); }
-  .fv-step { width: 28px; height: 28px; }
-  .fv-current {
-    display: inline-flex;
-    gap: 8px;
-    align-items: baseline;
-    padding: 5px 10px;
-    min-width: 128px;
-    justify-content: center;
-  }
-  .fv-current [data-current] { color: var(--notion-ink); }
-  .fv-current[aria-expanded='true'] { background: var(--notion-tint); }
-  .fv-count { font-variant-numeric: tabular-nums; color: var(--notion-faint); }
-  .fv-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    display: grid;
-    grid-template-columns: repeat(4, minmax(96px, 1fr));
-    gap: 2px;
-    padding: 6px;
-    background: var(--notion-surface);
-    border-radius: 12px;
-    box-shadow: var(--notion-shadow), 0 0 0 1px var(--notion-rule);
-    max-height: 60vh;
-    overflow-y: auto;
-  }
-  .fv-menu[hidden] { display: none; }
-  .fv-menu button { padding: 6px 10px; text-align: left; }
-  .fv-menu button:hover { background: var(--notion-row-hover); }
-  .fv-menu button[aria-pressed='true'] { color: var(--notion-ink); background: var(--notion-tint); }
 
   /* Meadow's month card: a specimen label with the bunch sketched in. */
   .month-card {
@@ -548,10 +485,6 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   @media (max-width: 639px) {
     .field-readout { left: 20px; right: 80px; bottom: 28px; }
     .field-info { right: 20px; bottom: 28px; }
-    .field-variants {
-      top: auto;
-      bottom: 50px;
-    }
     .month-card {
       left: 12px;
       right: 12px;
@@ -576,11 +509,6 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     }
     .field-help:hover dl,
     .field-help.open dl { transform: none; }
-    .fv-menu {
-      top: auto;
-      bottom: calc(100% + 8px);
-      grid-template-columns: repeat(2, minmax(110px, 1fr));
-    }
     html.info-open .field canvas { opacity: 0.15; }
     .field canvas { transition: opacity 240ms ease; }
   }

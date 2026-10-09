@@ -1,10 +1,9 @@
-/* Every day since the first essay, one dot each. Ink weight is that day's GitHub activity,
-   rings are essays, today breathes. Dots spring between layouts, so resizing reflows the
-   field, opening "info" clears room for the document. The homepage shows the meadow; ?v= picks
-   any other variant. */
+/* The homepage canvas: every day since the first essay, drawn by the meadow. This engine owns
+   the per-day state (positions, appearance), pointer and wheel input, hover, the info panel
+   and the frame loop; the meadow decides where each day is and how it all looks. */
 
 import { type Day, type Field, type Variant, MONTHS, TAU, drawDefault } from './field-kit';
-import { variantNames, variants } from './field-variants';
+import { meadow } from './variants/meadow';
 
 const DAY_MS = 86400000;
 
@@ -24,10 +23,7 @@ export function mountDaysField(root: HTMLElement) {
   const n = days.length;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const defaultReadout = readout.innerHTML;
-  const switcher = root.querySelector<HTMLElement>('[data-variants]');
-  const requested = new URL(location.href).searchParams.get('v');
-  // The homepage is the meadow; ?v= still opens any other variant for exploring.
-  let variant: Variant = variants[requested ?? ''] ?? variants.meadow;
+  const variant: Variant = meadow;
 
   // Per-dot spring state: position, velocity, and an animated scale (0 = hidden).
   const x = new Float32Array(n), y = new Float32Array(n);
@@ -84,7 +80,7 @@ export function mountDaysField(root: HTMLElement) {
     const mobile = width < 640;
     const nav = document.querySelector('.page-nav')?.getBoundingClientRect().bottom ?? 0;
     const top = Math.max(mobile ? 104 : 120, nav + 24);
-    const bottom = mobile ? (requested ? 100 : 72) : 88, side = mobile ? 20 : 96;
+    const bottom = mobile ? 72 : 88, side = mobile ? 20 : 96;
     return { left: side, top, w: width - side * 2, h: height - top - bottom };
   }
 
@@ -384,73 +380,6 @@ export function mountDaysField(root: HTMLElement) {
   };
   const onInfo = () => setInfo(!field.infoOpen);
 
-  // The switcher only shows when a variant is asked for, so the default page stays clean.
-  const current = switcher?.querySelector<HTMLElement>('[data-current]');
-  const count = switcher?.querySelector<HTMLElement>('[data-count]');
-  const menu = switcher?.querySelector<HTMLElement>('[data-menu-list]');
-  const menuButton = switcher?.querySelector<HTMLButtonElement>('[data-menu]');
-
-  function syncSwitcher() {
-    const name = variantNames.find((k) => variants[k] === variant) ?? 'meadow';
-    if (current) current.textContent = name;
-    if (count) count.textContent = `${variantNames.indexOf(name) + 1}/${variantNames.length}`;
-    switcher?.querySelectorAll<HTMLButtonElement>('[data-variant]').forEach((b) => {
-      b.setAttribute('aria-pressed', String(b.dataset.variant === name));
-    });
-  }
-
-  function setMenu(open: boolean) {
-    if (!menu || !menuButton) return;
-    menu.hidden = !open;
-    menuButton.setAttribute('aria-expanded', String(open));
-  }
-
-  function setVariant(name: string) {
-    if (!variants[name] || variants[name] === variant) return;
-    variant.exit?.(field);
-    variant = variants[name];
-    field.state = {};
-    // Physics variants leave velocities behind; start the next one calm.
-    vx.fill(0); vy.fill(0);
-    const url = new URL(location.href);
-    url.searchParams.set('v', name);
-    history.replaceState(history.state, '', url);
-    applyTheme();
-    colors = field.colors = readColors();
-    syncSwitcher();
-    setHovered(-1);
-    layout();
-    variant.enter?.(field);
-    wake();
-  }
-  const step = (by: number) => {
-    const i = variantNames.findIndex((k) => variants[k] === variant);
-    setVariant(variantNames[(i + by + variantNames.length) % variantNames.length]);
-  };
-  const onSwitch = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    const b = target.closest<HTMLButtonElement>('[data-variant]');
-    if (b) { setVariant(b.dataset.variant!); setMenu(false); return; }
-    const st = target.closest<HTMLButtonElement>('[data-step]');
-    if (st) { step(Number(st.dataset.step)); return; }
-    if (target.closest('[data-menu]')) setMenu(menu?.hidden ?? false);
-  };
-  const onArrow = (e: KeyboardEvent) => {
-    if (field.infoOpen || (e.target as HTMLElement)?.closest?.('input, textarea')) return;
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    // [ and ] always switch; the arrows do too unless the variant steers with them.
-    if (e.key === ']' || (e.key === 'ArrowRight' && !variant.keys)) step(1);
-    else if (e.key === '[' || (e.key === 'ArrowLeft' && !variant.keys)) step(-1);
-    else if (e.key === 'Escape') setMenu(false);
-  };
-  if (switcher && requested) {
-    // Above the nav fade, which sits over the field's whole stacking context.
-    document.body.append(switcher);
-    switcher.hidden = false;
-    switcher.addEventListener('click', onSwitch);
-    document.addEventListener('keydown', onArrow);
-    syncSwitcher();
-  }
 
   canvas.addEventListener('pointermove', onMove);
   canvas.addEventListener('pointerdown', onDown);
@@ -487,11 +416,9 @@ export function mountDaysField(root: HTMLElement) {
     themeObserver.disconnect();
     window.removeEventListener('pointerup', onUp);
     document.removeEventListener('keydown', onKey);
-    document.removeEventListener('keydown', onArrow);
     infoButton?.removeEventListener('click', onInfo);
     if (savedTheme !== null) document.documentElement.dataset.theme = savedTheme;
     document.documentElement.classList.remove('info-open', 'has-field');
     root.remove();
-    switcher?.remove();
   };
 }

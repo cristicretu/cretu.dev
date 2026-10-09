@@ -49,6 +49,8 @@ const rehypePrettyCodeOptions = {
 
 export default defineConfig({
   site: 'https://cretu.dev',
+  // Work lives in the meadow's month cards now.
+  redirects: { '/work': '/' },
   integrations: [
     tailwind(),
     react(),

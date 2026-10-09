@@ -17,7 +17,6 @@
 import { type Field, type Variant, MONTHS, TAU } from '../field-kit';
 import { navigate } from 'astro:transitions/client';
 import { Camera } from './camera';
-import { font } from './d-common';
 import { Fisheye } from './fisheye';
 import { MonthCard } from './meadow-card';
 import { type MeadowSound, createMeadowSound } from './meadow-sound';
@@ -52,6 +51,7 @@ type Cell = {
 };
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+const font = (size: number, weight = 500) => `${weight} ${size}px Inter, system-ui, sans-serif`;
 /** Stereo position of a screen x, for the sounds; null when it's off screen. */
 const panAt = (f: Field, x: number) => (x < 0 || x > f.width ? null : clamp((x / f.width) * 2 - 1, -1, 1));
 
