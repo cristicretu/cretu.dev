@@ -682,7 +682,7 @@ export const meadow: Variant = {
   ownIntro: true,
   busy(f) {
     const S = f.state;
-    return (S.cam as Camera).moving || (S.falling as Leaf[]).length > 0 || !!S.born || Math.abs(S.bulge ?? 0) > 0.002 || (S.card as MonthCard).isOpen;
+    return (S.cam as Camera).moving || (S.falling as Leaf[]).length > 0 || !!S.born || Math.abs(S.bulge ?? 0) > 0.002 || (S.card as MonthCard).isOpen || !!S.sinking;
   },
   hit: hitTest,
   layout(f) {
@@ -762,21 +762,45 @@ export const meadow: Variant = {
     S.bulge ??= 0;
     S.bulge += (target - S.bulge) * (1 - Math.exp(-dt * (Math.abs(target) > Math.abs(S.bulge) ? 9 : 6)));
     const cells: Cell[] = S.cells, p = f.pointer;
-    // With "about" open the meadow parts like curtains for the page: bunches lean away from
-    // the middle, those nearest it most, and straighten again when it closes.
+    // With "about" open the meadow makes a clearing for it: the bunches under the text sink
+    // back into the ground (the grow-in, run backwards), rippling out from the middle, and the
+    // ones around the edge lean away. On close they grow back from the rim inward.
     const rest: Float32Array = (S.rest ??= new Float32Array(cells.length));
-    const parting = f.infoOpen && !f.reduced;
-    const rk = 1 - Math.exp(-dt * (parting ? 2.6 : 1.8));
-    const mid = f.width / 2;
+    const down: Float32Array = (S.down ??= new Float32Array(cells.length));
+    const dist: Float32Array = (S.dist ??= new Float32Array(cells.length).fill(9));
+    if (f.infoOpen !== S.wasOpen) {
+      S.wasOpen = f.infoOpen;
+      S.openedAt = f.now;
+    }
+    const since = f.now - (S.openedAt ?? -1e9);
+    const text = f.infoOpen ? (S.aboutText ??= document.querySelector('[data-about-text]'))?.getBoundingClientRect() : null;
+    const rk = 1 - Math.exp(-dt * (text ? 2.6 : 1.8));
+    let sinking = false;
     // Wind, and the pointer brushing through sprigs it passes over.
     for (const c of cells) {
-      let want = 0;
-      if (parting) {
-        const bx = cam.toScreen(c.bx, c.by).x;
-        const near = clamp(1 - Math.abs(bx - mid) / (f.width * 0.55), 0, 1);
-        want = (Math.sign(bx - mid) || 1) * 0.32 * near * near * (3 - 2 * near);
+      let want = 0, sink = 0;
+      if (text) {
+        const q = cam.toScreen(c.bx, c.by - c.H / 2);
+        const hw = (c.W * cam.z) / 2, hh = (c.H * cam.z) / 2;
+        // A round patch about the text, its edge a touch uneven.
+        const wob = 1 + 0.06 * Math.sin(c.m * 1.7) + 0.04 * Math.sin(c.m * 4.3);
+        const a = (text.width / 2 + 40 + hw * 0.5) * 1.2 * wob, b = (text.height / 2 + 32 + hh * 0.5) * 1.2 * wob;
+        const dx = Math.abs(q.x - (text.left + text.right) / 2) / a, dy = Math.abs(q.y - (text.top + text.bottom) / 2) / b;
+        const d = (dx ** 2.5 + dy ** 2.5) ** 0.4;
+        dist[c.m] = d;
+        if (d < 1 && since > d * 320) sink = 1;
+        if (d >= 1 && d < 1.7 && !f.reduced) {
+          const near = 1 - (d - 1) / 0.7;
+          want = (Math.sign(q.x - (text.left + text.right) / 2) || 1) * 0.3 * near * near * (3 - 2 * near);
+        }
+      } else if (down[c.m] > 0 && since < (1 - Math.min(dist[c.m], 1)) * 360) sink = down[c.m];
+      if (f.reduced) down[c.m] = sink;
+      else if (down[c.m] !== sink) {
+        down[c.m] = sink > down[c.m] ? Math.min(down[c.m] + dt / 0.75, sink) : Math.max(down[c.m] - dt / 1.1, sink);
+        sinking = true;
       }
       rest[c.m] += (want - rest[c.m]) * rk;
+      if (Math.abs(want - rest[c.m]) > 0.002) sinking = true;
       if (p && !f.reduced && !p.down && p.dx) {
         const base = cam.toScreen(c.bx, c.by), top = cam.toScreen(c.bx, c.by - c.H);
         const half = (c.W * cam.z) / 2;
@@ -790,6 +814,10 @@ export const meadow: Variant = {
       const gust = f.reduced ? 0 : 0.026 * Math.sin(S.time * 0.9 + c.bx * 0.006 + c.row * 0.8) + 0.01 * Math.sin(S.time * 2.3 + c.m);
       S.sway[c.m] = gust + S.bend[c.m];
     }
+    // The year and month labels step aside too.
+    S.labelA = (S.labelA ?? 1) + ((text ? 0 : 1) - (S.labelA ?? 1)) * (1 - Math.exp(-dt * 6));
+    if (Math.abs((text ? 0 : 1) - S.labelA) > 0.005) sinking = true;
+    S.sinking = sinking;
     if (!f.reduced) {
       resizeGust(f);
       shake(f);
@@ -851,13 +879,13 @@ export const meadow: Variant = {
       years.add(yr);
       const q = cam.toScreen(f.frame.left + S.gutter * 0.1, f.frame.top + (c.row + 0.86) * S.ch);
       if (q.y < -20 || q.y > H + 20) continue;
-      ctx.globalAlpha = 0.9;
+      ctx.globalAlpha = 0.9 * (S.labelA ?? 1);
       ctx.textAlign = 'left';
       ctx.fillText(String(yr), Math.max(q.x, 8), q.y);
     }
     if (S.cols === 12) {
       ctx.textAlign = 'center';
-      ctx.globalAlpha = clamp(1.6 - z * 0.5, 0, 0.8);
+      ctx.globalAlpha = clamp(1.6 - z * 0.5, 0, 0.8) * (S.labelA ?? 1);
       if (ctx.globalAlpha > 0) {
         for (let m = 0; m < 12; m++) {
           const q = cam.toScreen(f.frame.left + S.gutter + (m + 0.5) * S.cw, f.frame.top - 12);
@@ -896,8 +924,10 @@ export const meadow: Variant = {
       const cellLit = lit(base.x, base.y - c.H * z * 0.5) * (1 - wake) + wake;
       ctx.globalAlpha = s[c.first] * cellLit;
       // While it grows in, the stems are drawn up out of the ground like a pen stroke.
-      const T = born ? f.now - born[c.m] : Infinity;
-      if (T < 0) { ctx.restore(); continue; }
+      // Sinking into the clearing is the same growth, wound back.
+      const dn: number = S.down?.[c.m] ?? 0;
+      const T = Math.min(born ? f.now - born[c.m] : Infinity, dn > 0 ? GROWN_BY * (1 - dn) : Infinity);
+      if (T < 0 || dn > 0.999) { ctx.restore(); continue; }
       const rise = T < STEM_FOR ? 1 - (1 - T / STEM_FOR) ** 2 : 1;
       if (rise < 1) {
         ctx.save();
@@ -982,7 +1012,7 @@ export const meadow: Variant = {
 
     // Today's bud breathes.
     const t = f.n - 1;
-    const budIn = born ? clamp((f.now - born[S.cellOf[t]] - GROWN_BY * 0.6) / 600, 0, 1) : 1;
+    const budIn = (born ? clamp((f.now - born[S.cellOf[t]] - GROWN_BY * 0.6) / 600, 0, 1) : 1) * (1 - (S.down?.[S.cellOf[t]] ?? 0));
     if (s[t] * budIn > 0.02) {
       const phase = f.reduced ? 0.5 : (f.now % 2600) / 2600;
       ctx.globalAlpha = (1 - phase) * 0.45 * s[t] * budIn;
