@@ -23,7 +23,7 @@ import { MonthCard } from './meadow-card';
 import { type MeadowSound, createMeadowSound } from './meadow-sound';
 import { type Organ, type Sprig, buildSprig } from './sprigs';
 import { REF, drawSpecimen, frameOf, planMonths } from './specimen';
-import { RETURN, handOff, readReturn } from '../specimen-page';
+import { RETURN, afterTransition, handOff, readReturn } from '../specimen-page';
 
 type Leaf = {
   o: Organ;
@@ -596,11 +596,11 @@ function comeBack(f: Field) {
   if (home && !f.reduced) {
     place(f);
     if (ghost(f, home, ret!.pick)) {
-      document.addEventListener('astro:page-load', () => {
+      afterTransition(() => {
         S.ghost?.remove();
         S.lifted = -1;
         (f.ctx.canvas.parentElement as HTMLElement).style.viewTransitionName = '';
-      }, { once: true });
+      });
     }
   }
   if (hash) history.replaceState(history.state, '', location.pathname);

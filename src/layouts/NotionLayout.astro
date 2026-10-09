@@ -777,6 +777,16 @@ const isActive = (href: string) => {
       [data-astro-transition='back']::view-transition-new(page-content) {
         animation-name: page-content-zoom-out;
       }
+      /* Going back, the page you leave settles away (the reverse of how it arrived) instead
+         of vanishing. */
+      [data-astro-transition='back']::view-transition-old(page-content) {
+        opacity: 1;
+        animation: page-content-leave 300ms cubic-bezier(0.4, 0, 0.2, 1) both;
+        transform-origin: left top;
+      }
+      @keyframes page-content-leave {
+        to { opacity: 0; transform: scale(0.975); filter: blur(2px); }
+      }
       @keyframes page-content-zoom-in {
         from { transform: scale(0.975); }
         to   { transform: scale(1); }

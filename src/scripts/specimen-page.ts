@@ -133,7 +133,7 @@ export function mountSpecimens(root: ParentNode = document) {
     const home = live.find((s) => s.data.pick === back.pick);
     if (home) {
       home.el.style.viewTransitionName = 'specimen';
-      document.addEventListener('astro:page-load', () => { home.el.style.viewTransitionName = ''; }, { once: true });
+      afterTransition(() => { home.el.style.viewTransitionName = ''; });
     }
     try { sessionStorage.removeItem(RETURN); } catch {}
   }
@@ -187,4 +187,17 @@ export function readReturn(): { key: string; pick?: number } | null {
   } catch {
     return null;
   }
+}
+
+/** Run once the page transition in flight (if any) has finished. astro:page-load can fire
+    before the new page is captured, which would whisk a shared element away too early. */
+export function afterTransition(fn: () => void) {
+  const busy = () => document.getAnimations().some((a) => (a.effect as KeyframeEffect | null)?.pseudoElement?.startsWith('::view-transition'));
+  let frames = 0;
+  const check = () => {
+    // Give the transition a couple of frames to start before deciding it's over.
+    if (++frames < 3 || busy()) requestAnimationFrame(check);
+    else fn();
+  };
+  requestAnimationFrame(check);
 }
