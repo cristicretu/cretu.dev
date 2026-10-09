@@ -656,8 +656,23 @@ export const meadow: Variant = {
     S.bulge ??= 0;
     S.bulge += (target - S.bulge) * (1 - Math.exp(-dt * (Math.abs(target) > Math.abs(S.bulge) ? 9 : 6)));
     const cells: Cell[] = S.cells, p = f.pointer;
+    // With "info" open the meadow parts for the document: bunches near it lean away, the way
+    // grass parts around someone walking through, and straighten again when it closes.
+    const rest: Float32Array = (S.rest ??= new Float32Array(cells.length));
+    const panel = f.infoOpen ? document.querySelector('[data-info-panel]')?.getBoundingClientRect() : null;
+    const rk = 1 - Math.exp(-dt * (panel ? 2.6 : 1.8));
     // Wind, and the pointer brushing through sprigs it passes over.
     for (const c of cells) {
+      let want = 0;
+      if (panel && !f.reduced) {
+        const base = cam.toScreen(c.bx, c.by), half = (c.W * cam.z) / 2, top = base.y - c.H * cam.z;
+        const dx = Math.max(panel.left - (base.x + half), base.x - half - panel.right, 0);
+        const dy = Math.max(panel.top - base.y, top - panel.bottom, 0);
+        const near = clamp(1 - Math.hypot(dx, dy) / 180, 0, 1);
+        const away = Math.sign(base.x - (panel.left + panel.right) / 2) || 1;
+        want = away * 0.34 * near * near * (3 - 2 * near);
+      }
+      rest[c.m] += (want - rest[c.m]) * rk;
       if (p && !f.reduced && !p.down && p.dx) {
         const base = cam.toScreen(c.bx, c.by), top = cam.toScreen(c.bx, c.by - c.H);
         const half = (c.W * cam.z) / 2;
@@ -666,7 +681,7 @@ export const meadow: Variant = {
           S.bv[c.m] += ((p.dx / Math.max(c.H * cam.z, 40)) * 2.4) * lever;
         }
       }
-      S.bv[c.m] += (-30 * S.bend[c.m] - 4.2 * S.bv[c.m]) * dt;
+      S.bv[c.m] += (-30 * (S.bend[c.m] - rest[c.m]) - 4.2 * S.bv[c.m]) * dt;
       S.bend[c.m] = clamp(S.bend[c.m] + S.bv[c.m] * dt, -0.6, 0.6);
       const gust = f.reduced ? 0 : 0.026 * Math.sin(S.time * 0.9 + c.bx * 0.006 + c.row * 0.8) + 0.01 * Math.sin(S.time * 2.3 + c.m);
       S.sway[c.m] = gust + S.bend[c.m];

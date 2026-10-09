@@ -105,28 +105,12 @@ const isActive = (href: string) => {
           document.documentElement.dataset.theme = 'light';
         }
       })();
-      /* Skip the entry cascade on any navigation after the first one in
-         this tab — set the class BEFORE paint so the .page-body children
-         never start at opacity:0. Runs on every navigation thanks to
-         <script is:inline> being re-evaluated by Astro view transitions. */
-      (function syncCascadeFlag() {
-        try {
-          if (sessionStorage.getItem('cretu_cascaded') === '1') {
-            document.documentElement.classList.add('cascade-done');
-          }
-        } catch (_) {}
-      })();
       document.addEventListener('DOMContentLoaded', syncThemeButtons);
       document.addEventListener('astro:after-swap', () => {
         const saved = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const isDark = saved === 'dark' || (!saved && prefersDark);
         document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
-        try {
-          if (sessionStorage.getItem('cretu_cascaded') === '1') {
-            document.documentElement.classList.add('cascade-done');
-          }
-        } catch (_) {}
         syncThemeButtons();
       });
     </script>
@@ -626,28 +610,42 @@ const isActive = (href: string) => {
         outline: none;
       }
 
-      /* --- Universal cascade for direct children of .page-body ---
-         Scoped to html:not(.cascade-done) so the animation only plays
-         once per session, never on subsequent navigations. Wrapped in
-         :where() to zero specificity so page-level opacity rules still win. */
-      :where(html:not(.cascade-done) .page-body) > * {
-        opacity: 0;
-        transform: translateY(3px);
-        transition:
-          opacity var(--dur-slow, 360ms) ease,
-          transform var(--dur-slow, 360ms) cubic-bezier(0.2, 0.7, 0.2, 1);
+      /* --- Ink: text arrives the way ink settles into paper ---
+         Each line rises a few pixels out of a soft blur, one after another.
+         window.inkIn(root) arms it; it plays on every page and whenever a
+         panel opens. */
+      .inking .ink-item {
+        animation: ink-in 640ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        animation-delay: calc(var(--ink-delay, 0ms) + var(--ink-i, 0) * 34ms);
       }
-      :where(html:not(.cascade-done) .page-body.entered) > * {
-        opacity: 1;
-        transform: translateY(0);
+      @keyframes ink-in {
+        from { opacity: 0; transform: translateY(6px); filter: blur(4px); }
+        55% { filter: blur(0.4px); }
+        to { opacity: 1; transform: none; filter: none; }
+      }
+
+      /* --- Paper: a sheet with a hand-cut edge, never a hard rectangle ---
+         The sheet is a pseudo-element run through the #deckle filter, which
+         roughens its outline; the content above it stays crisp. */
+      .paper {
+        position: relative;
+        isolation: isolate;
+      }
+      .paper::before {
+        content: '';
+        position: absolute;
+        inset: var(--paper-inset, -14px);
+        z-index: -1;
+        background: var(--notion-bg);
+        border: 1px solid color-mix(in srgb, var(--notion-ink) 22%, transparent);
+        border-radius: var(--paper-radius, 14px 18px 12px 20px / 18px 12px 20px 14px);
+        box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--notion-ink) 28%, transparent);
+        filter: url(#deckle);
+        pointer-events: none;
       }
 
       @media (prefers-reduced-motion: reduce) {
-        :where(.page-body) > * {
-          opacity: 1;
-          transform: none;
-          transition: none;
-        }
+        .inking .ink-item { animation: none; }
         html, body { transition: none; }
       }
 
@@ -872,6 +870,13 @@ const isActive = (href: string) => {
       </nav>
     </header>
 
+    <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+      <filter id="deckle" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="7" result="n" />
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+
     <main class:list={['page-body', { 'page-body--wide': wide }]} id="page-body" tabindex="-1">
       <div class="page-content" transition:name="page-content">
         <slot />
@@ -889,40 +894,30 @@ const isActive = (href: string) => {
           }
         });
 
-        /* cascade-in for top-level children of .page-body
-           Runs only on first page load (per session). Subsequent navigations
-           render instantly to avoid repetitive motion. */
-        const CASCADE_KEY = 'cretu_cascaded';
-        function arm(body) {
-          if (!body) return;
-          const seen = sessionStorage.getItem(CASCADE_KEY) === '1';
-          const kids = body.children;
-          if (seen) {
-            body.classList.add('entered');
-            for (let i = 0; i < kids.length; i++) {
-              kids[i].style.transitionDelay = '0ms';
-            }
-            return;
+        /* Ink in a page's text, line by line. Only what's on screen gets a
+           place in the queue; the rest is simply there when you scroll to it. */
+        var INK = '.page-back, .doc-title, .index-sub, .post-head > *, .post-cover, .prose > *, .page-content > .node > .row, .node.open > .children > .node > .row, .post-footer, [data-ink-item]';
+        window.inkIn = function (root, opts) {
+          if (!root) return;
+          opts = opts || {};
+          var items = root.querySelectorAll(opts.items || INK), k = 0, vh = window.innerHeight;
+          for (var i = 0; i < items.length; i++) {
+            var el = items[i];
+            el.classList.add('ink-item');
+            var top = el.getBoundingClientRect().top;
+            el.style.setProperty('--ink-i', String(top < vh + 40 ? Math.min(k++, opts.max || 16) : 0));
           }
-          const total = 600;
-          const base = 40;
-          const step = Math.min(35, (total - base) / Math.max(kids.length - 1, 1));
-          for (let i = 0; i < kids.length; i++) {
-            kids[i].style.transitionDelay = (base + i * step) + 'ms';
-          }
-          requestAnimationFrame(function () {
-            requestAnimationFrame(function () {
-              body.classList.add('entered');
-              sessionStorage.setItem(CASCADE_KEY, '1');
-            });
-          });
+          root.style.setProperty('--ink-delay', (opts.delay || 0) + 'ms');
+          root.classList.remove('inking');
+          void root.offsetWidth;
+          root.classList.add('inking');
+        };
+        function inkPage() {
+          var c = document.querySelector('.page-content');
+          if (c && !c.hasAttribute('data-ink-manual')) window.inkIn(c, { delay: 60 });
         }
-        arm(document.getElementById('page-body'));
-        document.addEventListener('astro:after-swap', function () {
-          const b = document.getElementById('page-body');
-          if (b) b.classList.remove('entered');
-          arm(b);
-        });
+        inkPage();
+        document.addEventListener('astro:after-swap', inkPage);
 
         /* theme toggle */
         function setTheme(t) {

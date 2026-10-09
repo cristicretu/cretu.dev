@@ -322,6 +322,8 @@ export function mountDaysField(root: HTMLElement) {
     infoButton?.setAttribute('aria-expanded', String(open));
     if (infoButton) infoButton.textContent = open ? 'close' : 'info';
     if (panel) panel.inert = !open;
+    // The document inks in as the meadow parts for it.
+    if (open && panel) (window as any).inkIn?.(panel, { delay: 160 });
     layout();
     wake();
   }
