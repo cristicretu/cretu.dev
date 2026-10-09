@@ -202,6 +202,9 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     width: 100%;
     height: 100%;
     touch-action: pan-y;
+    /* The meadow thins out along the bottom edge, so the readout always sits on clear paper. */
+    -webkit-mask-image: linear-gradient(to top, rgb(0 0 0 / 0.05) 54px, #000 104px);
+    mask-image: linear-gradient(to top, rgb(0 0 0 / 0.05) 54px, #000 104px);
   }
   .field-readout,
   .field-info {
@@ -210,8 +213,9 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     margin: 0;
     font-size: 13px;
     line-height: 1.4;
-    color: var(--notion-faint);
+    color: var(--notion-muted);
     font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 2px var(--notion-bg), 0 0 6px var(--notion-bg);
   }
   .field-readout {
     left: 96px;
