@@ -99,6 +99,8 @@ export type Variant = {
   lens?: number;
   /** The variant brings its days in itself; the engine skips its chronological fade-in. */
   ownIntro?: boolean;
+  /** True while something is in motion that needs every frame (at rest the engine may skip). */
+  busy?(f: Field): boolean;
   /** The variant shows hover itself; the engine skips its ring. */
   hideHover?: boolean;
   /** Custom hover hit test; return a day index or -1. */

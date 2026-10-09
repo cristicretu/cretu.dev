@@ -209,7 +209,15 @@ export function mountDaysField(root: HTMLElement) {
 
   // A throwing variant must not stop the loop for good; log once per variant and keep going.
   let failed: Variant | null = null;
+  // At rest the meadow only sways in the breeze, so it draws every other frame: half the work,
+  // and the breeze is slow enough not to show it. Any input brings back every frame.
+  let lastInput = 0, skip = false;
+  const poke = () => { lastInput = performance.now(); };
   function tick(now: number) {
+    if (now - lastInput > 2500 && !variant.busy?.(field) && (skip = !skip)) {
+      raf = requestAnimationFrame(tick);
+      return;
+    }
     try {
       frameStep(now);
     } catch (err) {
@@ -381,6 +389,7 @@ export function mountDaysField(root: HTMLElement) {
   const onInfo = () => setInfo(!field.infoOpen);
 
 
+  for (const type of ['pointermove', 'pointerdown', 'wheel', 'keydown', 'resize'] as const) addEventListener(type, poke, { passive: true });
   canvas.addEventListener('pointermove', onMove);
   canvas.addEventListener('pointerdown', onDown);
   window.addEventListener('pointerup', onUp);
@@ -416,6 +425,7 @@ export function mountDaysField(root: HTMLElement) {
     themeObserver.disconnect();
     window.removeEventListener('pointerup', onUp);
     document.removeEventListener('keydown', onKey);
+    for (const type of ['pointermove', 'pointerdown', 'wheel', 'keydown', 'resize'] as const) removeEventListener(type, poke);
     infoButton?.removeEventListener('click', onInfo);
     if (savedTheme !== null) document.documentElement.dataset.theme = savedTheme;
     document.documentElement.classList.remove('info-open', 'has-field');

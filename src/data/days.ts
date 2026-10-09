@@ -32,7 +32,7 @@ let contributionsCache: Promise<Map<string, { l: number; c: number }>> | null = 
 /** The last good scrape, kept in the repo: a year GitHub doesn't answer for falls back to it,
     so a flaky build never turns the meadow into nothing but leaves. Refreshed whenever every
     year comes back. ("YYYY-MM-DD": [level, count]) */
-const SAVED = saved as Record<string, [number, number]>;
+const SAVED = saved as unknown as Record<string, [number, number]>;
 
 /** Scrapes the public contribution calendar, one request per year; years it can't get come
     from the saved copy. */

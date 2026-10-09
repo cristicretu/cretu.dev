@@ -679,6 +679,10 @@ export const meadow: Variant = {
   keys: true,
   hideHover: true,
   ownIntro: true,
+  busy(f) {
+    const S = f.state;
+    return (S.cam as Camera).moving || (S.falling as Leaf[]).length > 0 || !!S.born || Math.abs(S.bulge ?? 0) > 0.002 || (S.card as MonthCard).isOpen;
+  },
   hit: hitTest,
   layout(f) {
     const S = f.state;

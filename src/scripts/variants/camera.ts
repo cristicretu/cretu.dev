@@ -75,6 +75,11 @@ export class Camera {
     return !!this.fly;
   }
 
+  /** Anything moving the view: a flight, a zoom, a coast, a held key or a pinch. */
+  get moving() {
+    return !!(this.fly || this.zoomTo || this.pinch || this.keys.size || Math.abs(this.vx) + Math.abs(this.vy) > 1 || Math.abs(this.kvx) + Math.abs(this.kvy) + Math.abs(this.kvz) > 0.01);
+  }
+
   /** How far the current flight has got, eased exactly as the camera moves (0–1); -1 when not flying. */
   get progress() {
     const fl = this.fly;
