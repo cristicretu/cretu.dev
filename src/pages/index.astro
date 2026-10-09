@@ -490,6 +490,19 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     pointer-events: none;
     transition: opacity 180ms ease, visibility 0s linear 180ms;
   }
+  /* The about text inks in lighter and quicker than a page (no blur), so it never costs the
+     meadow a frame while the clearing opens. */
+  .about.inking .ink-item {
+    animation: about-in 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--ink-delay, 0ms) + var(--ink-i, 0) * 16ms);
+  }
+  @keyframes about-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .about.inking .ink-item { animation: none; }
+  }
   .about-in {
     margin: auto;
     width: fit-content;

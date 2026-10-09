@@ -930,10 +930,18 @@ export const meadow: Variant = {
       const cellLit = lit(base.x, base.y - c.H * z * 0.5) * (1 - wake) + wake;
       ctx.globalAlpha = s[c.first] * cellLit;
       // While it grows in, the stems are drawn up out of the ground like a pen stroke.
-      // Sinking into the clearing is the same growth, wound back.
+      const T = born ? f.now - born[c.m] : Infinity;
+      // Making way for the clearing, a bunch settles down into the ground as one piece:
+      // smaller toward its base and fading, all in one continuous motion.
       const dn: number = S.down?.[c.m] ?? 0;
-      const T = Math.min(born ? f.now - born[c.m] : Infinity, dn > 0 ? GROWN_BY * (1 - dn) : Infinity);
-      if (T < 0 || dn > 0.999) { ctx.restore(); continue; }
+      if (T < 0 || dn > 0.995) { ctx.restore(); continue; }
+      const keep = 1 - dn;
+      if (dn > 0) {
+        const k = 1 - 0.45 * dn;
+        ctx.scale(k, k);
+        ctx.lineWidth = lw / zk / k;
+        ctx.globalAlpha *= keep;
+      }
       const rise = T < STEM_FOR ? 1 - (1 - T / STEM_FOR) ** 2 : 1;
       if (rise < 1) {
         ctx.save();
@@ -954,9 +962,8 @@ export const meadow: Variant = {
         // little overshoot, leaves unfurling outward as they go.
         const b = T < GROWN_BY ? clamp((T - sprout(c, o)) / OPEN_FOR, 0, 1) : 1;
         if (b <= 0) continue;
-        // Wound back for the clearing, flowers close smoothly, without the grow-in's bounce.
-        const ease = dn > 0 ? b * b * (3 - 2 * b) : b < 1 ? backOut(b) : 1;
-        ctx.globalAlpha = s[o.i] * (lit(f.x[o.i], f.y[o.i]) * (1 - wake) + wake) * Math.min(b * 3, 1);
+        const ease = b < 1 ? backOut(b) : 1;
+        ctx.globalAlpha = s[o.i] * (lit(f.x[o.i], f.y[o.i]) * (1 - wake) + wake) * Math.min(b * 3, 1) * keep;
         const sc = Math.min(1 - (1 - g) ** 3, ease);
         const turn = b < 1 && o.kind === 'leaf' ? (1 - b) ** 2 * 0.7 * Math.sign(o.hx - o.ax || 1) : 0;
         if (sc < 1 || turn) {
@@ -965,7 +972,7 @@ export const meadow: Variant = {
           ctx.rotate(turn);
           ctx.scale(Math.max(sc, 0.001), Math.max(sc, 0.001));
           ctx.translate(-o.ax, -o.ay);
-          ctx.lineWidth = lw / zk / Math.max(sc, 0.05);
+          ctx.lineWidth = lw / zk / Math.max(sc, 0.05) / (1 - 0.45 * dn);
         }
         ctx.fillStyle = bg;
         ctx.fill(o.pens.fill);
@@ -993,8 +1000,8 @@ export const meadow: Variant = {
       }
       // The tag ties the bunch together, so it sits over the leaves and flowers, never under.
       const jobs = (f.landmarks[c.key] ?? []).filter((x) => x.k === 'job');
-      ctx.lineWidth = lw / zk;
-      if (jobs.length) ribbon(ctx, c, jobs[0].t, f.now, f.reduced, bg, ink, zk, cellLit * clamp((T - STEM_FOR * 0.7) / 500, 0, 1));
+      ctx.lineWidth = lw / zk / (1 - 0.45 * dn);
+      if (jobs.length) ribbon(ctx, c, jobs[0].t, f.now, f.reduced, bg, ink, zk, cellLit * keep * clamp((T - STEM_FOR * 0.7) / 500, 0, 1));
       ctx.restore();
     }
 
