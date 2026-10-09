@@ -320,7 +320,7 @@ export function mountDaysField(root: HTMLElement) {
     if (infoButton) infoButton.textContent = open ? 'close' : 'about';
     if (panel) panel.inert = !open;
     // The document inks in as the meadow parts for it.
-    if (open && panel) (window as any).inkIn?.(panel, { delay: 160 });
+    if (open && panel) (window as any).inkIn?.(panel, { delay: 60 });
     layout();
     wake();
   }

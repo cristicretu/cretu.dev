@@ -767,12 +767,8 @@ export const meadow: Variant = {
     // ones around the edge lean away. On close they grow back from the rim inward.
     const rest: Float32Array = (S.rest ??= new Float32Array(cells.length));
     const down: Float32Array = (S.down ??= new Float32Array(cells.length));
+    const downV: Float32Array = (S.downV ??= new Float32Array(cells.length));
     const dist: Float32Array = (S.dist ??= new Float32Array(cells.length).fill(9));
-    if (f.infoOpen !== S.wasOpen) {
-      S.wasOpen = f.infoOpen;
-      S.openedAt = f.now;
-    }
-    const since = f.now - (S.openedAt ?? -1e9);
     const text = f.infoOpen ? (S.aboutText ??= document.querySelector('[data-about-text]'))?.getBoundingClientRect() : null;
     const rk = 1 - Math.exp(-dt * (text ? 2.6 : 1.8));
     let sinking = false;
@@ -788,15 +784,25 @@ export const meadow: Variant = {
         const dx = Math.abs(q.x - (text.left + text.right) / 2) / a, dy = Math.abs(q.y - (text.top + text.bottom) / 2) / b;
         const d = (dx ** 2.5 + dy ** 2.5) ** 0.4;
         dist[c.m] = d;
-        if (d < 1 && since > d * 320) sink = 1;
+        if (d < 1) sink = 1;
         if (d >= 1 && d < 1.7 && !f.reduced) {
           const near = 1 - (d - 1) / 0.7;
           want = (Math.sign(q.x - (text.left + text.right) / 2) || 1) * 0.3 * near * near * (3 - 2 * near);
         }
-      } else if (down[c.m] > 0 && since < (1 - Math.min(dist[c.m], 1)) * 360) sink = down[c.m];
-      if (f.reduced) down[c.m] = sink;
-      else if (down[c.m] !== sink) {
-        down[c.m] = sink > down[c.m] ? Math.min(down[c.m] + dt / 0.75, sink) : Math.max(down[c.m] - dt / 1.1, sink);
+      }
+      // Each bunch eases toward where it should be from wherever it is, so the clearing can
+      // turn around mid-way. The middle goes first and the rim grows back first: the ripple is
+      // just bunches moving at different rates.
+      const dd = Math.min(dist[c.m], 1.2);
+      const rate = sink ? 10 * (1.3 - 0.45 * dd) : 12 * (0.75 + 0.4 * dd);
+      if (f.reduced || (Math.abs(sink - down[c.m]) < 0.002 && Math.abs(downV[c.m]) < 0.01)) {
+        down[c.m] = sink;
+        downV[c.m] = 0;
+      } else {
+        // A critically damped spring: it keeps its speed through a change of mind, so it never
+        // jolts, and it never overshoots.
+        downV[c.m] += (rate * rate * (sink - down[c.m]) - 2 * rate * downV[c.m]) * dt;
+        down[c.m] = clamp(down[c.m] + downV[c.m] * dt, 0, 1);
         sinking = true;
       }
       rest[c.m] += (want - rest[c.m]) * rk;
@@ -948,8 +954,10 @@ export const meadow: Variant = {
         // little overshoot, leaves unfurling outward as they go.
         const b = T < GROWN_BY ? clamp((T - sprout(c, o)) / OPEN_FOR, 0, 1) : 1;
         if (b <= 0) continue;
+        // Wound back for the clearing, flowers close smoothly, without the grow-in's bounce.
+        const ease = dn > 0 ? b * b * (3 - 2 * b) : b < 1 ? backOut(b) : 1;
         ctx.globalAlpha = s[o.i] * (lit(f.x[o.i], f.y[o.i]) * (1 - wake) + wake) * Math.min(b * 3, 1);
-        const sc = Math.min(1 - (1 - g) ** 3, b < 1 ? backOut(b) : 1);
+        const sc = Math.min(1 - (1 - g) ** 3, ease);
         const turn = b < 1 && o.kind === 'leaf' ? (1 - b) ** 2 * 0.7 * Math.sign(o.hx - o.ax || 1) : 0;
         if (sc < 1 || turn) {
           ctx.save();

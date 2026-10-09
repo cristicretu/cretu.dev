@@ -488,7 +488,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 260ms ease, visibility 0s linear 260ms;
+    transition: opacity 180ms ease, visibility 0s linear 180ms;
   }
   .about-in {
     margin: auto;
@@ -499,7 +499,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transition: opacity 420ms ease 380ms, visibility 0s;
+    transition: opacity 280ms ease 140ms, visibility 0s;
   }
   html.info-open .month-card,
   html.info-open .field-help { opacity: 0; pointer-events: none; }
