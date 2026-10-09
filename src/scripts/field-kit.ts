@@ -118,55 +118,6 @@ export type Variant = {
 export const TAU = Math.PI * 2;
 export const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
-/** Deterministic 0–1 noise per integer. */
-export const hash = (i: number) => {
-  const v = Math.sin(i * 127.1 + 311.7) * 43758.5453;
-  return v - Math.floor(v);
-};
-
-export const center = (f: Field) => ({ cx: f.frame.left + f.frame.w / 2, cy: f.frame.top + f.frame.h / 2 });
-
-/** Largest square cell that fits n items in the frame, row-major. */
-export function fitGrid(f: Field) {
-  const { w, h } = f.frame;
-  let cell = 0, cols = 1;
-  for (let c = 1; c <= f.n; c++) {
-    const size = Math.min(w / c, h / Math.ceil(f.n / c));
-    if (size > cell) { cell = size; cols = c; }
-  }
-  return { cell, cols, rows: Math.ceil(f.n / cols) };
-}
-
-/** Writes the default grid into tx/ty and returns the cell. */
-export function gridLayout(f: Field) {
-  const { cell, cols, rows } = fitGrid(f);
-  const ox = f.frame.left + (f.frame.w - cols * cell) / 2 + cell / 2;
-  const oy = f.frame.top + (f.frame.h - rows * cell) / 2 + cell / 2;
-  for (let i = 0; i < f.n; i++) {
-    f.tx[i] = ox + (i % cols) * cell;
-    f.ty[i] = oy + Math.floor(i / cols) * cell;
-  }
-  return cell;
-}
-
-/** Months as columns, days of month as rows, a blank column between years. Transposed on tall screens. */
-export function monthGrid(f: Field) {
-  const { cal, frame: fr, n } = f;
-  const y0 = cal.y[0];
-  const months = cal.mi[n - 1] + 1, years = cal.y[n - 1] - y0 + 1;
-  const tall = fr.h > fr.w;
-  const major = months + years - 1, minor = 31;
-  const cell = tall ? Math.min(fr.w / minor, fr.h / major) : Math.min(fr.w / major, fr.h / minor);
-  const ox = fr.left + (fr.w - (tall ? minor : major) * cell) / 2 + cell / 2;
-  const oy = fr.top + (fr.h - (tall ? major : minor) * cell) / 2 + cell / 2;
-  const place = (i: number, col: number, row: number) => {
-    f.tx[i] = ox + (tall ? row : col) * cell;
-    f.ty[i] = oy + (tall ? col : row) * cell;
-  };
-  const colOf = (i: number) => cal.mi[i] + (cal.y[i] - y0);
-  return { cell, tall, ox, oy, place, colOf };
-}
-
 /** Ink alpha for a contribution level, matching the default field. */
 export const levelAlpha = (l: number) => [0, 0.22, 0.38, 0.6, 1][l] ?? 1;
 
