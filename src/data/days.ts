@@ -1,5 +1,6 @@
 import { getCollection } from 'astro:content';
 import { type TimelineKind, timeline } from './timeline';
+import { live } from './archive';
 import { works } from './work';
 
 // The field starts on the first published essay — "days since i started shipping".
@@ -99,7 +100,7 @@ export async function getDatedWorks() {
       // The timeline may already know when it launched ("meshgrad", "agents 2.0 at anara").
       const known = timeline.find((t) => t.date.length >= 7 && t.date.startsWith(String(w.year)) && t.title.split(/[,(]/)[0].trim() === w.title.toLowerCase());
       const date = w.date ?? known?.date ?? (repo && repo.created.startsWith(String(w.year)) ? repo.created : String(w.year));
-      return { ...w, date };
+      return { ...w, date, link: live(w.link) };
     });
 }
 
@@ -108,7 +109,7 @@ async function getMoments() {
   const projects = (await getDatedWorks()).map((w) => ({ date: w.date, kind: 'launch' as const, title: w.title.toLowerCase(), href: w.link }));
   // Hand-written entries win over the automatic ones when both name the same thing.
   const seen = new Set(timeline.map((t) => t.title));
-  return [...timeline, ...projects.filter((p) => !seen.has(p.title))];
+  return [...timeline.map((t) => ({ ...t, href: live(t.href) })), ...projects.filter((p) => !seen.has(p.title))];
 }
 
 /** Moments without an exact day, keyed by their month ("2025-06") or year ("2023"). */

@@ -434,6 +434,10 @@ function focusOn(f: Field, cell: Cell, i: number) {
   const tx = close && i >= 0 ? cell.bx + S.hx[i] * S.k : cell.bx;
   const ty = close && i >= 0 ? cell.by + S.hy[i] * S.k : cell.by - cell.H * 0.5;
   const c = cam.screenCenter, free = freeCenter(f);
+  // A bunch at the edge of the sheet may need the view to go past the edge to sit beside the
+  // card; allow exactly that much.
+  const dx = free.x - c.x, dy = free.y - c.y;
+  cam.slack = { l: Math.max(0, dx), r: Math.max(0, -dx), t: Math.max(0, dy), b: Math.max(0, -dy) };
   cam.remember();
   cam.flyTo(tx - (free.x - c.x) / z, ty - (free.y - c.y) / z, z, close ? 700 : 1000);
 }
@@ -786,6 +790,8 @@ export const meadow: Variant = {
     followYear(f);
     followFocus(f);
     focusLight(f);
+    // With the card gone, the view eases back inside the sheet.
+    if (!(S.card as MonthCard).isOpen && (cam.slack.l || cam.slack.r || cam.slack.t || cam.slack.b)) cam.slack = { l: 0, r: 0, t: 0, b: 0 };
     // A bunch under the pointer wakes up, even one faded back by the focus light.
     const hl: Float32Array = (S.hl ??= new Float32Array(cells.length));
     const hov = f.hovered >= 0 ? S.cellOf[f.hovered] : -1, hk = 1 - Math.exp(-dt * 14);

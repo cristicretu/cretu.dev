@@ -25,7 +25,7 @@ export const timeline: TimelineEntry[] = [
 
   // Launches and wins (dates from essays, linked tweets, or repo creation)
   { date: '2021-08-04', kind: 'launch', title: 'started cretu.dev', href: 'https://github.com/cristicretu/cretu.dev' },
-  { date: '2022-02-26', kind: 'launch', title: 'browser extension prototype with @pondorasti', href: 'https://twitter.com/pondorasti/status/1497475655910' },
+  { date: '2022-02-26', kind: 'launch', title: 'browser extension prototype with @pondorasti' },
   { date: '2022-03-15', kind: 'launch', title: 'keep the streak', href: 'https://github.com/cristicretu/keep-the-streak' },
   { date: '2022-08-05', kind: 'launch', title: 'meshgrad', href: 'https://meshgrad.cretu.dev/' },
   { date: '2023-02-28', kind: 'launch', title: 'arc invite code cracker' },

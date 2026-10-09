@@ -225,6 +225,9 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   .field-info[aria-expanded='true'] { color: var(--notion-ink); }
 
   html.has-field:not(.info-open) body { overflow: hidden; }
+  /* The page's content box sits over the meadow (its view-transition name stacks it above the
+     canvas); only the info panel itself, when open, may take the pointer. */
+  html.has-field .page-content { pointer-events: none; }
 
   /* Variant switcher: only shown when the URL carries ?v= */
   .field-variants {

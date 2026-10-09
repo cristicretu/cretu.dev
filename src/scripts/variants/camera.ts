@@ -28,6 +28,9 @@ export class Camera {
   zMin = 1;
   zMax = 40;
   bounds: Bounds = { x0: 0, y0: 0, x1: 0, y1: 0 };
+  /** Extra room (screen px) the view may roam past each edge, e.g. so a bunch at the edge of
+      the sheet can still sit beside an open card. */
+  slack = { l: 0, r: 0, t: 0, b: 0 };
   /** true while the last press moved enough to count as a drag (swallows the click) */
   dragged = false;
   /** screen point the most recent zoom was anchored on */
@@ -100,6 +103,10 @@ export class Camera {
 
   /** Glide to a world point and zoom, pulling back mid-flight when the trip is long. */
   flyTo(x1: number, y1: number, z1: number, dur = 1200, delay = 0) {
+    // Aim where the view is allowed to settle, so the flight never overshoots and springs back.
+    const lim = this.limits(clamp(z1, this.zMin, this.zMax));
+    x1 = clamp(x1, lim.x0, lim.x1);
+    y1 = clamp(y1, lim.y0, lim.y1);
     const c = this.screenCenter;
     const dist = Math.hypot(x1 - this.cx, y1 - this.cy) * Math.min(this.z, z1);
     const arc = clamp(Math.log(1 + dist / (c.x * 2)), 0, 1.6);
@@ -111,6 +118,18 @@ export class Camera {
     this.vx = this.vy = 0;
     this.zoomTo = null;
     this.anchor = this.screenCenter;
+  }
+
+  /** Where the view's centre may be at zoom z: as far as keeps the world filling the view (or
+      centred if it's smaller), plus any slack. */
+  limits(z: number) {
+    const b = this.bounds, fr = this.f.frame, sl = this.slack;
+    const halfW = fr.w / 2 / z, halfH = fr.h / 2 / z;
+    const minX = b.x0 + Math.min(halfW, (b.x1 - b.x0) / 2) - sl.l / z;
+    const maxX = b.x1 - Math.min(halfW, (b.x1 - b.x0) / 2) + sl.r / z;
+    const minY = b.y0 + Math.min(halfH, (b.y1 - b.y0) / 2) - sl.t / z;
+    const maxY = b.y1 - Math.min(halfH, (b.y1 - b.y0) / 2) + sl.b / z;
+    return { x0: Math.min(minX, maxX), x1: Math.max(minX, maxX), y0: Math.min(minY, maxY), y1: Math.max(minY, maxY) };
   }
 
   /** Note the current view as the one to come back to, unless a dive is already under way. */
@@ -338,15 +357,9 @@ export class Camera {
       const c = this.screenCenter;
       this.zoomAt(Math.exp((Math.log(this.zMin) - Math.log(this.z)) * k), c.x, c.y);
     }
-    const b = this.bounds, fr = this.f.frame;
-    const halfW = fr.w / 2 / this.z, halfH = fr.h / 2 / this.z;
-    // The centre may roam only as far as keeps the world filling the view (or centred if smaller).
-    const minX = b.x0 + Math.min(halfW, (b.x1 - b.x0) / 2);
-    const maxX = b.x1 - Math.min(halfW, (b.x1 - b.x0) / 2);
-    const minY = b.y0 + Math.min(halfH, (b.y1 - b.y0) / 2);
-    const maxY = b.y1 - Math.min(halfH, (b.y1 - b.y0) / 2);
-    const tx = clamp(this.cx, Math.min(minX, maxX), Math.max(minX, maxX));
-    const ty = clamp(this.cy, Math.min(minY, maxY), Math.max(minY, maxY));
+    const lim = this.limits(this.z);
+    const tx = clamp(this.cx, lim.x0, lim.x1);
+    const ty = clamp(this.cy, lim.y0, lim.y1);
     if (tx !== this.cx || ty !== this.cy) {
       this.cx += (tx - this.cx) * k;
       this.cy += (ty - this.cy) * k;
