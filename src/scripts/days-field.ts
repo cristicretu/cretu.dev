@@ -332,7 +332,7 @@ export function mountDaysField(root: HTMLElement) {
     field.infoOpen = open;
     document.documentElement.classList.toggle('info-open', open);
     infoButton?.setAttribute('aria-expanded', String(open));
-    if (infoButton) infoButton.textContent = open ? 'close' : 'info';
+    if (infoButton) infoButton.textContent = open ? 'close' : 'about';
     if (panel) panel.inert = !open;
     // The document inks in as the meadow parts for it.
     if (open && panel) (window as any).inkIn?.(panel, { delay: 160 });

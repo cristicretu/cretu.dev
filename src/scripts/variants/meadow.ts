@@ -762,7 +762,7 @@ export const meadow: Variant = {
     S.bulge ??= 0;
     S.bulge += (target - S.bulge) * (1 - Math.exp(-dt * (Math.abs(target) > Math.abs(S.bulge) ? 9 : 6)));
     const cells: Cell[] = S.cells, p = f.pointer;
-    // With "info" open the meadow parts for the document: bunches near it lean away, the way
+    // With "about" open the meadow parts for the document: bunches near it lean away, the way
     // grass parts around someone walking through, and straighten again when it closes.
     const rest: Float32Array = (S.rest ??= new Float32Array(cells.length));
     const panel = f.infoOpen ? document.querySelector('[data-info-panel]')?.getBoundingClientRect() : null;

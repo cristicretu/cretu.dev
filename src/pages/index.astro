@@ -48,7 +48,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
       </ul>
     </nav>
     <p class="field-readout" data-readout aria-live="polite">{days.length.toLocaleString('en-US')} days since i started shipping · {essayCount} essays</p>
-    <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">info</button>
+    <button class="field-info" type="button" data-info aria-expanded="false" aria-controls="about">about</button>
   </div>
 
   <div class="about paper" id="about" data-info-panel>
@@ -472,7 +472,7 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   .field-help dt { color: var(--notion-faint); }
   .field-help dd { margin: 0; color: var(--notion-ink); }
 
-  /* The outliner sits above the field and only appears when "info" is open;
+  /* The outliner sits above the field and only appears when "about" is open;
      the field clears a hole around it. */
   .about {
     position: relative;

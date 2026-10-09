@@ -411,6 +411,18 @@ const isActive = (href: string) => {
       .page-nav .links button:hover {
         color: var(--notion-ink);
       }
+      /* Keyboard focus: the soft row wash the outliner uses, not the browser's ring. */
+      .page-nav .name:focus-visible,
+      .page-nav .links a:focus-visible,
+      .page-nav .links button:focus-visible {
+        outline: none;
+        border-radius: 6px;
+        color: var(--notion-ink);
+        background: var(--notion-row-focus);
+      }
+      .page-nav .name:focus:not(:focus-visible),
+      .page-nav .links a:focus:not(:focus-visible),
+      .page-nav .links button:focus:not(:focus-visible) { outline: none; }
       .page-nav .links a[aria-current="page"] {
         color: var(--notion-ink);
         font-weight: 500;
@@ -453,8 +465,9 @@ const isActive = (href: string) => {
         white-space: nowrap;
         border: 0;
       }
+      .page-nav .links .theme-toggle,
       .theme-toggle {
-        margin-top: 6px;
+        margin-top: 4px;
         padding: 6px;
         margin-right: -6px;
         margin-left: -6px;
