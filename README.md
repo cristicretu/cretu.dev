@@ -1,13 +1,17 @@
 # cretu.dev
 
-my corner of the internet. built with astro, ships fast.
+my corner of the internet, grown as a meadow.
 
-press 1-4 to navigate. try the konami code.
+every day since aug 2021 is a flower or a leaf. busy days bloom, essays are the big ones, and every job is tied on with a little tag. scroll to zoom in, and each month tells you what happened. click a flower to read the essay it grew from.
 
-<img width="3394" height="2452" alt="CleanShot 2025-12-21 at 5  00 47@2x" src="https://github.com/user-attachments/assets/935f30cb-1177-443b-ba76-5d748e58be92" />
+no images: every flower is drawn in code from that day's data. the sound is synthesised in the browser too.
+
+<img alt="the meadow" src="public/static/images/og-meadow.png" />
 
 ```
 pnpm i && pnpm dev
 ```
+
+the meadow lives in `src/scripts/days-field.ts` and `src/scripts/variants/`. contributions refresh into `src/data/contributions.json`.
 
 mit. do whatever.
