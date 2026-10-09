@@ -472,42 +472,41 @@ const essayCount = days.reduce((sum, d) => sum + (d.e?.length ?? 0), 0);
   .field-help dt { color: var(--notion-faint); }
   .field-help dd { margin: 0; color: var(--notion-ink); }
 
-  /* "about" is a whole page laid over the meadow: the meadow parts and fades back to a wash,
-     and the outliner inks in down the middle, on the open page rather than on a card. Clicking
-     the empty page (or esc, or close) brings the meadow back. */
+  /* "about" is a page of its own, laid out like Writing and the essays: the meadow settles
+     back and fades away, and the outliner inks in on the bare page. Clicking the empty page (or
+     esc, or close) brings the meadow back. */
   .about {
     position: fixed;
     inset: 0;
     z-index: 39; /* under the nav's fade, so the page scrolls away into it */
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 160px max(24px, calc(50vw - 300px)) 120px;
-    /* A clear lane down the middle, feathered into the meadow either side. */
-    background: linear-gradient(90deg,
-      transparent calc(50% - 520px),
-      color-mix(in srgb, var(--notion-bg) 70%, transparent) calc(50% - 440px),
-      var(--notion-bg) calc(50% - 360px),
-      var(--notion-bg) calc(50% + 360px),
-      color-mix(in srgb, var(--notion-bg) 70%, transparent) calc(50% + 440px),
-      transparent calc(50% + 520px));
+    padding: 132px 32px 200px 96px;
+    background: var(--notion-bg);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: opacity 280ms ease, visibility 0s linear 280ms;
+    transition: opacity 320ms ease, visibility 0s linear 320ms;
   }
+  .about > * { max-width: 592px; }
   html.info-open .about {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transition: opacity 360ms ease 120ms, visibility 0s;
+    transition: opacity 420ms ease 160ms, visibility 0s;
   }
-  .field canvas { transition: opacity 520ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1)); }
-  html.info-open .field canvas { opacity: 0.22; }
+  .field canvas {
+    transform-origin: 50% 100%;
+    transition:
+      opacity 420ms ease,
+      transform 620ms var(--ease-out-soft, cubic-bezier(0.2, 0.7, 0.2, 1));
+  }
+  html.info-open .field canvas { opacity: 0; transform: translateY(18px) scale(0.985); }
   html.info-open .month-card,
   html.info-open .field-help { opacity: 0; pointer-events: none; }
   @media (max-width: 639px) {
     .field-readout { top: 40px; left: 0; transform: none; max-width: calc(100vw - 36px - 76px); }
-    .about { padding-top: 132px; }
+    .about { padding: 108px 24px 160px 60px; }
     .month-card {
       left: 12px;
       right: 12px;
